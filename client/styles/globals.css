@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
+
+:root {
+  --d_bule:#007aed;
+  --d_white:#ffffff;
+
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Convergence", sans-serif;
+}
+
+a {
+  color: #007aed;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
