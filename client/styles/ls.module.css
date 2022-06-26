@@ -13,7 +13,7 @@
 .body {
 
     width: 30rem;
-    height: 30rem;
+    min-height: 30rem;
     display: flex;
     border-radius: .5rem;
     align-items: center;
@@ -21,7 +21,7 @@
     border: 1rem;
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(128, 121, 121, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
+}   
 
 .title {
 
@@ -44,20 +44,20 @@
     position: relative;
 }
 
-.form_group {
-
-    position: relative;
-    height: 2.6rem;
-    margin-bottom: 1.4rem;
+.form:invalid .form_button{
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-.form_input {
+.form_group {
+    position: relative;
+    margin-bottom: 1.150rem;
+}
 
-    position: absolute;
-    top: 0;
-    left: 0;
+.form_input{
+
     width: 100%;
-    height: 100%;
+    height: 2.6rem;
     font-size: .960rem;
     border-radius: .5rem;
     padding-left: .650rem;
@@ -71,7 +71,7 @@
     position: absolute;
     top: .9rem;
     left: .4rem;
-    font-size: .855rem;
+    font-size: .820rem;
     background-color: #ffffff;
     cursor: text;
     transition: top 0.2s ease-in-out,
@@ -81,32 +81,63 @@
 }
 
 
-.form_input:focus+.form_label,
-.form_input:placeholder-shown.form_input:not(:focus)+.form_label {
+.form_input:focus ~.form_label,
+.form_input:not(:placeholder-shown).form_input:not(:focus)~.form_label {
 
     top: -0.550rem;
-    font-size: .840rem;
-
+    font-size: .780rem;
 }
 
-.from_bottom {
+.form_input:invalid[focus="true"] ~ .error_message{
+    display: block;
+}
 
+.form_input:invalid[focus="true"]{
+    border-color: #ff0000;
+}
+
+
+.error_message{
+
+    display: none;   
+    font-size: .8rem;
+    color: rgb(228, 59, 59);
+    padding-left: 0.5rem;
+    font-family: sans-serif;
+    padding-bottom: 0.5rem;
+    transition: all 42s ease-in-out;
+}
+
+.l_error_message {
+
+    font-size: .9rem;
+    font-family:sans-serif;
+    color: #ff0000;
+}
+
+.form_bottom {
     text-align: center;
 }
 
-.form_button {
 
+.form_button{
+
+    position: relative;
     width: 22rem;
     height: 2.650rem;
     border-radius: .5rem;
     background-color: var(--d_bule);
-    color: #ffffff;
-    font-size: 1rem;
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border: 1px solid rgba(177, 177, 177, 0.397);
     transition: box-shadow 0.25s ease-in-out;
     border-radius: 1rem;
+}
+
+.form_button_text{
+
+    color: #ffffff;
+    font-size: 1rem;
 }
 
 .au {
@@ -191,5 +222,5 @@
     justify-content: center;
     font-family: sans-serif;
     font-size: .980rem;
-    margin-top: 1.5rem;
+    padding: 1.5rem 0 1.5rem 0;
 }
