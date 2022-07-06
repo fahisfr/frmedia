@@ -1,0 +1,171 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.main {
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3.6rem;
+
+}
+
+.left {
+    flex-grow: 1;
+    height: 100%;
+}
+
+.center {
+
+    flex-shrink: 0;
+    width: 600px;
+    height: 100%;
+
+}
+
+
+.addpost {
+
+    padding: .5rem;
+    display: flex;
+    justify-content: center;
+    height: 10rem;
+    background-color: #fff;
+
+}
+
+.addPostContent {
+
+    width: 100%;
+    display: flex;
+    padding: 1rem .6rem;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
+
+
+}
+
+.addPostLeft {
+    padding-top: .6rem;
+}
+
+.profile {
+    width: 3rem;
+    height: 3rem;
+}
+
+.profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.addPostRight_top{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem 0 .5rem;
+}
+
+.addPostInput {
+    
+    width: 100%;
+    vertical-align: top;
+    font-size: 1.1rem;
+    border: none;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.452);
+    outline: none;
+    resize: none;
+    vertical-align: top;
+    overflow: hidden;
+    font-family: sans-serif;
+    padding: 1.5rem .2rem 1rem .2rem;
+
+}
+
+
+
+
+
+.addPostRight_bottom{
+    width: 100%;
+    height: 50%;
+    padding-top: .7rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addPostM{
+    display: flex;
+    padding-left: .5rem;
+    display: flex;
+    align-items: center;
+}
+
+.addPost_m_Group{
+
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 0 .5rem;
+    position: relative;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.addPost_m_Group:hover .m_PopMessage{
+    display: block;
+
+}
+
+.m_PopMessage{
+
+    position: absolute;
+    display: none;
+    top: 1.150rem;
+    padding: .4rem ;
+    background-color: var(--default_color);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    transition: all 2s ease-in-out;
+}
+
+.addPostM_group{
+
+}
+
+.m_MessageText{
+
+    font-size: .685rem;
+    color: #000;
+}
+
+.addPostButton{
+
+    width: 5.5rem;
+    height: 2.3rem;
+     border: none;
+    border-radius: 29px;
+    background-color: var(--d_blue);
+   
+}
+
+.addPostButtonText{
+     font-size: 0.9rem;
+    font-weight: 500;
+    color:#ffffff;
+    cursor: pointer;
+}
+
+
+.right {
+    flex-grow: 1;
+    align-self: start;
+    height: 100%;
+    
+}

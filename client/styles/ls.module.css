@@ -5,12 +5,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--d_bule);
+    background-color: var(--d_blue);
     overflow: hidden;
+
+   
 
 }
 
-.body {
+.body { 
+
 
     width: 30rem;
     min-height: 30rem;
@@ -20,6 +23,7 @@
     flex-direction: column;
     border: 1rem;
     background-color: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
     box-shadow: rgba(128, 121, 121, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }   
 
@@ -126,7 +130,7 @@
     width: 22rem;
     height: 2.650rem;
     border-radius: .5rem;
-    background-color: var(--d_bule);
+    background-color: var(--d_blue);
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border: 1px solid rgba(177, 177, 177, 0.397);

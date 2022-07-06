@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
 
 :root {
-  --d_bule: #007aed;
-  --d_white: #ffffff;
+  --d_blue: #007aed;
+  --default_color: #ffffff;
 
 }
 
@@ -10,7 +10,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Convergence", sans-serif;
+  font-family:  "Convergence", sans-serif;
 }
 
 a {
