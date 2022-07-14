@@ -1,0 +1,181 @@
+
+
+.addpost {
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 5px;
+    background-color: var(--default_color);
+
+    
+}
+
+.addPostContent {
+   
+    width: 100%;
+    display: flex;
+    padding: 1rem .6rem;
+     border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.left {
+    padding-top: .6rem;
+}
+
+.profile {
+    width: 3rem;
+    height: 3rem;
+}
+
+.profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.addPostRight {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.addPostRight_top {
+
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 0 1rem 0 .5rem;
+}
+
+.addPostInput {
+
+    width: 100%;
+    font-size: 1.1rem;
+    border: none;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.452);
+    outline: none;
+    resize: none;
+    
+    font-family: sans-serif;
+    padding: 1.5rem .2rem 1rem .2rem;
+
+}
+
+
+.postFilePreivew {
+    position: relative;
+}
+
+
+.addPostFile_image,
+.video {
+    width: 100%;
+    border-radius: 5px;
+}
+
+
+.removeIcon {
+
+    margin-top: .5rem;
+    margin-right: .5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.418);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.removeIcon:hover {
+    background-color: rgba(0, 0, 0, 0.584);
+}
+
+.removeIcon::after,
+.removeIcon::before {
+
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 18px;
+    background-color: rgb(255, 255, 255);
+}
+
+.removeIcon::before {
+    transform: rotate(45deg);
+}
+
+.removeIcon::after {
+    transform: rotate(-45deg);
+}
+
+.addPostRight_bottom {
+
+    padding-top: .7rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addPostM {
+
+    display: flex;
+    padding: .5rem;
+
+}
+
+.addPost_m_Group {
+
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 0 .5rem;
+    position: relative;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.addPost_m_Group:hover .m_PopMessage {
+    visibility: visible;
+
+}
+
+.m_PopMessage {
+
+    position: absolute;
+    visibility: hidden;
+    top: 1.170rem;
+    padding: .4rem;
+    background-color: var(--default_color);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.m_MessageText {
+
+    font-size: .645rem;
+    color: rgba(0, 0, 0, 0.705);
+}
+
+.addPostButton {
+
+    width: 5.5rem;
+    height: 2.3rem;
+    border: none;
+    border-radius: 29px;
+    background-color: var(--d_blue);
+}
+
+.addPostButtonText {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffffff;
+    cursor: pointer;
+
+}

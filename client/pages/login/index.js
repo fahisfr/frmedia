@@ -20,7 +20,7 @@ function index() {
         </div>
 
         <form className={styles.form}>
-          <div className={styles.form_group}>
+          <div className={styles.form_group}  >
             <input 
 
             className={styles.form_input} 
