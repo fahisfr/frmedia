@@ -79,17 +79,12 @@
     background-color: #ffffff;
     font-family: "Convergence", sans-serif;
     cursor: text;
-    transition: top 0.2s ease-in-out,
-        left 0.2s ease-in-out,
-        font-size 0.2s ease-in-out;
-
+    transition: all 0.2s ease-in-out,
 }
 
-
+.form_input:not(:placeholder-shown).form_input:not(:focus)~.form_label,
 .form_input:focus ~.form_label,
-.form_label:active,
-.form_input:not(:placeholder-shown).form_input:not(:focus)~.form_label {
-
+.form_label[clicked="true"] {
     top: -0.550rem;
     font-size: .780rem;
 }

@@ -128,6 +128,7 @@
  .footer_group{
     background-color: none;
     border: none;
+
  }
 
  .button{
@@ -137,12 +138,13 @@
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
+    gap:5px;
  }
 
 .icons{
     font-size: 20px;
     color: rgb(53, 48, 48);
-    margin-right: 3px;
+ 
 }
 
 .icons:active{

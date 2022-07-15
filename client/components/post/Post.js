@@ -6,7 +6,7 @@ import { FiShare } from "react-icons/fi";
 import { BsChat, BsHeart } from "react-icons/bs";
 
 function Post() {
-  const [filePreview, setFilePreview] = useState({ type: "video", url: "" });
+  const [filePreview, setFilePreview] = useState({ type: "image", url: "" });
   const newPost = {
     name: faker.name.findName(),
     date: faker.date.past(),
@@ -34,7 +34,7 @@ function Post() {
                   <div className={styles.ud}>
                     <div className={styles.group}>
                       <div className={styles.group_left}>
-                        <span className={styles.name}>fahis   rahman</span>
+                        <span className={styles.name}>{faker.name.findName()}</span>
                       </div>
                       <div className={styles.group_right}>
                         <MdVerified size={20} color="007aed" />
@@ -66,7 +66,7 @@ function Post() {
                   {filePreview.type === "image" ? (
                     <img
                       className={styles.image}
-                      src="/testvideo.mp4"
+                      src=""
                       accept="image/*"
                     />
                   ) : filePreview.type === "video" ? (

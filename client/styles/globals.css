@@ -3,6 +3,15 @@
 :root {
   --d_blue: #007aed;
   --default_color: #ffffff;
+  --gray_50: #f9fafa;
+  --gray_100: #f3f4f6;
+  --gray_200: #e5e7eb;
+  --gray_300: #d1d5db;
+  --gray_400: #9ca3af;
+  --gray_500: #6b7280;
+  --gray_600: #4b5563;
+  --gray_700: #374151;
+  
 
 }
 
@@ -10,12 +19,11 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif ;
+  font-family:   sans-serif ;
 }
 
 a {
-  color: #007aed;
+  
   text-decoration: none;
 }
 

@@ -4,6 +4,7 @@ import styles from "../../styles/ls.module.css";
 function FromInputs(props) {
   
   const [focus, setFocus] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const { label, errorMessage, onChange, ...inputProps } = props;
 
   return (
@@ -18,7 +19,11 @@ function FromInputs(props) {
         required
 
       />
-      <label className={styles.form_label}>{label}</label>
+      <label 
+       clicked={clicked.toString()} 
+       onClick={() => setClicked(!clicked)}
+       className={styles.form_label}
+       >{label}</label>
       <span className={styles.error_message}>{errorMessage}</span>
     </div>
   );
