@@ -1,12 +1,13 @@
 import React from "react";
-import styles from "./Sidebar.module.css";
+import styles from "./Leftbar.module.css";
 
 import Link from "next/link";
+import {faker } from "@faker-js/faker";
 import { AiOutlineHome, AiOutlineFire } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
-import { MdVerified } from "react-icons/md";
-import { faker } from "@faker-js/faker";
+import {IoMdNotificationsOutline} from "react-icons/io";
+import {MdVerified} from "react-icons/md";
 
 function Sidebar() {
   return (
@@ -31,30 +32,40 @@ function Sidebar() {
 
         <Link className={styles.link} href="/">
           <a className={styles.a}>
-            <diV className={styles.group}>
+            <div className={styles.group}>
               <AiOutlineFire className={styles.icon} />
               <span className={styles.text}>Explore</span>
-            </diV>
+            </div>
+          </a>
+        </Link>
+
+        <Link className={styles.link} href="/profile">
+          <a className={styles.a}>
+            <div className={styles.group}>
+              <IoMdNotificationsOutline className={styles.icon} />
+              <span className={styles.text}>Notigications</span>
+            </div>
           </a>
         </Link>
 
         <Link className={styles.link} href="/">
           <a className={styles.a}>
-            <diV className={styles.group}>
+            <div className={styles.group}>
               <FiSettings className={styles.icon} />
               <span className={styles.text}>Settings</span>
-            </diV>
+            </div>
           </a>
         </Link>
       </nav>
+      
       <div className={styles.suggestion}>
         <div className={styles.sug_top}>
-          <span className={styles.sug_text}>Suggestions for you</span>
+          <h4>Suggestions for you</h4>
         </div>
         <div className={styles.sug_bottom}>
-          {new Array(15).fill(0).map(() => {
+          {new Array(15).fill(0).map((item,index) => {
             return (
-              <div className={styles.user}>
+              <div key={index} className={styles.user}>
                 <div className={styles.profile}>
                   <img className={styles.img} src={faker.image.avatar()} />
                 </div>
@@ -70,6 +81,7 @@ function Sidebar() {
           })}
         </div>
       </div>
+     
     </div>
   );
 }

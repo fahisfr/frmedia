@@ -20,7 +20,7 @@ function Post() {
     <div className={styles.container}>
       {new Array(10).fill(0).map((item, index) => {
         return (
-          <div className={styles.post}>
+          <div key={index} className={styles.post}>
             <header className={styles.header}>
               <div className={styles.header_left}>
                 <div className={styles.info}>
@@ -66,7 +66,7 @@ function Post() {
                   {filePreview.type === "image" ? (
                     <img
                       className={styles.image}
-                      src=""
+                      src={faker.image.imageUrl()}
                       accept="image/*"
                     />
                   ) : filePreview.type === "video" ? (

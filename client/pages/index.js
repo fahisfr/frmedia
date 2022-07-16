@@ -2,7 +2,8 @@ import styles from "../styles/index.module.css";
 import Header from "../components/header/Header.js";
 import AddPost from "../components/addPost/AddPost";
 import Post from "../components/post/Post";
-import Sidebar  from "../components/sideBar/Sidebar";
+import Leftbar  from "../components/leftBar/LeftBar";
+import RightBar from "../components/rightBar/RightBar";
 
 function Home() {
   return (
@@ -10,7 +11,7 @@ function Home() {
       <Header />
       <main className={styles.main}>
         <div className={styles.sidebar}>
-          <Sidebar />
+          <Leftbar />
         </div>
         <div className={styles.center}>
           <AddPost />
@@ -18,8 +19,7 @@ function Home() {
         </div>
 
         <div className={styles.right}>
-          <div></div>
-          <div></div>
+          <RightBar />
         </div>
       </main>
     </div>

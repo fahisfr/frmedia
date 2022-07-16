@@ -1,0 +1,75 @@
+
+
+.container{
+
+    max-width: 23rem;
+    padding:1.5rem 1rem;
+    overflow: hidden;
+}
+.trading{
+
+    border-radius: 5px;
+    box-shadow: var(--default_shadow);
+    background-color: var(--gray_50);
+}
+
+.top{
+    padding: 1rem 1rem .5rem ;
+}
+
+.tg_bottom{
+    max-height: 20.5rem;
+    overflow: scroll;
+  
+}
+
+.tg_bottom::-webkit-scrollbar {
+    display: none;
+}
+.post{
+    padding: .7rem 1rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+
+}
+.post:hover{
+    background-color: var(--gray_100);
+    border-radius: 15px;
+}
+.postLeft{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    
+}
+.tcond{
+    font-size: .7rem;
+    font-family: sans-serif;
+}
+.postRight{
+    position: relative;
+    gap: 3px;
+}
+
+
+.menu_icon{
+
+    width: 3px;
+    height: 3px;
+    background-color: rgba(48, 46, 46, 0.884);
+    margin: 3px 0;
+    border-radius: 50%;
+}
+
+.menu{
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+    background-color: var(--gray_100);
+    
+}
+
+

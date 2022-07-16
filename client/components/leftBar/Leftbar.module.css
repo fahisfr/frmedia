@@ -1,10 +1,13 @@
 .container{
-    padding: 1.7rem 0;
+   padding: 1rem 3rem;
 }
 
 .nav{
+    
     gap: 2rem;
     border-radius: 5px;
+    background-color: var(--gray_50);
+    box-shadow: var(--default_shadow);
 }
 
 .a{
@@ -15,8 +18,8 @@
 
     display: flex;
     align-items: center;
-    padding: 1rem .5rem;
-    column-gap: .7rem;
+    padding: 1rem 3rem 1rem .5rem;
+    column-gap: .6rem;
 }
 
 .group:hover{
@@ -26,32 +29,33 @@
 }
 
 .icon{
-    font-size:1.6rem;
+    font-size:1.5rem;
 }
 
 .text{
 
-    font-size: 1.250rem;
+    font-size: 1.150rem;
     font-weight: 400;
     font-family: sans-serif;
 }
 
-.suggestion{
 
+.suggestion{
+  
     width: 100%;
     margin-top: 10px;
     border-radius: 5px;
-    padding-right: .9rem;
+    box-shadow: var(--default_shadow);
+    background-color: var(--gray_50);
+  
 }
 
 .sug_top{
-
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--gray_600);
+    padding: 1rem 1rem .5rem ;
 }  
 .sug_bottom{
 
-   max-height: 17.5rem;
+   max-height: 14rem;
    overflow: scroll;
 }
 .sug_bottom::-webkit-scrollbar {
