@@ -1,0 +1,191 @@
+.container {
+    width: 100%;
+}
+
+.cover_photo {
+
+    height: 11.5rem;
+    overflow: hidden;
+}
+
+.info {
+
+    position: relative;
+    display: flex;
+}
+
+.cover_img {
+    width: 100%;
+}
+
+.info_left {}
+
+.profile {
+
+    position: absolute;
+    top: -4.1rem;
+    left: 1rem;
+    width: 8rem;
+    border-radius: 50%;
+}
+
+.profile_img {
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.info_right {
+
+    width: 100%;
+    padding-left: 10rem;
+    padding: .9rem 1rem 1rem 10rem;
+}
+
+.info_nf {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.nf_l {
+
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+}
+
+.name {}
+
+.edit {
+
+    padding-right: 10px;
+    position: relative;
+}
+
+.edit_icon {
+
+    font-size: 1.2rem;
+    color: #007ce8;
+    cursor: pointer;
+}
+
+.edit_icon_m {
+
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: "Merriweather", serif;
+    background-color: var(--gray_500);
+    color: #ffffff;
+    box-shadow: var(--default_Shadow);
+    transition: .3s ease;
+}
+
+.edit_icon:hover~.edit_icon_m {
+
+    visibility: visible;
+    opacity: 1;
+}
+
+.edti_icon_m::before {
+
+    content: "";
+    position: absolute;
+    right: 100%;
+    border: 9px solid transparent;
+    border-right: var(--gray_500) solid 10px;
+}
+
+
+.fw_c {
+
+    display: flex;
+    gap: 1rem;
+    padding-top: .450rem;
+}
+
+.fw_count {
+
+    font-size: .950rem;
+    color: #000000;
+}
+
+.fw {
+
+    cursor: pointer;
+    font-size: .920rem;
+    border-bottom: 1px solid #e6e6e6;
+    color: var(--gray_700);
+}
+
+.btn {
+
+    width: 5.5rem;
+    height: 2.050rem;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Merriweather', serif;
+    background-color: var(--default_blue);
+    color: #ffffff;
+    transition: .2s ease;
+}
+
+.follow {
+    font-size: .930rem;
+}
+
+.unfollow:not(:hover)::before {
+    content: "Following";
+}
+
+.unfollow:hover {
+    background-color: var(--red_500);
+}
+
+.unfollow:hover::before,
+.unfollow::before {
+    content: "Unfollow";
+}
+
+.bio {
+
+    padding-right: 1rem;
+    padding-top: .7rem;
+}
+
+.bio_text {
+
+    font-size: .980rem;
+    line-height: 1.350rem;
+}
+
+.bottom{
+
+    display: flex;
+    padding-top: .7rem;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.bv_group{
+    padding: .9rem 3rem;
+    cursor: pointer;
+}
+
+.bv_group:nth-child(1){
+    border-bottom: 2px solid var(--default_blue);
+   
+}
+.bvn{
+    font-size: .970rem;
+    color: var(--gray_700);
+    
+}

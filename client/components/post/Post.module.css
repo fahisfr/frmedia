@@ -132,7 +132,7 @@
  }
 
  .button{
-    background-color: var(--defult-color);
+    background-color: var(--defult_theme);
     border: none;
     display: flex;
     align-items: center;

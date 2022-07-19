@@ -7,12 +7,7 @@ import { BsChat, BsHeart } from "react-icons/bs";
 
 function Post() {
   const [filePreview, setFilePreview] = useState({ type: "image", url: "" });
-  const newPost = {
-    name: faker.name.findName(),
-    date: faker.date.past(),
-    profile: faker.image.avatar(),
-    text: faker.lorem.paragraph(),
-  };
+
 
   const randomNum =()=>Math.floor(Math.random()*1e3)
 

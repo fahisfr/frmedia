@@ -4,6 +4,7 @@ import styles from "./RightBar.module.css";
 
 function RightBar() {
   return (
+    <div className={styles.right}>
     <div className={styles.container}>
       <div className={styles.trading}>
         <div className={styles.top}>
@@ -33,6 +34,7 @@ function RightBar() {
           })}
         </div>
       </div>
+    </div>
     </div>
   );
 }

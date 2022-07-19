@@ -15,16 +15,6 @@
     
 }
 
-.sidebar {
-
-    flex: 1 ;
-    flex-shrink: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-   
-}
-
 .center {
 
     flex-shrink: 0;
@@ -42,9 +32,3 @@
    
 }
 
-.right {
-
-    flex: 1 ;
-    align-self: start;
-    height: 100%;
-}

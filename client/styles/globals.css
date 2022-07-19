@@ -1,8 +1,11 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Convergence&family=Merriweather:wght@300;400&display=swap');
 
 :root {
-  --d_blue: #007aed;
-  --default_color: #ffffff;
+
+  --default_blue: #007aed;
+  --default_theme: #ffffff;
   --gray_50: #f9fafa;
   --gray_100: #f3f4f6;
   --gray_200: #e5e7eb;
@@ -11,44 +14,53 @@
   --gray_500: #6b7280;
   --gray_600: #4b5563;
   --gray_700: #374151;
+  --red_500:#ec3b3b ;
+  --red_600:#dc2626;
+  --red_700:#b91c1c;
   --default_shadow:rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.055) 0px 0px 0px 1px;
-  
-
 }
 
-html,
-body {
+
+.center {
+
+  flex-shrink: 0;
+  width: 650px;
+  height: 100%; 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+ 
+
+ 
+}
+
+*{
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family:   sans-serif ;
+  font-family: sans-serif ;
 }
-h3{
-  margin: 0;
-}
-h4{
-  margin: 0;
-}
+
 a {
-  
+
+  color: #007aed;
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
-}
+
 
 ::-webkit-scrollbar {
-  
-  width: 4px;
-               
+  width: 4px;               
 }
 ::-webkit-scrollbar-track {
-  
   background: rgb(248, 245, 245);       
 }
 ::-webkit-scrollbar-thumb {
-  background-color:#007ce834;
 
+  background-color:#007ce834;
   border-radius: 10px;
-  
 }
