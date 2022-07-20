@@ -4,10 +4,15 @@ import { faker } from "@faker-js/faker";
 import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
 import Post from "../../components/post/Post";
+import EditProfile from "../editProfile/EditProfile";
 
 function Profile() {
+  const [editProfile, setEditProfile] = React.useState(false);
+
   return (
     <div className="center">
+      <EditProfile trigger={editProfile} setTrigger={setEditProfile} />
+
       <div className={styles.container}>
         <div className={styles.cover_photo}>
           <img className={styles.cover_img} src={faker.image.image()} />
@@ -29,8 +34,7 @@ function Profile() {
             <div className={styles.info_nf}>
               <div className={styles.nf_l}>
                 <h2 className={styles.name}>{faker.name.lastName()}</h2>
-
-                <div className={styles.edit}>
+                <div className={styles.edit} onClick={() => setEditProfile(true)}>
                   <FiEdit className={styles.edit_icon} />
                   <div className={styles.edit_icon_m}>
                     <span>Edit&nbsp;Profile </span>

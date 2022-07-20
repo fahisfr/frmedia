@@ -18,7 +18,7 @@
     width: 100%;
 }
 
-.info_left {}
+
 
 .profile {
 
@@ -56,7 +56,6 @@
     align-items: center;
 }
 
-.name {}
 
 .edit {
 
@@ -94,7 +93,7 @@
     opacity: 1;
 }
 
-.edti_icon_m::before {
+.edit_icon_m::before {
 
     content: "";
     position: absolute;
@@ -102,7 +101,6 @@
     border: 9px solid transparent;
     border-right: var(--gray_500) solid 10px;
 }
-
 
 .fw_c {
 

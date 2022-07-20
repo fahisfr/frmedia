@@ -1,0 +1,154 @@
+.edit_profile {
+
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    padding: 5rem 0 3rem 0;
+    background-color: rgba(0, 0, 0, 0.39);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.container {
+
+    background-color: var(--default_theme);
+    width: 600px;
+    box-shadow: var(--default_Shadow);
+    overflow: scroll;
+}
+
+.avatar {
+
+    position: relative;
+    height: 11rem;
+    overflow: hidden;
+}
+
+.avatar_img {
+    width: 100%;
+}
+
+.pvi {
+    position: relative;
+}
+
+.profile {
+
+    position: absolute;
+    top: -4.1rem;
+    left: 1rem;
+    width: 8rem;
+    border-radius: 50%;
+}
+
+.ref_input {
+    display: none;
+}
+
+.profile_img {
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.profile_img:hover ,.avatar_img:hover {
+    filter: brightness(0.8);
+    cursor: pointer;
+}
+
+.md_add_icon {
+
+    position: absolute;
+    font-size: 1.5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--default_theme);
+}
+
+.form {
+    padding: 5.5rem 2rem 0rem 1.5rem;
+}
+
+.group {
+
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input {
+
+    width: 100%;
+    height: 2.8rem;
+    font-size: 1rem;
+    border-radius: .5rem;
+    padding-left: .650rem;
+    outline: none;
+    background-color: none;
+    border: 1px solid rgba(177, 177, 177, 0.973);
+}
+
+.area_input {
+
+    width: 100%;
+    height: 6rem;
+    padding-top: 11px;
+    font-size: .960rem;
+    border-radius: .5rem;
+    padding-left: .650rem;
+    outline: none;
+    background-color: none;
+    border: 1px solid rgba(177, 177, 177, 0.973);
+}
+
+.label {
+
+    position: absolute;
+    position: absolute;
+    top: 0%;
+    left: .6rem;
+    transform: translateY(-50%);
+    padding: 4px;
+    font-size: .9rem;
+    background-color: #ffffff;
+    font-family: "Convergence", sans-serif;
+    cursor: text;
+    transition: all 0.2s ease-in-out,
+}
+.error_message{
+    display: none;
+    font-size: .9rem;
+    color: rgb(228, 59, 59);
+    padding-left: 0.5rem;
+    transition: all 42s ease-in-out;
+}
+
+.input:invalid ~ .error_message{
+    display: block;
+}
+
+.bottom {
+
+    width: 100%;
+    display: flex;
+    justify-content:flex-end;
+}
+
+.btn {
+
+    width: 6rem;
+    height: 2.6rem;
+    color: #ffffff;
+    font-size: medium;
+    font-family: 'Merriweather', serif;
+    border-radius: 5px;
+    background-color: var(--default_blue);
+    border: none;
+    cursor: pointer;
+}
+
+
