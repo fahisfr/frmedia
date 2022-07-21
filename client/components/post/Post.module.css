@@ -1,14 +1,8 @@
-
-.container{
-    margin-top: .3rem;
-
-}
-
 .post {
 
     width: 100%;
     border-radius: 10px;
-    margin-top:.5rem ;
+    margin-top:.8rem ;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -17,7 +11,6 @@
     display: flex;
     padding: 5px 0 5px 7px;
     border-radius: 5px;
-    
 }
 
 .header_left{
@@ -29,9 +22,9 @@
 }
 
 .profile{
+
     width: 3rem;
     overflow: hidden;
-
 }
 
 .profile_img{
@@ -87,6 +80,7 @@
 
  .body{
     width: 100%;
+    padding: 0 .5rem;
  }
 
 .message{

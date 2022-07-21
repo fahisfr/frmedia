@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "../../styles/ls.module.css";
+import styles from "../styles/ls.module.css";
 import Link from "next/link";
-import FormInput from "../../components/singupInput/FormInput.js";
+import FormInput from "../components/singupInput/FormInput.js";
 
 function index() {
 
@@ -71,7 +71,8 @@ function index() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.body}>
+      <div>
+        <div className={styles.body}>
         <div className={styles.title}>
           <h1 className={styles.title_text}>Sing up</h1>
         </div>
@@ -130,6 +131,8 @@ function index() {
           </div>
         </div>
       </div>
+      </div>
+      
     </div>
   );
 }

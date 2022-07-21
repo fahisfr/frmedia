@@ -8,11 +8,9 @@
     justify-content: center;
     padding-top: 5px;
     background-color: var(--default_color);
-
-    
 }
 
-.addPostContent {
+.add_pc_content {
    
     width: 100%;
     display: flex;
@@ -37,12 +35,12 @@
     border-radius: 50%;
 }
 
-.addPostRight {
+.right {
     flex-grow: 1;
     flex-shrink: 1;
 }
 
-.addPostRight_top {
+.right_top {
 
     display: flex;
     width: 100%;
@@ -50,7 +48,7 @@
     padding: 0 1rem 0 .5rem;
 }
 
-.addPostInput {
+.input{
 
     width: 100%;
     font-size: 1.1rem;
@@ -58,19 +56,17 @@
     border-bottom: 1px solid rgba(204, 204, 204, 0.452);
     outline: none;
     resize: none;
-    
     font-family: sans-serif;
     padding: 1.5rem .2rem 1rem .2rem;
-
 }
 
 
-.postFilePreivew {
+.pc_file_preivew {
     position: relative;
 }
 
 
-.addPostFile_image,
+.file_image,
 .video {
     width: 100%;
     border-radius: 5px;
@@ -116,21 +112,20 @@
     transform: rotate(-45deg);
 }
 
-.addPostRight_bottom {
+.right_bottom {
 
     padding-top: .7rem;
     display: flex;
     justify-content: space-between;
 }
 
-.addPostM {
+.pc_m {
 
     display: flex;
     padding: .5rem;
-
 }
 
-.addPost_m_Group {
+.m_group {
 
     display: flex;
     position: relative;
@@ -141,7 +136,7 @@
     cursor: pointer;
 }
 
-.addPost_m_Group:hover .m_PopMessage {
+.m_group:hover .m_PopMessage {
     visibility: visible;
 
 }
@@ -155,11 +150,18 @@
     background-color: var(--default_color);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
-
+.emoji{
+    position: absolute;
+}
 .m_MessageText {
 
     font-size: .645rem;
     color: rgba(0, 0, 0, 0.705);
+}
+
+.addPostRight_br{
+    display: flex;
+    gap: .5rem;
 }
 
 .addPostButton {
@@ -168,7 +170,20 @@
     height: 2.3rem;
     border: none;
     border-radius: 29px;
-    background-color: var(--d_blue);
+    background-color: var(--default_blue);
+}
+
+
+.cancel_button{
+    
+    width: 5.5rem;
+    height: 2.3rem;
+    border: none;
+    border-radius: 29px;
+    background-color: var(--default_theme);
+    color: red;
+    border: 1px solid red;
+    cursor: pointer;
 }
 
 .addPostButtonText {

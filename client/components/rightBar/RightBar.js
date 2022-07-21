@@ -13,7 +13,7 @@ function RightBar() {
         <div className={styles.tg_bottom}>
           {new Array(19).fill(0).map((num, index) => {
             return (
-              <div className={styles.post}>
+              <div key={index} className={styles.post}>
                 <div className={styles.postLeft}>
                   <span>{`#${faker.word.adverb()}`}</span>
                   <span className={styles.tcond}>{`${faker.random.numeric(
