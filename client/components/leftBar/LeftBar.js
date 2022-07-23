@@ -14,7 +14,7 @@ function Sidebar() {
     <div className={styles.left_bar}>
       <div className={styles.container}>
         <nav className={styles.nav}>
-          <Link className={styles.link} href="/command">
+          <Link className={styles.link} href="/">
             <a className={styles.a}>
               <div className={styles.group}>
                 <AiOutlineHome className={styles.icon} />

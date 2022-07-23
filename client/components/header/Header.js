@@ -27,7 +27,7 @@ function Header() {
             />
             <div className={styles.icon}></div>
             <div className={styles.result}>
-              {/* {new Array(5).fill(0).map((item, index) => {
+              {new Array(5).fill(0).map((item, index) => {
                 return (
                   <div key={index} className={styles.result_item}>
                     <div className={styles.result_item_right}>
@@ -45,7 +45,7 @@ function Header() {
                     </div>
                   </div>
                 );
-              })} */}
+              })}
             </div>
           </div>
         </div>

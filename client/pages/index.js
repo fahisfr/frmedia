@@ -5,7 +5,6 @@ import Post from "../components/post/Post";
 import Leftbar from "../components/leftBar/LeftBar";
 import RightBar from "../components/rightBar/RightBar";
 
-
 function Home() {
   return (
     <div className="container">
@@ -14,13 +13,8 @@ function Home() {
         <Leftbar />
         <div className="center">
           <AddPost />
-         {
-          new Array(10).fill(0).map((_, index) => {
-            return <Post key={index} />;
-          })
-         }
+          <Post />
         </div>
-        
         <RightBar />
       </main>
     </div>

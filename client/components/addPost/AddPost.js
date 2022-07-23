@@ -3,15 +3,20 @@ import React, { useRef, useState } from "react";
 import { AiOutlineFileImage } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
+import { faker } from "@faker-js/faker";
+
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPost({Type}) {
+function AddPost({ Type }) {
+
   const inputRef = useRef(null);
   const fileRef = useRef(null);
+
   const [files, setFiles] = useState(true);
   const [emojiTrigger, setEmojiTrigger] = useState(false);
+  
   const [postText, setPostText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
 
@@ -26,12 +31,18 @@ function AddPost({Type}) {
   };
 
   const handleInput = (e) => {
+    inputRef.current.style.height = "auto";
     inputRef.current.style.height = `${e.target.scrollHeight}px`;
   };
 
   const onEmojiClick = (event, emojiObject) => {
     setPostText(`${postText}${emojiObject.emoji}`);
   };
+
+  const cancelNow = (e)=>{
+    setPostText("")
+    inputRef.current.style.height = "auto";
+  }
 
   const TriggerEmojiPicker = () => setEmojiTrigger(!emojiTrigger);
 
@@ -40,10 +51,7 @@ function AddPost({Type}) {
       <div className={styles.add_pc_content}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <img
-              className={styles.profileImg}
-              src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fa-%2FAOh14GhnJ1hWMMmWuwad79zvMGaS5el-pfgaNX8cGKF5&w=308&q=75"
-            />
+            <img className={styles.profileImg} src={faker.image.avatar()} />
           </div>
         </div>
 
@@ -52,7 +60,12 @@ function AddPost({Type}) {
             <textarea
               className={styles.input}
               type="text"
-              placeholder={Type?.type === "Command" ?"Write a comment" : "What's on your mind?"  }
+              value={postText}
+              placeholder={
+                Type?.type === "Command"
+                  ? "Write a comment"
+                  : "What's on your mind?"
+              }
               rows={1}
               ref={inputRef}
               pattern=" faasf"
@@ -95,8 +108,8 @@ function AddPost({Type}) {
                   onClick={(e) => fileRef.current.click()}
                 >
                   <AiOutlineFileImage size={20} color="#007aed" />
-                  <div className={styles.m_PopMessage}>
-                    <span className={styles.m_MessageText}>Image/Video</span>
+                  <div className={styles.m_pop_message}>
+                    <span className={styles.m_message_text}>Photo&nbsp;/&nbsp;Video</span>
                   </div>
                   <input
                     style={{ display: "none" }}
@@ -108,17 +121,22 @@ function AddPost({Type}) {
                 </div>
                 <div className={styles.m_group}>
                   <BsEmojiSmile size={20} color="#007aed" />
-                  <div className={styles.m_PopMessage}>
-                    <span className={styles.m_MessageText}>Emoji</span>
+                  <div className={styles.m_pop_message}>
+                    <span className={styles.m_message_text}>Emoji</span>
                   </div>
                 </div>
               </div>
               <div className={styles.addPostRight_br}>
-                <button className={styles.cancel_button}>
-                  <span>Cancel</span>
-                </button>
+                {postText.length > 0 && (
+                  <button 
+                  className={styles.cancel_button}
+                  onClick={cancelNow}
+                  >
+                    <span>Cancel</span>
+                  </button>
+                )}
                 <button className={styles.addPostButton}>
-                  <span className={styles.addPostButtonText}>Post</span>
+                  <span className={styles.addpost_btn_text}>Post</span>
                 </button>
               </div>
             </div>

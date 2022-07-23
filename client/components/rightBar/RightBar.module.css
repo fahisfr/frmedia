@@ -3,6 +3,7 @@
     flex: 1 ;
     align-self: start;
     height: 100%;
+    flex-basis: 0;
 }
 
 .container{

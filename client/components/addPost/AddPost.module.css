@@ -1,5 +1,3 @@
-
-
 .addpost {
 
     width: 100%;
@@ -11,21 +9,20 @@
 }
 
 .add_pc_content {
-   
+
     width: 100%;
     display: flex;
-    padding: 1rem .6rem;
-     border-radius: 7px;
+    padding: 1rem 0rem;
+    border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .left {
-    padding-top: .6rem;
+    padding: .6rem 0rem .5rem .5rem;
 }
 
 .profile {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
 }
 
 .profileImg {
@@ -48,7 +45,7 @@
     padding: 0 1rem 0 .5rem;
 }
 
-.input{
+.input {
 
     width: 100%;
     font-size: 1.1rem;
@@ -58,13 +55,12 @@
     resize: none;
     font-family: sans-serif;
     padding: 1.5rem .2rem 1rem .2rem;
+    overflow: hidden;
 }
-
 
 .pc_file_preivew {
     position: relative;
 }
-
 
 .file_image,
 .video {
@@ -136,30 +132,44 @@
     cursor: pointer;
 }
 
-.m_group:hover .m_PopMessage {
+.m_group:hover .m_pop_message {
     visibility: visible;
 
 }
 
-.m_PopMessage {
+.m_pop_message {
 
     position: absolute;
     visibility: hidden;
-    top: 1.170rem;
-    padding: .4rem;
-    background-color: var(--default_color);
+    top: 1.6rem;
+    padding: 0px 5px 3px 5px;
+    background-color: var(--gray_500);
+    border-radius: 2px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
-.emoji{
+
+.m_pop_message::after {
+    
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom: 5px solid var(--gray_500);
+}
+
+.emoji {
     position: absolute;
 }
-.m_MessageText {
 
-    font-size: .645rem;
-    color: rgba(0, 0, 0, 0.705);
+.m_message_text {
+
+    color: #ffffff;
+    font-size: 11px;
 }
 
-.addPostRight_br{
+.addPostRight_br {
     display: flex;
     gap: .5rem;
 }
@@ -174,8 +184,8 @@
 }
 
 
-.cancel_button{
-    
+.cancel_button {
+
     width: 5.5rem;
     height: 2.3rem;
     border: none;
@@ -186,7 +196,10 @@
     cursor: pointer;
 }
 
-.addPostButtonText {
+
+
+
+.addpost_btn_text {
     font-size: 0.9rem;
     font-weight: 500;
     color: #ffffff;

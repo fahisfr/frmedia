@@ -48,7 +48,9 @@
     border-radius: .5rem;
 
 }
-
+.input_ref{
+    display: none;
+}
 
 .input:not(:invalid) ~ .result {
     display: block;
@@ -112,7 +114,7 @@
 
 .verified_icon{
     font-size: 19px;
-    color: var(--defult_blue);
+    color: var(--default_blue);
     margin-left: .5rem;
 }
 

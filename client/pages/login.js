@@ -3,12 +3,17 @@ import Link from "next/link";
 import { useState } from "react";
 
 function index() {
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+
   const [Err, setError] = useState({
     status: false,
     message: "",
   });
+
+  
+
   const [btnLoadign, setBtnLoading] = useState(false);
 
   return (
