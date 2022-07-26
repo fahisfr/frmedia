@@ -2,9 +2,33 @@ import React, { useState } from "react";
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import FormInput from "../components/singupInput/FormInput.js";
+import {useQuery,gql,useLazyQuery, useMutation} from '@apollo/client'
+
+const GetALlUser= gql`
+
+  query GetAllUser{
+    getAllUsers{
+    name
+
+      }
+  }
+`
+
+const CreateUser= gql`
+  mutation CreateUser($name: String!, $email: String!, $password: String!){
+    createUser(name: $name, email: $email, password: $password){
+      name
+      email
+      password
+    }
+  }
+}
+`
 
 function index() {
 
+  const {loading,error,data}=useQuery(GetALlUser)
+  
   const [btnLoadign,setBtnLoading] = useState(false);
 
   const [values, setValues] = useState({
@@ -13,6 +37,11 @@ function index() {
     password: "",
     confirmPassword: "",
   });
+
+  const submitNow = ()=>{
+    
+
+  }
 
 
   const inputs =[
