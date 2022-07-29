@@ -1,20 +1,22 @@
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useState } from "react";
+import {loginrRequest} from "../graphql/mutation";
 
 function index() {
-
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const [Err, setError] = useState({
-    status: false,
-    message: "",
-  });
+  const [loginNow, { data, loading, error }] = loginrRequest(id, password);
+
+  const [Err, setError] = useState({ status: error, message: "" });
+
+  const onSubmit = (e)=>{
+    e.preventDefault();
+    loginNow();
+  }
 
   
-
-  const [btnLoadign, setBtnLoading] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -56,7 +58,11 @@ function index() {
             </div>
 
             <div className={styles.form_bottom}>
-              <button className={styles.form_button} type="submit">
+              <button
+                className={styles.form_button}
+                type="submit"
+                onClick={onSubmit}
+              >
                 <span className={styles.form_button_text}>Login</span>
               </button>
             </div>

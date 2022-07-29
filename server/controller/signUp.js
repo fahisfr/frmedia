@@ -10,8 +10,9 @@ const
 
 const singUp = async (_, args) => {
 
-  const token = Jwt.sign({ name: args.name }, "secret", { expiresIn: "1h" });
-  const refreshToken = Jwt.sign({ name: args.name }, "secret", {expiresIn: "7d",});
+
+  const token = Jwt.sign({ userName: args.userName }, "secret", { expiresIn: "1h" });
+  const refreshToken = Jwt.sign({ userName: args.userName }, "secret", {expiresIn: "17d",});
 
   await dbUser.create({...args,refreshToken,}).then((res) => {return {
       ...res._doc,
@@ -19,7 +20,7 @@ const singUp = async (_, args) => {
     .catch(({ code, message }) => {
 
       if (code === 11000) {
-        if (message.includes("name")) {
+        if (message.includes("userName")) {
          throw new UserInputError("Name already taken")
 
         } else if (message.includes("email")) {

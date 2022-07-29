@@ -1,26 +1,22 @@
 const dbUser = require("../dbSchemas/user");
-const {UserInputError} = require("apollo-server-express");
+const { UserInputError } = require("apollo-server-express");
 const jwt = require("jsonwebtoken");
 
 
-const login = async (_,{email,password}) => {
+
+const login = async (_, { nameOrEmail, password },context ) => {
   
+  const isEmail = nameOrEmail.includes("@");
 
-    const findUser = await dbUser.findOne({ email, password });
+  const findUser = await dbUser.findOne({[isEmail ? "email" : "userName"]: nameOrEmail,password,});
 
-    if (!findUser) {
+  if (!findUser) {
+    throw new UserInputError("Please check your Username/Email address and password");
+  }
 
-      throw new UserInputError("Please check your email and password");
-
-    }
-    const token = jwt.sign({ name }, "secret", { expiresIn: "1h" });
-
-    return {
-      ...findUser,
-      token,
-    }
-
+  const token = jwt.sign({ nameOrEmail }, "secret", { expiresIn: "1h" });
  
+  return { ...findUser._doc, token };
 };
 
 module.exports = login;
