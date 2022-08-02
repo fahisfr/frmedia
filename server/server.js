@@ -9,22 +9,34 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const dbConn = require("./config/dbConn");
 const dbUser = require("./dbSchemas/user");
-const { ApolloServer } = require("apollo-server");
-const resolvers = require("./graphQl/resolvers");
-const { typeDefs } = require("./graphQl/typeDefs");
+const { ApolloServer } = require("apollo-server-express");
+const resolvers = require("./graphQls/resolvers");
+const { typeDefs } = require("./graphQls/typeDefs");
 
+const {graphqlUploadKoa} =require("graphql-upload");
 
 dbConn();
-app.use(cors());
+
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
 
-const server = new ApolloServer({ typeDefs, resolvers });
+
+const corss = {
+  credentials: true,
+  origin:"http://localhost:3000",
+  exposedHeaders: ["Set-Cookie", "connection"],
+};
+
+//add cridential to the request
+
+const server = new ApolloServer({typeDefs,resolvers,context:({req,res})=>({req,res})});
+
+server.start().then(()=>{
+  server.applyMiddleware({ app, cors: corss });
+})
 
 
 
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+app.listen(port);

@@ -1,7 +1,8 @@
 const dbUser = require("../dbSchemas/user");
 
-const verifyUserName = async (_, { userName }) => {
-  console.log(userName);
+const verifyUserName = async (_, { userName },{req,res}) => {
+  const token = "alsjfasldjfals3242342l3kj42l3kj2lk4";
+
   const user = await dbUser.findOne({ userName }).exec();
 
   const result = user

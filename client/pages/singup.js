@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
-import { singUpRequest } from "../graphql/mutation";
+import { singUpRequest } from "../graphql/mutations";
 import { verifyEmailQuery, verifyUserNamesQuery } from "../graphql/qurey";
 import { gql, useLazyQuery } from "@apollo/client";
 
@@ -65,13 +65,7 @@ function index() {
       }
     }
   };
-  const onFocus = (e) => {
-    const { name } = e.target;
-  };
 
-  const labelOnClick = (e) => {
-    setClicked({ ...clicked, [e.target.name]: true });
-  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -101,8 +95,8 @@ function index() {
               />
               <label
                 name="name"
-                clicked={clicked}
-                onClick={labelOnClick}
+                clicked={`${clicked.name}`}
+                onClick={() => setClicked({ ...clicked, name: true })}
                 className={styles.form_label}
               >
                 User Name
@@ -129,8 +123,9 @@ function index() {
               />
               <label
                 name="email"
+                clicked={`${clicked.email}`}
+                onClick={() => setClicked({ ...clicked, email: true })}
                 className={styles.form_label}
-                onClick={labelOnClick}
               >
                 Email
               </label>
@@ -156,8 +151,9 @@ function index() {
               />
               <label
                 name="password"
+                clicked={`${clicked.password}`}
+                onClick={() => setClicked({ ...clicked, password: true })}
                 className={styles.form_label}
-                onClick={labelOnClick}
               >
                 Password
               </label>
@@ -181,8 +177,9 @@ function index() {
               />
               <label
                 name="confirmPassword"
+                clicked={`${clicked.confirmPassword}`}
+                onClick={() => setClicked({ ...clicked, confirmPassword: true })}
                 className={styles.form_label}
-                onClick={labelOnClick}
               >
                 Confirm Password
               </label>

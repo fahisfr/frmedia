@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 
 
-const login = async (_, { nameOrEmail, password },context ) => {
+const login = async (_, { nameOrEmail, password },{res} ) => {
   
   const isEmail = nameOrEmail.includes("@");
 
@@ -15,7 +15,14 @@ const login = async (_, { nameOrEmail, password },context ) => {
   }
 
   const token = jwt.sign({ nameOrEmail }, "secret", { expiresIn: "1h" });
- 
+
+  res.cookie("auth_token", token, {
+    httpOnly: true,
+    secure: false,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    sameSite: "strict",
+  });
+
   return { ...findUser._doc, token };
 };
 

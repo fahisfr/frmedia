@@ -141,7 +141,7 @@
 
     position: absolute;
     visibility: hidden;
-    top: 1.6rem;
+    top: 1.7rem;
     padding: 0px 5px 3px 5px;
     background-color: var(--gray_500);
     border-radius: 2px;
@@ -205,4 +205,21 @@
     color: #ffffff;
     cursor: pointer;
 
+}
+
+#emoji{
+    position: absolute;
+    top: 1.7rem;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: none;
+    
+    
+}
+#emoji[trigger="true"]{
+    display: block;
+}
+#emoji[trigger="true"] ~ .m_pop_message{
+    display: none;
 }

@@ -11,6 +11,8 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@faker-js/faker": "^7.3.0",
+    "apollo-link": "^1.2.14",
+    "apollo-upload-client": "^17.0.0",
     "autosize": "^5.0.1",
     "delete": "^1.1.0",
     "emoji-picker-react": "^3.5.1",

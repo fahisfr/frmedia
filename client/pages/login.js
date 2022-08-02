@@ -1,22 +1,41 @@
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useState } from "react";
-import {loginrRequest} from "../graphql/mutation";
+import { loginrRequest } from "../graphql/mutations";
+import { useRouter } from 'next/router'
+import LeftBar from "../components/leftBar/LeftBar";
+import jwt from "jsonwebtoken";
 
-function index() {
+export const getServerSideProps = async ({req}) => {
+ 
+  
+
+  return {
+    props: {
+      
+    },
+  };
+};
+
+function Login( {user} ) {
+  const router = useRouter()
+  if (user) {
+    router.push("/")
+  }
+   
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
   const [loginNow, { data, loading, error }] = loginrRequest(id, password);
 
+  data && router.push("/");
+
   const [Err, setError] = useState({ status: error, message: "" });
 
-  const onSubmit = (e)=>{
+  const onSubmit = (e) => {
     e.preventDefault();
     loginNow();
-  }
-
-  
+  };
 
   return (
     <div className={styles.container}>
@@ -98,4 +117,6 @@ function index() {
   );
 }
 
-export default index;
+
+
+export default Login;

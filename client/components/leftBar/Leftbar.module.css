@@ -47,9 +47,8 @@
 
 .text{
 
-    font-size: 1.150rem;
-    font-weight: 400;
-
+    font-size: 1.1rem;
+    font-weight: 300;
 }
 
 
@@ -135,4 +134,8 @@
 
     background-color: var(--default_blue);
     color:  #ffffff;
+}
+
+.blue{
+    color: var(--default_blue);
 }

@@ -4,24 +4,27 @@ import { AiOutlineFileImage } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
 import { faker } from "@faker-js/faker";
+import { addPostRequest } from "../../graphql/mutations";
 
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
 function AddPost({ Type }) {
-
   const inputRef = useRef(null);
   const fileRef = useRef(null);
 
-  const [files, setFiles] = useState(true);
+  const [file, setFile] = useState(null);
   const [emojiTrigger, setEmojiTrigger] = useState(false);
-  
+
   const [postText, setPostText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
 
+  const [addPostNow, { data, error, loading }] = addPostRequest(postText, file);
+
   const filePreviewNow = (e) => {
     const file = e.target.files[0];
+    setFile(file);
     const reader = new FileReader();
 
     reader.onloadend = () =>
@@ -39,12 +42,17 @@ function AddPost({ Type }) {
     setPostText(`${postText}${emojiObject.emoji}`);
   };
 
-  const cancelNow = (e)=>{
-    setPostText("")
+  const cancelNow = (e) => {
+    setPostText("");
     inputRef.current.style.height = "auto";
-  }
+  };
 
   const TriggerEmojiPicker = () => setEmojiTrigger(!emojiTrigger);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addPostNow();
+  };
 
   return (
     <div className={styles.addpost}>
@@ -109,7 +117,9 @@ function AddPost({ Type }) {
                 >
                   <AiOutlineFileImage size={20} color="#007aed" />
                   <div className={styles.m_pop_message}>
-                    <span className={styles.m_message_text}>Photo&nbsp;/&nbsp;Video</span>
+                    <span className={styles.m_message_text}>
+                      Photo&nbsp;/&nbsp;Video
+                    </span>
                   </div>
                   <input
                     style={{ display: "none" }}
@@ -119,23 +129,26 @@ function AddPost({ Type }) {
                     onChange={filePreviewNow}
                   />
                 </div>
-                <div className={styles.m_group}>
+                <div
+                  className={styles.m_group}
+                  onClick={(e) => setEmojiTrigger(!emojiTrigger)}
+                >
                   <BsEmojiSmile size={20} color="#007aed" />
                   <div className={styles.m_pop_message}>
                     <span className={styles.m_message_text}>Emoji</span>
+                  </div>
+                  <div id={styles.emoji} trigger={`${emojiTrigger}`}>
+                    <EmojiPicker onEmojiClick={onEmojiClick} />
                   </div>
                 </div>
               </div>
               <div className={styles.addPostRight_br}>
                 {postText.length > 0 && (
-                  <button 
-                  className={styles.cancel_button}
-                  onClick={cancelNow}
-                  >
+                  <button className={styles.cancel_button} onClick={cancelNow}>
                     <span>Cancel</span>
                   </button>
                 )}
-                <button className={styles.addPostButton}>
+                <button onClick={onSubmit} className={styles.addPostButton}>
                   <span className={styles.addpost_btn_text}>Post</span>
                 </button>
               </div>
