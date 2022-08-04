@@ -14,12 +14,12 @@ const login = async (_, { nameOrEmail, password },{res} ) => {
     throw new UserInputError("Please check your Username/Email address and password");
   }
 
-  const token = jwt.sign({ nameOrEmail }, "secret", { expiresIn: "1h" });
+  const token = jwt.sign({ id:findUser._id },process.env.TOKEN_SECRET, { expiresIn: "4d" });
 
   res.cookie("auth_token", token, {
     httpOnly: true,
     secure: false,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 30,
     sameSite: "strict",
   });
 

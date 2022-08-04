@@ -4,7 +4,7 @@ import { AiOutlineFileImage } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
 import { faker } from "@faker-js/faker";
-import { addPostRequest } from "../../graphql/mutations";
+import axios from "../../axios";
 
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
@@ -20,7 +20,26 @@ function AddPost({ Type }) {
   const [postText, setPostText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
 
-  const [addPostNow, { data, error, loading }] = addPostRequest(postText, file);
+  const addPostNow = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("content", postText);
+
+    const {
+      data: { success, message },
+
+    } = await axios.post("/addpost", formData);
+
+    if (!success){
+      alert(message);
+    }
+    setPostText("");
+    setFilePreview({ type: "", url: "" });
+    setFile(null);
+  };
 
   const filePreviewNow = (e) => {
     const file = e.target.files[0];
@@ -148,7 +167,7 @@ function AddPost({ Type }) {
                     <span>Cancel</span>
                   </button>
                 )}
-                <button onClick={onSubmit} className={styles.addPostButton}>
+                <button onClick={addPostNow} className={styles.addPostButton}>
                   <span className={styles.addpost_btn_text}>Post</span>
                 </button>
               </div>

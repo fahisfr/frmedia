@@ -5,8 +5,6 @@ import { singUpRequest } from "../graphql/mutations";
 import { verifyEmailQuery, verifyUserNamesQuery } from "../graphql/qurey";
 import { gql, useLazyQuery } from "@apollo/client";
 
-
-
 function index() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +28,6 @@ function index() {
       loading: verifyNameLoading,
     },
   ] = useLazyQuery(verifyUserNamesQuery);
-
   const [loginNow, { data, error, loading }] = singUpRequest(
     name,
     email,
@@ -55,23 +52,19 @@ function index() {
     setFocus({ ...focus, [name]: true });
     console.log(e.target.validity.valid);
     if (name === "name" || ("email" && e.target.validity.valid)) {
-      
       if (name === "name") {
         verifyUserNameNow({ variables: { userName: e.target.value } });
-
       } else if (name === "email") {
         verifyEmailNow({ variables: { email: e.target.value } });
-        
       }
     }
   };
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
     loginNow();
   };
- 
+
   return (
     <div className={styles.container}>
       <div>
@@ -178,7 +171,9 @@ function index() {
               <label
                 name="confirmPassword"
                 clicked={`${clicked.confirmPassword}`}
-                onClick={() => setClicked({ ...clicked, confirmPassword: true })}
+                onClick={() =>
+                  setClicked({ ...clicked, confirmPassword: true })
+                }
                 className={styles.form_label}
               >
                 Confirm Password
@@ -186,7 +181,8 @@ function index() {
               <span className={styles.error_message}>Password not match</span>
             </div>
 
-            <div className={styles.form_bottom}>
+            <div
+              className={`${styles.form_bottom} ${ verifyNameLoading || verifyEmailLoading || loading  ? styles.btn_loading:null}`}>
               <button className={styles.form_button} onClick={onSubmit}>
                 <span className={styles.form_button_text}>Sing Up</span>
               </button>

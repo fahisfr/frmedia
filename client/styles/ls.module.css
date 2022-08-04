@@ -135,16 +135,14 @@
     border-radius: 1rem;
 }
 
-.form_button_text{
 
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 550;
+
+.btn_loading .form_button_text{
     display: none;
     
 }
 
-.form_button::after{
+.btn_loading .form_button::after{
     content: "";
     position: absolute;
     top: 0;
@@ -159,6 +157,18 @@
     border-radius: 50%;
     animation: button_loading .5s linear infinite;
 }
+    
+    
+
+.form_button_text{
+
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 550;
+
+}
+
+
 
 .au {
 

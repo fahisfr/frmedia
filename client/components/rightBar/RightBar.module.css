@@ -4,13 +4,14 @@
     align-self: start;
     height: 100%;
     flex-basis: 0;
+    overflow: auto;
 }
 
 .container{
 
     max-width: 23rem;
-    padding:1.5rem 1rem;
-    overflow: hidden;
+    padding:1rem 1rem;
+   
 }
 .trading{
 

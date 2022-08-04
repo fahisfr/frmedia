@@ -3,7 +3,7 @@ import { gql, useLazyQuery } from "@apollo/client";
 const verifyUserNamesQuery = gql`
   query verifyUserName($userName: String!) {
     verifyUserName(userName: $userName) {
-      approved
+      status
       message
     }
   }

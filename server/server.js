@@ -12,31 +12,31 @@ const dbUser = require("./dbSchemas/user");
 const { ApolloServer } = require("apollo-server-express");
 const resolvers = require("./graphQls/resolvers");
 const { typeDefs } = require("./graphQls/typeDefs");
-
-const {graphqlUploadKoa} =require("graphql-upload");
+const corsOptions = require("./config/corsOptions");
+const auth = require("./middleware/auth");
+const path = require("path");
+const fileUpload = require("express-fileupload");
 
 dbConn();
 
 app.use(morgan("dev"));
+app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(fileUpload());
 
+app.use("/addpost", auth, require("./controller/addPost"));
 
-const corss = {
-  credentials: true,
-  origin:"http://localhost:3000",
-  exposedHeaders: ["Set-Cookie", "connection"],
-};
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req, res }) => ({ req, res }),
+});
 
-//add cridential to the request
-
-const server = new ApolloServer({typeDefs,resolvers,context:({req,res})=>({req,res})});
-
-server.start().then(()=>{
-  server.applyMiddleware({ app, cors: corss });
-})
-
-
+server.start().then(() => {
+  server.applyMiddleware({ app, cors: corsOptions });
+});
 
 app.listen(port);

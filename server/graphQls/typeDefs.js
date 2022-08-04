@@ -36,7 +36,7 @@ const typeDefs = gql`
   }
 
   type reslut {
-    success: Boolean!
+    status: Boolean!
     message: String
   }
 

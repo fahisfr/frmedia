@@ -6,13 +6,14 @@
     flex-direction: column;
     align-items: flex-end;
     flex-basis: 0;
-    
+    overflow: auto;
 }
 
 
 .container{
     
    padding: 1rem 3rem;
+   
 }
 
 .nav{

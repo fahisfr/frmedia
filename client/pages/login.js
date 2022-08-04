@@ -76,7 +76,7 @@ function Login( {user} ) {
               )}
             </div>
 
-            <div className={styles.form_bottom}>
+            <div className={`${styles.form_bottom} ${loading && styles.btn_loading}`}>
               <button
                 className={styles.form_button}
                 type="submit"

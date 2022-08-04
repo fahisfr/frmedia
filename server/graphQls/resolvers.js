@@ -1,7 +1,7 @@
 const loginController = require("../controller/login");
 const singUpController = require("../controller/signUp");
 const { verifyUserName, verifyEmail } = require("../controller/verifyNameAndEmail");
-const addPostController = require("../controller/addPost");
+
 
 
 

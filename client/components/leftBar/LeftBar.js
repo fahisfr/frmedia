@@ -36,7 +36,7 @@ function Sidebar() {
               </div>
             </a>
           </Link>
-          <Link className={styles.link} href="/profile">
+          <Link className={styles.link} href="profile">
             <a className={styles.a}>
               <div className={`${styles.group} ${id === "profile" && styles.blue}`}>
                 <CgProfile className={styles.icon} />
