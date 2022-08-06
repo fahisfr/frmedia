@@ -12,7 +12,6 @@ const loginMutation = gql`
       coverPic
       bio
       isVerified
-      token
     }
   }
 `;
@@ -28,7 +27,6 @@ const signUpMutation = gql`
       coverPic
       bio
       isVerified
-      token
     }
   }
 `;

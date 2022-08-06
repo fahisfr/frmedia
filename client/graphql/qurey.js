@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 const verifyUserNamesQuery = gql`
   query verifyUserName($userName: String!) {
@@ -18,6 +18,44 @@ const verifyEmailQuery = gql`
   }
 `;
 
+const HomeQuery = gql`
+  query home {
+    home {
+      userInfo {
+        _id
+        userName
+        email
+        followers
+        following
+        profilePic
+        coverPic
+        bio
+        isVerified
+      }
+      posts {
+        _id
+        userInfo {
+          _id
+          userName
+          email
+          followers
+          following
+          profilePic
+          coverPic
+          bio
+          isVerified
+        }
+        content
+        file {
+          type
+          name
+        }
+        likes
+        postAt
+        editedAt
+      }
+    }
+  }
+`;
 
-
-export { verifyEmailQuery, verifyUserNamesQuery };
+export { verifyEmailQuery, verifyUserNamesQuery, HomeQuery };

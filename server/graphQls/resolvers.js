@@ -1,7 +1,8 @@
-const loginController = require("../controller/login");
-const singUpController = require("../controller/signUp");
-const { verifyUserName, verifyEmail } = require("../controller/verifyNameAndEmail");
-
+const loginController = require("../controllers/login");
+const singUpController = require("../controllers/signUp");
+const { verifyUserName, verifyEmail } = require("../controllers/verifyNameAndEmail");
+const home = require("../controllers/home")
+const getPost = require("../controllers/getPost")
 
 
 
@@ -11,7 +12,10 @@ const resolvers = {
 
   Query: {
     verifyUserName,
-    verifyEmail
+    verifyEmail,
+    getPost,
+    home
+
   },
   
   Mutation: {

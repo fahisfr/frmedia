@@ -1,17 +1,22 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import styles from "./EditProfile.module.css";
 import { MdAddAPhoto } from "react-icons/md";
+import axios from "../../axios";
+import { useQuery } from "@apollo/client";
 
 function EditProfile({ trigger, setTrigger }) {
+  const [userInfo, setUserInfo] = useState({});
+
+
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
 
   const [profile, setProfile] = useState(null);
-  const [avatar, setAvatar] = useState(null);
+  const [coverPic, setcoverPic] = useState(null);
 
   const [profilePreview, setProfilePreview] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [coverPicPreview, setCoverPicPreview] = useState(null);
 
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
@@ -26,23 +31,27 @@ function EditProfile({ trigger, setTrigger }) {
       if (e.target.name === "profile") {
         setProfilePreview(reader.result);
         setProfile(file);
-      } else {
-        setAvatarPreview(reader.result);
-        setAvatar(file);
+      } else if (e.target.name === "coverPic") {
+        setCoverPicPreview(reader.result);
+        setcoverPic(file);
       }
     };
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("bio", bio);
-    formData.append("link", link);
-    formData.append("profile", profile);
-    formData.append("avatar", avatar);
+      const formData = new FormData();
+      bio && formData.append("bio", bio);
+      link && formData.append("link", link);
+      profile && formData.append("profile", profile);
+      coverPic && formData.append("coverPic", coverPic);
+
+      const { successs, message } = await axios.post("/editprofile", formData);
+      alert(message);
+    } catch (error) {}
   };
 
   const closePage = (e) => e.target === e.currentTarget && setTrigger(false);
@@ -53,7 +62,7 @@ function EditProfile({ trigger, setTrigger }) {
         <div className={styles.avatar}>
           <img
             className={styles.avatar_img}
-            src={avatarPreview ?? faker.image.image()}
+            src={coverPicPreview ?? faker.image.image()}
             onClick={() => avatarRef.current.click()}
           />
           <MdAddAPhoto className={styles.md_add_icon} />

@@ -6,8 +6,17 @@ import { FiShare } from "react-icons/fi";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
 
-function Post({}) {
-  const [filePreview, setFilePreview] = useState({ type: "image", url: "" });
+function Post({ post }) {
+  const {
+    id,
+    userInfo: { userName },
+    content,
+    file,
+    likes,
+    comments,
+    postAt,
+    editedAt,
+  } = post;
 
   const randomNum = () => Math.floor(Math.random() * 1e3);
 
@@ -29,16 +38,14 @@ function Post({}) {
               <div className={styles.ud}>
                 <div className={styles.group}>
                   <div className={styles.group_left}>
-                    <span className={styles.name}>{faker.name.findName()}</span>
+                    <span className={styles.name}>{userName}</span>
                   </div>
                   <div className={styles.group_right}>
                     <MdVerified size={20} color="007aed" />
                   </div>
                 </div>
                 <div className={styles.group}>
-                  <span className={styles.date}>{`${Math.floor(
-                    Math.random() * 24
-                  )}h ago`}</span>
+                  <span className={styles.date}>{`${postAt}h ago`}</span>
                 </div>
               </div>
             </div>
@@ -55,26 +62,30 @@ function Post({}) {
         </div>
 
         <div className={styles.body}>
-          <div className={styles.message}>
-            <span className={styles.text}>{faker.lorem.paragraph()}</span>
-          </div>
+          {content && (
+
+              <div className={styles.message}>
+                <span className={styles.text}>{content}</span>
+              </div>
+            
+          )}
+
           <div className={styles.vi}>
             <div className={styles.postFilePreivew}>
-              {filePreview.type === "image" ? (
-                <Link href="/dev/post/123/fv">
+              {file && file.type === "image" ? (
+                <Link href="/dev/post/123/fv ">
                   <a>
                     <img
                       className={styles.image}
-                      src={faker.image.imageUrl()}
-                      accept="image/*"
+                      src={`http://localhost:4000/image/${file.name}`}
                     />
                   </a>
                 </Link>
-              ) : filePreview.type === "video" ? (
+              ) : file.type === "video" ? (
                 <video
                   controls
                   src="/testvideo.mp4"
-                  className={styles.video}
+                  className={`http://localhost:4000/video/${file.name}`}
                 ></video>
               ) : null}
             </div>

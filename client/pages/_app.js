@@ -7,18 +7,12 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { ApolloLink } from "apollo-link";
-import { createUploadLink } from "apollo-upload-client";
-import { AppProps } from "next/app";
-import NavaBar from "../components/header/Header";
 import React from "react";
 
-// ComponetWihtPageLayout
-//set the page layout to the component as component.PageLayout
-// export default withApollo(MyApp);
-// export default MyApp;
 
 function MyApp({ Component, pageProps }) {
-  const httpLink = createUploadLink({
+ 
+  const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     credentials: "include",
   });

@@ -1,14 +1,8 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  scalar FileUpload
-
-  type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-  }
   type User {
+    _id: ID!
     userName: String!
     email: String!
     followers: [ID]!
@@ -17,22 +11,28 @@ const typeDefs = gql`
     coverPic: String!
     bio: String!
     isVerified: Boolean!
-    token: String!
-  }
-  type Post {
-    _id: ID!
-    userName: String!
-    caption: String!
-    file: String!
-    likes: [ID]
-    comments: [ID]
-    createdAt: String!
-    updatedAt: String!
+
   }
 
-  type HomePage {
+  type file {
+    type: String
+    name: String
+  }
+
+  type Post {
+    _id: ID!
+    userInfo: User
+    content: String
+    file: file
+    likes: [ID]
+    comments: [ID]
+    postAt: String!
+    editedAt: String
+  }
+
+  type Home {
     userInfo: User!
-    posts: [Post]
+    posts: [Post]!
   }
 
   type reslut {
@@ -43,13 +43,13 @@ const typeDefs = gql`
   type Query {
     verifyUserName(userName: String!): reslut!
     verifyEmail(email: String!): reslut!
-
+    home: Home
+    getPost(postId:String!): Post
   }
 
   type Mutation {
     signUp(userName: String!, email: String!, password: String!): User
     login(nameOrEmail: String!, password: String!): User
-    addPost(post: String, file: FileUpload): reslut
   }
 `;
 

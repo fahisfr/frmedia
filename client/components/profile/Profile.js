@@ -1,14 +1,17 @@
-import React from "react";
+import React,{useState} from "react";
 import styles from "./Profile.module.css";
 import { faker } from "@faker-js/faker";
 import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
-import Post from "../../components/post/Post";
 import EditProfile from "../editProfile/EditProfile";
 
-function Profile() {
-  const [editProfile, setEditProfile] = React.useState(false);
 
+
+function Profile() {
+
+
+
+  const [editProfile, setEditProfile] = React.useState(false);
   return (
     <div className="center">
       <EditProfile trigger={editProfile} setTrigger={setEditProfile} />
@@ -102,7 +105,7 @@ function Profile() {
           </div>
         </div>
       </div>
-      <Post />
+   
     </div>
   );
 }

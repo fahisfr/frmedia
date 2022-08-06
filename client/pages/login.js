@@ -3,25 +3,32 @@ import Link from "next/link";
 import { useState } from "react";
 import { loginrRequest } from "../graphql/mutations";
 import { useRouter } from 'next/router'
-import LeftBar from "../components/leftBar/LeftBar";
-import jwt from "jsonwebtoken";
+
 
 export const getServerSideProps = async ({req}) => {
- 
-  
 
-  return {
-    props: {
-      
-    },
-  };
+  const token = req.cookies.auth_token;
+
+  if (token){
+    return{
+      redirect:{
+        destination:"/",
+        permanent:false,
+
+      }
+    }
+  }
+
+  return{
+    props:{}
+  }
+
 };
 
-function Login( {user} ) {
+function Login( {} ) {
+
   const router = useRouter()
-  if (user) {
-    router.push("/")
-  }
+ 
    
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");

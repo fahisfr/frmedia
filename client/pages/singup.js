@@ -3,7 +3,28 @@ import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { singUpRequest } from "../graphql/mutations";
 import { verifyEmailQuery, verifyUserNamesQuery } from "../graphql/qurey";
-import { gql, useLazyQuery } from "@apollo/client";
+i
+
+
+
+export const getServerSideProps = async ({req}) => {
+  
+    const token = req.cookies.auth_token;
+  
+    if (token){
+      return{
+        redirect:{
+          destination:"/",
+          permanent:false,
+  
+        }
+      }
+    }
+  
+}
+
+
+
 
 function index() {
   const [name, setName] = useState("");

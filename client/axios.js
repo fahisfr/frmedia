@@ -2,8 +2,7 @@ import axios from 'axios';
 
 export const baseUrl = "http://localhost:4000"
 
-
-export const instance = axios.create({
+const instance = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
     headers: {

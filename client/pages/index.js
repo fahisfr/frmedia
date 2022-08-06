@@ -1,17 +1,21 @@
-import styles from "../styles/index.module.css";
 import AddPost from "../components/addPost/AddPost";
 import Post from "../components/post/Post";
-
 import MainLayout from "../layouts/Main";
+import { HomeQuery } from "../graphql/qurey";
+import { useQuery } from "@apollo/client";
 
-function Home() {
+
+function Home({}) {
+  const { data, loading, error } = useQuery(HomeQuery);
+ 
+
   return (
     <>
       <AddPost />
-      {new Array(10).fill(0).map((_, index) => {
-        return <Post key={index} />;
-      })}
-      <Post />
+      {data &&
+        data.home.posts.map((item, index) => {
+          return <Post post={item} key={index} />;
+        })}
     </>
   );
 }

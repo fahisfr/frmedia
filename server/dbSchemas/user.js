@@ -12,6 +12,8 @@ const user = new db.Schema({
   profilePic: { type: String, default: "default-profile.png" },
   coverPic: { type: String, default: "default-avatar.png" },
   bio: { type: String, default: "I am a new user" },
+  link: { type: String, },
+  posts: [{ type: db.Schema.Types.ObjectId, ref: "posts" }],
   isAdmin: { type: Boolean, default: false },
   isVerified: { type: Boolean, default: false },
   isBanned: { type: Boolean, default: false },

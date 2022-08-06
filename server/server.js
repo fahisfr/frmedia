@@ -16,6 +16,8 @@ const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+const shrap = require("sharp");
+const sharp = require("sharp");
 
 dbConn();
 
@@ -27,13 +29,18 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
-app.use("/addpost", auth, require("./controller/addPost"));
+app.post("/addpost", auth, require("./controllers/addPost"));
+app.post("/addcomment", auth, require("./controllers/addComment"));
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req, res }) => ({ req, res }),
 });
+
+
+
+
 
 server.start().then(() => {
   server.applyMiddleware({ app, cors: corsOptions });
