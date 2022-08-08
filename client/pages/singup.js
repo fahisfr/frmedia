@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
-import { singUpRequest } from "../graphql/mutations";
+import { mutRequest } from "../graphql/mutations";
 import { verifyEmailQuery, verifyUserNamesQuery } from "../graphql/qurey";
-i
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { SING_UP } from "../graphql/mutations";
 
+// export const getServerSideProps = async ({req}) => {
 
+//     const token = req.cookies.auth_token;
 
-export const getServerSideProps = async ({req}) => {
-  
-    const token = req.cookies.auth_token;
-  
-    if (token){
-      return{
-        redirect:{
-          destination:"/",
-          permanent:false,
-  
-        }
-      }
-    }
-  
-}
+//     if (token){
+//       return{
+//         redirect:{
+//           destination:"/",
+//           permanent:false,
 
+//         }
+//       }
+//     }
+//     return{
+//       props:{}
+//     }
 
-
+// }
 
 function index() {
-  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -49,11 +48,13 @@ function index() {
       loading: verifyNameLoading,
     },
   ] = useLazyQuery(verifyUserNamesQuery);
-  const [loginNow, { data, error, loading }] = singUpRequest(
-    name,
-    email,
-    password
-  );
+  const [loginNow, { data, error, loading }] = useMutation(SING_UP, {
+    variables: {
+      userName,
+      email,
+      password,
+    },
+  });
 
   const [focus, setFocus] = useState({
     name: false,
@@ -101,8 +102,8 @@ function index() {
                 type="text"
                 placeholder=" "
                 pattern="[a-zA-Z0-9]{3,13}"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 onBlur={onBlur}
                 focus={`${focus.name}`}
                 required
@@ -203,7 +204,12 @@ function index() {
             </div>
 
             <div
-              className={`${styles.form_bottom} ${ verifyNameLoading || verifyEmailLoading || loading  ? styles.btn_loading:null}`}>
+              className={`${styles.form_bottom} ${
+                verifyNameLoading || verifyEmailLoading || loading
+                  ? styles.btn_loading
+                  : null
+              }`}
+            >
               <button className={styles.form_button} onClick={onSubmit}>
                 <span className={styles.form_button_text}>Sing Up</span>
               </button>

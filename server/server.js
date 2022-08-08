@@ -16,8 +16,7 @@ const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
 const fileUpload = require("express-fileupload");
-const shrap = require("sharp");
-const sharp = require("sharp");
+
 
 dbConn();
 

@@ -52,10 +52,46 @@ const HomeQuery = gql`
         }
         likes
         postAt
-        editedAt
       }
     }
   }
 `;
 
-export { verifyEmailQuery, verifyUserNamesQuery, HomeQuery };
+
+const GET_POST = gql`
+  query getPost($postId: ID!) {
+    getPost(postId: $postId) {
+      _id
+      userInfo {
+        _id
+        userName
+        profilePic
+      }
+      content
+      file {
+        type
+        name
+      }
+      comments {
+        content
+        likes
+        file {
+          type
+          name
+        }
+        commentAt
+        userInfo {
+          _id
+          userName
+          profilePic
+          
+        }
+      }
+
+      likes
+      postAt
+    }
+  }
+`;
+
+export { verifyEmailQuery, verifyUserNamesQuery, HomeQuery, GET_POST };

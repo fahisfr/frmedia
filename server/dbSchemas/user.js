@@ -2,9 +2,9 @@ const db = require("mongoose");
 
 const user = new db.Schema({
   
-  userName: { type: String, required: true },
+  userName: { type: String, required: true , unique: true},
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true,select: false },
   CreaetAt: { type: Date, default: Date.now },
   posts: [{ type: db.Schema.Types.ObjectId, ref: "Post" }],
   followers: [{ type: db.Schema.Types.ObjectId, ref: "User" }],
@@ -17,7 +17,7 @@ const user = new db.Schema({
   isAdmin: { type: Boolean, default: false },
   isVerified: { type: Boolean, default: false },
   isBanned: { type: Boolean, default: false },
-  refreshToken: { type: String, default: null },
+  refreshToken: { type: String, default: null ,select: false},
   
 });
 

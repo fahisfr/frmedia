@@ -19,15 +19,26 @@ const typeDefs = gql`
     name: String
   }
 
-  type Post {
+  type commant{
     _id: ID!
+    content: String
+    file: file
+    likes: [ID]
+    commentAt: String
+    editedAt: String
+    userInfo: User
+  }
+
+
+
+  type Post {
+    _id: ID
     userInfo: User
     content: String
     file: file
     likes: [ID]
-    comments: [ID]
-    postAt: String!
-    editedAt: String
+    comments:[commant]
+    postAt: String
   }
 
   type Home {
@@ -44,7 +55,7 @@ const typeDefs = gql`
     verifyUserName(userName: String!): reslut!
     verifyEmail(email: String!): reslut!
     home: Home
-    getPost(postId:String!): Post
+    getPost(postId:ID!): Post
   }
 
   type Mutation {

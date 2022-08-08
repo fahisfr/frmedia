@@ -1,9 +1,10 @@
 const dbComment = require("../dbSchemas/comments");
 
 const addComment = async (req, res) => {
+  console.log(req.body);
   try {
     const {
-      body: { content, id: postId },
+      body: { content,  postId },
       user: { id },
     } = req;
 
@@ -19,6 +20,7 @@ const addComment = async (req, res) => {
 
     const getCommentInfo = () => {
       if (!file) {
+        console.log("no file");
         return { content };
       } else if (!content) {
         return {
@@ -32,23 +34,24 @@ const addComment = async (req, res) => {
       }
     };
 
-    const commentInfo = getCommenttInfo();
+    const commentInfo = getCommentInfo();
 
     const addComment = await dbComment.updateOne(
-      { postId },
+      { postId:postId },
       {
         $push: {
           comments: {
-            owner: id,
+            userId: id,
             ...commentInfo,
           },
         },
       }
     );
 
-    if (addComment) {
+
+    if (addComment?.modifiedCount>0) {
       file &&
-        file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);
+        file.mv(`./public/p/${commentInfo.file.type}/${commentInfo.file.name}`);
       res.json({ message: "Comment added successfully" });
     } else {
       res.json({ success: false, message: "Can't add comment" });

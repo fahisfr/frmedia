@@ -36,18 +36,18 @@ const addPost = async (req, res) => {
 
     const newPost = await dbPost.create({
       userName,
-      userInfo: id,
+      userId: id,
       ...postInfo,
     });
 
     if (newPost) {
 
-      file && file.mv(`./public/${postInfo.file.type}/${postInfo.file.name}`);
+      file && file.mv(`./public/p/${postInfo.file.type}/${postInfo.file.name}`);
       res.json({ message: "Post added successfully" });
       const commentDb = await dbComment.create({
         postId: newPost._id,
       });
-      newPost.comments = commentDb;
+      newPost.comment = commentDb._id
       newPost.save();
 
     } else {

@@ -10,7 +10,7 @@ const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPost({ Type }) {
+function AddPost({ comment, id }) {
   const inputRef = useRef(null);
   const fileRef = useRef(null);
 
@@ -21,24 +21,29 @@ function AddPost({ Type }) {
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
 
   const addPostNow = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    formData.append("file", file);
-    formData.append("content", postText);
+      formData.append("file", file);
+      formData.append("content", postText);
+      comment && formData.append("postId",id);
 
-    const {
-      data: { success, message },
+      const {
+        data: { success, message },
+      } = await axios.post(comment ? "/addcomment" : "/addpost", formData);
 
-    } = await axios.post("/addpost", formData);
-
-    if (!success){
-      alert(message);
+      if (!success) {
+        alert(message);
+      } else {
+        setPostText("");
+        setFilePreview({ type: "", url: "" });
+        setFile(null);
+      }
+    } catch (err) {
+      alert("oops something went wrong");
     }
-    setPostText("");
-    setFilePreview({ type: "", url: "" });
-    setFile(null);
   };
 
   const filePreviewNow = (e) => {
@@ -68,11 +73,6 @@ function AddPost({ Type }) {
 
   const TriggerEmojiPicker = () => setEmojiTrigger(!emojiTrigger);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    addPostNow();
-  };
-
   return (
     <div className={styles.addpost}>
       <div className={styles.add_pc_content}>
@@ -88,11 +88,7 @@ function AddPost({ Type }) {
               className={styles.input}
               type="text"
               value={postText}
-              placeholder={
-                Type?.type === "Command"
-                  ? "Write a comment"
-                  : "What's on your mind?"
-              }
+              placeholder={comment ? "Write a comment" : "What's on your mind?"}
               rows={1}
               ref={inputRef}
               pattern=" faasf"
@@ -168,7 +164,9 @@ function AddPost({ Type }) {
                   </button>
                 )}
                 <button onClick={addPostNow} className={styles.addPostButton}>
-                  <span className={styles.addpost_btn_text}>Post</span>
+                  <span className={styles.addpost_btn_text}>
+                    {comment ? "Comment" : "Post"}
+                  </span>
                 </button>
               </div>
             </div>

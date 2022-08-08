@@ -1,7 +1,15 @@
 import { gql, useMutation } from "@apollo/client";
 
+const ADD_COMMENT = gql`
+  mutation comment($postId: ID!, $comment: String!) {
+    addComment(postId: $postId, comment: $comment) {
+      status
+      message
+    }
+  }
+`;
 
-const loginMutation = gql`
+const LOGIN = gql`
   mutation login($nameOrEmail: String!, $password: String!) {
     login(nameOrEmail: $nameOrEmail, password: $password) {
       userName
@@ -16,7 +24,7 @@ const loginMutation = gql`
   }
 `;
 
-const signUpMutation = gql`
+const SING_UP = gql`
   mutation signUp($userName: String!, $email: String!, $password: String!) {
     signUp(userName: $userName, email: $email, password: $password) {
       userName
@@ -31,7 +39,7 @@ const signUpMutation = gql`
   }
 `;
 
-const addPostMutation = gql`
+const ADD_POST = gql`
   mutation addPost($post: String, $file: FileUpload) {
     addPost(post: $post, file: $file) {
       post
@@ -40,39 +48,10 @@ const addPostMutation = gql`
   }
 `;
 
-const addPostRequest = (post, file) => {
-  
-  const [addPostNow, { data, error, loading }] = useMutation(addPostMutation, {
-    variables: {
-      post,
-      file,
-    },
-  });
 
-  return [addPostNow, { data, error, loading }];
-};
 
-const loginrRequest = (nameOrEmail, password) => {
-  const [loginNow, { data, error, loading }] = useMutation(loginMutation, {
-    variables: {
-      nameOrEmail,
-      password,
-    },
-  });
-
-  return [loginNow, { data, error, loading }];
-};
-
-const singUpRequest = (userName, email, password) => {
-  const [singUpNow, { data, error, loading }] = useMutation(signUpMutation, {
-    variables: {
-      userName,
-      email,
-      password,
-    },
-  });
-
-  return [singUpNow, { data, error, loading }];
-};
-
-module.exports = { loginrRequest, singUpRequest, addPostRequest };
+module.exports = {
+  ADD_COMMENT,
+  LOGIN,
+  SING_UP,
+}

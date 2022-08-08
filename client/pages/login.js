@@ -1,9 +1,10 @@
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useState } from "react";
-import { loginrRequest } from "../graphql/mutations";
+import { mutRequtest } from "../graphql/mutations";
 import { useRouter } from 'next/router'
-
+import {LOGIN} from '../graphql/mutations'
+import { useMutation } from "@apollo/client";
 
 export const getServerSideProps = async ({req}) => {
 
@@ -33,15 +34,19 @@ function Login( {} ) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const [loginNow, { data, loading, error }] = loginrRequest(id, password);
-
+  const [sumitNow,{loading,error,data}] = useMutation(LOGIN,{
+    variables:{
+      nameOrEmail:id,
+      password
+    }
+  })
   data && router.push("/");
 
   const [Err, setError] = useState({ status: error, message: "" });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    loginNow();
+    sumitNow();
   };
 
   return (

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const postSchema = {
-  userInfo: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
     required: true,
@@ -26,7 +26,7 @@ const dbPost = mongoose.model(
     ...postSchema,
 
     postAt: { type: Date, default: Date.now },
-    comments: { type: mongoose.Schema.Types.ObjectId, ref: "comments" },
+    comment: { type: mongoose.Schema.Types.ObjectId, ref: "comments" },
   })
 );
 

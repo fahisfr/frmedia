@@ -5,20 +5,21 @@ import { MdVerified } from "react-icons/md";
 import { FiShare } from "react-icons/fi";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
+import {BiRepost} from "react-icons/bi";
+import {AiOutlineRetweet} from "react-icons/ai";
 
 function Post({ post }) {
   const {
-    id,
+    _id,
     userInfo: { userName },
     content,
     file,
     likes,
     comments,
     postAt,
-    editedAt,
   } = post;
 
-  const randomNum = () => Math.floor(Math.random() * 1e3);
+  const randomNum = () => Math.floor(Math.random() * 24);
 
   return (
     <div className={styles.post}>
@@ -38,14 +39,14 @@ function Post({ post }) {
               <div className={styles.ud}>
                 <div className={styles.group}>
                   <div className={styles.group_left}>
-                    <span className={styles.name}>{userName}</span>
+                    <span className={styles.name}>{faker.name.firstName()}</span>
                   </div>
                   <div className={styles.group_right}>
-                    <MdVerified size={20} color="007aed" />
+                    <MdVerified size={19} color="007aed" />
                   </div>
                 </div>
                 <div className={styles.group}>
-                  <span className={styles.date}>{`${postAt}h ago`}</span>
+                  <span className={styles.date}>{`${randomNum()}h ago`}</span>
                 </div>
               </div>
             </div>
@@ -63,11 +64,13 @@ function Post({ post }) {
 
         <div className={styles.body}>
           {content && (
-
-              <div className={styles.message}>
+            <Link href={`/${userName}/post/${_id}`}>
+              <a style={{color:"black"}}  >
+                <div className={styles.message}>
                 <span className={styles.text}>{content}</span>
               </div>
-            
+              </a>
+            </Link>
           )}
 
           <div className={styles.vi}>
@@ -77,15 +80,15 @@ function Post({ post }) {
                   <a>
                     <img
                       className={styles.image}
-                      src={`http://localhost:4000/image/${file.name}`}
+                      src={`http://localhost:4000/p/image/${file.name}`}
                     />
                   </a>
                 </Link>
-              ) : file.type === "video" ? (
+              ) : file?.type === "video" ? (
                 <video
                   controls
                   src="/testvideo.mp4"
-                  className={`http://localhost:4000/video/${file.name}`}
+                  className={`http://localhost:4000/p/video/${file.name}`}
                 ></video>
               ) : null}
             </div>
@@ -107,8 +110,12 @@ function Post({ post }) {
                     <BsChat className={styles.icons} />
                   </a>
                 </Link>
-
                 <span>{randomNum()}</span>
+              </button>
+            </div>
+            <div className={styles.footer_group}>
+              <button className={styles.button}>
+                <AiOutlineRetweet size={19} className={styles.icons} />
               </button>
             </div>
 

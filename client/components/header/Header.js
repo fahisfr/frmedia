@@ -27,25 +27,23 @@ function Header() {
             />
             <div className={styles.icon}></div>
             <div className={styles.result}>
-              {new Array(5).fill(0).map((item, index) => {
-                return (
-                  <div key={index} className={styles.result_item}>
+         
+                  <div  className={styles.result_item}>
                     <div className={styles.result_item_right}>
                       <img
                         className={styles.img}
-                        src={faker.image.avatar()}
+                      
                         alt=""
                       />
                     </div>
                     <div className={styles.result_item_left}>
                       <span className={styles.text}>
-                        {faker.name.findName()}
+                
                       </span>
                       <MdVerified className={styles.verified_icon} />
                     </div>
                   </div>
-                );
-              })}
+        
             </div>
           </div>
         </div>
