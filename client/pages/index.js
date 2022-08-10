@@ -3,7 +3,7 @@ import Post from "../components/post/Post";
 import MainLayout from "../layouts/Main";
 import { HomeQuery } from "../graphql/qurey";
 import { useQuery } from "@apollo/client";
-
+import JustLoading from "../components/justLoading/JustLoading";
 
 function Home({}) {
   const { data, loading, error } = useQuery(HomeQuery);

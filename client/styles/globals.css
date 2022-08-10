@@ -32,9 +32,6 @@
   margin: 0;
   font-family: sans-serif ;
 }
-body{
-  overflow: hidden;
-}
 
 textarea{
   
@@ -88,4 +85,15 @@ a {
 
   background-color:#007ce834;
   border-radius: 10px;
+}
+
+@keyframes just-loading {
+  0% {
+      transform: rotate(0deg);
+      
+      border-radius: 50%;
+  }
+  100% {
+      transform: rotate(360deg);
+  }
 }

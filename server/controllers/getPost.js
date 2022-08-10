@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const { dbPost } = require("../dbSchemas/post");
 const getPost = async (_, { postId }) => {
+
   try {
+    console.log(postId)
     let post = await dbPost.aggregate([
       {
         $match: {
@@ -40,7 +42,10 @@ const getPost = async (_, { postId }) => {
         },
       },
       {
-        $unwind: "$comments",
+        $unwind: {
+          path: "$comments",
+          preserveNullAndEmptyArrays: true,
+        }
       },
       {
         $lookup: {
@@ -95,6 +100,12 @@ const getPost = async (_, { postId }) => {
         },
       },
     ]);
+
+    const commentisEmpty = Object.keys(post[0].comments[0]).length === 0;
+
+    if (commentisEmpty){
+      post[0].comments = [];
+    }
 
     return post[0];
   } catch (err) {

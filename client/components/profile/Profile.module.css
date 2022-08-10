@@ -3,8 +3,7 @@
 }
 
 .cover_photo {
-
-    height: 11.5rem;
+    height: 200px;
     overflow: hidden;
 }
 
@@ -16,6 +15,7 @@
 
 .cover_img {
     width: 100%;
+
 }
 
 .profile {
@@ -163,7 +163,7 @@
     line-height: 1.350rem;
 }
 
-.bottom{
+.bottom {
 
     display: flex;
     padding-top: .7rem;
@@ -171,17 +171,18 @@
     border-bottom: 1px solid #e6e6e6;
 }
 
-.bv_group{
+.bv_group {
     padding: .9rem 3rem;
     cursor: pointer;
 }
 
-.bv_group:nth-child(1){
+.bv_group:nth-child(1) {
     border-bottom: 2px solid var(--default_blue);
-   
+
 }
-.bvn{
+
+.bvn {
     font-size: .970rem;
     color: var(--gray_700);
-    
+
 }

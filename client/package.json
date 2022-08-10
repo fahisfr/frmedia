@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@faker-js/faker": "^7.3.0",
+    "@reduxjs/toolkit": "^1.8.3",
     "apollo-link": "^1.2.14",
     "apollo-upload-client": "^17.0.0",
     "autosize": "^5.0.1",
@@ -22,7 +23,9 @@
     "next-auth": "^4.10.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-easy-crop": "^4.4.2",
     "react-icons": "^4.4.0",
+    "react-redux": "^8.0.2",
     "remove": "^0.1.5"
   },
   "devDependencies": {

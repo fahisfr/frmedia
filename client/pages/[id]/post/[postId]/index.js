@@ -3,8 +3,8 @@ import Post from "../../../../components/post/Post";
 import AddPost from "../../../../components/addPost/AddPost";
 import { useQuery, gql } from "@apollo/client";
 import MainLayout from "../../../../layouts/Main";
-import { GET_POST } from "../../../../graphql/qurey"
-
+import { GET_POST } from "../../../../graphql/qurey";
+import JustLoading from "../../../../components/justLoading/JustLoading";
 
 function Postv({ postId }) {
   const { data, error, loading } = useQuery(GET_POST, {
@@ -13,15 +13,21 @@ function Postv({ postId }) {
     },
   });
 
-
   return (
     <>
-      {data && <Post post={data?.getPost} />}
-      <AddPost comment={true} id={postId} />
-      {data &&
-        data.getPost.comments.map((comment, index) => {
-          return <Post key={index} post={comment} />;
-        })}
+      {loading ? (
+        <JustLoading />
+      ) : (
+        <>
+          <Post post={data?.getPost} />
+          <AddPost comment={true} id={postId} />
+
+          {data?.getPost?.comments?.map((comment, key) => {
+            <Post key={index} post={comment} />;
+          })}
+        </>
+      )}
+      ;
     </>
   );
 }
