@@ -1,10 +1,20 @@
 import { gql } from "@apollo/client";
+import {
+  POST_FIELDS,
+  HOME_FIELDS,
+  VERIFY_DATA_FIELDS,
+} from "../graphql/fragments";
 
 const verifyUserNamesQuery = gql`
+  ${VERIFY_DATA_FIELDS}
   query verifyUserName($userName: String!) {
     verifyUserName(userName: $userName) {
-      status
-      message
+      ... on VerifyData {
+        ...VerifyDataFields
+      }
+      ... on Error {
+        message
+      }
     }
   }
 `;
@@ -12,84 +22,41 @@ const verifyUserNamesQuery = gql`
 const verifyEmailQuery = gql`
   query vrifyEmail($email: String!) {
     verifyEmail(email: $email) {
-      approved
-      message
+      ... on VerifyData {
+        status
+        message
+      }
+      ... on Error {
+        message
+      }
     }
   }
 `;
 
 const HomeQuery = gql`
+  ${HOME_FIELDS}
   query home {
     home {
-      userInfo {
-        _id
-        userName
-        email
-        followers
-        following
-        profilePic
-        coverPic
-        bio
-        isVerified
+      ... on home {
+        ...HomeFields
       }
-      posts {
-        _id
-        userInfo {
-          _id
-          userName
-          email
-          followers
-          following
-          profilePic
-          coverPic
-          bio
-          isVerified
-        }
-        content
-        file {
-          type
-          name
-        }
-        likes
-        postAt
+      ... on Error {
+        message
       }
     }
   }
 `;
 
-
 const GET_POST = gql`
+  ${POST_FIELDS}
   query getPost($postId: ID!) {
     getPost(postId: $postId) {
-      _id
-      userInfo {
-        _id
-        userName
-        profilePic
+      ... on Post {
+        ...PostFields
       }
-      content
-      file {
-        type
-        name
+      ... on Error {
+        message
       }
-      comments {
-        content
-        likes
-        file {
-          type
-          name
-        }
-        commentAt
-        userInfo {
-          _id
-          userName
-          profilePic
-          
-        }
-      }
-
-      likes
-      postAt
     }
   }
 `;

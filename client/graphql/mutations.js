@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { POST_FIELDS, USER_FIELDS, COMMENT_FIELDS } from "../graphql/fragments";
 
 const ADD_COMMENT = gql`
   mutation comment($postId: ID!, $comment: String!) {
@@ -12,14 +13,12 @@ const ADD_COMMENT = gql`
 const LOGIN = gql`
   mutation login($nameOrEmail: String!, $password: String!) {
     login(nameOrEmail: $nameOrEmail, password: $password) {
-      userName
-      email
-      followers
-      following
-      profilePic
-      coverPic
-      bio
-      isVerified
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
     }
   }
 `;
@@ -27,23 +26,12 @@ const LOGIN = gql`
 const SING_UP = gql`
   mutation signUp($userName: String!, $email: String!, $password: String!) {
     signUp(userName: $userName, email: $email, password: $password) {
-      userName
-      email
-      followers
-      following
-      profilePic
-      coverPic
-      bio
-      isVerified
-    }
-  }
-`;
-
-const ADD_POST = gql`
-  mutation addPost($post: String, $file: FileUpload) {
-    addPost(post: $post, file: $file) {
-      post
-      file
+      ... on Success{
+        message
+      }
+      ... on Error{
+        message
+      }
     }
   }
 `;
@@ -54,4 +42,4 @@ module.exports = {
   ADD_COMMENT,
   LOGIN,
   SING_UP,
-}
+};

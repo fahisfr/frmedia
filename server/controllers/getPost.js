@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const { dbPost } = require("../dbSchemas/post");
+const {INTERNAL_SERVER_ERROR} = require("../config/customErrors");
+
 const getPost = async (_, { postId }) => {
 
   try {
-    console.log(postId)
     let post = await dbPost.aggregate([
       {
         $match: {
@@ -101,15 +102,29 @@ const getPost = async (_, { postId }) => {
       },
     ]);
 
+    console.log(post);
+
+    
+    if (post.length === 0) {
+      return {
+        __typename: "Error",
+        message: "Post not found",
+      }
+    }
+
     const commentisEmpty = Object.keys(post[0].comments[0]).length === 0;
 
     if (commentisEmpty){
       post[0].comments = [];
     }
-
-    return post[0];
+    return {
+      __typename: "Post",
+      ...post[0],
+    } 
   } catch (err) {
+    //se error line 
     console.log(err);
+    return INTERNAL_SERVER_ERROR;
   }
 };
 

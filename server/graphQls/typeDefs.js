@@ -11,7 +11,6 @@ const typeDefs = gql`
     coverPic: String!
     bio: String!
     isVerified: Boolean!
-
   }
 
   type file {
@@ -19,7 +18,7 @@ const typeDefs = gql`
     name: String
   }
 
-  type commant{
+  type commant {
     _id: ID!
     content: String
     file: file
@@ -29,38 +28,51 @@ const typeDefs = gql`
     userInfo: User
   }
 
-
-
   type Post {
     _id: ID
     userInfo: User
     content: String
     file: file
     likes: [ID]
-    comments:[commant]
+    comments: [commant]
     postAt: String
+    editedAt: String
   }
 
-  type Home {
-    userInfo: User!
-    posts: [Post]!
+  type Success {
+    message: String!
   }
 
-  type reslut {
-    status: Boolean!
+  type VerifyData {
+    status: Boolean
     message: String
   }
 
+  type Error {
+    message: String
+  }
+
+  type home {
+    userInfo: User!
+    posts: [Post]
+  }
+
+  union LoginRequest = Success | Error
+  union VerifyNameOrEmailRequest = VerifyData | Error
+  union GetPostRequest = Post | Error
+  union SingPpRequest = Success | Error
+  union HomeRequest = home | Error
+
   type Query {
-    verifyUserName(userName: String!): reslut!
-    verifyEmail(email: String!): reslut!
-    home: Home
-    getPost(postId:ID!): Post
+    verifyUserName(userName: String!): VerifyNameOrEmailRequest!
+    verifyEmail(email: String!): VerifyNameOrEmailRequest
+    home: HomeRequest
+    getPost(postId: ID!): GetPostRequest
   }
 
   type Mutation {
     signUp(userName: String!, email: String!, password: String!): User
-    login(nameOrEmail: String!, password: String!): User
+    login(nameOrEmail: String!, password: String!): LoginRequest
   }
 `;
 

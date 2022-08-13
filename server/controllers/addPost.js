@@ -2,6 +2,7 @@ const { dbPost } = require("../dbSchemas/post");
 const dbComment = require("../dbSchemas/comments");
 
 const addPost = async (req, res) => {
+  
   try {
     const {
       body: { content },

@@ -1,35 +1,44 @@
 const dbUser = require("../dbSchemas/user");
 const { UserInputError } = require("apollo-server-express");
 const jwt = require("jsonwebtoken");
+const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
 
 const login = async (_, { nameOrEmail, password }, { res }) => {
-  const isEmail = nameOrEmail.includes("@");
+  try {
+    const isEmail = nameOrEmail.includes("@");
 
-  const findUser = await dbUser.findOne({
-    [isEmail ? "email" : "userName"]: nameOrEmail,
-    password,
-  });
+    const findUser = await dbUser.findOne({
+      [isEmail ? "email" : "userName"]: nameOrEmail,
+      password,
+    });
 
-  if (!findUser) {
-    throw new UserInputError(
-      "Please check your Username/Email address and password"
+    if (!findUser) {
+      return {
+        __typename: "Error",
+        message: "Invalid username or password",
+      };
+    }
+
+    const token = jwt.sign(
+      { id: findUser._id, userName: findUser.userName },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "4d" }
     );
+
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      sameSite: "strict",
+    });
+
+    return {
+      __typename: "Success",
+      message: "login successfull",
+    };
+  } catch (error) {
+    return INTERNAL_SERVER_ERROR;
   }
-
-  const token = jwt.sign(
-    { id: findUser._id, userName: findUser.userName },
-    process.env.TOKEN_SECRET,
-    { expiresIn: "4d" }
-  );
-
-  res.cookie("auth_token", token, {
-    httpOnly: true,
-    secure: false,
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-    sameSite: "strict",
-  });
-
-  return { ...findUser._doc};
 };
 
 module.exports = login;

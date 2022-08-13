@@ -13,6 +13,7 @@
 .container{
     
    padding: 1rem 3rem;
+   background-color: var(--gray_50);
    
 }
 
@@ -21,7 +22,7 @@
     gap: 2rem;
     border-radius: 5px;
     background-color: var(--gray_50);
-    box-shadow: var(--default_shadow);
+    
 }
 
 .a{
@@ -34,12 +35,17 @@
     align-items: center;
     padding: 1rem 3rem 1rem .5rem;
     column-gap: .6rem;
+    border-bottom: 1px solid var(--gray_300);
+  
 }
 
 .group:hover{
-
     background-color: var(--gray_100);
     border-radius: 5px;
+}
+
+.group:active{
+    
 }
 
 .icon{
@@ -48,7 +54,7 @@
 
 .text{
 
-    font-size: 1.1rem;
+    font-size: 1.070rem;
     font-weight: 300;
 }
 
@@ -139,4 +145,6 @@
 
 .blue{
     color: var(--default_blue);
+    border-bottom: 1px solid var(--default_blue);
 }
+

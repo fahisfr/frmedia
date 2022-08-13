@@ -27,22 +27,29 @@ export const getServerSideProps = async ({req}) => {
 };
 
 function Login( {} ) {
-
-  const router = useRouter()
- 
    
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(null);
 
   const [sumitNow,{loading,error,data}] = useMutation(LOGIN,{
     variables:{
       nameOrEmail:id,
       password
+    },
+    onCompleted({login}){
+      if(login.status){
+        router.push("/")
+      }else{
+        setLoginError(login.message)
+      }
     }
   })
-  data && router.push("/");
 
-  const [Err, setError] = useState({ status: error, message: "" });
+
+  loginError && alert(loginError)
+
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -83,8 +90,8 @@ function Login( {} ) {
                 required
               />
               <label className={styles.form_label}>Password</label>
-              {Err && (
-                <span className={styles.l_error_message}>{Err.message}</span>
+              {loginError && (
+                <span className={styles.l_error_message}>{loginError}</span>
               )}
             </div>
 

@@ -11,7 +11,7 @@ function Profile() {
 
 
 
-  const [editProfile, setEditProfile] = React.useState(true);
+  const [editProfile, setEditProfile] = useState(false);
   return (
     <div className="center">
       <EditProfile trigger={editProfile} setTrigger={setEditProfile} />

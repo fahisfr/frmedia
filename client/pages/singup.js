@@ -38,6 +38,7 @@ function index() {
       error: verifyEmailError,
       loading: verifyEmailLoading,
     },
+    
   ] = useLazyQuery(verifyEmailQuery);
 
   const [

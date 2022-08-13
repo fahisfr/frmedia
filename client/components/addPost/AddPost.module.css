@@ -181,6 +181,7 @@
     border: none;
     border-radius: 29px;
     background-color: var(--default_blue);
+    cursor: pointer;
 }
 
 
@@ -203,7 +204,7 @@
     font-size: 0.9rem;
     font-weight: 500;
     color: #ffffff;
-    cursor: pointer;
+
 
 }
 

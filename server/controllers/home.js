@@ -1,8 +1,10 @@
 const dbUser = require("../dbSchemas/user");
 const { dbPost } = require("../dbSchemas/post");
+const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
 
-const home = async (_) => {
+const home = async (_,) => {
   try {
+    
     const userInfo = await dbUser.findById("62ead02431f8c32a78c6a91a");
     const posts = await dbPost.aggregate([
       {
@@ -30,10 +32,15 @@ const home = async (_) => {
         }
       }
     ]);
+    
+    return{
+      __typename:"home",
+      userInfo,
+      posts
 
-    return { userInfo, posts:posts };
+    }
   } catch (err) {
-    console.log(err);
+    return INTERNAL_SERVER_ERROR
   }
 };
 
