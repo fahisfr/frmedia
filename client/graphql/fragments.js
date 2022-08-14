@@ -40,25 +40,21 @@ const POST_FIELDS = gql`
     file {
       ...FileFields
     }
-    likes
-    editedAt
-    postAt
+    likesCount
+    commentsCount
+    liked
   }
 `;
 
 const COMMENT_FIELDS = gql`
   ${FILE_FIELDS}
-
   fragment CommentFields on comment {
     _id
-    postId
     content
     file {
       ...FileFields
     }
-    likes
-    commentAt
-    editedAt
+    likesCount
   }
 `;
 
@@ -74,8 +70,6 @@ const HOME_FIELDS = gql`
     }
   }
 `;
-
-
 
 export {
   USER_FIELDS,

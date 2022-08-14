@@ -3,6 +3,9 @@ import {
   POST_FIELDS,
   HOME_FIELDS,
   VERIFY_DATA_FIELDS,
+  COMMENT_FIELDS,
+  USER_FIELDS,
+  FILE_FIELDS,
 } from "../graphql/fragments";
 
 const verifyUserNamesQuery = gql`
@@ -49,10 +52,27 @@ const HomeQuery = gql`
 
 const GET_POST = gql`
   ${POST_FIELDS}
+  ${USER_FIELDS}
+  ${FILE_FIELDS}
   query getPost($postId: ID!) {
     getPost(postId: $postId) {
       ... on Post {
         ...PostFields
+        userInfo {
+          ...UserFields
+        }
+        comments{
+          _id
+          content
+          file {
+            ...FileFields
+          }
+          likesCount
+          userInfo{
+            ...UserFields
+            }
+        }
+      
       }
       ... on Error {
         message

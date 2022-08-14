@@ -5,8 +5,11 @@ import { MdVerified } from "react-icons/md";
 import { FiShare } from "react-icons/fi";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
-import {BiRepost} from "react-icons/bi";
-import {AiOutlineRetweet} from "react-icons/ai";
+import { BiRepost } from "react-icons/bi";
+import { AiOutlineRetweet } from "react-icons/ai";
+import { FcLike } from "react-icons/fc";
+import { LIKE_POST, UNLIKE_POST } from "../../graphql/mutations";
+import { useMutation } from "@apollo/client";
 
 function Post({ post }) {
   const {
@@ -14,12 +17,45 @@ function Post({ post }) {
     userInfo: { userName },
     content,
     file,
-    likes,
-    comments,
+    likesCount,
+    commentsCount,
     postAt,
+    liked,
   } = post;
 
   const randomNum = () => Math.floor(Math.random() * 24);
+
+  const [
+    likePostNow,
+    { data: likeData, error: likeError, loading: likeLoading },
+  ] = useMutation(LIKE_POST, {
+    variables: {
+      postId: _id,
+    },
+    onCompleted: (data) => {},
+  });
+
+  const [
+    unlikePostNow,
+    { data: unlikeData, error: unlikeError, loading: unlikeLoading },
+  ] = useMutation(UNLIKE_POST, {
+    variables: {
+      postId: _id,
+    },
+    onCompleted: (data) => {},
+  });
+
+  const likePost = (e) => {
+    e.preventDefault();
+
+    if (liked) {
+      unlikePostNow();
+    } else {
+      likePostNow();
+    }
+  };
+  
+  console.log(liked)
 
   return (
     <div className={styles.post}>
@@ -39,7 +75,7 @@ function Post({ post }) {
               <div className={styles.ud}>
                 <div className={styles.group}>
                   <div className={styles.group_left}>
-                    <span className={styles.name}>{faker.name.firstName()}</span>
+                    <span className={styles.name}>{userName}</span>
                   </div>
                   <div className={styles.group_right}>
                     <MdVerified size={19} color="007aed" />
@@ -65,10 +101,10 @@ function Post({ post }) {
         <div className={styles.body}>
           {content && (
             <Link href={`/${userName}/post/${_id}`}>
-              <a style={{color:"black"}}  >
+              <a style={{ color: "black" }}>
                 <div className={styles.message}>
-                <span className={styles.text}>{content}</span>
-              </div>
+                  <span className={styles.text}>{content}</span>
+                </div>
               </a>
             </Link>
           )}
@@ -80,7 +116,7 @@ function Post({ post }) {
                   <a>
                     <img
                       className={styles.image}
-                      src={`http://localhost:4000/p/image/${file.name}`}
+                      src={`http://localhost:4000/image/${file.name}`}
                     />
                   </a>
                 </Link>
@@ -88,7 +124,7 @@ function Post({ post }) {
                 <video
                   controls
                   src="/testvideo.mp4"
-                  className={`http://localhost:4000/p/video/${file.name}`}
+                  className={`http://localhost:4000/video/${file.name}`}
                 ></video>
               ) : null}
             </div>
@@ -97,9 +133,14 @@ function Post({ post }) {
         <footer className={styles.footer}>
           <div className={styles.footer_conten}>
             <div className={styles.footer_group}>
-              <button className={styles.button}>
-                <BsHeart className={styles.icons} />
-                <span>{randomNum()}</span>
+              <button className={styles.button} onClick={likePost}>
+                {liked ? (
+                  <FcLike className={styles.icons} />
+                ) : (
+                  <BsHeart className={`${styles.icons} ${styles.liked}`} />
+                )}
+
+                <span>{likesCount}</span>
               </button>
             </div>
 
@@ -110,7 +151,7 @@ function Post({ post }) {
                     <BsChat className={styles.icons} />
                   </a>
                 </Link>
-                <span>{randomNum()}</span>
+                <span>{commentsCount}</span>
               </button>
             </div>
             <div className={styles.footer_group}>

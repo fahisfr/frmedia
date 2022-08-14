@@ -9,20 +9,20 @@ import {
 import { ApolloLink } from "apollo-link";
 import React from "react";
 
-
 function MyApp({ Component, pageProps }) {
- 
   const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     credentials: "include",
   });
 
-  const authMiddleware = new ApolloLink((operation, forward) => {
+  const authMiddleware = new ApolloLink((operation, forward,) => {
     operation.setContext({
       headers: {
         authorization: localStorage.getItem("auth_token") || null,
       },
     });
+
+  
     return forward(operation);
   });
 

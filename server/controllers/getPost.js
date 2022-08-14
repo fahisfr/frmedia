@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
-const { dbPost } = require("../dbSchemas/post");
-const {INTERNAL_SERVER_ERROR} = require("../config/customErrors");
+const dbPost = require("../dbSchemas/post");
+const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
 
-const getPost = async (_, { postId }) => {
-
+const getPost = async (_, { postId }, { req }) => {
   try {
-    let post = await dbPost.aggregate([
+    const { id } = req.user;
+
+    const post = await dbPost.aggregate([
       {
         $match: {
           _id: mongoose.Types.ObjectId(postId),
@@ -20,34 +21,14 @@ const getPost = async (_, { postId }) => {
         },
       },
       {
-        $lookup: {
-          from: "comments",
-          localField: "comment",
-          foreignField: "_id",
-          as: "comments",
+        $set: {
+          userInfo: { $arrayElemAt: ["$userInfo", 0] },
         },
       },
       {
-        $project: {
-          _id: 1,
-          userInfo: {
-            $arrayElemAt: ["$userInfo", 0],
-          },
-          content: 1,
-          file: 1,
-          postAt: 1,
-          likes: 1,
-          comments: {
-            $arrayElemAt: ["$comments.comments", 0],
-          },
-        },
+        $unwind: "$comments",
       },
-      {
-        $unwind: {
-          path: "$comments",
-          preserveNullAndEmptyArrays: true,
-        }
-      },
+
       {
         $lookup: {
           from: "users",
@@ -56,74 +37,33 @@ const getPost = async (_, { postId }) => {
           as: "comments.userInfo",
         },
       },
-      {
-        $project: {
-          _id: 1,
-          userInfo: 1,
-          content: 1,
-          file: 1,
-          postAt: 1,
-          likes: 1,
-          comments: {
-            _id: 1,
-            content: 1,
-            file: 1,
-            likes: 1,
-            commentAt: 1,
-            userInfo: {
-              $arrayElemAt: ["$comments.userInfo", 0],
-            },
-          },
-        }
-      },
-      
+
       {
         $group: {
           _id: "$_id",
-          userInfo: {
-            $first: "$userInfo",
-          },
-          content: {
-            $first: "$content",
-          },
-          file: {
-            $first: "$file",
-          },
-          likes: {
-            $first: "$likes",
-          },
-          postAt:{
-            $first: "$postAt"
-          },
-          comments: {
-            $push: "$comments",
-          },
+          userInfo: { $first: "$userInfo" },
+          content: { $first: "$content" },
+          file: { $first: "$file" },
+          likesCount: { $first: "$likesCount" },
+          commentsCount: { $first: "$commentsCount" },
+          comments: { $push: "$comments" },
+          liked: { $first: { $in: [id, "$likes"] } },
         },
       },
     ]);
 
-    console.log(post);
-
-    
     if (post.length === 0) {
       return {
         __typename: "Error",
         message: "Post not found",
-      }
+      };
     }
 
-    const commentisEmpty = Object.keys(post[0].comments[0]).length === 0;
-
-    if (commentisEmpty){
-      post[0].comments = [];
-    }
     return {
       __typename: "Post",
       ...post[0],
-    } 
+    };
   } catch (err) {
-    //se error line 
-    console.log(err);
     return INTERNAL_SERVER_ERROR;
   }
 };

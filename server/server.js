@@ -16,7 +16,7 @@ const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
 const fileUpload = require("express-fileupload");
-
+const jwt = require("jsonwebtoken");
 
 dbConn();
 
@@ -34,12 +34,30 @@ app.post("/addcomment", auth, require("./controllers/addComment"));
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res }) => ({ req, res }),
+  context: ({ req, res }) => {
+    try {
+      const token = req.cookies.auth_token;
+      if (token) {
+        jwt.verify(
+          req.cookies.auth_token,
+          process.env.TOKEN_SECRET,
+          (err, decode) => {
+            if (err) {
+              throw new Error("unauthorized");
+            }
+            req.user=decode
+            
+          }
+        );
+      }
+  
+      return{req,res};
+      
+    } catch (error) {
+      throw new Error("oops somthing went wrong:(");
+    }
+  },
 });
-
-
-
-
 
 server.start().then(() => {
   server.applyMiddleware({ app, cors: corsOptions });

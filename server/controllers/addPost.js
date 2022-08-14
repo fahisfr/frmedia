@@ -1,5 +1,4 @@
-const { dbPost } = require("../dbSchemas/post");
-const dbComment = require("../dbSchemas/comments");
+const  dbPost  = require("../dbSchemas/post");
 
 const addPost = async (req, res) => {
   
@@ -43,13 +42,8 @@ const addPost = async (req, res) => {
 
     if (newPost) {
 
-      file && file.mv(`./public/p/${postInfo.file.type}/${postInfo.file.name}`);
+      file && file.mv(`./public/${postInfo.file.type}/${postInfo.file.name}`);
       res.json({ message: "Post added successfully" });
-      const commentDb = await dbComment.create({
-        postId: newPost._id,
-      });
-      newPost.comment = commentDb._id
-      newPost.save();
 
     } else {
       res.json({ success: false, message: "can't add post" });

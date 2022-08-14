@@ -1,4 +1,5 @@
-const dbComment = require("../dbSchemas/comments");
+
+const dbPost = require("../dbSchemas/post");
 
 const addComment = async (req, res) => {
   console.log(req.body);
@@ -36,7 +37,7 @@ const addComment = async (req, res) => {
 
     const commentInfo = getCommentInfo();
 
-    const addComment = await dbComment.updateOne(
+    const addComment = await dbPost.updateOne(
       { postId:postId },
       {
         $push: {
@@ -51,7 +52,7 @@ const addComment = async (req, res) => {
 
     if (addComment?.modifiedCount>0) {
       file &&
-        file.mv(`./public/p/${commentInfo.file.type}/${commentInfo.file.name}`);
+        file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);
       res.json({ message: "Comment added successfully" });
     } else {
       res.json({ success: false, message: "Can't add comment" });

@@ -11,6 +11,7 @@ function Postv({ postId }) {
     variables: {
       postId,
     },
+    onCompleted: (data) => {},
   });
 
   return (
@@ -21,9 +22,8 @@ function Postv({ postId }) {
         <>
           <Post post={data?.getPost} />
           <AddPost comment={true} id={postId} />
-
-          {data?.getPost?.comments?.map((comment, key) => {
-            <Post key={index} post={comment} />;
+          {data?.getPost?.comments?.map((comment, index) => {
+            return <Post key={index} post={comment} />;
           })}
         </>
       )}

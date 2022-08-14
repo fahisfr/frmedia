@@ -26,8 +26,14 @@ const dbPost = mongoose.model(
     ...postSchema,
 
     postAt: { type: Date, default: Date.now },
-    comment: { type: mongoose.Schema.Types.ObjectId, ref: "comments" },
+    comments: [
+      {
+        ...postSchema,
+        commentAt: { type: Date, default: Date.now },
+        reply: [{ ...postSchema, replyAt: { type: Date, default: Date.now } }],
+      },
+    ],
   })
 );
 
-module.exports = { dbPost, postSchema };
+module.exports =  dbPost;

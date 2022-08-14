@@ -1,5 +1,4 @@
 const dbUser = require("../dbSchemas/user");
-const { UserInputError } = require("apollo-server-express");
 const jwt = require("jsonwebtoken");
 const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
 
@@ -22,7 +21,7 @@ const login = async (_, { nameOrEmail, password }, { res }) => {
     const token = jwt.sign(
       { id: findUser._id, userName: findUser.userName },
       process.env.TOKEN_SECRET,
-      { expiresIn: "4d" }
+      { expiresIn: "69d" }
     );
 
     res.cookie("auth_token", token, {
@@ -37,6 +36,7 @@ const login = async (_, { nameOrEmail, password }, { res }) => {
       message: "login successfull",
     };
   } catch (error) {
+    console.log(error);
     return INTERNAL_SERVER_ERROR;
   }
 };

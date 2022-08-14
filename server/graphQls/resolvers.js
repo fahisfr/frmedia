@@ -1,11 +1,12 @@
 const login = require("../controllers/login");
 const signUp = require("../controllers/signUp");
+const { likePost, unLikePost } = require("../controllers/likeAndUnLikePost");
+const home = require("../controllers/home");
+const getPost = require("../controllers/getPost");
 const {
   verifyUserName,
   verifyEmail,
 } = require("../controllers/verifyNameAndEmail");
-const home = require("../controllers/home");
-const getPost = require("../controllers/getPost");
 
 const resolvers = {
   Query: {
@@ -17,7 +18,9 @@ const resolvers = {
 
   Mutation: {
     login,
-    signUp
+    signUp,
+    likePost,
+    unLikePost,
   },
 };
 

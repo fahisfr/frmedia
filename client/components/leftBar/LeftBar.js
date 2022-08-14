@@ -11,12 +11,7 @@ import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 
 
-const randomUser = new Array(15).fill(0).map((item, index) => {
-  return {
-    name: faker.name.findName(),
-    img: faker.image.avatar(),
-  };
-})
+const randomUser = []
 
 function Sidebar() {
 

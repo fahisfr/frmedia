@@ -26,20 +26,46 @@ const LOGIN = gql`
 const SING_UP = gql`
   mutation signUp($userName: String!, $email: String!, $password: String!) {
     signUp(userName: $userName, email: $email, password: $password) {
-      ... on Success{
+      ... on Success {
         message
       }
-      ... on Error{
+      ... on Error {
         message
       }
     }
   }
 `;
 
+const LIKE_POST = gql`
+  mutation likePost($postId: ID!) {
+    likePost(postId: $postId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
 
+const UNLIKE_POST = gql`
+ mutation unlikePost($postId: ID!) {
+    unLikePost(postId: $postId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`
 
 module.exports = {
   ADD_COMMENT,
   LOGIN,
   SING_UP,
+  LIKE_POST,
+  UNLIKE_POST,
 };

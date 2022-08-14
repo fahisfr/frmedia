@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "../../components/profile/Profile";
 import MainLayout from "../../layouts/Main";
 
-function index() {
+function Index() {
   return (
     <>
       <Profile />
@@ -10,6 +10,6 @@ function index() {
   );
 }
 
-index.PageLayout = MainLayout;
+Index.PageLayout = MainLayout;
 
-export default index;
+export default Index;
