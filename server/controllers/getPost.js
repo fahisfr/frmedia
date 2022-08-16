@@ -26,8 +26,12 @@ const getPost = async (_, { postId }, { req }) => {
         },
       },
       {
-        $unwind: "$comments",
+        $unwind: {
+          path: "$comments",
+          preserveNullAndEmptyArrays: true,
+        },
       },
+      
 
       {
         $lookup: {
@@ -37,6 +41,7 @@ const getPost = async (_, { postId }, { req }) => {
           as: "comments.userInfo",
         },
       },
+     
 
       {
         $group: {

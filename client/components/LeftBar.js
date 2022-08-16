@@ -1,8 +1,7 @@
 import React from "react";
-import styles from "./Leftbar.module.css";
+import styles from "../styles/leftBar.module.css";
 
 import Link from "next/link";
-import { faker } from "@faker-js/faker";
 import { AiOutlineHome, AiOutlineFire } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";

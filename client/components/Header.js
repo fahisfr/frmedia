@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./header.module.css";
+import styles from "../styles/header.module.css";
 import Link from "next/link";
 import { BsFillBellFill } from "react-icons/bs";
 import { faker } from "@faker-js/faker";

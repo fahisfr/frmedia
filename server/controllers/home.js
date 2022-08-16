@@ -42,6 +42,7 @@ const home = async (_, __, { req }, info) => {
       },
     ]);
 
+
     return {
       __typename: "home",
       userInfo,

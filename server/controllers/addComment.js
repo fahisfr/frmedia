@@ -1,44 +1,22 @@
-
 const dbPost = require("../dbSchemas/post");
+const { getPostInfo } = require("./helper");
 
 const addComment = async (req, res) => {
-  console.log(req.body);
   try {
     const {
-      body: { content,  postId },
+      body: { content, postId=undefi },
       user: { id },
     } = req;
 
     const file = req.files?.file;
 
-    const getFileInfo = () => {
-      const [type, extension] = file.mimetype.split("/");
-      return {
-        type,
-        name: `${new Date().getTime()}.${extension}`,
-      };
-    };
 
-    const getCommentInfo = () => {
-      if (!file) {
-        console.log("no file");
-        return { content };
-      } else if (!content) {
-        return {
-          file: getFileInfo(),
-        };
-      } else {
-        return {
-          content,
-          file: getFileInfo(),
-        };
-      }
-    };
+    const commentInfo = getPostInfo(file, content);
 
-    const commentInfo = getCommentInfo();
-
+    console.log("this post id " , postId);
+    
     const addComment = await dbPost.updateOne(
-      { postId:postId },
+      { _id: postId },
       {
         $push: {
           comments: {
@@ -48,9 +26,11 @@ const addComment = async (req, res) => {
         },
       }
     );
+    
+    console.log(addComment);
 
+    if (addComment?.modifiedCount > 0) {
 
-    if (addComment?.modifiedCount>0) {
       file &&
         file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);
       res.json({ message: "Comment added successfully" });
@@ -58,6 +38,7 @@ const addComment = async (req, res) => {
       res.json({ success: false, message: "Can't add comment" });
     }
   } catch (err) {
+    console.log(err);
     res.json({ success: false, message: "oops something went wrong" });
   }
 };

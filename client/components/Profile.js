@@ -1,9 +1,9 @@
 import React,{useState} from "react";
-import styles from "./Profile.module.css";
+import styles from "../styles/profile.module.css";
 import { faker } from "@faker-js/faker";
 import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
-import EditProfile from "../editProfile/EditProfile";
+import EditProfile from "./EditProfile";
 
 
 

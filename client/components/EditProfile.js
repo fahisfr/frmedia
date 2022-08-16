@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
-import styles from "./EditProfile.module.css";
+import styles from "../styles/editProfile.module.css";
 import { MdAddAPhoto } from "react-icons/md";
-import axios from "../../axios";
+import axios from "../axios";
 
 
 function EditProfile({ trigger, setTrigger }) {

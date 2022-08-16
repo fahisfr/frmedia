@@ -30,6 +30,7 @@ app.use(fileUpload());
 
 app.post("/addpost", auth, require("./controllers/addPost"));
 app.post("/addcomment", auth, require("./controllers/addComment"));
+app.post("/reply-to-comment", auth, require("./controllers/replyToComment"));
 
 const server = new ApolloServer({
   typeDefs,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./Post.module.css";
+import styles from "../styles/pcr.module.css";
 import { faker } from "@faker-js/faker";
 import { MdVerified } from "react-icons/md";
 import { FiShare } from "react-icons/fi";
@@ -8,8 +8,9 @@ import Link from "next/link";
 import { BiRepost } from "react-icons/bi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { FcLike } from "react-icons/fc";
-import { LIKE_POST, UNLIKE_POST } from "../../graphql/mutations";
+import { LIKE_POST, UNLIKE_POST } from "../graphql/mutations";
 import { useMutation } from "@apollo/client";
+import AddPost from "./AddPCR";
 
 function Post({ post }) {
   const {
@@ -54,11 +55,29 @@ function Post({ post }) {
       likePostNow();
     }
   };
-  
-  console.log(liked)
+
+  const fillterContent = () => {
+    return content.split(" ").map((word) => {
+      if (word.startsWith("#")) {
+        return (
+          <Link href={`/hashtag/${word.slice(1)}`}>
+            <a>{word} </a>
+          </Link>
+        );
+      } else if (word.startsWith("@")) {
+        return (
+          <Link href={`/user/${word.slice(1)}`}>
+            <a>{word} </a>
+          </Link>
+        );
+      } else {
+        return <span>{word} </span>;
+      }
+    });
+  };
 
   return (
-    <div className={styles.post}>
+    <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.profile}>
           <img
@@ -102,9 +121,7 @@ function Post({ post }) {
           {content && (
             <Link href={`/${userName}/post/${_id}`}>
               <a style={{ color: "black" }}>
-                <div className={styles.message}>
-                  <span className={styles.text}>{content}</span>
-                </div>
+                <div className={styles.message}>{fillterContent()}</div>
               </a>
             </Link>
           )}
@@ -131,40 +148,38 @@ function Post({ post }) {
           </div>
         </div>
         <footer className={styles.footer}>
-          <div className={styles.footer_conten}>
-            <div className={styles.footer_group}>
-              <button className={styles.button} onClick={likePost}>
-                {liked ? (
-                  <FcLike className={styles.icons} />
-                ) : (
-                  <BsHeart className={`${styles.icons} ${styles.liked}`} />
-                )}
+          <div className={styles.footer_group}>
+            <button className={styles.button} onClick={likePost}>
+              {liked ? (
+                <FcLike className={styles.icons} />
+              ) : (
+                <BsHeart className={`${styles.icons} ${styles.liked}`} />
+              )}
 
-                <span>{likesCount}</span>
-              </button>
-            </div>
+              <span>{likesCount}</span>
+            </button>
+          </div>
 
-            <div className={styles.footer_group}>
-              <button className={styles.button}>
-                <Link href="/command">
-                  <a>
-                    <BsChat className={styles.icons} />
-                  </a>
-                </Link>
-                <span>{commentsCount}</span>
-              </button>
-            </div>
-            <div className={styles.footer_group}>
-              <button className={styles.button}>
-                <AiOutlineRetweet size={19} className={styles.icons} />
-              </button>
-            </div>
+          <div className={styles.footer_group}>
+            <button className={styles.button}>
+              <Link href="/command">
+                <a>
+                  <BsChat className={styles.icons} />
+                </a>
+              </Link>
+              <span>{commentsCount}</span>
+            </button>
+          </div>
+          <div className={styles.footer_group}>
+            <button className={styles.button}>
+              <AiOutlineRetweet size={19} className={styles.icons} />
+            </button>
+          </div>
 
-            <div className={styles.footer_group}>
-              <button className={styles.button}>
-                <FiShare className={styles.icons} />
-              </button>
-            </div>
+          <div className={styles.footer_group}>
+            <button className={styles.button}>
+              <FiShare className={styles.icons} />
+            </button>
           </div>
         </footer>
       </div>

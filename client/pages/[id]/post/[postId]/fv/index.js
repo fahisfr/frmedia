@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./PostFv.module.css";
 import { faker } from "@faker-js/faker";
-import Posts from "../../../../../components/post/Post";
-import AddPost from "../../../../../components/addPost/AddPost";
+import Posts from "../../../../../components/Post";
+import AddPost from "../../../../../components/AddPost";
 
 function PostFv({ trigger, setTrigger }) {
   return (

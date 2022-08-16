@@ -30,7 +30,7 @@ const dbPost = mongoose.model(
       {
         ...postSchema,
         commentAt: { type: Date, default: Date.now },
-        reply: [{ ...postSchema, replyAt: { type: Date, default: Date.now } }],
+        replies: [{ ...postSchema, replyAt: { type: Date, default: Date.now } }]
       },
     ],
   })

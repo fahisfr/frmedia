@@ -1,9 +1,7 @@
-import Header from "../components/header/Header";
-import RightBar from "../components/rightBar/RightBar";
-import LeftBar from "../components/leftBar/LeftBar";
+import Header from "../components/Header";
+import RightBar from "../components/RightBar";
+import LeftBar from "../components/LeftBar";
 import { useRouter } from "next/router";
-import AddPost from "../components/addPost/AddPost";
-import Post from "../components/post/Post";
 function Main(page) {
   const router = useRouter();
 

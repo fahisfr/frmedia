@@ -1,10 +1,11 @@
 import React from "react";
-import Post from "../../../../components/post/Post";
-import AddPost from "../../../../components/addPost/AddPost";
+import Post from "../../../../components/Post";
+import AddPost from "../../../../components/AddPCR";
+import Comment from "../../../../components/Comment";
 import { useQuery, gql } from "@apollo/client";
 import MainLayout from "../../../../layouts/Main";
 import { GET_POST } from "../../../../graphql/qurey";
-import JustLoading from "../../../../components/justLoading/JustLoading";
+import JustLoading from "../../../../components/JustLoading";
 
 function Postv({ postId }) {
   const { data, error, loading } = useQuery(GET_POST, {
@@ -21,13 +22,12 @@ function Postv({ postId }) {
       ) : (
         <>
           <Post post={data?.getPost} />
-          <AddPost comment={true} id={postId} />
+          <AddPost For="comment" postId={postId} />
           {data?.getPost?.comments?.map((comment, index) => {
-            return <Post key={index} post={comment} />;
+            return <Comment key={index} comment={comment} postId={postId} For="comment" />;
           })}
         </>
       )}
-      ;
     </>
   );
 }

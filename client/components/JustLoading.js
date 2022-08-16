@@ -1,4 +1,4 @@
-import styles from "./JustLoading.module.css";
+import styles from "../styles/justLoading.module.css";
 import React from "react";
 
 function JustLoading({ ws = 25 }) {

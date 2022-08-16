@@ -50,7 +50,7 @@ const LIKE_POST = gql`
 `;
 
 const UNLIKE_POST = gql`
- mutation unlikePost($postId: ID!) {
+  mutation unlikePost($postId: ID!) {
     unLikePost(postId: $postId) {
       ... on Success {
         message
@@ -60,7 +60,20 @@ const UNLIKE_POST = gql`
       }
     }
   }
-`
+`;
+
+const REPLAY_TO_COMMENT = gql`
+  mutation replayToComment($postId: ID!, $commentId: ID!, $comment: String!) {
+    replayToComment(postId: $postId, commentId: $commentId, comment: $comment) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
 
 module.exports = {
   ADD_COMMENT,
@@ -68,4 +81,5 @@ module.exports = {
   SING_UP,
   LIKE_POST,
   UNLIKE_POST,
+  REPLAY_TO_COMMENT,
 };

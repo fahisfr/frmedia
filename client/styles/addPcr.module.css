@@ -4,17 +4,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 5px;
     background-color: var(--default_color);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .add_pc_content {
 
     width: 100%;
     display: flex;
-    padding: 1rem 0rem;
+    padding: .5rem 0rem;
     border-radius: 7px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
 }
 
 .left {
@@ -149,7 +149,7 @@
 }
 
 .m_pop_message::after {
-    
+
     content: "";
     position: absolute;
     bottom: 100%;
@@ -208,19 +208,21 @@
 
 }
 
-#emoji{
+#emoji {
     position: absolute;
     top: 1.7rem;
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
     display: none;
-    
-    
+
+
 }
-#emoji[trigger="true"]{
+
+#emoji[trigger="true"] {
     display: block;
 }
-#emoji[trigger="true"] ~ .m_pop_message{
+
+#emoji[trigger="true"]~.m_pop_message {
     display: none;
 }

@@ -1,16 +1,16 @@
-import styles from "./AddPost.module.css";
+import styles from "../styles/addPcr.module.css";
 import React, { useRef, useState } from "react";
 import { AiOutlineFileImage } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
 import { faker } from "@faker-js/faker";
-import axios from "../../axios";
+import axios from "../axios";
 
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPost({ comment, id }) {
+function AddPCR({ For, postId,commentId }) {
   const inputRef = useRef(null);
   const fileRef = useRef(null);
 
@@ -20,7 +20,36 @@ function AddPost({ comment, id }) {
   const [postText, setPostText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
 
-  const addPostNow = async (e) => {
+  const PRC = () => {
+    switch (For) {
+      case "comment":
+        return {
+          placeholder: "Write a comment...",
+          btnText: "Comment",
+          apiPath: "/addcomment",
+        };
+      case "post":
+        return {
+          placeholder: "What's on your mind?",
+          btnText: "Post",
+          apiPath: "/addpost",
+        };
+      case "reply":
+        return {
+          placeholder: "Write a reply...",
+          btnText: "Reply",
+          apiPath: "/reply-to-comment",
+        };
+      default:
+        throw new Error("Unknown pcr");
+    }
+  };
+
+  console.log(For, postId,commentId);
+
+  const { placeholder, btnText, apiPath } = PRC();
+
+  const submitNow = async (e) => {
     try {
       e.preventDefault();
 
@@ -28,11 +57,15 @@ function AddPost({ comment, id }) {
 
       formData.append("file", file);
       formData.append("content", postText);
-      comment && formData.append("postId",id);
-
+      if (For === "reply") {
+        formData.append("commentId", commentId);
+      }
+      if (For ==="comment" || "reply") {
+        formData.append("postId", postId);
+      }
       const {
         data: { success, message },
-      } = await axios.post(comment ? "/addcomment" : "/addpost", formData);
+      } = await axios.post(apiPath, formData);
 
       if (!success) {
         alert(message);
@@ -88,8 +121,8 @@ function AddPost({ comment, id }) {
               className={styles.input}
               type="text"
               value={postText}
-              placeholder={comment ? "Write a comment" : "What's on your mind?"}
               rows={1}
+              placeholder={placeholder}
               ref={inputRef}
               pattern=" faasf"
               onKeyUp={handleInput}
@@ -163,10 +196,8 @@ function AddPost({ comment, id }) {
                     <span>Cancel</span>
                   </button>
                 )}
-                <button onClick={addPostNow} className={styles.addPostButton}>
-                  <span className={styles.addpost_btn_text}>
-                    {comment ? "Comment" : "Post"}
-                  </span>
+                <button onClick={submitNow} className={styles.addPostButton}>
+                  <span className={styles.addpost_btn_text}>{btnText}</span>
                 </button>
               </div>
             </div>
@@ -177,4 +208,4 @@ function AddPost({ comment, id }) {
   );
 }
 
-export default AddPost;
+export default AddPCR;
