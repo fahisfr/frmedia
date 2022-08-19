@@ -13,6 +13,14 @@ const getPost = async (_, { postId }, { req }) => {
         },
       },
       {
+        $addFields: {
+          commentsCount: {
+            $size: "$comments",
+          },
+        },
+      },
+
+      {
         $lookup: {
           from: "users",
           localField: "userId",
@@ -20,6 +28,7 @@ const getPost = async (_, { postId }, { req }) => {
           as: "userInfo",
         },
       },
+
       {
         $set: {
           userInfo: { $arrayElemAt: ["$userInfo", 0] },
@@ -31,7 +40,6 @@ const getPost = async (_, { postId }, { req }) => {
           preserveNullAndEmptyArrays: true,
         },
       },
-      
 
       {
         $lookup: {
@@ -41,21 +49,29 @@ const getPost = async (_, { postId }, { req }) => {
           as: "comments.userInfo",
         },
       },
-     
-
+      {
+        $addFields: {
+          comments: {
+            likesCount: { $size: "$comments.likes" },
+            repliesCount: { $size: "$comments.replies" },
+          },
+        },
+      },
       {
         $group: {
           _id: "$_id",
           userInfo: { $first: "$userInfo" },
           content: { $first: "$content" },
           file: { $first: "$file" },
-          likesCount: { $first: "$likesCount" },
+          likesCount: { $first: { $size: "$likes" } },
           commentsCount: { $first: "$commentsCount" },
           comments: { $push: "$comments" },
           liked: { $first: { $in: [id, "$likes"] } },
         },
       },
     ]);
+
+
 
     if (post.length === 0) {
       return {
@@ -69,6 +85,7 @@ const getPost = async (_, { postId }, { req }) => {
       ...post[0],
     };
   } catch (err) {
+    console.log(err);
     return INTERNAL_SERVER_ERROR;
   }
 };

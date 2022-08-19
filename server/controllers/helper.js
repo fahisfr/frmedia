@@ -22,7 +22,4 @@ const getPostInfo = (file,content) => {
 };
 
 
-module.exports = {
-    getFileInfo,
-    getPostInfo,
-}
+module.exports = getPostInfo

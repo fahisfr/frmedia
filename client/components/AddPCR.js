@@ -10,7 +10,7 @@ const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPCR({ For, postId,commentId }) {
+function AddPCR({ For, postId, commentId }) {
   const inputRef = useRef(null);
   const fileRef = useRef(null);
 
@@ -19,6 +19,7 @@ function AddPCR({ For, postId,commentId }) {
 
   const [postText, setPostText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
+ 
 
   const PRC = () => {
     switch (For) {
@@ -45,8 +46,6 @@ function AddPCR({ For, postId,commentId }) {
     }
   };
 
-  console.log(For, postId,commentId);
-
   const { placeholder, btnText, apiPath } = PRC();
 
   const submitNow = async (e) => {
@@ -57,12 +56,14 @@ function AddPCR({ For, postId,commentId }) {
 
       formData.append("file", file);
       formData.append("content", postText);
+
+      if (For === "comment" || "reply") {
+        formData.append("postId", postId);
+      }
       if (For === "reply") {
         formData.append("commentId", commentId);
       }
-      if (For ==="comment" || "reply") {
-        formData.append("postId", postId);
-      }
+
       const {
         data: { success, message },
       } = await axios.post(apiPath, formData);

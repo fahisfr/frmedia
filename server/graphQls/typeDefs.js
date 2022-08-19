@@ -18,6 +18,16 @@ const typeDefs = gql`
     name: String
   }
 
+  type Reply {
+    _id: ID
+
+    content: String
+    file: file
+    createdAt: String
+    likesCount: Int
+    liked: Boolean
+  }
+
   type comment {
     _id: ID
     content: String
@@ -26,6 +36,7 @@ const typeDefs = gql`
     commentAt: String
     editedAt: String
     userInfo: User
+    repliesCount: Int
   }
 
   type Post {
@@ -57,26 +68,45 @@ const typeDefs = gql`
     posts: [Post]
   }
 
+  type reply {
+    _id: ID
+    userInfo: User
+    content: String
+    file: file
+    createdAt: String
+    likesCount: Int
+  }
+
+  type replies {
+    replies: [reply]
+  }
+
+  union request = Success | Error
   union LoginRequest = Success | Error
   union VerifyNameOrEmailRequest = VerifyData | Error
   union GetPostRequest = Post | Error
-  union SingPpRequest = Success | Error
   union HomeRequest = home | Error
-  union LIKE_POST_REQUEST = Success | Error
-  union UNLIKE_POSt_REQUEST = Success | Error
-  
+  union getCommentRepliesRequest = replies | Error
+
   type Query {
     verifyUserName(userName: String!): VerifyNameOrEmailRequest!
     verifyEmail(email: String!): VerifyNameOrEmailRequest
     home: HomeRequest
     getPost(postId: ID!): GetPostRequest
+    getCommentReplies(postId: ID!, commentId: ID!): getCommentRepliesRequest
   }
 
   type Mutation {
     signUp(userName: String!, email: String!, password: String!): User
-    login(nameOrEmail: String!, password: String!): LoginRequest
-    likePost(postId: ID!): LIKE_POST_REQUEST
-    unLikePost(postId: ID!): LIKE_POST_REQUEST
+    login(nameOrEmail: String!, password: String!): request
+    likePost(postId: ID!): request
+    unLikePost(postId: ID!): request
+    likeComment(postId: ID!, commentId: ID!): request
+    unLikeComment(postId: ID!, commentId: ID!): request
+    likeReply(postId: ID!, commentId: ID!, replyId: ID!): request
+    unLikeReply(postId: ID!, commentId: ID!, replyId: ID!): request
+    
+
   }
 `;
 

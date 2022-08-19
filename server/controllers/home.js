@@ -49,7 +49,7 @@ const home = async (_, __, { req }, info) => {
       posts,
     };
   } catch (err) {
-    console.log(err);
+  
     return INTERNAL_SERVER_ERROR;
   }
 };

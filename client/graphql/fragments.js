@@ -48,13 +48,18 @@ const POST_FIELDS = gql`
 
 const COMMENT_FIELDS = gql`
   ${FILE_FIELDS}
+  ${USER_FIELDS}
   fragment CommentFields on comment {
     _id
+    userInfo {
+      ...UserFields
+    }
     content
     file {
       ...FileFields
     }
     likesCount
+    repliesCount
   }
 `;
 
@@ -71,6 +76,23 @@ const HOME_FIELDS = gql`
   }
 `;
 
+const REPLIES_FIELDS = gql`
+  ${FILE_FIELDS}
+  ${USER_FIELDS}
+  fragment RepliesFields on reply {
+    _id
+    content
+    userInfo {
+      ...UserFields
+    }
+    file {
+      ...FileFields
+    }
+    createdAt
+    likesCount
+  }
+`;
+
 export {
   USER_FIELDS,
   FILE_FIELDS,
@@ -78,4 +100,5 @@ export {
   COMMENT_FIELDS,
   VERIFY_DATA_FIELDS,
   HOME_FIELDS,
+  REPLIES_FIELDS,
 };

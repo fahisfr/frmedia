@@ -75,6 +75,57 @@ const REPLAY_TO_COMMENT = gql`
   }
 `;
 
+const LIKE_COMMENT = gql`
+  mutation likeComment($postId: ID!, $commentId: ID!) {
+    likeComment(postId: $postId, commentId: $commentId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
+
+const UNLIKE_COMMENT = gql`
+  mutation unlikeComment($postId: ID!, $commentId: ID!) {
+    unLikeComment(postId: $postId, commentId: $commentId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
+
+const LIKE_REPLY = gql`
+  mutation likeReply($postId: ID!, $commentId: ID!, $replyId: ID!) {
+    likeReply(postId: $postId, commentId: $commentId, replyId: $replyId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
+const UNLIKE_REPLY = gql`
+  mutation unlikeReply($postId: ID!, $commentId: ID!, $replyId: ID!) {
+    unLikeReply(postId: $postId, commentId: $commentId, replyId: $replyId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
+
 module.exports = {
   ADD_COMMENT,
   LOGIN,
@@ -82,4 +133,8 @@ module.exports = {
   LIKE_POST,
   UNLIKE_POST,
   REPLAY_TO_COMMENT,
+  LIKE_COMMENT,
+  UNLIKE_COMMENT,
+  LIKE_REPLY,
+  UNLIKE_REPLY,
 };

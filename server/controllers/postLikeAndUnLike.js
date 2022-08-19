@@ -1,21 +1,21 @@
 const dbPost = require("../dbSchemas/post");
-const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
 
-const likePost = async (_, { postId }, { req }) => {
+const likePost = async (_, { postId }, { req, INSERR }) => {
+  
   try {
-
+    const { id } = req.user;
     const PostLiked = await dbPost.updateOne(
       {
         _id: postId,
       },
       {
         $push: {
-          likes:id,
+          likes: id,
         },
       }
     );
 
-    if (PostLiked.modifiedCount > 1) {
+    if (PostLiked.modifiedCount > 0) {
       return {
         __typename: "Success",
         message: "post liked",
@@ -24,14 +24,14 @@ const likePost = async (_, { postId }, { req }) => {
 
     return {
       __typename: "Error",
-      message: "could not like post",
+      message: "Could not like this post",
     };
   } catch (err) {
-    return INTERNAL_SERVER_ERROR;
+    return INSERR;
   }
 };
 
-const unLikePost = async(_, { postId }, { req }) => {
+const unLikePost = async (_, { postId }, { req, INSERR }) => {
   try {
     const { id } = req.user;
     const PostUnLiked = await dbPost.updateOne(
@@ -45,7 +45,7 @@ const unLikePost = async(_, { postId }, { req }) => {
       }
     );
 
-    if (PostUnLiked.modifiedCount > 1) {
+    if (PostUnLiked.modifiedCount > 0) {
       return {
         __typename: "Success",
         message: "post unliked",
@@ -53,10 +53,11 @@ const unLikePost = async(_, { postId }, { req }) => {
     }
     return {
       __typename: "Error",
-      message: "could not unlike post",
+      message: "Could not unlike this post",
     };
   } catch (err) {
-    return INTERNAL_SERVER_ERROR;
+    console.log(err);
+    return INSERR;
   }
 };
 

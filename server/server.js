@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const dbConn = require("./config/dbConn");
 const dbUser = require("./dbSchemas/user");
+const dbPost = require("./dbSchemas/post");
+const mongoose = require("mongoose");
 const { ApolloServer } = require("apollo-server-express");
 const resolvers = require("./graphQls/resolvers");
 const { typeDefs } = require("./graphQls/typeDefs");
@@ -16,6 +18,7 @@ const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+const { INTERNAL_SERVER_ERROR } = require("./config/customErrors");
 const jwt = require("jsonwebtoken");
 
 dbConn();
@@ -46,14 +49,16 @@ const server = new ApolloServer({
             if (err) {
               throw new Error("unauthorized");
             }
-            req.user=decode
-            
+            req.user = decode;
           }
         );
       }
-  
-      return{req,res};
-      
+
+      return {
+        req,
+        res,
+        INSERR: INTERNAL_SERVER_ERROR,
+      };
     } catch (error) {
       throw new Error("oops somthing went wrong:(");
     }

@@ -161,3 +161,9 @@
     color: rgb(44, 205, 216);
     transform: scale(0.9);
 }
+
+
+.replies {
+    width: 100%;
+    padding-left: 4rem;   
+}

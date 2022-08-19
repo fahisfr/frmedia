@@ -2,56 +2,46 @@ import React, { useState } from "react";
 import styles from "../styles/pcr.module.css";
 import { faker } from "@faker-js/faker";
 import { MdVerified } from "react-icons/md";
-import { FiShare } from "react-icons/fi";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
-import { BiRepost } from "react-icons/bi";
-import { AiOutlineRetweet } from "react-icons/ai";
 import { FcLike } from "react-icons/fc";
-import { LIKE_POST, UNLIKE_POST } from "../graphql/mutations";
+import { LIKE_REPLY, UNLIKE_REPLY } from "../graphql/mutations";
 import { useMutation } from "@apollo/client";
-import AddPost from "./AddPCR";
 
-function Post({ post }) {
-  const {
-    _id,
-    userInfo: { userName },
-    content,
-    file,
-    likesCount,
-    commentsCount,
-    liked,
-  } = post;
+import AddPCR from "./AddPCR";
 
-  const randomNum = () => Math.floor(Math.random() * 24);
-
+function Reply({ replyInfo, postId, commentId }) {
+  const [addReplyTrigger, setAddReplyTrigger] = useState(false);
+  const { _id, content, createdAt, likesCount, liked, file } = replyInfo;
+  const { userName } = replyInfo.userInfo;
   const [
-    likePostNow,
+    likeReply,
     { data: likeData, error: likeError, loading: likeLoading },
-  ] = useMutation(LIKE_POST, {
+  ] = useMutation(LIKE_REPLY, {
     variables: {
-      postId: _id,
+      postId,
+      commentId,
+      replyId: _id,
     },
-    onCompleted: (data) => {},
   });
 
   const [
-    unlikePostNow,
+    unlikeReply,
     { data: unlikeData, error: unlikeError, loading: unlikeLoading },
-  ] = useMutation(UNLIKE_POST, {
+  ] = useMutation(UNLIKE_REPLY, {
     variables: {
-      postId: _id,
+      postId,
+      commentId,
+      replyId: _id,
     },
-    onCompleted: (data) => {},
   });
 
- 
-
-  const likeHandler = () => {
+  const likeHandler = (e) => {
+    e.preventDefault();
     if (liked) {
-      unlikePostNow();
+      unlikeReply();
     } else {
-      likePostNow();
+      likeReply();
     }
   };
 
@@ -100,7 +90,7 @@ function Post({ post }) {
                   </div>
                 </div>
                 <div className={styles.group}>
-                  <span className={styles.date}>{`${randomNum()}h ago`}</span>
+                  <span className={styles.date}>{`3h ago`}</span>
                 </div>
               </div>
             </div>
@@ -146,44 +136,36 @@ function Post({ post }) {
             </div>
           </div>
         </div>
-        <footer className={styles.footer}>
-          <div className={styles.footer_group}>
-            <button className={styles.button} onClick={likeHandler}>
-              {liked ? (
-                <FcLike className={styles.icons} />
-              ) : (
-                <BsHeart className={`${styles.icons} ${styles.liked}`} />
-              )}
-
-              <span>{likesCount}</span>
+        <footer className={styles.c_footer}>
+          <div className={styles.c_footer_group} onClick={likeHandler}>
+            <button className={styles.button}>
+              <button className={styles.button}>
+                {liked ? (
+                  <FcLike className={styles.c_icons} />
+                ) : (
+                  <BsHeart className={`${styles.c_icons} ${styles.liked}`} />
+                )}
+                <span>{likesCount}</span>
+              </button>
             </button>
           </div>
 
-          <div className={styles.footer_group}>
+          <div
+            className={styles.footer_group}
+            onClick={() => setAddReplyTrigger(!addReplyTrigger)}
+          >
             <button className={styles.button}>
-              <Link href="/command">
-                <a>
-                  <BsChat className={styles.icons} />
-                </a>
-              </Link>
-              <span>{commentsCount}</span>
-            </button>
-          </div>
-          <div className={styles.footer_group}>
-            <button className={styles.button}>
-              <AiOutlineRetweet size={19} className={styles.icons} />
-            </button>
-          </div>
-
-          <div className={styles.footer_group}>
-            <button className={styles.button}>
-              <FiShare className={styles.icons} />
+              <BsChat className={styles.c_icons} />
+              <span></span>
             </button>
           </div>
         </footer>
+        {addReplyTrigger && (
+          <AddPCR For="reply" postId={postId} commentId={commentId} />
+        )}
       </div>
     </div>
   );
 }
 
-export default Post;
+export default Reply;

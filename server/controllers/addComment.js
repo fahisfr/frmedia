@@ -2,19 +2,15 @@ const dbPost = require("../dbSchemas/post");
 const { getPostInfo } = require("./helper");
 
 const addComment = async (req, res) => {
+
   try {
-    const {
-      body: { content, postId=undefi },
-      user: { id },
-    } = req;
 
+    const { id } = req.user;
+    const { content, postId = undefi } = req.body;
     const file = req.files?.file;
-
 
     const commentInfo = getPostInfo(file, content);
 
-    console.log("this post id " , postId);
-    
     const addComment = await dbPost.updateOne(
       { _id: postId },
       {
@@ -26,11 +22,9 @@ const addComment = async (req, res) => {
         },
       }
     );
-    
-    console.log(addComment);
+
 
     if (addComment?.modifiedCount > 0) {
-
       file &&
         file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);
       res.json({ message: "Comment added successfully" });
@@ -38,7 +32,6 @@ const addComment = async (req, res) => {
       res.json({ success: false, message: "Can't add comment" });
     }
   } catch (err) {
-    console.log(err);
     res.json({ success: false, message: "oops something went wrong" });
   }
 };

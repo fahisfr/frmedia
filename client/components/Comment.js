@@ -1,22 +1,49 @@
 import styles from "../styles/pcr.module.css";
-import React from "react";
+import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 import { MdVerified } from "react-icons/md";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
 import { FcLike } from "react-icons/fc";
-
+import Reply from "./Reply";
+import AddPCR from "./AddPCR";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { GET_RPEPLIES } from "../graphql/qurey";
+import { LIKE_COMMENT, UNLIKE_COMMENT } from "../graphql/mutations";
+import JustLoading from "./JustLoading";
 function Comment({ comment, postId }) {
-  const {
-    _id,
-    userInfo: { userName },
-    content,
-    file,
-    likesCount,
-    commentsCount,
-    postAt,
-    liked,
-  } = comment;
+
+  const [addReplyTrigger, setAddReplyTrigger] = useState(false);
+  const { _id, content, file, likesCount, repliesCount, postAt, liked } =
+    comment;
+  const { userName } = comment.userInfo;
+
+  const [getRepliesNow, { data, error, loading }] = useLazyQuery(GET_RPEPLIES, {
+    variables: {
+      commentId: _id,
+      postId,
+    },
+  });
+
+  const [
+    likeComment,
+    { data: likeData, error: likeError, loading: likeLoading },
+  ] = useMutation(LIKE_COMMENT, {
+    variables: {
+      postId,
+      commentId: _id,
+    },
+  });
+
+  const [
+    unLikeComment,
+    { data: unlikeData, error: unlikeError, loading: unlikeLoading },
+  ] = useMutation(UNLIKE_COMMENT, {
+    variables: {
+      postId,
+      commentId: _id,
+    },
+  });
 
   const fillterContent = () => {
     return content.split(" ").map((word) => {
@@ -37,6 +64,16 @@ function Comment({ comment, postId }) {
       }
     });
   };
+
+  const likeHandler = (e) => {
+    e.preventDefault();
+    if (liked) {
+      unLikeComment();
+    } else {
+      likeComment();
+    }
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -110,36 +147,49 @@ function Comment({ comment, postId }) {
             </div>
           </div>
           <footer className={styles.c_footer}>
-            <div className={styles.c_footer_group}>
+            <div className={styles.c_footer_group} onClick={likeHandler}>
               <button className={styles.button}>
                 {liked ? (
                   <FcLike className={styles.c_icons} />
                 ) : (
                   <BsHeart className={`${styles.c_icons} ${styles.liked}`} />
                 )}
-
-                <span>{likesCount}2</span>
+                <span>{likesCount}</span>
               </button>
             </div>
-
-            <div className={styles.c_footer_group}>
+            <div
+              className={styles.c_footer_group}
+              onClick={() => {
+                setAddReplyTrigger(!addReplyTrigger);
+              }}
+            >
               <button className={styles.button}>
-                <Link href="/command">
-                  <a>
-                    <BsChat className={styles.c_icons} />
-                  </a>
-                </Link>
-                <span>{commentsCount}2</span>
+                <BsChat className={styles.c_icons} />
+              </button>
+            </div>
+            <div
+              className={styles.c_footer_group}
+              onClick={() => {
+                getRepliesNow();
+              }}
+            >
+              <button className={styles.button}>
+                <span>{repliesCount} Replies</span>
               </button>
             </div>
           </footer>
         </div>
       </div>
-      <div className={styles.replay}></div>
-      <div className={styles.replays}>
-        {comment?.replies?.map((reply) => {
-          return <div></div>;
-        })}
+
+      <div className={styles.replies}>
+        {addReplyTrigger && (
+          <AddPCR commentId={_id} postId={postId} For="reply" />
+        )}
+        {loading && <JustLoading />}
+        {data &&
+          data?.getCommentReplies.replies.map((reply) => (
+            <Reply replyInfo={reply} commentId={_id} postId={postId} />
+          ))}
       </div>
     </>
   );

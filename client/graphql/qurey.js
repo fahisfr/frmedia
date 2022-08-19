@@ -6,6 +6,7 @@ import {
   COMMENT_FIELDS,
   USER_FIELDS,
   FILE_FIELDS,
+  REPLIES_FIELDS,
 } from "../graphql/fragments";
 
 const verifyUserNamesQuery = gql`
@@ -54,6 +55,7 @@ const GET_POST = gql`
   ${POST_FIELDS}
   ${USER_FIELDS}
   ${FILE_FIELDS}
+  ${COMMENT_FIELDS}
   query getPost($postId: ID!) {
     getPost(postId: $postId) {
       ... on Post {
@@ -61,18 +63,9 @@ const GET_POST = gql`
         userInfo {
           ...UserFields
         }
-        comments{
-          _id
-          content
-          file {
-            ...FileFields
-          }
-          likesCount
-          userInfo{
-            ...UserFields
-            }
+        comments {
+          ...CommentFields
         }
-      
       }
       ... on Error {
         message
@@ -81,4 +74,28 @@ const GET_POST = gql`
   }
 `;
 
-export { verifyEmailQuery, verifyUserNamesQuery, HomeQuery, GET_POST };
+const GET_RPEPLIES = gql`
+  ${REPLIES_FIELDS}
+  query getReplies($postId: ID!, $commentId: ID!) {
+    getCommentReplies(postId: $postId, commentId: $commentId) {
+      ... on replies {
+        replies {
+          ...RepliesFields
+        }
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
+
+
+
+export {
+  verifyEmailQuery,
+  verifyUserNamesQuery,
+  HomeQuery,
+  GET_POST,
+  GET_RPEPLIES,
+};

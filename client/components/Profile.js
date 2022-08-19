@@ -5,11 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
 import EditProfile from "./EditProfile";
 
-
-
 function Profile() {
-
-
 
   const [editProfile, setEditProfile] = useState(false);
   return (

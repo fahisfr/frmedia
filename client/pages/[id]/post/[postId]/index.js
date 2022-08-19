@@ -21,7 +21,7 @@ function Postv({ postId }) {
         <JustLoading />
       ) : (
         <>
-          <Post post={data?.getPost} />
+          <Post post={data.getPost} />
           <AddPost For="comment" postId={postId} />
           {data?.getPost?.comments?.map((comment, index) => {
             return <Comment key={index} comment={comment} postId={postId} For="comment" />;

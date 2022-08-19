@@ -1,12 +1,9 @@
-const  dbPost  = require("../dbSchemas/post");
+const dbPost = require("../dbSchemas/post");
 
 const addPost = async (req, res) => {
-  
   try {
-    const {
-      body: { content },
-      user: { id, userName },
-    } = req;
+    const { content } = req.body;
+    const { id } = req.user;
 
     const file = req.files?.file;
     const getFileInfo = () => {
@@ -35,16 +32,13 @@ const addPost = async (req, res) => {
     const postInfo = getPostInfo();
 
     const newPost = await dbPost.create({
-      userName,
       userId: id,
       ...postInfo,
     });
 
     if (newPost) {
-
       file && file.mv(`./public/${postInfo.file.type}/${postInfo.file.name}`);
       res.json({ message: "Post added successfully" });
-
     } else {
       res.json({ success: false, message: "can't add post" });
     }
