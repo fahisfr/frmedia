@@ -10,7 +10,9 @@ const userSlice = createSlice({
         error:false,
         errorMessage:null,
     },
-    reducers:{},
+    reducers:{
+        setPosts:(state,action)=> state.posts.push(action.payload),
+    },
     extraReducers:{
         [getUserInfo.fulfilled]:(state,action)=>{
             state.loading = false;

@@ -2,7 +2,7 @@ const getFileInfo = (file) => {
   const [type, extension] = file.mimetype.split("/");
   return {
     type,
-    name: `${new Date().getTime()}.${extension}`,
+    name: `${Math.random().toString(36).substr(2, 9)}.${extension}`,
   };
 };
 
@@ -22,4 +22,7 @@ const getPostInfo = (file,content) => {
 };
 
 
-module.exports = getPostInfo
+module.exports = {
+  getFileInfo,
+  getPostInfo,
+}

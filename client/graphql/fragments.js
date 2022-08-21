@@ -5,11 +5,23 @@ const USER_FIELDS = gql`
     _id
     userName
     email
-    followers
-    following
+    followersCount
+    followingCount
     profilePic
     coverPic
+    posts {
+      _id
+      content
+      file {
+        type
+        name
+      }
+      likesCount
+      commentsCount
+      liked
+    }
     bio
+    followed
     isVerified
   }
 `;

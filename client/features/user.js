@@ -11,6 +11,8 @@ const userSlice = createSlice({
             link:null,
             profilePic:null,
             avatarPic:null,
+            followingCount:null,
+            followersCount:null,
         },
         posts:[],
         loading:false,

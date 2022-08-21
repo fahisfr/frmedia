@@ -15,6 +15,7 @@ const verifyUserNamesQuery = gql`
     verifyUserName(userName: $userName) {
       ... on VerifyData {
         ...VerifyDataFields
+        
       }
       ... on Error {
         message
@@ -37,7 +38,7 @@ const verifyEmailQuery = gql`
   }
 `;
 
-const HomeQuery = gql`
+const HOME = gql`
   ${HOME_FIELDS}
   query home {
     home {
@@ -90,12 +91,25 @@ const GET_RPEPLIES = gql`
   }
 `;
 
-
+const GET_USERINFO = gql`
+  ${USER_FIELDS}
+  query getUserInfo($userName:String!) {
+    getUserInfo(userName: $userName) {
+      ... on User {
+        ...UserFields
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
 
 export {
   verifyEmailQuery,
   verifyUserNamesQuery,
-  HomeQuery,
+  HOME,
   GET_POST,
   GET_RPEPLIES,
+  GET_USERINFO
 };

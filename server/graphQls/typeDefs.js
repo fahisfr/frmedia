@@ -5,11 +5,13 @@ const typeDefs = gql`
     _id: ID
     userName: String
     email: String
-    followers: [ID]
-    following: [ID]
+    followersCount: Int
+    followingCount: Int
+    followed: Boolean
     profilePic: String
     coverPic: String
     bio: String
+    posts: [Post]
     isVerified: Boolean
   }
 
@@ -64,7 +66,7 @@ const typeDefs = gql`
   }
 
   type home {
-    userInfo: User!
+    userInfo: User
     posts: [Post]
   }
 
@@ -81,12 +83,14 @@ const typeDefs = gql`
     replies: [reply]
   }
 
+  
+
   union request = Success | Error
-  union LoginRequest = Success | Error
   union VerifyNameOrEmailRequest = VerifyData | Error
   union GetPostRequest = Post | Error
   union HomeRequest = home | Error
   union getCommentRepliesRequest = replies | Error
+  union getUserInfoRequest = User | Error
 
   type Query {
     verifyUserName(userName: String!): VerifyNameOrEmailRequest!
@@ -94,10 +98,12 @@ const typeDefs = gql`
     home: HomeRequest
     getPost(postId: ID!): GetPostRequest
     getCommentReplies(postId: ID!, commentId: ID!): getCommentRepliesRequest
+    getUserInfo(userName: String!): getUserInfoRequest
+    
   }
 
   type Mutation {
-    signUp(userName: String!, email: String!, password: String!): User
+    signUp(userName: String!, email: String!, password: String!): request!
     login(nameOrEmail: String!, password: String!): request
     likePost(postId: ID!): request
     unLikePost(postId: ID!): request
@@ -105,8 +111,9 @@ const typeDefs = gql`
     unLikeComment(postId: ID!, commentId: ID!): request
     likeReply(postId: ID!, commentId: ID!, replyId: ID!): request
     unLikeReply(postId: ID!, commentId: ID!, replyId: ID!): request
-    
-
+    follow(followId:ID!): request
+    unFollow(unFollowId:ID!): request
+  
   }
 `;
 

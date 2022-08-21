@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { POST_FIELDS, USER_FIELDS, COMMENT_FIELDS } from "../graphql/fragments";
+
 
 const ADD_COMMENT = gql`
   mutation comment($postId: ID!, $comment: String!) {
@@ -126,6 +126,34 @@ const UNLIKE_REPLY = gql`
   }
 `;
 
+const FOLLOW = gql`
+  mutation follow($followId:ID!) {
+    follow(followId: $followId) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`;
+
+
+
+const UNFOLLOW = gql`
+  mutation unfollow($userName: String!) {
+    unFollow(userName: $userName) {
+      ... on Success {
+        message
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+`
+
 module.exports = {
   ADD_COMMENT,
   LOGIN,
@@ -137,4 +165,6 @@ module.exports = {
   UNLIKE_COMMENT,
   LIKE_REPLY,
   UNLIKE_REPLY,
+  FOLLOW,
+  UNFOLLOW,
 };

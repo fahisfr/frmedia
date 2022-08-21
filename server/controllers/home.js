@@ -1,12 +1,26 @@
 const dbUser = require("../dbSchemas/user");
-const  dbPost  = require("../dbSchemas/post");
-const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
+const dbPost = require("../dbSchemas/post");
+
 const { default: mongoose } = require("mongoose");
 
-const home = async (_, __, { req }, info) => {
+const home = async (_, __, { req },{INSERR}) => {
   try {
     const { id } = req.user;
-    const userInfo = await dbUser.findById(id);
+    console.log(id);
+    const userInfo = await dbUser.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(id),
+        },
+      },
+      {
+        $addFields: {
+          followersCount: { $size: "$followers" },
+          followingCount: { $size: "$following" },
+        },
+      },
+    ]);
+
     const posts = await dbPost.aggregate([
       {
         $match: {},
@@ -37,7 +51,7 @@ const home = async (_, __, { req }, info) => {
           },
           liked: {
             $in: [mongoose.Types.ObjectId(id), "$likes"],
-          }
+          },
         },
       },
     ]);
@@ -49,8 +63,7 @@ const home = async (_, __, { req }, info) => {
       posts,
     };
   } catch (err) {
-  
-    return INTERNAL_SERVER_ERROR;
+    return INSERR
   }
 };
 

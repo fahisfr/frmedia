@@ -16,7 +16,6 @@ const user = new db.Schema({
   posts: [{ type: db.Schema.Types.ObjectId, ref: "posts" }],
   isAdmin: { type: Boolean, default: false },
   isVerified: { type: Boolean, default: false },
-  isBanned: { type: Boolean, default: false },
   refreshToken: { type: String, default: null ,select: false},
   
 });

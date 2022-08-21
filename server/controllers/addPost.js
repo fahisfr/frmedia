@@ -1,4 +1,5 @@
 const dbPost = require("../dbSchemas/post");
+const dbUser = require("../dbSchemas/user");
 
 const addPost = async (req, res) => {
   try {
@@ -37,8 +38,12 @@ const addPost = async (req, res) => {
     });
 
     if (newPost) {
-      file && file.mv(`./public/${postInfo.file.type}/${postInfo.file.name}`);
+      file && file.mv(`./public/${postInfo.file.type}/${postInfo.file.name}`); 
+      dbUser.updateOne({ _id: id }, { $push: { posts: newPost._id } }).then(res=>{
+        console.log(res);
+      })
       res.json({ message: "Post added successfully" });
+     
     } else {
       res.json({ success: false, message: "can't add post" });
     }

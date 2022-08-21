@@ -138,7 +138,7 @@
     font-size: .930rem;
 }
 
-.unfollow:not(:hover)::before {
+/* .unfollow:not(:hover)::before {
     content: "Following";
 }
 
@@ -149,7 +149,7 @@
 .unfollow:hover::before,
 .unfollow::before {
     content: "Unfollow";
-}
+} */
 
 .bio {
 

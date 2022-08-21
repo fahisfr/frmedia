@@ -12,16 +12,16 @@ import { LIKE_POST, UNLIKE_POST } from "../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import AddPost from "./AddPCR";
 
-function Post({ post }) {
+function Post({ postInfo,userInfo }) {
   const {
     _id,
-    userInfo: { userName },
     content,
     file,
     likesCount,
     commentsCount,
     liked,
-  } = post;
+  } = postInfo;
+  const {userName} =userInfo;
 
   const randomNum = () => Math.floor(Math.random() * 24);
 

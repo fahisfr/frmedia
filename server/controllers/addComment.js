@@ -1,5 +1,5 @@
 const dbPost = require("../dbSchemas/post");
-const { getPostInfo } = require("./helper");
+const { getPostInfo } = require("../helper");
 
 const addComment = async (req, res) => {
 

@@ -5,7 +5,9 @@ import { MdAddAPhoto } from "react-icons/md";
 import axios from "../axios";
 
 
-function EditProfile({ trigger, setTrigger }) {
+function EditProfile({ trigger, setTrigger,info }) {
+
+
 
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
@@ -19,6 +21,13 @@ function EditProfile({ trigger, setTrigger }) {
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [link, setLink] = useState("");
+
+   useEffect(() => {
+    setName(info.userName);
+    setBio(info.bio);
+    setLink(info.link);
+     
+   } , [trigger]);
 
   const inputOnChange = (e) => {
     const file = e.target.files[0];
@@ -44,11 +53,11 @@ function EditProfile({ trigger, setTrigger }) {
       const formData = new FormData();
       bio && formData.append("bio", bio);
       link && formData.append("link", link);
-      profile && formData.append("profile", profile);
+      profile && formData.append("profilePic", profile);
       coverPic && formData.append("coverPic", coverPic);
 
-      const { successs, message } = await axios.post("/editprofile", formData);
-      alert(message);
+      const respose = await axios.post("/edit-profile", formData);
+      alert(respose.data.message);
     } catch (error) {}
   };
 
