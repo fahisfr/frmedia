@@ -1,11 +1,11 @@
 const dbPost = require("../dbSchemas/post");
 
-const likeReply = async (_, arg, { req, INSERR }) => {
-
+const like = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { postId, commentId, replyId } = arg;
-    
+    const { postId } = req.params;
+    const { commentId, replyId } = req.body
+
     const liked = await dbPost.updateOne(
       {
         _id: postId,
@@ -27,28 +27,23 @@ const likeReply = async (_, arg, { req, INSERR }) => {
       }
     );
 
-    console.log(liked)
+    console.log(liked);
 
     if (liked.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "reply liked",
-      };
+      res.json({ status: "ok" });
     }
-    return {
-      __typename: "Error",
-      message: "Could not like this reply",
-    };
+    res.json({ status: "error", error: "Could not like this reply" });
   } catch (err) {
-    console.log(err)
-    return INSERR;
+    next();
   }
 };
 
-const unLikeReply = async (_, arg, { req, INSERR }) => {
+const unLike = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { postId, commentId, replyId } = arg;
+    const { postId } = req.params;
+    const { commentId, replyId } = req.body
+
     const unLiked = dbPost.updateOne(
       {
         _id: postId,
@@ -71,21 +66,15 @@ const unLikeReply = async (_, arg, { req, INSERR }) => {
     );
 
     if (unLiked.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "reply liked",
-      };
+      res.json({ status: "ok" });
     }
-    return {
-      __typename: "Error",
-      message: "Could not like this reply",
-    };
+    res.json({ status: "error", error: "Could not like this reply" });
   } catch (err) {
-    return INSERR;
+    next();
   }
 };
 
 module.exports = {
-  likeReply,
-  unLikeReply,
+  like,
+  unLike,
 };

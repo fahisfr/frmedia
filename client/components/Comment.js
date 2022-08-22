@@ -18,33 +18,7 @@ function Comment({ comment, postId }) {
     comment;
   const { userName } = comment.userInfo;
 
-  const [getRepliesNow, { data, error, loading }] = useLazyQuery(GET_RPEPLIES, {
-    variables: {
-      commentId: _id,
-      postId,
-    },
-  });
-
-  const [
-    likeComment,
-    { data: likeData, error: likeError, loading: likeLoading },
-  ] = useMutation(LIKE_COMMENT, {
-    variables: {
-      postId,
-      commentId: _id,
-    },
-  });
-
-  const [
-    unLikeComment,
-    { data: unlikeData, error: unlikeError, loading: unlikeLoading },
-  ] = useMutation(UNLIKE_COMMENT, {
-    variables: {
-      postId,
-      commentId: _id,
-    },
-  });
-
+  
   const fillterContent = () => {
     return content.split(" ").map((word) => {
       if (word.startsWith("#")) {

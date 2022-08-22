@@ -1,43 +1,41 @@
 const dbUser = require("../dbSchemas/user");
-const {INTERNAL_SERVER_ERROR} = require("../config/customErrors");
 
-const verifyUserName = async (_, { userName }, { req, res }) => {
-  
+const verifyUserName = async (req, res, next) => {
   try {
+    const { userName } = req.params;
+
     const user = await dbUser.findOne({ userName });
 
-    const result = user
-      ? {
-          __typename: "VerifyData",
-          status: false,
-          message: " Username already registered ",
-        }
-      : {
-          __typename: "VerifyData",
-          status: true,
-          message: "User name is available",
-        };
-
-    return result;
+    if (user) {
+      res.json({
+        success: false,
+        approved: false,
+        message: " Username already registered ",
+      });
+    }
+    res.json({
+      success: true,
+      approved: true,
+      message: "User name is available",
+    });
   } catch (error) {
-    return INTERNAL_SERVER_ERROR;
+    next();
   }
 };
 
-const verifyEmail = async (_, { email }) => {
+const verifyEmail = async (req, res, next) => {
   try {
+    const { email } = req.params;
     const user = await dbUser.findOne({ email });
-    const result = user
-      ? {
-          __typename: "VerifyData",
-          status: false,
-          message: " Email already registered ",
-        }
-      : { __filename: "VerifyData", status: true, message: "" };
 
-    return result;
+    if (user) {
+      res.json({ status: "error", error: " Email already registered " });
+      return;
+    }
+    res.json({ status: "ok" });
   } catch (error) {
-    return INTERNAL_SERVER_ERROR;
+    console.log(error);
+    next();
   }
 };
 

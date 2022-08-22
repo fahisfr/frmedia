@@ -1,9 +1,10 @@
 const dbPost = require("../dbSchemas/post");
 
-const likeComment = async (_, { postId, commentId }, { req, INSERR }) => {
+const like = async (req, res, next) => {
   try {
-    
     const { id } = req.user;
+    const { postId } = req.params;
+
     const liked = await dbPost.updateOne(
       {
         _id: postId,
@@ -22,27 +23,21 @@ const likeComment = async (_, { postId, commentId }, { req, INSERR }) => {
       }
     );
 
-
     if (liked.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "comment liked",
-      };
+      res.json({ success: true, message: "comment liked" });
     }
-    return {
-      __typename: "Error",
-      message: "Could not like this comment",
-    };
+    res.json({ success: false, message: "Could not like this comment" });
   } catch (err) {
-    console.log(err)
-    return INSERR;
+    console.log(err);
+    next();
   }
 };
 
-
-const unLikeComment = async (_, { postId, commentId }, { req, INSERR }) => {
+const unLike = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const { postId } = req.params;
+    const { commentId } = req.body;
+
     const liked = await dbPost.updateOne(
       {
         _id: postId,
@@ -62,21 +57,16 @@ const unLikeComment = async (_, { postId, commentId }, { req, INSERR }) => {
     );
 
     if (liked.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "comment unliked",
-      };
+      res.json({ success: true, message: "comment unliked" });
+      return;
     }
-    return {
-      __typename: "Error",
-      message: "could not unlike this comment",
-    };
+    res.json({ success: true, message: "could not unlike this comment" });
   } catch (err) {
-    return INSERR;
+    next();
   }
 };
 
 module.exports = {
-  likeComment,
-  unLikeComment,
-}
+  like,
+  unLike,
+};

@@ -1,15 +1,18 @@
-const mongoose = require("mongoose");
 const dbPost = require("../dbSchemas/post");
-const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
+const objectId = require("mongoose").Types.ObjectId;
 
-const getPost = async (_, { postId }, { req }) => {
+const getPost = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    
+    const { postId } = req.params;
 
+    if (!objectId.isValid(postId)) {
+      res.json({ status: "error", error: "post not found" });
+    }
     const post = await dbPost.aggregate([
       {
         $match: {
-          _id: mongoose.Types.ObjectId(postId),
+          _id: objectId(postId),
         },
       },
       {
@@ -50,10 +53,18 @@ const getPost = async (_, { postId }, { req }) => {
         },
       },
       {
-        $addFields: {
+        $set: {
           comments: {
-            likesCount: { $size: "$comments.likes" },
-            repliesCount: { $size: "$comments.replies" },
+            $cond: [
+              {
+                $ifNull: ["$comments.likes", false],
+              },
+              {
+                likesCount: { $size: "$comments.likes" },
+                repliesCount: { $size: "$comments.replies" },
+              },
+              null,
+            ],
           },
         },
       },
@@ -71,22 +82,15 @@ const getPost = async (_, { postId }, { req }) => {
       },
     ]);
 
+    if (post.length > 0) {
+      res.json({ status: "ok", postInfo: post[0] });
 
-
-    if (post.length === 0) {
-      return {
-        __typename: "Error",
-        message: "Post not found",
-      };
+      return;
     }
-
-    return {
-      __typename: "Post",
-      ...post[0],
-    };
+    res.json({ status: "error", error: "Post not found" });
   } catch (err) {
     console.log(err);
-    return INTERNAL_SERVER_ERROR;
+    next();
   }
 };
 

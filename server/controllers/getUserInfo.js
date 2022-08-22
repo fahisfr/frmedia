@@ -1,7 +1,7 @@
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
 
-const getUserInfo = async (_, { userName }, { req, INSERR }) => {
+const getUserInfo = async (req, res, next) => {
   try {
     const { id } = req.user;
     const user = await dbUser.aggregate([
@@ -54,18 +54,12 @@ const getUserInfo = async (_, { userName }, { req, INSERR }) => {
       },
     ]);
 
-    console.log(user);
-
     if (user.length > 0) {
-      return {
-        __typename: "User",
-        ...user[0],
-      };
+      res.json({ status: "ok", userInfo: user[0] });
+      return;
     }
-    return {
-      __typename: "Error",
-      message: "User not found",
-    };
+    res.json({ status: "error", error: "User not found" });
+    return;
   } catch (error) {
     console.log(error);
     return INSERR;

@@ -1,59 +1,45 @@
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useState } from "react";
-import { mutRequtest } from "../graphql/mutations";
-import { useRouter } from 'next/router'
-import {LOGIN} from '../graphql/mutations'
-import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+import axios from "../axios";
 
-export const getServerSideProps = async ({req}) => {
-
+export const getServerSideProps = async ({ req }) => {
   const token = req.cookies.auth_token;
 
-  if (token){
-    return{
-      redirect:{
-        destination:"/",
-        permanent:false,
-
-      }
-    }
+  if (token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
 
-  return{
-    props:{}
-  }
-
+  return {
+    props: {},
+  };
 };
 
-function Login( {} ) {
-   
+function Login({}) {
+  const router = useRouter();
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const [sumitNow,{loading,error,data}] = useMutation(LOGIN,{
-    variables:{
-      nameOrEmail:id,
-      password
-    },
-    onCompleted({login}){
-      if(login.status){
-        router.push("/")
-      }else{
-        setLoginError(login.message)
-      }
-    }
-  })
-
-
-  loginError && alert(loginError)
-
-  
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    sumitNow();
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/login", { id, password });
+      data.status === "ok" && router.push("/");
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -95,7 +81,11 @@ function Login( {} ) {
               )}
             </div>
 
-            <div className={`${styles.form_bottom} ${loading && styles.btn_loading}`}>
+            <div
+              className={`${styles.form_bottom} ${
+                loading && styles.btn_loading
+              }`}
+            >
               <button
                 className={styles.form_button}
                 type="submit"
@@ -135,7 +125,5 @@ function Login( {} ) {
     </div>
   );
 }
-
-
 
 export default Login;

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "joi": "^17.6.0",
     "react-easy-crop": "^4.4.2"
   }
 }

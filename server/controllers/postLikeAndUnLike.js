@@ -1,9 +1,9 @@
 const dbPost = require("../dbSchemas/post");
 
 const likePost = async (_, { postId }, { req, INSERR }) => {
-  
   try {
     const { id } = req.user;
+    const { postId } = req.params;
     const PostLiked = await dbPost.updateOne(
       {
         _id: postId,
@@ -16,24 +16,19 @@ const likePost = async (_, { postId }, { req, INSERR }) => {
     );
 
     if (PostLiked.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "post liked",
-      };
+      res.json({ status: "ok" });
+      return;
     }
-
-    return {
-      __typename: "Error",
-      message: "Could not like this post",
-    };
+    res.json({ status: "error", error: "Could not like this post" });
   } catch (err) {
-    return INSERR;
+    next();
   }
 };
 
 const unLikePost = async (_, { postId }, { req, INSERR }) => {
   try {
     const { id } = req.user;
+    const {postId} =req.params
     const PostUnLiked = await dbPost.updateOne(
       {
         _id: postId,
@@ -46,18 +41,12 @@ const unLikePost = async (_, { postId }, { req, INSERR }) => {
     );
 
     if (PostUnLiked.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "post unliked",
-      };
+      res.json({ status: "ok" });
+      return;
     }
-    return {
-      __typename: "Error",
-      message: "Could not unlike this post",
-    };
+    res.json({ status: "error", error: "Could not unlike this post" });
   } catch (err) {
-    console.log(err);
-    return INSERR;
+    next();
   }
 };
 

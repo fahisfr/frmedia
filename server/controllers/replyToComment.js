@@ -1,10 +1,10 @@
 const dbPost = require("../dbSchemas/post");
-const getPostInfo  = require("../helper");
+const getPostInfo = require("../helper");
 
-const reply = async (req, res) => {
-  
+const reply = async (req, res, next) => {
   try {
-    const { content, postId, commentId } = req.body;
+    const { postId } = req.params; 
+    const { content, commentId } = req.body;
     const { id } = req.user;
     const file = req.files?.file;
 
@@ -30,19 +30,11 @@ const reply = async (req, res) => {
       }
     );
     if (addReplay.modifiedCount > 0) {
-      res.json({
-        success: true,
-        message: "Reply added successfully",
-      });
+      res.json({ status: "ok", message: "Reply added successfully" });
     }
-    res.json({
-      success: false,
-      message: "Reply not added",
-    });
+    res.json({ status: "error" });
   } catch (error) {
-    console.log(error);
-
-    res.json({ success: false, message: "oops somthing went wrong:(" });
+    next();
   }
 };
 

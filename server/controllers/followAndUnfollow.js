@@ -1,9 +1,12 @@
 const { Router } = require("express");
 const dbUser = require("../dbSchemas/user");
 
-const follow = async (_, { followId }, { req, INSERR }) => {
+const follow = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const {
+      user: { id },
+      body: { followId },
+    } = req;
 
     const following = await dbUser.updateOne(
       { _id: followId },
@@ -13,41 +16,40 @@ const follow = async (_, { followId }, { req, INSERR }) => {
     console.log(following);
 
     if (following.modifiedCount > 0) {
-      return {
-        __typename: "Success",
-        message: "followed",
-      };
+      res.json({
+        __typename: "ok",
+      });
     }
-
-    return {
-      __typename: "Error",
+    res.json({
+      status: "error",
       message: "Could not follow this user",
-    };
+    });
   } catch (err) {
-    return INSERR;
+    next();
   }
 };
 
-const unFollow = async (_, { unFollowId }, { req, INSERR }) => {
+const unFollow = async (req, res, next) => {
   try {
-    const { id } = await req.user;
+    const {
+      user: { id },
+      body: { unFollowId },
+    } = req;
+
     const unFollowed = dbUser.updateOne(
       { _id: unFollowId },
       { $pull: { followers: id } }
     );
 
     if (unFollowed.modifiedCount > 0) {
-      return {
-        __typename: "Success",
+      res.json({
+        status: "ok",
         message: "unfollowed",
-      };
+      });
     }
-    return {
-      __typename: "Error",
-      message: "Could not unfollow this user",
-    };
+    res.json({ status: "error", message: "Could not unfollow this user" });
   } catch (err) {
-    return INSERR;
+    next();
   }
 };
 

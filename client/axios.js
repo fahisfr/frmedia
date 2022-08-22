@@ -13,7 +13,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(config => {
     const accessToken = localStorage.getItem('auth_token');
-    accessToken && (config.headers.Authorization = `Bearer ${accessToken}`);
+    accessToken && (config.headers.auth_token = `Bearer ${accessToken}`);
     return config;
 }, error => Promise.reject(error));
 

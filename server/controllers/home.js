@@ -3,10 +3,10 @@ const dbPost = require("../dbSchemas/post");
 
 const { default: mongoose } = require("mongoose");
 
-const home = async (_, __, { req },{INSERR}) => {
+const home = async (req,res) => {
   try {
     const { id } = req.user;
-    console.log(id);
+    
     const userInfo = await dbUser.aggregate([
       {
         $match: {

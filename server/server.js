@@ -11,15 +11,11 @@ const dbConn = require("./config/dbConn");
 const dbUser = require("./dbSchemas/user");
 const dbPost = require("./dbSchemas/post");
 const mongoose = require("mongoose");
-const { ApolloServer } = require("apollo-server-express");
-const resolvers = require("./graphQls/resolvers");
-const { typeDefs } = require("./graphQls/typeDefs");
 const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
 const fileUpload = require("express-fileupload");
-const { INTERNAL_SERVER_ERROR } = require("./config/customErrors");
-const jwt = require("jsonwebtoken");
+const errorHandler= require("./config/errorHandler");
 
 dbConn();
 
@@ -31,43 +27,19 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
+app.use("/login", require("./controllers/login"));
+app.use("/signup", require("./controllers/signUp"));
+app.use("/home", require("./controllers/home"));
+app.use("/post/:postId",require("./routes/post"))
+app.use("/user", require("./routes/user"));
+app.use("/verify", require("./routes/verify"));
 app.post("/addpost", auth, require("./controllers/addPost"));
 app.post("/addcomment", auth, require("./controllers/addComment"));
 app.post("/reply-to-comment", auth, require("./controllers/replyToComment"));
 app.post("/edit-profile", auth, require("./controllers/editProfile"));
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req, res }) => {
-    try {
-      const token = req.cookies.auth_token;
-      if (token) {
-        jwt.verify(
-          req.cookies.auth_token,
-          process.env.TOKEN_SECRET,
-          (err, decode) => {
-            if (err) {
-              throw new Error("unauthorized");
-            }
-            req.user = decode;
-          }
-        );
-      }
+app.use(errorHandler);
 
-      return {
-        req,
-        res,
-        INSERR: INTERNAL_SERVER_ERROR,
-      };
-    } catch (error) {
-      throw new Error("oops somthing went wrong:(");
-    }
-  },
-});
-
-server.start().then(() => {
-  server.applyMiddleware({ app, cors: corsOptions });
-});
-
-app.listen(port);
+app.listen(port, () => {
+  console.log(`server is running on port ${port}`);
+})

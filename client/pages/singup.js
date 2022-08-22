@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import styles from "../styles/ls.module.css";
 import Link from "next/link";
-import { mutRequest } from "../graphql/mutations";
-import { verifyEmailQuery, verifyUserNamesQuery } from "../graphql/qurey";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { SING_UP } from "../graphql/mutations";
+import { useRouter } from "next/router";
+import axios from "../axios";
 
 // export const getServerSideProps = async ({req}) => {
 
@@ -26,36 +24,44 @@ import { SING_UP } from "../graphql/mutations";
 // }
 
 function index() {
+  const router = useRouter();
+
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [
-    verifyEmailNow,
-    {
-      data: verifyEmailData,
-      error: verifyEmailError,
-      loading: verifyEmailLoading,
-    },
-    
-  ] = useLazyQuery(verifyEmailQuery);
+  const [verifyEmailErr, setVerifyEmailErr] = useState(false);
+  const [verifyUserNameErr, setVerifyUserNameErr] = useState(false);
 
-  const [
-    verifyUserNameNow,
-    {
-      data: verfiyNameData,
-      error: verifyNameError,
-      loading: verifyNameLoading,
-    },
-  ] = useLazyQuery(verifyUserNamesQuery);
-  const [loginNow, { data, error, loading }] = useMutation(SING_UP, {
-    variables: {
-      userName,
-      email,
-      password,
-    },
-  });
+  console.log(verifyEmailErr);
+
+  const verifyEmailNow = async () => {
+    const { data } = await axios.get(`/verify/email/${email}`);
+
+    if (data.status === "error") {
+      setVerifyEmailErr(true);
+    }
+  };
+
+  const verifyUserNameNow = async () => {
+    const { data } = await axios.get(`/verify/user-name/${userName}`);
+    if (data.approved === "error") {
+      setVerifyUserNameErr(true);
+    }
+  };
+
+  const loginNow = async (e) => {
+    try {
+      e.preventDefault();
+      const { data } = await axios.post("/login", { id, password });
+      data.status === "ok" && router.push("/");
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const [focus, setFocus] = useState({
     name: false,
@@ -76,9 +82,9 @@ function index() {
     console.log(e.target.validity.valid);
     if (name === "name" || ("email" && e.target.validity.valid)) {
       if (name === "name") {
-        verifyUserNameNow({ variables: { userName: e.target.value } });
+        verifyUserNameNow();
       } else if (name === "email") {
-        verifyEmailNow({ variables: { email: e.target.value } });
+        verifyEmailNow();
       }
     }
   };
@@ -118,7 +124,7 @@ function index() {
                 User Name
               </label>
               <span className={styles.error_message}>
-                {verifyNameError
+                {verifyUserNameErr
                   ? "Username is Already Taken"
                   : "Username should be 3-13 characters"}
               </span>
@@ -146,7 +152,7 @@ function index() {
                 Email
               </label>
               <span className={styles.error_message}>
-                {verifyEmailData
+                {verifyEmailErr
                   ? "Email Already registered"
                   : "Please enter a valid email"}
               </span>
@@ -206,9 +212,7 @@ function index() {
 
             <div
               className={`${styles.form_bottom} ${
-                verifyNameLoading || verifyEmailLoading || loading
-                  ? styles.btn_loading
-                  : null
+                loading ? styles.btn_loading : null
               }`}
             >
               <button className={styles.form_button} onClick={onSubmit}>

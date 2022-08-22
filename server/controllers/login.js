@@ -1,8 +1,7 @@
 const dbUser = require("../dbSchemas/user");
 const jwt = require("jsonwebtoken");
-const { INTERNAL_SERVER_ERROR } = require("../config/customErrors");
 
-const login = async (_, { nameOrEmail, password }, { res }) => {
+const login = async (req, res, next) => {
   try {
     const isEmail = nameOrEmail.includes("@");
 
@@ -12,10 +11,10 @@ const login = async (_, { nameOrEmail, password }, { res }) => {
     });
 
     if (!findUser) {
-      return {
-        __typename: "Error",
-        message: "Invalid username or password",
-      };
+      res.json({
+        status: "error",
+        error: "UserName/Email or password is incorrect",
+      });
     }
 
     const token = jwt.sign(
@@ -31,13 +30,9 @@ const login = async (_, { nameOrEmail, password }, { res }) => {
       sameSite: "strict",
     });
 
-    return {
-      __typename: "Success",
-      message: "login successfull",
-    };
+    res.json({ status:"ok" });
   } catch (error) {
-    console.log(error);
-    return INTERNAL_SERVER_ERROR;
+    next();
   }
 };
 
