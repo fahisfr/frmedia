@@ -6,7 +6,6 @@ const { default: mongoose } = require("mongoose");
 const home = async (req,res) => {
   try {
     const { id } = req.user;
-    
     const userInfo = await dbUser.aggregate([
       {
         $match: {

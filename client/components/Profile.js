@@ -4,31 +4,32 @@ import { faker } from "@faker-js/faker";
 import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
 import EditProfile from "./EditProfile";
-import { useMutation } from "@apollo/client";
-import { FOLLOW, UNFOLLOW } from "../graphql/mutations";
+
 import Post from "./Post";
+import axios from "../axios";
 
 function Profile({ userInfo }) {
-  const { _id, userName, followersCount, followingCount, bio, followed } =
+  let { userName, followersCount, followingCount, _id, bio, _following } =
     userInfo;
-
-  const [followNow, { data: fData, loading: fLoading, error: fError }] =
-    useMutation(FOLLOW, {
-      variables: {
-        followId: _id,
-      },
-    });
-  const [unfollowNow, { data: uData, loading: uLoading, error: uError }] =
-    useMutation(UNFOLLOW, {
-      variables: {
-        unFollowId: _id,
-      },
-    });
-
   const [editProfile, setEditProfile] = useState(false);
+
+  const followhadler = async () => {
+    const { data } = await axios.post(
+      `/user/${_following ? "follow" : "unfollow"}`,
+      { id: id }
+    );
+
+    if (data.status === "ok") {
+      _following = true;
+    }
+  };
   return (
     <div className="center">
-      <EditProfile trigger={editProfile} setTrigger={setEditProfile} info={userInfo} />
+      <EditProfile
+        trigger={editProfile}
+        setTrigger={setEditProfile}
+        info={userInfo}
+      />
 
       <div className={styles.container}>
         <div className={styles.cover_photo}>
@@ -62,12 +63,18 @@ function Profile({ userInfo }) {
                 </div>
               </div>
               <div>
-                {followed ? (
-                  <button className={`${styles.btn} ${styles.unfollow}`}onClick={()=>{unfollowNow()}} >
+                {_following ? (
+                  <button
+                    className={`${styles.btn} ${styles.unfollow}`}
+                    onClick={() => {}}
+                  >
                     unfollow
                   </button>
                 ) : (
-                  <button className={`${styles.btn} ${styles.follow}`} onClick={()=>{followNow()}}>
+                  <button
+                    className={`${styles.btn} ${styles.follow}`}
+                    onClick={() => {}}
+                  >
                     Follow
                   </button>
                 )}

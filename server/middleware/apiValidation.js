@@ -6,7 +6,7 @@ const signup = joi.object().keys({
 });
 
 const login = joi.object().keys({
-  id: joi.string().email().required(),
+  id: joi.string().required(),
   password: joi.string().required(),
 });
 
@@ -30,9 +30,9 @@ const validate = (api) => {
         
       const { error } = getSchema(api).validate(req.body);
       if (error) {
-        res.status(400).json({
-          success: false,
-          message: error.details[0].message,
+        res.json({
+          status:"error",
+          error: error.details[0].message,
         });
         return;
       }
@@ -41,8 +41,8 @@ const validate = (api) => {
   } catch (error) {
 
     res.json({
-      success: false,
-      message: "api validation failed:(",
+      status:"error",
+      error: "api validation failed:(",
     });
   }
 };

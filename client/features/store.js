@@ -1,9 +1,11 @@
-import React from "react";
 import { configureStore } from "@reduxjs/toolkit";
+import user from "./user";
 
 function store() {
   return configureStore({
-    reducer: {},
+    reducer: {
+      user
+    },
     devTools: process.env.NODE_ENV === "development",
   });
 }

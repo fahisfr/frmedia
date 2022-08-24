@@ -1,109 +1,112 @@
-
-.left_bar{
-    flex: 1 ;
+.left_bar {
+    flex: 1;
     flex-shrink: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     flex-basis: 0;
     overflow: auto;
+
 }
 
 
-.container{
-    
-   padding: 1rem 3rem;
-   background-color: var(--gray_50);
-   
+.container {
+
+    padding: 1rem 3rem;
+
+
 }
 
-.nav{
-    
+.nav {
+
     gap: 2rem;
     border-radius: 5px;
-    background-color: var(--gray_50);
-    
+
+
 }
 
-.a{
-    color:#171c21;
+.a {
+    color: #171c21;
 }
 
-.group{
+.group {
 
     display: flex;
     align-items: center;
-    padding: 1rem 3rem 1rem .5rem;
+    padding: 1rem 5.8rem 1rem .5rem;
     column-gap: .6rem;
-    border-bottom: 1px solid var(--gray_300);
-  
+    background-color: var(--gray_50);
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
 }
 
-.group:hover{
+.group:hover {
     background-color: var(--gray_100);
-    border-radius: 5px;
+
 }
 
-.group:active{
-    
+.group:active {}
+
+.icon {
+    font-size: 1.5rem;
 }
 
-.icon{
-    font-size:1.5rem;
-}
-
-.text{
+.text {
 
     font-size: 1.070rem;
     font-weight: 300;
 }
 
 
-.suggestion{
-  
+.suggestion {
+
     width: 100%;
     margin-top: 10px;
     border-radius: 5px;
     box-shadow: var(--default_shadow);
     background-color: var(--gray_50);
-  
+
 }
 
-.sug_top{
-    padding: 1rem 1rem .5rem ;
-}  
-.sug_bottom{
-
-   max-height: 14rem;
-   overflow: scroll;
+.sug_top {
+    padding: 1rem 1rem .5rem;
 }
+
+.sug_bottom {
+
+    max-height: 14rem;
+    overflow: scroll;
+}
+
 .sug_bottom::-webkit-scrollbar {
     display: none;
 }
 
-.sug_text{
+.sug_text {
 
     font-size: 1rem;
     font-weight: 400;
     color: var(--gray_700);
 }
 
-.user{
+.user {
 
     display: flex;
     padding-top: 6px;
     align-items: center;
-    
+
 }
 
-.profile{
+.profile {
 
     width: 3rem;
     height: 3rem;
     padding: 5px 6px;
 }
 
-.img{
+.img {
 
     width: 100%;
     border-radius: 50%;
@@ -111,7 +114,7 @@
     cursor: pointer;
 }
 
-.un{
+.un {
 
     flex-grow: 1;
     display: flex;
@@ -119,14 +122,14 @@
     column-gap: 5px;
 }
 
-.verified{
+.verified {
 
     font-size: 1.2rem;
     color: var(--default_blue);
 }
 
-.btn{
-    
+.btn {
+
     width: 3.5rem;
     height: 1.6rem;
     border-radius: 10px;
@@ -137,14 +140,15 @@
     border: 1px solid var(--default_blue);
 }
 
-.btn:hover{
+.btn:hover {
 
     background-color: var(--default_blue);
-    color:  #ffffff;
+    color: #ffffff;
 }
 
-.blue{
+.blue {
     color: var(--default_blue);
-    border-bottom: 1px solid var(--default_blue);
-}
 
+
+
+}

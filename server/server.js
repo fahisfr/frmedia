@@ -15,7 +15,8 @@ const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
 const fileUpload = require("express-fileupload");
-const errorHandler= require("./config/errorHandler");
+const errorHandler = require("./config/errorHandler");
+const apiValidation = require("./middleware/apiValidation");
 
 dbConn();
 
@@ -27,11 +28,12 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
-app.use("/login", require("./controllers/login"));
-app.use("/signup", require("./controllers/signUp"));
+app.use("/auth",auth, require("./controllers/auth"));
+app.post("/login", apiValidation("login"), require("./controllers/login"));
+app.post("/signup", require("./controllers/signUp"));
 app.use("/home", require("./controllers/home"));
-app.use("/post/:postId",require("./routes/post"))
-app.use("/user", require("./routes/user"));
+app.use("/post/:postId", require("./routes/post"));
+app.use("/user",auth, require("./routes/user"));
 app.use("/verify", require("./routes/verify"));
 app.post("/addpost", auth, require("./controllers/addPost"));
 app.post("/addcomment", auth, require("./controllers/addComment"));
@@ -42,4 +44,4 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
-})
+});

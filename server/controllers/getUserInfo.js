@@ -3,11 +3,24 @@ const objectId = require("mongoose").Types.ObjectId;
 
 const getUserInfo = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const id = req.user?.id;
+    const { userName } = req.params;
+
     const user = await dbUser.aggregate([
       {
         $match: {
           userName,
+        },
+      },
+      {
+        $addFields: {
+          _following: {
+            $cond: [
+              { $ifNull: [id, false] },
+              { $in: [objectId(id), "$following"] },
+              false,
+            ],
+          },
         },
       },
       {
@@ -25,16 +38,16 @@ const getUserInfo = async (req, res, next) => {
         },
       },
       {
-        $set: {
+        $addFields: {
           "posts.commentsCount": {
             $size: "$posts.comments",
           },
           "posts.likesCount": {
             $size: "$posts.likes",
           },
-          "posts.liked": {
-            $in: [objectId(id), "$posts.likes"],
-          },
+          "posts.liked":{
+            $in:[objectId(id),"$posts.likes"]
+          }
         },
       },
       {
@@ -49,11 +62,12 @@ const getUserInfo = async (req, res, next) => {
           posts: { $push: { $arrayElemAt: ["$posts", 0] } },
           followersCount: { $first: { $size: "$followers" } },
           followingCount: { $first: { $size: "$following" } },
-          followed: { $first: { $in: [objectId(id), "$followers"] } },
+          _following: { $first: "$_following" },
         },
       },
     ]);
 
+    console.log(user);
     if (user.length > 0) {
       res.json({ status: "ok", userInfo: user[0] });
       return;
@@ -62,7 +76,7 @@ const getUserInfo = async (req, res, next) => {
     return;
   } catch (error) {
     console.log(error);
-    return INSERR;
+    next(error);
   }
 };
 

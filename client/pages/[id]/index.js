@@ -1,28 +1,23 @@
 import React from "react";
 import Profile from "../../components/Profile";
 import MainLayout from "../../layouts/Main";
-import JustLoading from "../../components/JustLoading";
-import { useQuery } from "@apollo/client";
-import { GET_USERINFO } from "../../graphql/qurey";
+import { aixosSSR } from "../../axios";
 
-function Index({ userName }) {
-  const { data, loading, error } = useQuery(GET_USERINFO, {
-    variables: {
-      userName,
-    },
-  });
-
+function Index({ userInfo }) {
   return (
-    <>{loading ? <JustLoading /> : <Profile userInfo={data.getUserInfo} />}</>
+    <>
+      <Profile userInfo={userInfo}></Profile>
+    </>
   );
 }
 
 Index.PageLayout = MainLayout;
 
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ req, query }) => {
+  const res = await aixosSSR(req, `user/${query.id}`);
   return {
     props: {
-      userName: query.id,
+      ...res,
     },
   };
 };

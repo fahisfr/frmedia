@@ -32,9 +32,17 @@ function Login({}) {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (!id && !password ){
+        return
+      }
       setLoading(true);
       const { data } = await axios.post("/login", { id, password });
-      data.status === "ok" && router.push("/");
+      if (data.status === "ok") {
+        localStorage.setItem("auth_token", data.token);
+        router.push("/")
+      } else {
+        setLoginError(data.error);
+      }
     } catch (error) {
       alert(error.message);
     } finally {
@@ -48,6 +56,10 @@ function Login({}) {
         <div className={styles.body}>
           <div className={styles.title}>
             <h1 className={styles.title_text}>Login</h1>
+
+            {loginError && (
+              <span className={styles.l_error_message}>{loginError}</span>
+            )}
           </div>
 
           <form className={styles.form}>
@@ -76,9 +88,6 @@ function Login({}) {
                 required
               />
               <label className={styles.form_label}>Password</label>
-              {loginError && (
-                <span className={styles.l_error_message}>{loginError}</span>
-              )}
             </div>
 
             <div
@@ -114,7 +123,7 @@ function Login({}) {
                 </button>
                 <div className={styles.body_bottom}>
                   <span>
-                    Don't have an accound? <Link href="/singup">Sing Up</Link>
+                    Don't have an accound? <Link href="/singup">Sign Up</Link>
                   </span>
                 </div>
               </div>

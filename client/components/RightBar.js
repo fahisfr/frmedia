@@ -10,10 +10,153 @@ function RightBar() {
             <h3>Trading</h3>
           </div>
           <div className={styles.tg_bottom}>
-            <div  className={styles.post}>
+            <div className={styles.post}>
               <div className={styles.postLeft}>
                 <span></span>
-                <span className={styles.tcond}></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfs</span>
+              </div>
+
+              <div className={styles.postRight}>
+                <div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                  <div className={styles.menu_icon}></div>
+                </div>
+              </div>
+            </div><div className={styles.post}>
+              <div className={styles.postLeft}>
+                <span></span>
+                <span className={styles.tcond}>asdfsa</span>
               </div>
 
               <div className={styles.postRight}>

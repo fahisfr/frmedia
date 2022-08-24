@@ -8,44 +8,14 @@ import Link from "next/link";
 import { BiRepost } from "react-icons/bi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { FcLike } from "react-icons/fc";
-import { LIKE_POST, UNLIKE_POST } from "../graphql/mutations";
-import { useMutation } from "@apollo/client";
+
 import AddPost from "./AddPCR";
 
-function Post({ postInfo,userInfo }) {
-  const {
-    _id,
-    content,
-    file,
-    likesCount,
-    commentsCount,
-    liked,
-  } = postInfo;
-  const {userName} =userInfo;
+function Post({ postInfo, userInfo }) {
+  const { _id, content, file, likesCount, commentsCount, liked } = postInfo;
+  const { userName } = userInfo;
 
-  const randomNum = () => Math.floor(Math.random() * 24);
-
-  const [
-    likePostNow,
-    { data: likeData, error: likeError, loading: likeLoading },
-  ] = useMutation(LIKE_POST, {
-    variables: {
-      postId: _id,
-    },
-    onCompleted: (data) => {},
-  });
-
-  const [
-    unlikePostNow,
-    { data: unlikeData, error: unlikeError, loading: unlikeLoading },
-  ] = useMutation(UNLIKE_POST, {
-    variables: {
-      postId: _id,
-    },
-    onCompleted: (data) => {},
-  });
-
- 
+  const randomNum = () => "4";
 
   const likeHandler = () => {
     if (liked) {
@@ -54,6 +24,14 @@ function Post({ postInfo,userInfo }) {
       likePostNow();
     }
   };
+
+  const getUserName=()=>{
+    if (userName==="fahis"){
+      return "fahis2"
+    }else{
+      return "fahis"
+    }
+  }
 
   const fillterContent = () => {
     return content.split(" ").map((word) => {
@@ -76,7 +54,7 @@ function Post({ postInfo,userInfo }) {
   };
 
   return (
-    <div className={styles.container}>
+    <article className={styles.container}>
       <div className={styles.left}>
         <div className={styles.profile}>
           <img
@@ -93,7 +71,11 @@ function Post({ postInfo,userInfo }) {
               <div className={styles.ud}>
                 <div className={styles.group}>
                   <div className={styles.group_left}>
-                    <span className={styles.name}>{userName}</span>
+                    <Link href={`/${getUserName()}`}>
+                      <a>
+                        <span className={styles.name}>{userName}</span>
+                      </a>
+                    </Link>
                   </div>
                   <div className={styles.group_right}>
                     <MdVerified size={19} color="007aed" />
@@ -182,7 +164,7 @@ function Post({ postInfo,userInfo }) {
           </div>
         </footer>
       </div>
-    </div>
+    </article>
   );
 }
 

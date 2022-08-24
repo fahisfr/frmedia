@@ -1,9 +1,7 @@
 import Header from "../components/Header";
 import RightBar from "../components/RightBar";
 import LeftBar from "../components/LeftBar";
-import { useRouter } from "next/router";
 function Main(page) {
-  const router = useRouter();
 
   return (
     <div className="container">

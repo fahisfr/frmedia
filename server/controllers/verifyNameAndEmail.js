@@ -8,14 +8,13 @@ const verifyUserName = async (req, res, next) => {
 
     if (user) {
       res.json({
-        success: false,
-        approved: false,
-        message: " Username already registered ",
+        
+        status:"error",
+        error: " Username already registered ",
       });
     }
     res.json({
-      success: true,
-      approved: true,
+      status:"ok",
       message: "User name is available",
     });
   } catch (error) {

@@ -33,7 +33,7 @@
     padding: .4rem;
     font-style: italic;
     font-family: sans-serif;
-    padding: 1rem;
+    padding:1.2rem;
 }
 
 .title_text {
@@ -68,6 +68,7 @@
     outline: none;
     background-color: none;
     border: 1px solid rgba(177, 177, 177, 0.973);
+  
 }
 
 .form_label {
@@ -100,12 +101,12 @@
 
 .error_message{
 
-    display: none;   
+    display: none;
     font-size: .8rem;
     color: rgb(228, 59, 59);
-    padding-left: 0.5rem;
+    padding-left: 6px;
     font-family: sans-serif;
-    padding-bottom: 0.5rem;
+    padding-top:2px;
     transition: all 42s ease-in-out;
 }
 

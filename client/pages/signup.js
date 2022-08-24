@@ -26,38 +26,55 @@ import axios from "../axios";
 function index() {
   const router = useRouter();
 
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userName, setUserName] = useState("fahis");
+  const [email, setEmail] = useState("fahis@gmail.com");
+  const [password, setPassword] = useState("fahis");
+  const [confirmPassword, setConfirmPassword] = useState("fahis");
   const [loading, setLoading] = useState(false);
 
   const [verifyEmailErr, setVerifyEmailErr] = useState(false);
   const [verifyUserNameErr, setVerifyUserNameErr] = useState(false);
 
+  const [takenError, setTakenError] = useState({
+    userName: false,
+    email: false,
+  });
+
   console.log(verifyEmailErr);
 
   const verifyEmailNow = async () => {
+    setLoading(true);
     const { data } = await axios.get(`/verify/email/${email}`);
 
     if (data.status === "error") {
       setVerifyEmailErr(true);
+    } else {
+      setLoading(false);
     }
   };
 
   const verifyUserNameNow = async () => {
+    setLoading(true);
     const { data } = await axios.get(`/verify/user-name/${userName}`);
     if (data.approved === "error") {
       setVerifyUserNameErr(true);
     }
+    setLoading(false);
   };
 
-  const loginNow = async (e) => {
+  const onSubmit = async (e) => { 
+    console.log("hello")
+    e.preventDefault();
     try {
-      e.preventDefault();
-      const { data } = await axios.post("/login", { id, password });
-      data.status === "ok" && router.push("/");
+      
+      const { data } = await axios.post("/signup", { userName,email, password });
+      
+      if (data.status ==="ok"){
+        localStorage.setItem("auth_token",data.token)
+        router.push("/")
+      } 
     } catch (error) {
+      console.log(error)
     } finally {
       setLoading(false);
     }
@@ -79,8 +96,8 @@ function index() {
   const onBlur = (e) => {
     const { name } = e.target;
     setFocus({ ...focus, [name]: true });
-    console.log(e.target.validity.valid);
-    if (name === "name" || ("email" && e.target.validity.valid)) {
+
+    if (e.target.validity.valid) {
       if (name === "name") {
         verifyUserNameNow();
       } else if (name === "email") {
@@ -89,17 +106,14 @@ function index() {
     }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    loginNow();
-  };
+  
 
   return (
     <div className={styles.container}>
       <div>
         <div className={styles.body}>
           <div className={styles.title}>
-            <h1 className={styles.title_text}>Sing up</h1>
+            <h1 className={styles.title_text}>Sign up</h1>
           </div>
           <form o className={styles.form}>
             <div className={styles.form_group}>
@@ -216,7 +230,7 @@ function index() {
               }`}
             >
               <button className={styles.form_button} onClick={onSubmit}>
-                <span className={styles.form_button_text}>Sing Up</span>
+                <span className={styles.form_button_text}>Sign Up</span>
               </button>
             </div>
           </form>
