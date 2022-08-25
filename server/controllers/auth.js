@@ -35,7 +35,7 @@ const auth = async (req, res, next) => {
     if (userInfo) {
       res.json({
         status: "ok",
-        userInfo,
+        userInfo:userInfo[0],
       });
       return;
     }

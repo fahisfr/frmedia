@@ -12,7 +12,7 @@ import { FcLike } from "react-icons/fc";
 import AddPost from "./AddPCR";
 
 function Post({ postInfo, userInfo }) {
-  const { _id, content, file, likesCount, commentsCount, liked } = postInfo;
+  const { _id,text, file, likesCount, commentsCount, liked } = postInfo;
   const { userName } = userInfo;
 
   const randomNum = () => "4";
@@ -25,16 +25,8 @@ function Post({ postInfo, userInfo }) {
     }
   };
 
-  const getUserName=()=>{
-    if (userName==="fahis"){
-      return "fahis2"
-    }else{
-      return "fahis"
-    }
-  }
-
   const fillterContent = () => {
-    return content.split(" ").map((word) => {
+    return text.split(" ").map((word) => {
       if (word.startsWith("#")) {
         return (
           <Link href={`/hashtag/${word.slice(1)}`}>
@@ -71,11 +63,7 @@ function Post({ postInfo, userInfo }) {
               <div className={styles.ud}>
                 <div className={styles.group}>
                   <div className={styles.group_left}>
-                    <Link href={`/${getUserName()}`}>
-                      <a>
-                        <span className={styles.name}>{userName}</span>
-                      </a>
-                    </Link>
+                    <span className={styles.name}>{userName}</span>
                   </div>
                   <div className={styles.group_right}>
                     <MdVerified size={19} color="007aed" />
@@ -99,7 +87,7 @@ function Post({ postInfo, userInfo }) {
         </div>
 
         <div className={styles.body}>
-          {content && (
+          {text && (
             <Link href={`/${userName}/post/${_id}`}>
               <a style={{ color: "black" }}>
                 <div className={styles.message}>{fillterContent()}</div>

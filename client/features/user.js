@@ -13,27 +13,37 @@ const userSlice = createSlice({
       userName: null,
       bio: null,
       link: null,
-      posts: [],
       profilePic: null,
       avatarPic: null,
       followingCount: null,
       followersCount: null,
     },
-    isAuth:false,
+    isAuth: false,
     loading: false,
     error: false,
   },
   reducers: {
-    setUserInfo: (state, action) => (state.userInfo = action.payload),
+    updateUserInfo: (state, action) => {
+      console.log("his",action)
+
+
+      state.userInfo={ ...state.userInfo, ...action.payload.userInfo}
+     
+    },
     setPosts: (state, action) => state.posts.push(action.payload),
   },
   extraReducers: {
-    [fetchUser.fulfilled]: (state, action) => {
-       state.userInfo = action.userInfo
+    [fetchUser.fulfilled]: (state, { payload }) => {
+      if (payload.status === "ok") {
+        state.userInfo = payload.userInfo;
+        state.isAuth = true;
+      }
     },
     [fetchUser.pending]: (state, action) => {},
     [fetchUser.rejected]: (state, action) => {},
   },
 });
+
+export const { updateUserInfo } = userSlice.actions;
 
 export default userSlice.reducer;

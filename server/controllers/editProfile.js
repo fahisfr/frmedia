@@ -1,7 +1,7 @@
 const dbUser = require("../dbSchemas/user");
 const { getFileInfo } = require("../helper");
 
-const editProfile = async (req, res) => {
+const editProfile = async (req, res, next) => {
   try {
     const coverPic = req.files?.coverPic;
     const profilePic = req.files?.profilePic;
@@ -9,11 +9,15 @@ const editProfile = async (req, res) => {
       body: { bio, link },
       user: { id },
     } = req;
- 
+
     const getUpdatedInfo = () => {
-      const info = {
-        bio,
-      };
+      const info = {};
+      if (bio) {
+        info.bio = bio;
+      }
+      if (link) {
+        info.link = link;
+      }
       if (coverPic) {
         info.coverPic = getFileInfo(coverPic).name;
       }
@@ -23,30 +27,27 @@ const editProfile = async (req, res) => {
       return info;
     };
 
-    const info = getUpdatedInfo();
+    const updatedInfo = getUpdatedInfo();
 
-    const update = await dbUser.updateOne(
+    const updated = await dbUser.updateOne(
       {
         _id: id,
       },
       {
-        $set: {
-          ...info,
-        },
+        $set: { ...updatedInfo },
       }
     );
-
-    if (update.modifiedCount > 0) {
-      coverPic && coverPic.mv(`./public/c/${info.coverPic}`);
-      profilePic && profilePic.mv(`./public/p/${info.profilePic}`);
-      res.json({ success: true, message: "Profile updated successfully" });
+    
+    if (updated.modifiedCount > 0) {
+      coverPic && coverPic.mv(`./public/c/${updatedInfo.coverPic}`);
+      profilePic && profilePic.mv(`./public/p/${updatedInfo.profilePic}`);
+      res.json({ status:"ok", updatedInfo:updatedInfo });
       return;
     }
 
-    res.json({ success: false, message: "Profile not updated" });
+    res.json({ status: "error", error: "Profile not updated" });
   } catch (error) {
-    console.log(error)
-    res.json({ success: false, message: "oops something went wrong:(" });
+    next(error);
   }
 };
 

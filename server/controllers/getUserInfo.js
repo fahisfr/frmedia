@@ -17,7 +17,7 @@ const getUserInfo = async (req, res, next) => {
           _following: {
             $cond: [
               { $ifNull: [id, false] },
-              { $in: [objectId(id), "$following"] },
+              { $in: [objectId(id), "$followers"] },
               false,
             ],
           },
@@ -67,7 +67,7 @@ const getUserInfo = async (req, res, next) => {
       },
     ]);
 
-    console.log(user);
+
     if (user.length > 0) {
       res.json({ status: "ok", userInfo: user[0] });
       return;

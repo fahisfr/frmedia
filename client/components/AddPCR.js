@@ -55,7 +55,7 @@ function AddPCR({ For, postId, commentId }) {
       const formData = new FormData();
 
       formData.append("file", file);
-      formData.append("content", postText);
+      formData.append("text", postText);
 
       if (For === "comment" || "reply") {
         formData.append("postId", postId);

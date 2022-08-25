@@ -6,7 +6,7 @@ const postSchema = {
     ref: "users",
     required: true,
   },
-  content: { type: String },
+  text: { type: String },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
   file: {
     type: {

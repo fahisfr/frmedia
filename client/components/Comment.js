@@ -7,18 +7,13 @@ import Link from "next/link";
 import { FcLike } from "react-icons/fc";
 import Reply from "./Reply";
 import AddPCR from "./AddPCR";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_RPEPLIES } from "../graphql/qurey";
-import { LIKE_COMMENT, UNLIKE_COMMENT } from "../graphql/mutations";
 import JustLoading from "./JustLoading";
+import axios from "axios";
 function Comment({ comment, postId }) {
-
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
-  const { _id, content, file, likesCount, repliesCount, postAt, liked } =
-    comment;
+  let { _id, content, file, likesCount, repliesCount, postAt, liked } = comment;
   const { userName } = comment.userInfo;
 
-  
   const fillterContent = () => {
     return content.split(" ").map((word) => {
       if (word.startsWith("#")) {
@@ -39,13 +34,16 @@ function Comment({ comment, postId }) {
     });
   };
 
-  const likeHandler = (e) => {
-    e.preventDefault();
-    if (liked) {
-      unLikeComment();
-    } else {
-      likeComment();
-    }
+  const likeHandler = async (e) => {
+    try {
+      const { data } = await axios.post(
+        `/comment/${liked ? "like" : "unlike"}`,
+        { postId, commentId: _id }
+      );
+      if (data.status === "ok") {
+        liked = !liked;
+      }
+    } catch (error) {}
   };
 
   return (

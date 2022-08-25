@@ -1,9 +1,10 @@
+
 const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
 
 const addPost = async (req, res) => {
   try {
-    const { content } = req.body;
+    const { text } = req.body;
     const { id } = req.user;
 
     const file = req.files?.file;
@@ -17,8 +18,8 @@ const addPost = async (req, res) => {
 
     const getPostInfo = () => {
       if (!file) {
-        return { content };
-      } else if (!content) {
+        return { text };
+      } else if (!text) {
         return {
           file: getFileInfo(),
         };

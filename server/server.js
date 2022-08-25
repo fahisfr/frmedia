@@ -33,6 +33,7 @@ app.post("/login", apiValidation("login"), require("./controllers/login"));
 app.post("/signup", require("./controllers/signUp"));
 app.use("/home", require("./controllers/home"));
 app.use("/post/:postId", require("./routes/post"));
+app.use("/comment",require("./routes/comment"))
 app.use("/user",auth, require("./routes/user"));
 app.use("/verify", require("./routes/verify"));
 app.post("/addpost", auth, require("./controllers/addPost"));

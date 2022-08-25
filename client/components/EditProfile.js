@@ -3,11 +3,12 @@ import { faker } from "@faker-js/faker";
 import styles from "../styles/editProfile.module.css";
 import { MdAddAPhoto } from "react-icons/md";
 import axios from "../axios";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserInfo } from "../features/user";
 
-
-function EditProfile({ trigger, setTrigger,info }) {
-
-
+function EditProfile({ trigger, setTrigger, info }) {
+  const dispatch = useDispatch();
+  const { userName, bio, link } = useSelector((state) => state.user.userInfo);
 
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
@@ -18,18 +19,10 @@ function EditProfile({ trigger, setTrigger,info }) {
   const [profilePreview, setProfilePreview] = useState(null);
   const [coverPicPreview, setCoverPicPreview] = useState(null);
 
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
-  const [link, setLink] = useState("");
+  const [editedBio, setBio] = useState(null);
+  const [editedLink, setLink] = useState(null);
 
-   useEffect(() => {
-    setName(info.userName);
-    setBio(info.bio);
-    setLink(info.link);
-     
-   } , [trigger]);
-
-  const inputOnChange = (e) => {
+  const fileInputOnChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -39,6 +32,7 @@ function EditProfile({ trigger, setTrigger,info }) {
         setProfilePreview(reader.result);
         setProfile(file);
       } else if (e.target.name === "coverPic") {
+        console.log("yes is cover pic");
         setCoverPicPreview(reader.result);
         setcoverPic(file);
       }
@@ -47,17 +41,19 @@ function EditProfile({ trigger, setTrigger,info }) {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-
       const formData = new FormData();
-      bio && formData.append("bio", bio);
-      link && formData.append("link", link);
+      editedBio && formData.append("bio", editedBio);
+      editedLink && formData.append("link", editedLink);
       profile && formData.append("profilePic", profile);
       coverPic && formData.append("coverPic", coverPic);
 
-      const respose = await axios.post("/edit-profile", formData);
-      alert(respose.data.message);
+      const { data } = await axios.post("/edit-profile", formData);
+
+      if (data.status === "ok") {
+        dispatch(updateUserInfo(data.updatedInfo));
+      }
     } catch (error) {}
   };
 
@@ -84,9 +80,9 @@ function EditProfile({ trigger, setTrigger,info }) {
               className={styles.ref_input}
               type="file"
               accept="image/*"
-              name="avatar"
+              name="coverPic"
               ref={avatarRef}
-              onChange={inputOnChange}
+              onChange={fileInputOnChange}
             />
           </div>
           <div className={styles.pvi}>
@@ -104,7 +100,7 @@ function EditProfile({ trigger, setTrigger,info }) {
                 accept="image/*"
                 name="profile"
                 ref={profileRef}
-                onChange={inputOnChange}
+                onChange={fileInputOnChange}
               />
             </div>
           </div>
@@ -112,39 +108,33 @@ function EditProfile({ trigger, setTrigger,info }) {
             <div className={styles.group}>
               <input
                 className={styles.input}
-                value={name}
-                pattern="[a-zA-Z]{3,}"
+                value={userName}
                 type="text"
-                max={15}
-                min={3}
-                onChange={(e) => setName(e.target.value)}
+                disabled
               />
 
               <label className={styles.label}>User Name</label>
-              <span className={styles.error_message}>asdf</span>
             </div>
             <div className={styles.group}>
               <textarea
                 className={styles.area_input}
                 type="text"
-                value={bio}
+                value={editedBio ?? bio}
                 onChange={(e) => setBio(e.target.value)}
                 max={770}
               />
 
               <label className={styles.label}>bio</label>
-              <span className={styles.error_message}>asdf</span>
             </div>
             <div className={styles.group}>
               <input
                 type="url"
                 className={styles.input}
-                value={link}
+                value={editedLink ?? link}
+                placeholder="https://example.com"
                 onChange={(e) => setLink(e.target.value)}
               />
-
-              <label className={styles.label}>WebSite</label>
-              <span className={styles.error_message}>asdf</span>
+              <label className={styles.label}>Link</label>
             </div>
           </form>
         </div>

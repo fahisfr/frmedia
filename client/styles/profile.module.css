@@ -21,17 +21,20 @@
 .profile {
 
     position: absolute;
-    top: -4.1rem;
+    top: -4.2rem;
     left: 1rem;
-    width: 8rem;
     border-radius: 50%;
+    width: 7.5rem;
+    height: 8rem;
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
 
 .profile_img {
 
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    object-fit: cover;
+    border-radius: 50%;   
 }
 
 .info_right {
@@ -131,25 +134,18 @@
     font-family: 'Merriweather', serif;
     background-color: var(--default_blue);
     color: #ffffff;
-    transition: .2s ease;
+    font-size: .8rem;
+
 }
 
 .follow {
-    font-size: .930rem;
+  
 }
 
-/* .unfollow:not(:hover)::before {
-    content: "Following";
-}
+.unfollow{
 
-.unfollow:hover {
-    background-color: var(--red_500);
+    background-color: rgba(255, 0, 0, 0.699);
 }
-
-.unfollow:hover::before,
-.unfollow::before {
-    content: "Unfollow";
-} */
 
 .bio {
 

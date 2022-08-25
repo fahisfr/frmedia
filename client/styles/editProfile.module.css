@@ -91,6 +91,7 @@
     position: relative;
     height: 11rem;
     overflow: hidden;
+    
 }
 
 .avatar_img {
@@ -110,6 +111,7 @@
     border-radius: 50%;
     width: 7.5rem;
     height: 7.5rem;
+    
 }
 
 .ref_input {

@@ -5,7 +5,7 @@ const follow = async (req, res, next) => {
   try {
     const {
       user: { id },
-      body: { followId },
+      body: { id:followId },
     } = req;
 
     const following = await dbUser.updateOne(
@@ -17,7 +17,7 @@ const follow = async (req, res, next) => {
 
     if (following.modifiedCount > 0) {
       res.json({
-        __typename: "ok",
+        status: "ok",
       });
     }
     res.json({
@@ -33,7 +33,7 @@ const unFollow = async (req, res, next) => {
   try {
     const {
       user: { id },
-      body: { unFollowId },
+      body: { id:unFollowId },
     } = req;
 
     const unFollowed = dbUser.updateOne(

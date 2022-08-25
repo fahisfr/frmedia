@@ -8,11 +8,11 @@ import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
   reducer: {
-    user,
+    user:user
   },
-  devTools: process.env.NODE_ENV === "development",
+  
 });
-store.dispatch(fetchUser())
+store.dispatch(fetchUser());
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.PageLayout || ((page) => page);
 

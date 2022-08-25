@@ -15,7 +15,7 @@ const userSlice = createSlice({
     },
     extraReducers:{
         [getUserInfo.fulfilled]:(state,action)=>{
-            state.loading = false;
+            
         },
         [getUserInfo.pending]:(state,action)=>{
             state.loading = true;

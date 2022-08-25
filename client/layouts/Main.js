@@ -1,7 +1,11 @@
 import Header from "../components/Header";
 import RightBar from "../components/RightBar";
 import LeftBar from "../components/LeftBar";
+import {useSelector } from "react-redux"
+
 function Main(page) {
+
+
 
   return (
     <div className="container">
