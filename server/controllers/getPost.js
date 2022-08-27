@@ -3,7 +3,6 @@ const objectId = require("mongoose").Types.ObjectId;
 
 const getPost = async (req, res, next) => {
   try {
-    
     const { postId } = req.params;
 
     if (!objectId.isValid(postId)) {
@@ -57,13 +56,13 @@ const getPost = async (req, res, next) => {
           comments: {
             $cond: [
               {
-                $ifNull: ["$comments.likes", false],
+                $ifNull: ["$comments", { $size: 0 }],
               },
+              null,
               {
                 likesCount: { $size: "$comments.likes" },
                 repliesCount: { $size: "$comments.replies" },
               },
-              null,
             ],
           },
         },

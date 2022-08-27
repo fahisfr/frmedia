@@ -5,8 +5,6 @@ import { MdVerified } from "react-icons/md";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
 import { FcLike } from "react-icons/fc";
-import { LIKE_REPLY, UNLIKE_REPLY } from "../graphql/mutations";
-import { useMutation } from "@apollo/client";
 
 import AddPCR from "./AddPCR";
 
@@ -14,27 +12,7 @@ function Reply({ replyInfo, postId, commentId }) {
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
   const { _id, content, createdAt, likesCount, liked, file } = replyInfo;
   const { userName } = replyInfo.userInfo;
-  const [
-    likeReply,
-    { data: likeData, error: likeError, loading: likeLoading },
-  ] = useMutation(LIKE_REPLY, {
-    variables: {
-      postId,
-      commentId,
-      replyId: _id,
-    },
-  });
-
-  const [
-    unlikeReply,
-    { data: unlikeData, error: unlikeError, loading: unlikeLoading },
-  ] = useMutation(UNLIKE_REPLY, {
-    variables: {
-      postId,
-      commentId,
-      replyId: _id,
-    },
-  });
+ 
 
   const likeHandler = (e) => {
     e.preventDefault();

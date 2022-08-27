@@ -1,31 +1,31 @@
 const { Router } = require("express");
 const dbUser = require("../dbSchemas/user");
+const objectId = require("mongoose").Types.ObjectId;
 
 const follow = async (req, res, next) => {
   try {
     const {
       user: { id },
-      body: { id:followId },
+      body: { id: followId },
     } = req;
 
-    const following = await dbUser.updateOne(
-      { _id: followId },
-      { $push: { followers: id } }
-    );
+    const bulk = dbUser.collection.initializeUnorderedBulkOp();
+    bulk
+      .find({ _id: objectId(id) })
+      .updateOne({ $push: { following: objectId(followId) } });
+    bulk
+      .find({ _id: objectId(followId) })
+      .updateOne({ $push: { followers: objectId(id) } });
 
-    console.log(following);
-
-    if (following.modifiedCount > 0) {
-      res.json({
-        status: "ok",
-      });
-    }
-    res.json({
-      status: "error",
-      message: "Could not follow this user",
+    bulk.execute((err, result) => {
+      if (result.nModified) {
+        res.json({ status: "ok" });
+        return;
+      }
+      res.json({ status: "error", message: "Could not follow this user" });
     });
   } catch (err) {
-    next();
+    next(err);
   }
 };
 
@@ -33,23 +33,26 @@ const unFollow = async (req, res, next) => {
   try {
     const {
       user: { id },
-      body: { id:unFollowId },
+      body: { id: unFollowId },
     } = req;
 
-    const unFollowed = dbUser.updateOne(
-      { _id: unFollowId },
-      { $pull: { followers: id } }
-    );
+    const bulk = dbUser.collection.initializeUnorderedBulkOp();
+    bulk
+      .find({ _id: objectId(id) })
+      .updateOne({ $pull: { following: objectId(unFollowId) } });
+    bulk
+      .find({ _id: objectId(unFollowId) })
+      .updateOne({ $pull: { followers: objectId(id) } });
 
-    if (unFollowed.modifiedCount > 0) {
-      res.json({
-        status: "ok",
-        message: "unfollowed",
-      });
-    }
-    res.json({ status: "error", message: "Could not unfollow this user" });
+    bulk.execute((err, result) => {
+      if (result.nModified) {
+        res.json({ status: "ok" });
+        return;
+      }
+      res.json({ status: "error", message: "Could not unFollow this user" });
+    });
   } catch (err) {
-    next();
+    next(err);
   }
 };
 

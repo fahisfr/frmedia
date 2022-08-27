@@ -24,7 +24,8 @@ const dbPost = mongoose.model(
   "posts",
   new mongoose.Schema({
     ...postSchema,
-
+    hashTags:[],
+    mentions:[],
     postAt: { type: Date, default: Date.now },
     comments: [
       {

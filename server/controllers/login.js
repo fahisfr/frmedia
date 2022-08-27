@@ -28,7 +28,7 @@ const login = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: user._id, userName: user.userName },
       process.env.TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "11d" }
     );
 
     dbUser.updateOne({_id:user._id},{

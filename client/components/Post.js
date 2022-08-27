@@ -8,14 +8,14 @@ import Link from "next/link";
 import { BiRepost } from "react-icons/bi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { FcLike } from "react-icons/fc";
-
-import AddPost from "./AddPCR";
+import { formatDistanceToNowStrict } from "date-fns";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 function Post({ postInfo, userInfo }) {
-  const { _id,text, file, likesCount, commentsCount, liked } = postInfo;
+ 
+  const { _id, text, file, likesCount, commentsCount, liked, postAt } =
+    postInfo;
   const { userName } = userInfo;
-
-  const randomNum = () => "4";
 
   const likeHandler = () => {
     if (liked) {
@@ -70,7 +70,14 @@ function Post({ postInfo, userInfo }) {
                   </div>
                 </div>
                 <div className={styles.group}>
-                  <span className={styles.date}>{`${randomNum()}h ago`}</span>
+                  <span className={styles.date}>
+                    {`${formatDistanceToNowStrict(
+                      zonedTimeToUtc(
+                        postAt,
+                        Intl.DateTimeFormat().resolvedOptions().timeZone
+                      )
+                    )} ago`}
+                  </span>
                 </div>
               </div>
             </div>

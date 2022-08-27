@@ -26,7 +26,7 @@ function Profile({ status, userInfo }) {
 
   const followHadler = async () => {
     const { data } = await axios.post(
-      `/user/${_following ? "follow" : "unfollow"}`,
+      `/user/${_following ? "unfollow" : "follow"}`,
       { id: _id }
     );
 
@@ -143,9 +143,9 @@ function Profile({ status, userInfo }) {
   );
 }
 
-export default Profile;
 
 Profile.PageLayout = MainLayout;
+export default Profile;
 
 export const getServerSideProps = async ({ req, query }) => {
   const res = await aixosSSR(req, `user/${query.id}`);

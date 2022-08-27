@@ -31,7 +31,7 @@ app.use(fileUpload());
 app.use("/auth",auth, require("./controllers/auth"));
 app.post("/login", apiValidation("login"), require("./controllers/login"));
 app.post("/signup", require("./controllers/signUp"));
-app.use("/home", require("./controllers/home"));
+app.use("/home",auth, require("./controllers/home"));
 app.use("/post/:postId", require("./routes/post"));
 app.use("/comment",require("./routes/comment"))
 app.use("/user",auth, require("./routes/user"));

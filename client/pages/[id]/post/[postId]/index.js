@@ -2,18 +2,13 @@ import React from "react";
 import Post from "../../../../components/Post";
 import AddPost from "../../../../components/AddPCR";
 import Comment from "../../../../components/Comment";
-import { useQuery, gql } from "@apollo/client";
-import MainLayout from "../../../../layouts/Main";
-import { GET_POST } from "../../../../graphql/qurey";
+
 import JustLoading from "../../../../components/JustLoading";
+import MainLayout from "../../../../layouts/Main"
 
 function Postv({ postId }) {
-  const { data, error, loading } = useQuery(GET_POST, {
-    variables: {
-      postId,
-    },
-    onCompleted: (data) => {},
-  });
+
+  const loading =true
 
   return (
     <>

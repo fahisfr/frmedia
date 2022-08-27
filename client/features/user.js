@@ -24,9 +24,6 @@ const userSlice = createSlice({
   },
   reducers: {
     updateUserInfo: (state, action) => {
-      console.log("his",action)
-
-
       state.userInfo={ ...state.userInfo, ...action.payload.userInfo}
      
     },
