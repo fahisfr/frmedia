@@ -6,16 +6,16 @@ const getFileInfo = (file) => {
   };
 };
 
-const getPostInfo = (file,content) => {
+const getPostInfo = (file,text) => {
   if (!file) {
-    return { content };
-  } else if (!content) {
+    return { text };
+  } else if (!text) {
     return {
       file: getFileInfo(file),
     };
   } else {
     return {
-      content,
+      text,
       file: getFileInfo(file),
     };
   }

@@ -8,9 +8,6 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const dbConn = require("./config/dbConn");
-const dbUser = require("./dbSchemas/user");
-const dbPost = require("./dbSchemas/post");
-const mongoose = require("mongoose");
 const corsOptions = require("./config/corsOptions");
 const auth = require("./middleware/auth");
 const path = require("path");
@@ -28,13 +25,13 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
-app.use("/auth",auth, require("./controllers/auth"));
+app.use("/auth", auth, require("./controllers/auth"));
 app.post("/login", apiValidation("login"), require("./controllers/login"));
 app.post("/signup", require("./controllers/signUp"));
-app.use("/home",auth, require("./controllers/home"));
-app.use("/post/:postId", require("./routes/post"));
-app.use("/comment",require("./routes/comment"))
-app.use("/user",auth, require("./routes/user"));
+app.use("/home", auth, require("./controllers/home"));
+app.use("/post", auth, require("./routes/post"));
+app.use("/comment", auth, require("./routes/comment"));
+app.use("/user", auth, require("./routes/user"));
 app.use("/verify", require("./routes/verify"));
 app.post("/addpost", auth, require("./controllers/addPost"));
 app.post("/addcomment", auth, require("./controllers/addComment"));

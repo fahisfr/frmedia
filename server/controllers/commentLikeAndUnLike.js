@@ -3,14 +3,52 @@ const dbPost = require("../dbSchemas/post");
 const like = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { postId } = req.params;
+    const { postId, commentId } = req.body;
 
     const liked = await dbPost.updateOne(
       {
         _id: postId,
       },
       {
-        $push: {
+        $addToSet: {
+          "comments.$[index].likes": id,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            "index._id": commentId,
+          },
+        ],
+      }
+    );
+
+    console.log(liked);
+
+    if (liked.modifiedCount > 0) {
+      res.json({ status: "ok" });
+      return;
+    }
+    res.json({ status: "error", error: "Could not like this comment" });
+  } catch (err) {
+    console.log(err);
+    next();
+  }
+};
+
+const unLike = async (req, res, next) => {
+  try {
+    const {
+      body: { commentId, postId },
+      user: { id },
+    } = req;
+
+    const liked = await dbPost.updateOne(
+      {
+        _id: postId,
+      },
+      {
+        $pull: {
           "comments.$[index].likes": id,
         },
       },
@@ -24,45 +62,12 @@ const like = async (req, res, next) => {
     );
 
     if (liked.modifiedCount > 0) {
-      res.json({ success: true, message: "comment liked" });
-    }
-    res.json({ success: false, message: "Could not like this comment" });
-  } catch (err) {
-    console.log(err);
-    next();
-  }
-};
-
-const unLike = async (req, res, next) => {
-  try {
-    const { postId } = req.params;
-    const { commentId } = req.body;
-
-    const liked = await dbPost.updateOne(
-      {
-        _id: postId,
-      },
-      {
-        $pull: {
-          "comments.$[indec].replies.$[indec].likes": id,
-        },
-      },
-      {
-        arrayFilters: [
-          {
-            "index._id": commentId,
-          },
-        ],
-      }
-    );
-
-    if (liked.modifiedCount > 0) {
-      res.json({ success: true, message: "comment unliked" });
+      res.json({ status: "ok" });
       return;
     }
-    res.json({ success: true, message: "could not unlike this comment" });
+    res.json({ status: "error", error: "could not unlike this comment" });
   } catch (err) {
-    next();
+    next(err);
   }
 };
 

@@ -2,16 +2,17 @@ const dbPost = require("../dbSchemas/post");
 
 const like = async (req, res, next) => {
   try {
-    const { id } = req.user;
-    const { postId } = req.params;
-    const { commentId, replyId } = req.body
+    const {
+      body: { commentId, replyId, postId },
+      user: { id },
+    } = req;
 
     const liked = await dbPost.updateOne(
       {
         _id: postId,
       },
       {
-        $push: {
+        $addToSet: {
           "comments.$[commentInd].replies.$[replyInd].likes": id,
         },
       },
@@ -27,10 +28,9 @@ const like = async (req, res, next) => {
       }
     );
 
-    console.log(liked);
-
     if (liked.modifiedCount > 0) {
       res.json({ status: "ok" });
+      return;
     }
     res.json({ status: "error", error: "Could not like this reply" });
   } catch (err) {
@@ -40,16 +40,17 @@ const like = async (req, res, next) => {
 
 const unLike = async (req, res, next) => {
   try {
-    const { id } = req.user;
-    const { postId } = req.params;
-    const { commentId, replyId } = req.body
+    const {
+      body: { commentId, replyId, postId },
+      user: { id },
+    } = req;
 
-    const unLiked = dbPost.updateOne(
+    const unLiked = await dbPost.updateOne(
       {
         _id: postId,
       },
       {
-        $push: {
+        $pull: {
           "comments.$[commentInd].replies.$[replyInd].likes": id,
         },
       },
@@ -59,18 +60,21 @@ const unLike = async (req, res, next) => {
             "commentInd._id": commentId,
           },
           {
-            "replieInd._id": replyId,
+            "replyInd._id": replyId,
           },
         ],
       }
     );
 
+    console.log(unLiked);
+
     if (unLiked.modifiedCount > 0) {
       res.json({ status: "ok" });
+      return;
     }
     res.json({ status: "error", error: "Could not like this reply" });
   } catch (err) {
-    next();
+    next(err);
   }
 };
 

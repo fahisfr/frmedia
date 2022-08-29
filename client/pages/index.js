@@ -11,7 +11,9 @@ function Home({}) {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchPosts());
+    if (posts.length === 0) {
+      dispatch(fetchPosts());
+    }
   }, [dispatch]);
 
   return (
@@ -20,22 +22,15 @@ function Home({}) {
       {loading ? (
         <JustLoading />
       ) : (
-        <>
-          {posts.map(({ userInfo, ...post }) => {
-            
-            return <Post postInfo={post} userInfo={userInfo} />;
+        < >
+          {posts.map(({ userInfo, ...post }, index) => {
+            return <Post postInfo={post} userInfo={userInfo} scroll={false} key={post._id} />;
           })}
         </>
       )}
     </>
   );
 }
-
-export const getServerSideProps = async (req) => {
-  return {
-    props: {},
-  };
-};
 
 Home.PageLayout = MainLayout;
 export default Home;

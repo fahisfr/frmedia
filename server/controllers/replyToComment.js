@@ -1,17 +1,16 @@
 const dbPost = require("../dbSchemas/post");
-const getPostInfo = require("../helper");
+const { getPostInfo } = require("../helper");
 
 const reply = async (req, res, next) => {
   try {
-    const { postId } = req.params; 
-    const { content, commentId } = req.body;
+    const { text, postId, commentId } = req.body;
     const { id } = req.user;
     const file = req.files?.file;
 
-    const postInfo = getPostInfo(file, content);
+    const postInfo = getPostInfo(file, text);
     const addReplay = await dbPost.updateOne(
       {
-        postId,
+        _id: postId,
       },
       {
         $push: {
@@ -29,12 +28,15 @@ const reply = async (req, res, next) => {
         ],
       }
     );
+
     if (addReplay.modifiedCount > 0) {
       res.json({ status: "ok", message: "Reply added successfully" });
+      return;
     }
-    res.json({ status: "error" });
+    res.json({ status: "error", error: "err" });
   } catch (error) {
-    next();
+    console.log(error);
+    next(error);
   }
 };
 

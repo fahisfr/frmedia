@@ -1,34 +1,43 @@
 const dbPost = require("../dbSchemas/post");
 
-const likePost = async (_, { postId }, { req, INSERR }) => {
+const like = async (req, res, next) => {
   try {
-    const { id } = req.user;
-    const { postId } = req.params;
-    const PostLiked = await dbPost.updateOne(
+    const {
+      user: { id },
+      body: { postId },
+    } = req;
+
+    console.log(id);
+
+    const postLiked = await dbPost.updateOne(
       {
         _id: postId,
       },
       {
-        $push: {
+        $addToSet: {
           likes: id,
         },
       }
     );
 
-    if (PostLiked.modifiedCount > 0) {
+    console.log(postLiked);
+
+    if (postLiked.modifiedCount > 0) {
       res.json({ status: "ok" });
       return;
     }
     res.json({ status: "error", error: "Could not like this post" });
   } catch (err) {
-    next();
+    next(err);
   }
 };
 
-const unLikePost = async (_, { postId }, { req, INSERR }) => {
+const unLike = async (req, res, next) => {
   try {
-    const { id } = req.user;
-    const {postId} =req.params
+    const {
+      user: { id },
+      body: { postId },
+    } = req;
     const PostUnLiked = await dbPost.updateOne(
       {
         _id: postId,
@@ -46,11 +55,11 @@ const unLikePost = async (_, { postId }, { req, INSERR }) => {
     }
     res.json({ status: "error", error: "Could not unlike this post" });
   } catch (err) {
-    next();
+    next(err);
   }
 };
 
 module.exports = {
-  likePost,
-  unLikePost,
+  like,
+  unLike,
 };

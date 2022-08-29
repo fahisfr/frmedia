@@ -1,25 +1,29 @@
 import styles from "../styles/addPcr.module.css";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { AiOutlineFileImage } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
-import { faker } from "@faker-js/faker";
-import axios from "../axios";
-
+import axios,{baseURL} from "../axios";
+import { useSelector } from "react-redux";
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
+
+
 function AddPCR({ For, postId, commentId }) {
+
+  
+
+  const { isAuth, userInfo } = useSelector((state) => state.user);
+
   const inputRef = useRef(null);
   const fileRef = useRef(null);
-
   const [file, setFile] = useState(null);
   const [emojiTrigger, setEmojiTrigger] = useState(false);
 
   const [postText, setPostText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
- 
 
   const PRC = () => {
     switch (For) {
@@ -39,7 +43,7 @@ function AddPCR({ For, postId, commentId }) {
         return {
           placeholder: "Write a reply...",
           btnText: "Reply",
-          apiPath: "/reply-to-comment",
+          apiPath: "/comment/add-reply",
         };
       default:
         throw new Error("Unknown pcr");
@@ -112,7 +116,7 @@ function AddPCR({ For, postId, commentId }) {
       <div className={styles.add_pc_content}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <img className={styles.profileImg} src={faker.image.avatar()} />
+            <img className={styles.profileImg}  src={`${baseURL}/p/${userInfo.profilePic}`} />
           </div>
         </div>
 

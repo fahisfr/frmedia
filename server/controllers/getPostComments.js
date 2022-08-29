@@ -1,40 +1,20 @@
-const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
+const dbPost = require("../dbSchemas/post");
 
-const getPost = async (req, res, next) => {
+const getComments = async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { id } = req.user;
 
-    if (!objectId.isValid(postId)) {
-      res.json({ status: "error", error: "post not found" });
-    }
-    const post = await dbPost.aggregate([
+    const comments = await dbPost.aggregate([
       {
         $match: {
           _id: objectId(postId),
         },
       },
       {
-        $addFields: {
-          commentsCount: {
-            $size: "$comments",
-          },
-        },
-      },
-
-      {
-        $lookup: {
-          from: "users",
-          localField: "userId",
-          foreignField: "_id",
-          as: "userInfo",
-        },
-      },
-
-      {
-        $set: {
-          userInfo: { $arrayElemAt: ["$userInfo", 0] },
+        $project: {
+          comments: 1,
         },
       },
       {
@@ -43,7 +23,6 @@ const getPost = async (req, res, next) => {
           preserveNullAndEmptyArrays: true,
         },
       },
-
       {
         $lookup: {
           from: "users",
@@ -52,6 +31,7 @@ const getPost = async (req, res, next) => {
           as: "comments.userInfo",
         },
       },
+
       {
         $addFields: {
           comments: {
@@ -69,29 +49,23 @@ const getPost = async (req, res, next) => {
         },
       },
       {
+        $unset: ["comments.replies"],
+      },
+      {
         $group: {
           _id: "$_id",
-          userInfo: { $first: "$userInfo" },
-          content: { $first: "$content" },
-          file: { $first: "$file" },
-          likesCount: { $first: { $size: "$likes" } },
-          commentsCount: { $first: "$commentsCount" },
           comments: { $push: "$comments" },
-          liked: { $first: { $in: [id, "$likes"] } },
         },
       },
     ]);
 
-    if (post.length > 0) {
-      res.json({ status: "ok", postInfo: post[0] });
-
-      return;
+    if (comments.length > 0) {
+      return res.json({ status: "ok", comments: comments[0] });
     }
-    res.json({ status: "error", error: "Post not found" });
-  } catch (err) {
-    console.log(err);
-    next();
+    res.json({ status: "error", error: "no comments" });
+  } catch (error) {
+    next(error);
   }
 };
 
-module.exports = getPost;
+module.exports = getComments;

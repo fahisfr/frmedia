@@ -1,6 +1,5 @@
 import styles from "../styles/pcr.module.css";
 import React, { useState } from "react";
-import { faker } from "@faker-js/faker";
 import { MdVerified } from "react-icons/md";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
@@ -8,40 +7,49 @@ import { FcLike } from "react-icons/fc";
 import Reply from "./Reply";
 import AddPCR from "./AddPCR";
 import JustLoading from "./JustLoading";
-import axios from "axios";
-function Comment({ comment, postId }) {
-  const [addReplyTrigger, setAddReplyTrigger] = useState(false);
-  let { _id, content, file, likesCount, repliesCount, postAt, liked } = comment;
-  const { userName } = comment.userInfo;
+import { useDispatch } from "react-redux";
+import { setReplies, likeComment } from "../features/posts";
+import axios, {baseURL} from "../axios"
+import getDate from "../helper/getDate";
 
-  const fillterContent = () => {
-    return content.split(" ").map((word) => {
-      if (word.startsWith("#")) {
-        return (
-          <Link href={`/hashtag/${word.slice(1)}`}>
-            <a>{word} </a>
-          </Link>
-        );
-      } else if (word.startsWith("@")) {
-        return (
-          <Link href={`/user/${word.slice(1)}`}>
-            <a>{word} </a>
-          </Link>
-        );
+function Comment({ comment, postId }) {
+  const dispatch = useDispatch();
+  const [addReplyTrigger, setAddReplyTrigger] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
+  let { _id, text, file, likesCount, repliesCount, commentAt, liked, replies } =
+    comment;
+  const { userName, profilePic } = comment.userInfo;
+
+  const getReplies = async () => {
+    try {
+      setShowReplies(!showReplies);
+      if (replies) {
+        return;
       } else {
-        return <span>{word} </span>;
+        const { data } = await axios.get(
+          `/post/${postId}/comment/${_id}/replies`
+        );
+
+        if (data.status === "ok") {
+          dispatch(
+            setReplies({ replies: data.replies, postId, commentId: _id })
+          );
+        }
       }
-    });
+    } catch (error) {}
   };
 
   const likeHandler = async (e) => {
     try {
       const { data } = await axios.post(
-        `/comment/${liked ? "like" : "unlike"}`,
-        { postId, commentId: _id }
+        `/comment/${liked ? "unlike" : "like"}`,
+        {
+          postId,
+          commentId: _id,
+        }
       );
       if (data.status === "ok") {
-        liked = !liked;
+        dispatch(likeComment({ postId, commentId: _id }));
       }
     } catch (error) {}
   };
@@ -53,7 +61,7 @@ function Comment({ comment, postId }) {
           <div className={styles.profile}>
             <img
               className={styles.profile_img}
-              src={faker.image.avatar()}
+              src={`${baseURL}/p/${profilePic}`}
               alt=""
             />
           </div>
@@ -72,7 +80,7 @@ function Comment({ comment, postId }) {
                     </div>
                   </div>
                   <div className={styles.group}>
-                    <span className={styles.date}>{`3h ago`}</span>
+                    <span className={styles.date}>{getDate(commentAt)}</span>
                   </div>
                 </div>
               </div>
@@ -89,10 +97,10 @@ function Comment({ comment, postId }) {
           </div>
 
           <div className={styles.body}>
-            {content && (
+            {text && (
               <Link href={`/${userName}/post/${_id}`}>
                 <a style={{ color: "black" }}>
-                  <div className={styles.message}>{fillterContent()}</div>
+                  <div className={styles.message}></div>
                 </a>
               </Link>
             )}
@@ -139,13 +147,8 @@ function Comment({ comment, postId }) {
                 <BsChat className={styles.c_icons} />
               </button>
             </div>
-            <div
-              className={styles.c_footer_group}
-              onClick={() => {
-                getRepliesNow();
-              }}
-            >
-              <button className={styles.button}>
+            <div className={styles.c_footer_group}>
+              <button className={styles.button} onClick={getReplies}>
                 <span>{repliesCount} Replies</span>
               </button>
             </div>
@@ -157,11 +160,19 @@ function Comment({ comment, postId }) {
         {addReplyTrigger && (
           <AddPCR commentId={_id} postId={postId} For="reply" />
         )}
-        {loading && <JustLoading />}
-        {data &&
-          data?.getCommentReplies.replies.map((reply) => (
-            <Reply replyInfo={reply} commentId={_id} postId={postId} />
-          ))}
+        {showReplies && (
+          <div className={styles.comments}>
+            {replies ? (
+              replies.map((reply) => {
+                return (
+                  <Reply replyInfo={reply} postId={postId} commentId={_id} />
+                );
+              })
+            ) : (
+              <JustLoading />
+            )}
+          </div>
+        )}
       </div>
     </>
   );

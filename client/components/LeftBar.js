@@ -33,22 +33,19 @@ function Sidebar() {
               </div>
             </a>
           </Link>
-          {isAuth && (
-            <Link className={styles.link} href={`${userName}`}>
-              <a className={styles.a}>
-                <div
-                  className={`${styles.group} ${
-                    id === userName && styles.blue
-                  }`}
-                >
-                  <CgProfile className={styles.icon} />
-                  <span className={styles.text}>Profile</span>
-                </div>
-              </a>
-            </Link>
-          )}
 
-          <Link className={styles.link} href="/explore">
+          <Link className={styles.link} href={`${userName}`}>
+            <a className={styles.a}>
+              <div
+                className={`${styles.group} ${id === userName && styles.blue}`}
+              >
+                <CgProfile className={styles.icon} />
+                <span className={styles.text}>Profile</span>
+              </div>
+            </a>
+          </Link>
+
+          <Link className={styles.link} href="/signup">
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${id === "explore" && styles.blue}`}
@@ -84,7 +81,6 @@ function Sidebar() {
               </div>
             </a>
           </Link>
-
         </nav>
 
         {/* <div className={styles.suggestion}>

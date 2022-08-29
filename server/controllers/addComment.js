@@ -6,7 +6,7 @@ const addComment = async (req, res) => {
   try {
 
     const { id } = req.user;
-    const { text, postId = undefi } = req.body;
+    const { text, postId } = req.body;
     const file = req.files?.file;
 
     const commentInfo = getPostInfo(file, text);

@@ -1,15 +1,14 @@
 const dbPost = require("../dbSchemas/post");
-const ObjectId = require("mongoose").Types.ObjectId;
-const mongoose = require("mongoose");
+const objectId = require("mongoose").Types.ObjectId;
 
 const getReplies = async (req, res, next) => {
   try {
-    const {postId} =req.params
-    const {commentId} = req.body
+    const { postId, commentId } = req.params;
+    const { id } = req.user;
     const result = await dbPost.aggregate([
       {
         $match: {
-          _id: ObjectId(postId),
+          _id: objectId(postId),
         },
       },
       {
@@ -20,7 +19,7 @@ const getReplies = async (req, res, next) => {
       },
       {
         $match: {
-          "comments._id": ObjectId(commentId),
+          "comments._id": objectId(commentId),
         },
       },
       {
@@ -31,7 +30,18 @@ const getReplies = async (req, res, next) => {
       },
       {
         $addFields: {
-          "comments.replies.likesCount": { $size: "$comments.replies.likes" },
+          comments: {
+            replies: {
+              likesCount: { $size: "$comments.replies.likes" },
+              liked: {
+                $cond: [
+                  { $ifNull: [id, true] },
+                  { $in: [objectId(id), "$comments.replies.likes"] },
+                  false,
+                ],
+              },
+            },
+          },
         },
       },
       {
@@ -65,8 +75,7 @@ const getReplies = async (req, res, next) => {
     }
     res.json({ status: "error", error: "No replies found" });
   } catch (error) {
-    console.log(error);
-    next();
+    next(error);
   }
 };
 

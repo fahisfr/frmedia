@@ -24,7 +24,7 @@ function Profile({ status, userInfo }) {
   } = userInfo;
   const [editProfile, setEditProfile] = useState(false);
 
-  const followHadler = async () => {
+  const followHandler = async () => {
     const { data } = await axios.post(
       `/user/${_following ? "unfollow" : "follow"}`,
       { id: _id }
@@ -79,14 +79,14 @@ function Profile({ status, userInfo }) {
                 {_following ? (
                   <button
                     className={`${styles.btn} ${styles.unfollow}`}
-                    onClick={followHadler}
+                    onClick={followHandler}
                   >
                     unfollow
                   </button>
                 ) : (
                   <button
                     className={`${styles.btn} ${styles.follow}`}
-                    onClick={followHadler}
+                    onClick={followHandler}
                   >
                     Follow
                   </button>
