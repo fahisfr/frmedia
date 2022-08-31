@@ -119,13 +119,15 @@ function Reply({ replyInfo, postId, commentId }) {
           >
             <button className={styles.button}>
               <BsChat className={styles.c_icons} />
-              <span></span>
             </button>
           </div>
         </footer>
-        {addReplyTrigger && (
+        <div>
+           {addReplyTrigger && (
           <AddPCR For="reply" postId={postId} commentId={commentId} />
         )}
+        </div>
+       
       </div>
     </div>
   );

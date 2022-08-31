@@ -9,15 +9,25 @@ import AddPCR from "./AddPCR";
 import JustLoading from "./JustLoading";
 import { useDispatch } from "react-redux";
 import { setReplies, likeComment } from "../features/posts";
-import axios, {baseURL} from "../axios"
+import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
+import Text from "./Text"
 
 function Comment({ comment, postId }) {
   const dispatch = useDispatch();
-  const [addReplyTrigger, setAddReplyTrigger] = useState(false);
+  const [addReply, setAddReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  let { _id, text, file, likesCount, repliesCount, commentAt, liked, replies } =
-    comment;
+
+  const {
+    _id,
+    text,
+    file,
+    likesCount,
+    repliesCount,
+    commentAt,
+    liked,
+    replies,
+  } = comment;
   const { userName, profilePic } = comment.userInfo;
 
   const getReplies = async () => {
@@ -100,7 +110,9 @@ function Comment({ comment, postId }) {
             {text && (
               <Link href={`/${userName}/post/${_id}`}>
                 <a style={{ color: "black" }}>
-                  <div className={styles.message}></div>
+                  <div className={styles.message}>
+                    <Text text={text}/>
+                  </div>
                 </a>
               </Link>
             )}
@@ -137,29 +149,27 @@ function Comment({ comment, postId }) {
                 <span>{likesCount}</span>
               </button>
             </div>
-            <div
-              className={styles.c_footer_group}
-              onClick={() => {
-                setAddReplyTrigger(!addReplyTrigger);
-              }}
-            >
-              <button className={styles.button}>
+            <div className={styles.c_footer_group}>
+              <button
+                className={styles.button}
+                onClick={() => setAddReply(!addReply)}
+              >
                 <BsChat className={styles.c_icons} />
               </button>
             </div>
-            <div className={styles.c_footer_group}>
-              <button className={styles.button} onClick={getReplies}>
-                <span>{repliesCount} Replies</span>
-              </button>
-            </div>
           </footer>
+          {repliesCount > 0 && (
+            <div className={styles.show_replies} onClick={getReplies}>
+              <span className={styles.show_replies_text}>
+                {showReplies ? "Hide replies" : `Show ${repliesCount} replies`}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       <div className={styles.replies}>
-        {addReplyTrigger && (
-          <AddPCR commentId={_id} postId={postId} For="reply" />
-        )}
+        {addReply && <AddPCR commentId={_id} postId={postId} For="reply" />}
         {showReplies && (
           <div className={styles.comments}>
             {replies ? (

@@ -11,6 +11,13 @@ const home = async (req, res, next) => {
         },
       },
       {
+        $set: {
+          following: {
+            $concatArrays: ["$following", [objectId(id)]],
+          },
+        },
+      },
+      {
         $unwind: {
           path: "$following",
           preserveNullAndEmptyArrays: true,

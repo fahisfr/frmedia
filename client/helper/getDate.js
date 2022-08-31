@@ -2,8 +2,14 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 
  const  getDate = (date) => {
-  return `${formatDistanceToNowStrict(
+  try{
+      return `${formatDistanceToNowStrict(
     zonedTimeToUtc(date, Intl.DateTimeFormat().resolvedOptions().timeZone)
   )} ago`;
+  }catch(err){
+    console.log(err)
+    return date
+  }
+
 };
 export default getDate

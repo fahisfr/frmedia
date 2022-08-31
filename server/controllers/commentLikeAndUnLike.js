@@ -23,8 +23,6 @@ const like = async (req, res, next) => {
       }
     );
 
-    console.log(liked);
-
     if (liked.modifiedCount > 0) {
       res.json({ status: "ok" });
       return;

@@ -5,10 +5,10 @@ import Comment from "../../../../components/Comment";
 import JustLoading from "../../../../components/JustLoading";
 import MainLayout from "../../../../layouts/Main";
 import { useDispatch, useSelector } from "react-redux";
+import {addPost} from "../../../../features/posts"
 
 function Post({ postId }) {
-  const loading = true;
-
+  const dispatch = useDispatch()
   const posts = useSelector((state) => state.posts.posts);
 
   const post = posts.find((post) => post._id === postId);
@@ -17,7 +17,7 @@ function Post({ postId }) {
     if (posts.comments) return posts.comments;
     const { data } = axios.get(`/post/comments/${postId}`);
     if (data.status==="ok"){
-      
+
     }
   };
 

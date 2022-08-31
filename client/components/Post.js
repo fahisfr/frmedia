@@ -12,6 +12,8 @@ import Comment from "../components/Comment";
 import { addComment, setComments, likePost } from "../features/posts";
 import JustLoading from "./JustLoading";
 import getDate from "../helper/getDate";
+import AddPCR from "./AddPCR";
+import Text from "./Text";
 
 function Post({ postInfo, userInfo }) {
   const dispatch = useDispatch();
@@ -27,11 +29,12 @@ function Post({ postInfo, userInfo }) {
   } = postInfo;
   const { userName, profilePic } = userInfo;
 
-  const [commentTrigger, setCommentTrigger] = useState(false);
+  const [showComments, setshowComments] = useState(false);
+  const [addComment, setAddComment] = useState(false);
 
   const getComments = async () => {
     try {
-      setCommentTrigger(!commentTrigger);
+      setshowComments(!showComments);
       if (comments) {
         return;
       } else {
@@ -51,26 +54,6 @@ function Post({ postInfo, userInfo }) {
     if (data.status === "ok") {
       dispatch(likePost({ postId: _id }));
     }
-  };
-
-  const fillterContent = () => {
-    return text.split(" ").map((word) => {
-      if (word.startsWith("#")) {
-        return (
-          <Link href={`/hashtag/${word.slice(1)}`}>
-            <p>{word} </p>
-          </Link>
-        );
-      } else if (word.startsWith("@")) {
-        return (
-          <Link href={`/user/${word.slice(1)}`}>
-            <p>{word} </p>
-          </Link>
-        );
-      } else {
-        return <span>{word} </span>;
-      }
-    });
   };
 
   return (
@@ -119,7 +102,9 @@ function Post({ postInfo, userInfo }) {
             {text && (
               <Link href={`/${userName}/post/${_id}`}>
                 <a style={{ color: "black" }}>
-                  <div className={styles.message}>{text}</div>
+                  <div className={styles.message}>
+                    <Text text={text} />
+                  </div>
                 </a>
               </Link>
             )}
@@ -159,10 +144,11 @@ function Post({ postInfo, userInfo }) {
             </div>
 
             <div className={styles.footer_group}>
-              <button className={styles.button} onClick={getComments}>
+              <button
+                className={styles.button}
+                onClick={() => setAddComment(!addComment)}
+              >
                 <BsChat className={styles.icons} />
-
-                <span>{commentsCount}</span>
               </button>
             </div>
             <div className={styles.footer_group}>
@@ -177,19 +163,28 @@ function Post({ postInfo, userInfo }) {
               </button>
             </div>
           </footer>
+          {commentsCount > 0 && (
+            <div className={styles.show_replies} onClick={getComments}>
+              <span className={styles.show_replies_text}>
+                {showComments
+                  ? "Hide comments"
+                  : `Show ${commentsCount} comments`}
+              </span>
+            </div>
+          )}
         </div>
       </article>
-      {commentTrigger && (
-        <div className={styles.comments}>
-          {comments ? (
+      <div className={styles.comments}>
+        {addComment && <AddPCR postId={_id} For="comment" />}
+        {showComments &&
+          (comments ? (
             comments.map((comment) => {
               return <Comment comment={comment} postId={_id} />;
             })
           ) : (
             <JustLoading />
-          )}
-        </div>
-      )}
+          ))}
+      </div>
     </>
   );
 }

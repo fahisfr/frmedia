@@ -1,29 +1,31 @@
 import styles from "../styles/addPcr.module.css";
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { AiOutlineFileImage } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
-import axios,{baseURL} from "../axios";
-import { useSelector } from "react-redux";
+import axios, { baseURL } from "../axios";
+import { useSelector, useDispatch } from "react-redux";
+import SidePopMessage from "./SidePopMessage";
+import { addPost, addComment } from "../features/posts";
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-
-
-function AddPCR({ For, postId, commentId }) {
-
-  
-
-  const { isAuth, userInfo } = useSelector((state) => state.user);
-
+function AddPCR({ For, postId, commentId, mentions }) {
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
   const fileRef = useRef(null);
   const [file, setFile] = useState(null);
   const [emojiTrigger, setEmojiTrigger] = useState(false);
 
-  const [postText, setPostText] = useState("");
+  const [text, setText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
+  const { isAuth, userInfo } = useSelector((state) => state.user);
+  const [popupInfo, setPopupInfo] = useState({
+    trigger: false,
+    err: false,
+    message: "",
+  });
 
   const PRC = () => {
     switch (For) {
@@ -32,34 +34,47 @@ function AddPCR({ For, postId, commentId }) {
           placeholder: "Write a comment...",
           btnText: "Comment",
           apiPath: "/addcomment",
+          updateState: (comment) => {
+            dispatch(
+              addComment({
+                comment: { ...comment, liked: false, likesCount: 0 },
+                postId,
+              })
+            );
+          },
         };
       case "post":
         return {
           placeholder: "What's on your mind?",
           btnText: "Post",
           apiPath: "/addpost",
+          updateState: (post) => {
+            dispatch(addPost(post));
+          },
         };
       case "reply":
         return {
           placeholder: "Write a reply...",
           btnText: "Reply",
           apiPath: "/comment/add-reply",
+          updateState: (reply) => {
+            dispatch(addReply({ reply, postId, commentId }));
+          },
         };
       default:
         throw new Error("Unknown pcr");
     }
   };
 
-  const { placeholder, btnText, apiPath } = PRC();
+  const { placeholder, btnText, apiPath, updateState } = PRC();
 
   const submitNow = async (e) => {
     try {
       e.preventDefault();
 
       const formData = new FormData();
-
       formData.append("file", file);
-      formData.append("text", postText);
+      formData.append("text", text);
 
       if (For === "comment" || "reply") {
         formData.append("postId", postId);
@@ -68,19 +83,29 @@ function AddPCR({ For, postId, commentId }) {
         formData.append("commentId", commentId);
       }
 
-      const {
-        data: { success, message },
-      } = await axios.post(apiPath, formData);
+      const { data } = await axios.post(apiPath, formData);
 
-      if (!success) {
-        alert(message);
-      } else {
-        setPostText("");
+      if (data.status === "ok") {
+        updateState({ ...data.info, userInfo });
+        setPopupInfo({ trigger: true, err: false, message: data.message });
+
+        setText("");
         setFilePreview({ type: "", url: "" });
         setFile(null);
+      } else {
+        setPopupInfo({ trigger: true, err: true, message: data.error });
       }
     } catch (err) {
-      alert("oops something went wrong");
+      console.log(err);
+      setPopupInfo({
+        trigger: true,
+        error: true,
+        message: "oops something went wrnog:(",
+      });
+    } finally {
+      setTimeout(() => {
+        setPopupInfo({ trigger: false, err: false, message: "" });
+      }, 5000);
     }
   };
 
@@ -101,11 +126,11 @@ function AddPCR({ For, postId, commentId }) {
   };
 
   const onEmojiClick = (event, emojiObject) => {
-    setPostText(`${postText}${emojiObject.emoji}`);
+    setText(`${Text}${emojiObject.emoji}`);
   };
 
   const cancelNow = (e) => {
-    setPostText("");
+    setText("");
     inputRef.current.style.height = "auto";
   };
 
@@ -113,10 +138,15 @@ function AddPCR({ For, postId, commentId }) {
 
   return (
     <div className={styles.addpost}>
+      <SidePopMessage popupInfo={popupInfo} />
+
       <div className={styles.add_pc_content}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <img className={styles.profileImg}  src={`${baseURL}/p/${userInfo.profilePic}`} />
+            <img
+              className={styles.profileImg}
+              src={`${baseURL}/p/${userInfo.profilePic}`}
+            />
           </div>
         </div>
 
@@ -125,14 +155,14 @@ function AddPCR({ For, postId, commentId }) {
             <textarea
               className={styles.input}
               type="text"
-              value={postText}
+              value={text}
               rows={1}
               placeholder={placeholder}
               ref={inputRef}
               pattern=" faasf"
               onKeyUp={handleInput}
               required
-              onChange={(e) => setPostText(e.target.value)}
+              onChange={(e) => setText(e.target.value)}
             />
 
             <div className={styles.pc_file_preivew}>
@@ -196,7 +226,7 @@ function AddPCR({ For, postId, commentId }) {
                 </div>
               </div>
               <div className={styles.addPostRight_br}>
-                {postText.length > 0 && (
+                {text.length > 0 && (
                   <button className={styles.cancel_button} onClick={cancelNow}>
                     <span>Cancel</span>
                   </button>

@@ -2,9 +2,8 @@ const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
 const { getFileInfo } = require("../helper");
 
-const addPost = async (req, res) => {
+const addPost = async (req, res, next) => {
   try {
-    
     const { text } = req.body;
     const { id } = req.user;
 
@@ -55,22 +54,22 @@ const addPost = async (req, res) => {
       ...postInfo,
     });
 
-    console.log(newPost);
-
     if (newPost) {
       file && file.mv(`./public/${postInfo.file.type}/${postInfo.file.name}`);
       dbUser
         .updateOne({ _id: id }, { $push: { posts: newPost._id } })
-        .then((res) => {
-          console.log(res);
-        });
-      res.json({ message: "Post added successfully" });
-    } else {
-      res.json({ success: false, message: "can't add post" });
+        .then((res) => {});
+
+      res.json({
+        status: "ok",
+        message: "Post Added Successfully",
+        info: { ...newPost._doc, liked: false, likesCount: 0 },
+      });
+      return;
     }
+    res.json({ status: "error", error: "can't add post" });
   } catch (err) {
-    console.log(err);
-    res.json({ success: false, message: "oops something went wrong" });
+    next(err);
   }
 };
 

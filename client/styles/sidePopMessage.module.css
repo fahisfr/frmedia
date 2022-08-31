@@ -1,0 +1,54 @@
+.container {
+
+    visibility: visible;
+    width: 18rem;
+    min-height: 3.8rem;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 90;
+    right: 2.5rem;
+    top: 1.5rem;
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    padding-left: 9px;
+    column-gap: 5px;
+    border: 1px solid var(--gray_100);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    overflow: hidden;
+    animation: popup 0.4s ease-in-out;
+
+}
+
+
+.icon {
+    margin-top: 4px;
+    width: 1.9rem;
+    height: 2rem;
+}
+
+.message_text {
+    font-size: 16px;
+    font-family: 'Inconsolata', monospace;
+    color: black;
+}
+
+.err {
+    color: rgba(182, 41, 41, 0.767)
+}
+
+.success {
+    color: rgba(14, 187, 14, 0.664);
+}
+
+@keyframes popup {
+    0% {
+        transform: translate(0, -100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
