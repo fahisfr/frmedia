@@ -9,6 +9,7 @@ const addPost = async (req, res, next) => {
 
     const file = req.files?.file;
 
+   
     const findHashTagesAndMentions = () => {
       const mentions = [];
       const hashTags = [];

@@ -14,6 +14,8 @@ const path = require("path");
 const fileUpload = require("express-fileupload");
 const errorHandler = require("./config/errorHandler");
 const apiValidation = require("./middleware/apiValidation");
+const dbUser = require("./dbSchemas/user");
+const dbPost = require("./dbSchemas/post");
 
 dbConn();
 

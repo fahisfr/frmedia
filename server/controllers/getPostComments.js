@@ -6,7 +6,7 @@ const getComments = async (req, res, next) => {
     const { postId } = req.params;
     const { id } = req.user;
 
-    const comments = await dbPost.aggregate([
+    const getComments = await dbPost.aggregate([
       {
         $match: {
           _id: objectId(postId),
@@ -31,10 +31,24 @@ const getComments = async (req, res, next) => {
           as: "comments.userInfo",
         },
       },
-
       {
-        $addFields: {
+        $set: {
+          "comments.userInfo": { $arrayElemAt: ["$comments.userInfo", 0] },
+        },
+      },
+      {
+        $project: {
           comments: {
+            _id: 1,
+            text: 1,
+            file: 1,
+            commentAt: 1,
+            userInfo: {
+              userName: 1,
+              profilePic: 1,
+              coverPic: 1,
+              isVerified: 1,
+            },
             liked: {
               $cond: [
                 { $ifNull: [id, true] },
@@ -44,12 +58,8 @@ const getComments = async (req, res, next) => {
             },
             likesCount: { $size: "$comments.likes" },
             repliesCount: { $size: "$comments.replies" },
-            userInfo: { $arrayElemAt: ["$comments.userInfo", 0] },
           },
         },
-      },
-      {
-        $unset: ["comments.replies"],
       },
       {
         $group: {
@@ -59,10 +69,10 @@ const getComments = async (req, res, next) => {
       },
     ]);
 
-    if (comments.length > 0) {
-      return res.json({ status: "ok", comments: comments[0] });
+    if (getComments.length > 0) {
+      return res.json({ status: "ok", comments: getComments[0].comments });
     }
-    res.json({ status: "error", error: "no comments" });
+    res.json({ status: "error", error: "No comments" });
   } catch (error) {
     next(error);
   }

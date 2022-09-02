@@ -18,6 +18,7 @@ const userSlice = createSlice({
     loading: false,
     error: false,
     errorMessage: null,
+    fetched: false,
   },
   reducers: {
     addPost: (state, { payload }) => {
@@ -35,13 +36,18 @@ const userSlice = createSlice({
     },
 
     setComments: ({ posts }, { payload }) => {
-      const postIndex = posts.findIndexByID(payload._id);
-      posts[postIndex].comments = payload.comments;
+      for (let post of posts) {
+        if (post._id === payload.postId) {
+          post.comments = payload.comments;
+          break;
+        }
+      }
     },
     addComment: ({ posts }, { payload }) => {
       for (let post of posts) {
         if (post._id === payload.postId) {
-          post.comments.push(payload.comment);
+          post.comments.unshift(payload.comment);
+          break;
         }
       }
     },
@@ -53,8 +59,8 @@ const userSlice = createSlice({
               const { likesCount, liked } = comment;
               comment.likesCount = liked ? likesCount - 1 : likesCount + 1;
               comment.liked = !liked;
+              break;
             }
-            break;
           }
           break;
         }
@@ -66,19 +72,26 @@ const userSlice = createSlice({
           for (let comment of post.comments) {
             if (comment._id == payload.commentId) {
               comment.replies = payload.replies;
+              break;
             }
-            break;
           }
+
           break;
         }
       }
     },
     addReply: ({ posts }, { payload }) => {
-      const postIndex = posts.findIndexByID(payload.postId);
-      const commentIndex = posts[postIndex].comments.findIndexByID(
-        payload.commentId
-      );
-      posts[postIndex].comments[commentIndex].replies.push(payload.reply);
+      for (let post of posts) {
+        if (post._id === payload.postId) {
+          for (comment of post.comments) {
+            if (comment._id === payload.commentId) {
+              comment.replies.unshift(payload.reply);
+              break;
+            }
+          }
+          break;
+        }
+      }
     },
     likeReply: ({ posts }, { payload }) => {
       for (let post of posts) {
@@ -107,18 +120,21 @@ const userSlice = createSlice({
         state.posts = payload.posts;
       }
       state.loading = false;
+      state.fetched = true;
     },
     [fetchPosts.pending]: (state, action) => {
       state.loading = true;
     },
     [fetchPosts.rejected]: (state, action) => {
       state.loading = false;
+      state.error = "opps somthing went wrong";
     },
   },
 });
 
 export const {
   addPost,
+  addReply,
   setComments,
   addComment,
   setReplies,

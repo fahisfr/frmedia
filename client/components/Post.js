@@ -14,8 +14,9 @@ import JustLoading from "./JustLoading";
 import getDate from "../helper/getDate";
 import AddPCR from "./AddPCR";
 import Text from "./Text";
+import ErrorMessage from "./ErrorMessage";
 
-function Post({ postInfo, userInfo }) {
+function Post({ postInfo, userInfo, vpost }) {
   const dispatch = useDispatch();
   const {
     _id,
@@ -31,6 +32,7 @@ function Post({ postInfo, userInfo }) {
 
   const [showComments, setshowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
+  const [failedToFetchComments, setFailedToFetchComments] = useState(false);
 
   const getComments = async () => {
     try {
@@ -40,10 +42,14 @@ function Post({ postInfo, userInfo }) {
       } else {
         const { data } = await axios.get(`/post/comments/${_id}`);
         if (data.status === "ok") {
-          dispatch(setComments(data.comments));
+          dispatch(setComments({ comments: data.comments, postId: _id }));
+        } else {
+          setFailedToFetchComments(data.error);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      setFailedToFetchComments("Failed to fetch comments");
+    }
   };
 
   const likeHandler = async () => {
@@ -146,11 +152,12 @@ function Post({ postInfo, userInfo }) {
             <div className={styles.footer_group}>
               <button
                 className={styles.button}
-                onClick={() => setAddComment(!addComment)}
+                onClick={() => setAddComment(!vpost && !addComment)}
               >
                 <BsChat className={styles.icons} />
               </button>
             </div>
+
             <div className={styles.footer_group}>
               <button className={styles.button}>
                 <AiOutlineRetweet size={19} className={styles.icons} />
@@ -163,7 +170,7 @@ function Post({ postInfo, userInfo }) {
               </button>
             </div>
           </footer>
-          {commentsCount > 0 && (
+          {commentsCount > 0 && !vpost && (
             <div className={styles.show_replies} onClick={getComments}>
               <span className={styles.show_replies_text}>
                 {showComments
@@ -176,14 +183,17 @@ function Post({ postInfo, userInfo }) {
       </article>
       <div className={styles.comments}>
         {addComment && <AddPCR postId={_id} For="comment" />}
-        {showComments &&
-          (comments ? (
+        {showComments ? (
+          failedToFetchComments ? (
+            <ErrorMessage error={failedToFetchComments} />
+          ) : comments ? (
             comments.map((comment) => {
               return <Comment comment={comment} postId={_id} />;
             })
           ) : (
             <JustLoading />
-          ))}
+          )
+        ) : null}
       </div>
     </>
   );

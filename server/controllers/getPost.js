@@ -53,8 +53,36 @@ const getPost = async (req, res, next) => {
         },
       },
       {
-        $addFields: {
+        $set: {
+          "comments.userInfo": { $arrayElemAt: ["$comments.userInfo", 0] },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          text: 1,
+          file: 1,
+          postAt: 1,
+          likes: 1,
+          commentsCount: 1,
+          postAt: 1,
+          userInfo: {
+            userName: 1,
+            profilePic: 1,
+            coverPic: 1,
+            isVerified: 1,
+          },
           comments: {
+            _id: 1,
+            text: 1,
+            file: 1,
+            commentAt: 1,
+            userInfo: {
+              userName: 1,
+              profilePic: 1,
+              coverPic: 1,
+              isVerified: 1,
+            },
             liked: {
               $cond: [
                 { $ifNull: [id, true] },
@@ -64,15 +92,15 @@ const getPost = async (req, res, next) => {
             },
             likesCount: { $size: "$comments.likes" },
             repliesCount: { $size: "$comments.replies" },
-            userInfo: { $arrayElemAt: ["$comments.userInfo", 0] },
           },
         },
       },
+
       {
         $group: {
           _id: "$_id",
           userInfo: { $first: "$userInfo" },
-          content: { $first: "$content" },
+          text: { $first: "$text" },
           file: { $first: "$file" },
           likesCount: { $first: { $size: "$likes" } },
           commentsCount: { $first: "$commentsCount" },
@@ -83,7 +111,7 @@ const getPost = async (req, res, next) => {
     ]);
 
     if (post.length > 0) {
-      res.json({ status: "ok", postInfo: post[0] });
+      res.json({ status: "ok", post: post[0] });
 
       return;
     }

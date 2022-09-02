@@ -1,4 +1,5 @@
 const dbUser = require("../dbSchemas/user");
+const getPost = require("./getPost");
 const objectId = require("mongoose").Types.ObjectId;
 
 const home = async (req, res, next) => {
@@ -60,11 +61,6 @@ const home = async (req, res, next) => {
         },
       },
       {
-        $sort: {
-          "post.postAt": -1,
-        },
-      },
-      {
         $project: {
           post: {
             userInfo: {
@@ -99,6 +95,7 @@ const home = async (req, res, next) => {
         },
       },
     ]);
+ 
     if (getPosts.length > 0) {
       return res.json({ status: "ok", posts: getPosts[0].posts });
     }

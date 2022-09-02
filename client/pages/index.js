@@ -5,13 +5,16 @@ import MainLayout from "../layouts/Main";
 import JustLoading from "../components/JustLoading";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../features/posts";
-import axios from "../axios";
+import ErrorMessage from "../components/ErrorMessage";
+
 function Home({}) {
-  const { error, loading, posts } = useSelector((state) => state.posts);
+  const { error, fetched, loading, posts } = useSelector(
+    (state) => state.posts
+  );
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (posts.length === 0) {
+    if (!fetched) {
       dispatch(fetchPosts());
     }
   }, [dispatch]);
@@ -19,12 +22,21 @@ function Home({}) {
   return (
     <>
       <AddPost For="post" />
-      {loading ? (
+      {error ? (
+        <ErrorMessage error={error} />
+      ) : loading ? (
         <JustLoading />
       ) : (
-        < >
+        <>
           {posts.map(({ userInfo, ...post }, index) => {
-            return <Post postInfo={post} userInfo={userInfo} scroll={false} key={post._id} />;
+            return (
+              <Post
+                postInfo={post}
+                userInfo={userInfo}
+                scroll={false}
+                key={post._id}
+              />
+            );
           })}
         </>
       )}

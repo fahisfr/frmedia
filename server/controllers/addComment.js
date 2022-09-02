@@ -26,18 +26,15 @@ const addComment = async (req, res, next) => {
         new: true,
       }
     );
- 
-    if (newComment) {
 
-      const comment = newComment._doc.comments.pop()
-      
+    if (newComment) {
       file &&
         file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);
-     
+
       res.json({
         status: "ok",
         message: "Comment Added Successfully",
-        info: { comment },
+        info: newComment._doc.comments.pop(),
       });
       return;
     }

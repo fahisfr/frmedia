@@ -6,7 +6,7 @@ import daynamic from "next/dynamic";
 import axios, { baseURL } from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import SidePopMessage from "./SidePopMessage";
-import { addPost, addComment } from "../features/posts";
+import { addPost, addComment, addReply } from "../features/posts";
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
@@ -23,7 +23,7 @@ function AddPCR({ For, postId, commentId, mentions }) {
   const { isAuth, userInfo } = useSelector((state) => state.user);
   const [popupInfo, setPopupInfo] = useState({
     trigger: false,
-    err: false,
+    error: false,
     message: "",
   });
 
@@ -35,12 +35,7 @@ function AddPCR({ For, postId, commentId, mentions }) {
           btnText: "Comment",
           apiPath: "/addcomment",
           updateState: (comment) => {
-            dispatch(
-              addComment({
-                comment: { ...comment, liked: false, likesCount: 0 },
-                postId,
-              })
-            );
+            dispatch(addComment({ comment, postId }));
           },
         };
       case "post":
@@ -86,25 +81,25 @@ function AddPCR({ For, postId, commentId, mentions }) {
       const { data } = await axios.post(apiPath, formData);
 
       if (data.status === "ok") {
-        updateState({ ...data.info, userInfo });
-        setPopupInfo({ trigger: true, err: false, message: data.message });
+        updateState({ ...data.info, userInfo, likesCount: 0 });
+        setPopupInfo({ trigger: true, error: false, message: data.message });
 
         setText("");
         setFilePreview({ type: "", url: "" });
         setFile(null);
       } else {
-        setPopupInfo({ trigger: true, err: true, message: data.error });
+        setPopupInfo({ trigger: true, error: true, message: data.error });
       }
     } catch (err) {
       console.log(err);
       setPopupInfo({
         trigger: true,
         error: true,
-        message: "oops something went wrnog:(",
+        message: "oops something went wrong on your browser:(",
       });
     } finally {
       setTimeout(() => {
-        setPopupInfo({ trigger: false, err: false, message: "" });
+        setPopupInfo({ trigger: false, error: false, message: "" });
       }, 5000);
     }
   };
@@ -145,7 +140,7 @@ function AddPCR({ For, postId, commentId, mentions }) {
           <div className={styles.profile}>
             <img
               className={styles.profileImg}
-              src={`${baseURL}/p/${userInfo.profilePic}`}
+              src={`${baseURL}/p/${userInfo?.profilePic}`}
             />
           </div>
         </div>

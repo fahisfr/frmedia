@@ -11,12 +11,15 @@ import { useDispatch } from "react-redux";
 import { setReplies, likeComment } from "../features/posts";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
-import Text from "./Text"
+import Text from "./Text";
+import ErrorMessage from "./ErrorMessage";
 
 function Comment({ comment, postId }) {
+  console.log(postId);
   const dispatch = useDispatch();
   const [addReply, setAddReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const [failedFetchReplies, setFailedFetchReplies] = useState(false);
 
   const {
     _id,
@@ -33,20 +36,23 @@ function Comment({ comment, postId }) {
   const getReplies = async () => {
     try {
       setShowReplies(!showReplies);
-      if (replies) {
-        return;
-      } else {
+      if (!replies) {
         const { data } = await axios.get(
           `/post/${postId}/comment/${_id}/replies`
         );
 
         if (data.status === "ok") {
+          console.log("yes iam here")
           dispatch(
             setReplies({ replies: data.replies, postId, commentId: _id })
           );
+        } else {
+          setFailedFetchReplies(data.error);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const likeHandler = async (e) => {
@@ -58,7 +64,9 @@ function Comment({ comment, postId }) {
           commentId: _id,
         }
       );
+      
       if (data.status === "ok") {
+   
         dispatch(likeComment({ postId, commentId: _id }));
       }
     } catch (error) {}
@@ -111,7 +119,7 @@ function Comment({ comment, postId }) {
               <Link href={`/${userName}/post/${_id}`}>
                 <a style={{ color: "black" }}>
                   <div className={styles.message}>
-                    <Text text={text}/>
+                    <Text text={text} />
                   </div>
                 </a>
               </Link>
@@ -170,18 +178,28 @@ function Comment({ comment, postId }) {
 
       <div className={styles.replies}>
         {addReply && <AddPCR commentId={_id} postId={postId} For="reply" />}
-        {showReplies && (
-          <div className={styles.comments}>
-            {replies ? (
-              replies.map((reply) => {
-                return (
-                  <Reply replyInfo={reply} postId={postId} commentId={_id} />
-                );
-              })
-            ) : (
-              <JustLoading />
-            )}
-          </div>
+
+        {failedFetchReplies ? (
+          <ErrorMessage error={failedFetchReplies} />
+        ) : (
+          showReplies && (
+            <div className={styles.comments}>
+              {replies ? (
+                replies.map((reply,index) => {
+                  return (
+                    <Reply
+                      replyInfo={reply}
+                      key={index}
+                      postId={postId}
+                      commentId={_id}
+                    />
+                  );
+                })
+              ) : (
+                <JustLoading />
+              )}
+            </div>
+          )
         )}
       </div>
     </>
