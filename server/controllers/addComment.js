@@ -1,5 +1,6 @@
 const dbPost = require("../dbSchemas/post");
-const { getPostInfo } = require("../helper");
+const getPcrInfo = require("../helper/getPcrInfo");
+const updateHashTags = require("./updateHashTags");
 
 const addComment = async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ const addComment = async (req, res, next) => {
     const file = req.files?.file;
     console.log(req.body);
 
-    const commentInfo = getPostInfo(file, text);
+    const { mentions, hashTags, ...commentInfo } = getPcrInfo(text, file);
 
     const newComment = await dbPost.findOneAndUpdate(
       { _id: postId },
@@ -36,6 +37,7 @@ const addComment = async (req, res, next) => {
         message: "Comment Added Successfully",
         info: newComment._doc.comments.pop(),
       });
+      hashTags.length > 0 && updateHashTags(hashTags);
       return;
     }
     res.json({ status: "error", error: "Can't add comment" });

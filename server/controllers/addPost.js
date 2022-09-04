@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
-const { getFileInfo } = require("../helper");
+const getPcrInfo = require("../helper/getPcrInfo");
 
 const addPost = async (req, res, next) => {
   try {
@@ -9,50 +9,12 @@ const addPost = async (req, res, next) => {
 
     const file = req.files?.file;
 
-   
-    const findHashTagesAndMentions = () => {
-      const mentions = [];
-      const hashTags = [];
-      text.split(" ").forEach((word) => {
-        if (word.startsWith("#")) {
-          hashTags.push(word.slice(1));
-        } else if (word.startsWith("@")) {
-          mentions.push(word.slice(1));
-        }
-      });
-
-      return {
-        mentions,
-        hashTags,
-      };
-    };
-
-    console.log(findHashTagesAndMentions());
-
-    const getPostInfo = () => {
-      if (!file) {
-        return {
-          text,
-          ...findHashTagesAndMentions(),
-        };
-      } else if (!text) {
-        return {
-          file: getFileInfo(file),
-        };
-      } else {
-        return {
-          text,
-          file: getFileInfo(file),
-          ...findHashTagesAndMentions(),
-        };
-      }
-    };
-
-    const postInfo = getPostInfo();
+    const { hashTags, mentions, ...postInfo } = getPcrInfo(text, file);
 
     const newPost = await dbPost.create({
       userId: id,
       ...postInfo,
+      hashTags
     });
 
     if (newPost) {

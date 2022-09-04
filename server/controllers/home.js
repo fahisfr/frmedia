@@ -61,6 +61,11 @@ const home = async (req, res, next) => {
         },
       },
       {
+        $sort: {
+          "post.postAt": -1,
+        },
+      },
+      {
         $project: {
           post: {
             userInfo: {

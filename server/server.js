@@ -16,6 +16,7 @@ const errorHandler = require("./config/errorHandler");
 const apiValidation = require("./middleware/apiValidation");
 const dbUser = require("./dbSchemas/user");
 const dbPost = require("./dbSchemas/post");
+const objectId = require("mongoose").Types.ObjectId;
 
 dbConn();
 
@@ -39,6 +40,7 @@ app.post("/addpost", auth, require("./controllers/addPost"));
 app.post("/addcomment", auth, require("./controllers/addComment"));
 app.post("/reply-to-comment", auth, require("./controllers/replyToComment"));
 app.post("/edit-profile", auth, require("./controllers/editProfile"));
+app.get("/top-hash-tags", require("./controllers/getTopHashTags"));
 
 app.use(errorHandler);
 
