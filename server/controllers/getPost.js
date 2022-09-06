@@ -72,40 +72,6 @@ const getPost = async (req, res, next) => {
             coverPic: 1,
             isVerified: 1,
           },
-          comments: {
-            _id: 1,
-            text: 1,
-            file: 1,
-            commentAt: 1,
-            userInfo: {
-              userName: 1,
-              profilePic: 1,
-              coverPic: 1,
-              isVerified: 1,
-            },
-            liked: {
-              $cond: [
-                { $ifNull: [id, true] },
-                { $in: [objectId(id), "$comments.likes"] },
-                false,
-              ],
-            },
-            likesCount: { $size: "$comments.likes" },
-            repliesCount: { $size: "$comments.replies" },
-          },
-        },
-      },
-
-      {
-        $group: {
-          _id: "$_id",
-          userInfo: { $first: "$userInfo" },
-          text: { $first: "$text" },
-          file: { $first: "$file" },
-          likesCount: { $first: { $size: "$likes" } },
-          commentsCount: { $first: "$commentsCount" },
-          comments: { $push: "$comments" },
-          liked: { $first: { $in: [id, "$likes"] } },
         },
       },
     ]);

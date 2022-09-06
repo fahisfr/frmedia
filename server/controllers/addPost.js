@@ -6,15 +6,32 @@ const addPost = async (req, res, next) => {
   try {
     const { text } = req.body;
     const { id } = req.user;
-
     const file = req.files?.file;
 
-    const { hashTags, mentions, ...postInfo } = getPcrInfo(text, file);
+    const getTagsAndMentions = (text) => {
+      const mentions = [];
+      const hashTags = [];
+      console.log(text, "a");
+      text.split(" ").forEach((word) => {
+        if (word.startsWith("#")) {
+          hashTags.push(word.slice(1));
+        } else if (word.startsWith("@")) {
+          mentions.push(word.slice(1));
+        }
+      });
+
+      return {
+        mentions,
+        hashTags,
+      };
+    };
+
+    const postInfo = getPcrInfo(text, file);
 
     const newPost = await dbPost.create({
       userId: id,
       ...postInfo,
-      hashTags
+      hashTags: getTagsAndMentions(text).hashTags,
     });
 
     if (newPost) {
@@ -22,11 +39,12 @@ const addPost = async (req, res, next) => {
       dbUser
         .updateOne({ _id: id }, { $push: { posts: newPost._id } })
         .then((res) => {});
-
+      const postInfo = newPost._doc;
+      console.log(postInfo);
       res.json({
         status: "ok",
         message: "Post Added Successfully",
-        info: { ...newPost._doc, liked: false, likesCount: 0 },
+        info: { info: postInfo, liked: false },
       });
       return;
     }

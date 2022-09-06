@@ -27,23 +27,15 @@ function Header() {
             />
             <div className={styles.icon}></div>
             <div className={styles.result}>
-         
-                  <div  className={styles.result_item}>
-                    <div className={styles.result_item_right}>
-                      <img
-                        className={styles.img}
-                      
-                        alt=""
-                      />
-                    </div>
-                    <div className={styles.result_item_left}>
-                      <span className={styles.text}>
-                
-                      </span>
-                      <MdVerified className={styles.verified_icon} />
-                    </div>
-                  </div>
-        
+              <div className={styles.result_item}>
+                <div className={styles.result_item_right}>
+                  <img className={styles.img} alt="" />
+                </div>
+                <div className={styles.result_item_left}>
+                  <span className={styles.text}></span>
+                  <MdVerified className={styles.verified_icon} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -52,12 +44,20 @@ function Header() {
             <BsFillBellFill color="blue" size={22} />
             <span className={styles.notification_cound}>4</span>
           </button>
-          <button className={styles.profile}>
+          <div className={styles.profile}>
+            <button className={styles.profile_btn}>
               <img
                 className={styles.image}
                 src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fa-%2FAOh14GhnJ1hWMMmWuwad79zvMGaS5el-pfgaNX8cGKF5&w=308&q=75"
               />
-          </button>
+            </button>{" "}
+            {/* <div className={styles.profile_div}>
+         
+              <div className={styles.p_group}>
+                <button className={styles.logout}>Logout</button>
+              </div>
+            </div> */}
+          </div>
         </div>
       </div>
     </header>

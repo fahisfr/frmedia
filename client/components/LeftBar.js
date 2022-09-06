@@ -12,12 +12,9 @@ import { useSelector } from "react-redux";
 
 function Sidebar() {
   const { isAuth, userInfo } = useSelector((state) => state.user);
-
   const { userName } = userInfo;
-
-  const {
-    query: { id },
-  } = useRouter();
+  const { asPath } = useRouter();
+  const id = asPath.slice(1);
 
   return (
     <div className={styles.left_bar}>
@@ -25,9 +22,7 @@ function Sidebar() {
         <nav className={styles.nav}>
           <Link className={styles.link} href="/">
             <a className={styles.a}>
-              <div
-                className={`${styles.group} ${id === undefined && styles.blue}`}
-              >
+              <div className={`${styles.group} ${id === "" && styles.blue}`}>
                 <AiOutlineHome className={styles.icon} />
                 <span className={styles.text}>Home</span>
               </div>
@@ -45,7 +40,7 @@ function Sidebar() {
             </a>
           </Link>
 
-          <Link className={styles.link} href="/signup">
+          <Link className={styles.link} href="/explore">
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${id === "explore" && styles.blue}`}
@@ -64,7 +59,7 @@ function Sidebar() {
                 }`}
               >
                 <IoMdNotificationsOutline className={styles.icon} />
-                <span className={styles.text}>Notigications</span>
+                <span className={styles.text}>Notifications</span>
               </div>
             </a>
           </Link>

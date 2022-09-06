@@ -11,7 +11,7 @@ const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPCR({ For, postId, commentId, mentions }) {
+function AddPCR({ For, postId, commentId }) {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const fileRef = useRef(null);
@@ -91,7 +91,7 @@ function AddPCR({ For, postId, commentId, mentions }) {
         setPopupInfo({ trigger: true, error: true, message: data.error });
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
       setPopupInfo({
         trigger: true,
         error: true,

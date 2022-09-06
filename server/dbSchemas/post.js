@@ -27,7 +27,6 @@ const dbPost = mongoose.model(
     ...postSchema,
     postAt: { type: Date, default: Date.now },
     hashTags:[],
-    ind:Number,
     comments: [
       {
         ...postSchema,

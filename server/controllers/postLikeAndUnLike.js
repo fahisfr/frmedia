@@ -20,7 +20,6 @@ const like = async (req, res, next) => {
       }
     );
 
-    console.log(postLiked);
 
     if (postLiked.modifiedCount > 0) {
       res.json({ status: "ok" });

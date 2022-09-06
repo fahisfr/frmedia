@@ -42,7 +42,6 @@ function Comment({ comment, postId }) {
         );
 
         if (data.status === "ok") {
-          console.log("yes iam here")
           dispatch(
             setReplies({ replies: data.replies, postId, commentId: _id })
           );
@@ -51,7 +50,7 @@ function Comment({ comment, postId }) {
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -64,9 +63,8 @@ function Comment({ comment, postId }) {
           commentId: _id,
         }
       );
-      
+
       if (data.status === "ok") {
-   
         dispatch(likeComment({ postId, commentId: _id }));
       }
     } catch (error) {}
@@ -185,7 +183,7 @@ function Comment({ comment, postId }) {
           showReplies && (
             <div className={styles.comments}>
               {replies ? (
-                replies.map((reply,index) => {
+                replies.map((reply, index) => {
                   return (
                     <Reply
                       replyInfo={reply}

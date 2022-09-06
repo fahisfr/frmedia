@@ -1,5 +1,5 @@
 const dbPost = require("../dbSchemas/post");
-const { getPostInfo } = require("../helper/getPcrInfo");
+const getPcrInfo = require("../helper/getPcrInfo");
 
 const reply = async (req, res, next) => {
   try {
@@ -7,7 +7,7 @@ const reply = async (req, res, next) => {
     const { id } = req.user;
     const file = req.files?.file;
 
-    const postInfo = getPostInfo(file, text);
+    const postInfo = getPcrInfo(text,file);
     const addReplay = await dbPost.updateOne(
       {
         _id: postId,

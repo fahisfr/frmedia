@@ -55,7 +55,7 @@ function Post({postId}) {
       }
     };
     getPost();
-  });
+  },[]);
 
   return (
     <>

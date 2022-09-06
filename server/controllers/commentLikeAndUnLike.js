@@ -29,8 +29,7 @@ const like = async (req, res, next) => {
     }
     res.json({ status: "error", error: "Could not like this comment" });
   } catch (err) {
-    console.log(err);
-    next();
+    next(err);
   }
 };
 

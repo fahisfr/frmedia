@@ -19,7 +19,7 @@ const topHashTags = async (req, res, next) => {
       },
       {
         $group: {
-          _id: "$hashTags.name",
+          _id: "$hashTags",
           count: {
             $sum: 1,
           },

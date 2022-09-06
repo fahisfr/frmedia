@@ -6,48 +6,19 @@ const getFileInfo = (file) => {
   };
 };
 
-const getTagsAndMentions = (text) => {
-  const mentions = [];
-  const hashTags = [];
-  console.log(text, "a");
-  text.split(" ").forEach((word) => {
-    if (word.startsWith("#")) {
-      hashTags.push({ name: word.slice(1), count: 1 });
-    } else if (word.startsWith("@")) {
-      mentions.push(word.slice(1));
-    }
-  });
-
-  console.log(hashTags);
-  return {
-    mentions,
-    hashTags,
-  };
-};
-
 const pcrInfo = (text, file) => {
-
   if (!file) {
-    console.log("not file ")
-    const { hashTags, mentions } = getTagsAndMentions(text);
     return {
       text,
-      hashTags,
-      mentions,
     };
-  } else if (!text ) {
-
+  } else if (!text) {
     return {
       file: getFileInfo(file),
     };
   } else {
-    const { hashTags, mentions } = getTagsAndMentions(text);
-    
     return {
       text,
       file: getFileInfo(file),
-      mentions,
-      hashTags,
     };
   }
 };

@@ -5,7 +5,7 @@ function Text({ text }) {
   return text.split(" ").map((word,index) => {
     if (word.startsWith("#")) {
       return (
-        <Link href={`/hashtag/${word.slice(1)}`} key={index}>
+        <Link href={`/hashtage/${word.slice(1)}`} key={index}>
           <a>
             <sapn>{word} </sapn>
           </a>

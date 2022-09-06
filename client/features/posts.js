@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 import axios from "../axios";
-
-Array.prototype.findIndexByID = function (id) {
-  return this.findIndex((item) => item._id === id);
-};
 
 export const fetchPosts = createAsyncThunk("/fetchPosts", async () => {
   const { data } = await axios.get("/home");
+  return data;
+});
+
+export const fetchExplore = createAsyncThunk("/fetchexplore", async () => {
+  const { data } = await axios.get("/explore");
   return data;
 });
 
@@ -15,10 +15,16 @@ const userSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
+
     loading: false,
-    error: false,
-    errorMessage: null,
-    fetched: false,
+    homeError: false,
+    homeFetched: false,
+
+    exploreLoading: false,
+    exploreError: false,
+    exploreFetched: false,
+
+    fetchedHashTags: {},
   },
   reducers: {
     addPost: (state, { payload }) => {
@@ -113,14 +119,24 @@ const userSlice = createSlice({
         }
       }
     },
+    addTagedPosts: ({ posts, fetchedHashTags }, { payload }) => {
+      fetchedHashTags[payload.hashTage] = true;
+      const newPosts = payload.posts.map((post) => {
+        post.tage = payload.hashTage;
+        return post;
+      });
+      posts.push(...newPosts);
+    },
   },
   extraReducers: {
     [fetchPosts.fulfilled]: (state, { payload }) => {
       if (payload.status === "ok") {
-        state.posts = payload.posts;
+        state.posts.push(...payload.posts);
+      } else if (payload.status === "error") {
+        state.homeError = payload.error;
       }
-      state.loading = false;
-      state.fetched = true;
+      state.homeLoading = false;
+      state.homeFetched = true;
     },
     [fetchPosts.pending]: (state, action) => {
       state.loading = true;
@@ -128,6 +144,24 @@ const userSlice = createSlice({
     [fetchPosts.rejected]: (state, action) => {
       state.loading = false;
       state.error = "opps somthing went wrong";
+    },
+
+    [fetchExplore.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      if (payload.status === "ok") {
+        state.posts.push(...payload.posts);
+      } else if (payload.status === "error") {
+        state.exploreError = payload.error;
+      }
+      state.exploreLoading = false;
+      state.exploreFtched = true;
+    },
+    [fetchExplore.pending]: (state, action) => {
+      state.exploreLoading = true;
+    },
+    [fetchExplore.rejected]: (state, action) => {
+      state.exploreLoading = false;
+      state.exploreError = "opps somthing went wrong";
     },
   },
 });
@@ -141,5 +175,6 @@ export const {
   likePost,
   likeReply,
   likeComment,
+  addTagedPosts,
 } = userSlice.actions;
 export default userSlice.reducer;

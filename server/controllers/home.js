@@ -90,6 +90,7 @@ const home = async (req, res, next) => {
             file: 1,
             editAt: 1,
             postAt: 1,
+            page: "home",
           },
         },
       },
@@ -100,7 +101,7 @@ const home = async (req, res, next) => {
         },
       },
     ]);
- 
+
     if (getPosts.length > 0) {
       return res.json({ status: "ok", posts: getPosts[0].posts });
     }

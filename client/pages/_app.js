@@ -3,16 +3,15 @@ import React from "react";
 import { fetchUser } from "../features/user";
 import { Provider } from "react-redux";
 import user from "../features/user";
-import posts from "../features/posts"
+import posts from "../features/posts";
 
 import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
   reducer: {
     user,
-    posts
+    posts,
   },
-  
 });
 store.dispatch(fetchUser());
 function MyApp({ Component, pageProps }) {

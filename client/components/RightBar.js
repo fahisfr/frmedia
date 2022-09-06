@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/rightBar.module.css";
 import axios from "../axios";
-import jushLoading from "./JustLoading"
-
+import jushLoading from "./JustLoading";
+import Link from "next/link";
 function RightBar() {
   const [topHashTags, setTopHashTags] = useState([]);
   useEffect(() => {
@@ -28,22 +28,26 @@ function RightBar() {
           <div className={styles.tg_bottom}>
             {topHashTags.map((tage) => {
               return (
-                <div className={styles.post}>
-                  <div className={styles.postLeft}>
-                    <span className={styles.tcond}>
-                      {tage.count}  People Tagged
-                    </span>
-                    <h1 className={styles.tage}>#{tage._id}</h1>
-                  </div>
+                <Link href={`/hashtage/${tage._id}`}>
+                  
+                    <div className={styles.post}>
+                      <div className={styles.postLeft}>
+                        <span className={styles.tcond}>
+                          {tage.count} Post Tagged
+                        </span>
+                        <h1 className={styles.tage}>#{tage._id}</h1>
+                      </div>
 
-                  <div className={styles.postRight}>
-                    <div>
-                      <div className={styles.menu_icon}></div>
-                      <div className={styles.menu_icon}></div>
-                      <div className={styles.menu_icon}></div>
+                      <div className={styles.postRight}>
+                        <div>
+                          <div className={styles.menu_icon}></div>
+                          <div className={styles.menu_icon}></div>
+                          <div className={styles.menu_icon}></div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  
+                </Link>
               );
             })}
           </div>
