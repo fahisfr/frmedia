@@ -20,7 +20,7 @@ function AddPCR({ For, postId, commentId }) {
 
   const [text, setText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
-  const { isAuth, userInfo } = useSelector((state) => state.user);
+  const { userInfo } = useSelector((state) => state.user);
   const [popupInfo, setPopupInfo] = useState({
     trigger: false,
     error: false,
@@ -35,6 +35,7 @@ function AddPCR({ For, postId, commentId }) {
           btnText: "Comment",
           apiPath: "/addcomment",
           updateState: (comment) => {
+            console.log(comment)
             dispatch(addComment({ comment, postId }));
           },
         };
@@ -44,6 +45,7 @@ function AddPCR({ For, postId, commentId }) {
           btnText: "Post",
           apiPath: "/addpost",
           updateState: (post) => {
+            console.log(post)
             dispatch(addPost(post));
           },
         };
@@ -91,7 +93,7 @@ function AddPCR({ For, postId, commentId }) {
         setPopupInfo({ trigger: true, error: true, message: data.error });
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setPopupInfo({
         trigger: true,
         error: true,

@@ -40,10 +40,7 @@ function Header() {
           </div>
         </div>
         <div className={styles.n_p}>
-          <button className={styles.notification}>
-            <BsFillBellFill color="blue" size={22} />
-            <span className={styles.notification_cound}>4</span>
-          </button>
+        
           <div className={styles.profile}>
             <button className={styles.profile_btn}>
               <img

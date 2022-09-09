@@ -23,7 +23,7 @@ function Profile({ status, userInfo }) {
     coverPic,
   } = userInfo;
   const [editProfile, setEditProfile] = useState(false);
-
+  console.log(_following);
   const followHandler = async () => {
     const { data } = await axios.post(
       `/user/${_following ? "unfollow" : "follow"}`,
@@ -142,7 +142,6 @@ function Profile({ status, userInfo }) {
     </div>
   );
 }
-
 
 Profile.PageLayout = MainLayout;
 export default Profile;

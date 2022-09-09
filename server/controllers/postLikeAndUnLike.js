@@ -1,5 +1,6 @@
 const dbPost = require("../dbSchemas/post");
-
+const objectId = require("mongoose").Types.ObjectId;
+const dbUser = require("../dbSchemas/user");
 const like = async (req, res, next) => {
   try {
     const {
@@ -7,21 +8,26 @@ const like = async (req, res, next) => {
       body: { postId },
     } = req;
 
-    console.log(id);
+    const postLiked = await dbPost
+      .findOneAndUpdate({ _id: postId }, { $addToSet: { likes: id } })
+      .select("userId");
 
-    const postLiked = await dbPost.updateOne(
-      {
-        _id: postId,
-      },
-      {
-        $addToSet: {
-          likes: id,
-        },
-      }
-    );
+    if (postLiked) {
+      const ress = await dbUser.updateOne(
+        { _id: postLiked.userId },
+        {
+          $push: {
+            notifications: {
+              type: "liked",
+              userId: id,
+              postId,
+            },
+          },
+          $inc: { notifCount: 1 },
+        }
+      );
+      console.log(ress);
 
-
-    if (postLiked.modifiedCount > 0) {
       res.json({ status: "ok" });
       return;
     }

@@ -51,11 +51,11 @@ function Sidebar() {
             </a>
           </Link>
 
-          <Link className={styles.link} href="/notigications">
+          <Link className={styles.link} href="/notifications">
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${
-                  id === "notigications" && styles.blue
+                  id === "notifications" && styles.blue
                 }`}
               >
                 <IoMdNotificationsOutline className={styles.icon} />

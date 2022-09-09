@@ -14,11 +14,10 @@ function explore() {
     posts,
   } = useSelector((state) => state.posts);
 
-  useEffect(() => {
-    if (!exploreFetched && !error) {
-      dispatch(fetchExplore());
-    }
-  }, []);
+  if (!exploreFetched && !error) {
+    dispatch(fetchExplore());
+  }
+
   return (
     <div className="center">
       {error ? (

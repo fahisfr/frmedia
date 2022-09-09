@@ -30,13 +30,15 @@ function Post({ postInfo, userInfo, vpost }) {
   } = postInfo;
   const { userName, profilePic } = userInfo;
 
-  const [showComments, setshowComments] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
+  const [commentsFetching, setCommentsFetching] = useState(false);
   const [failedToFetchComments, setFailedToFetchComments] = useState(false);
 
   const getComments = async () => {
     try {
-      setshowComments(!showComments);
+      setShowComments(!showComments);
+      setCommentsFetching(true);
       if (comments) {
         return;
       } else {
@@ -49,6 +51,8 @@ function Post({ postInfo, userInfo, vpost }) {
       }
     } catch (error) {
       setFailedToFetchComments("Failed to fetch comments");
+    } finally {
+      setCommentsFetching(false);
     }
   };
 
@@ -56,7 +60,7 @@ function Post({ postInfo, userInfo, vpost }) {
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
       postId: _id,
     });
-    console.log(data.status);
+
     if (data.status === "ok") {
       dispatch(likePost({ postId: _id }));
     }
@@ -152,7 +156,12 @@ function Post({ postInfo, userInfo, vpost }) {
             <div className={styles.footer_group}>
               <button
                 className={styles.button}
-                onClick={() => setAddComment(!vpost && !addComment)}
+                onClick={() => {
+                  if (!comments) {
+                    setShowComments(true);
+                  }
+                  setAddComment(!vpost && !addComment);
+                }}
               >
                 <BsChat className={styles.icons} />
               </button>
@@ -186,12 +195,12 @@ function Post({ postInfo, userInfo, vpost }) {
         {showComments ? (
           failedToFetchComments ? (
             <ErrorMessage error={failedToFetchComments} />
-          ) : comments ? (
-            comments.map((comment) => {
+          ) : commentsFetching ? (
+            <JustLoading />
+          ) : (
+            comments?.map((comment) => {
               return <Comment comment={comment} postId={_id} />;
             })
-          ) : (
-            <JustLoading />
           )
         ) : null}
       </div>

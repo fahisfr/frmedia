@@ -26,11 +26,10 @@ function Home({}) {
   } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (!homeFetched) {
-      dispatch(fetchPosts());
-    }
-  }, [dispatch]);
+
+  if (!homeFetched) {
+    dispatch(fetchPosts());
+  }
 
   return (
     <>
