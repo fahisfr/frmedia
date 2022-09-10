@@ -4,13 +4,18 @@ const topHashTags = async (req, res, next) => {
   try {
     const hashTags = await dbPost.aggregate([
       {
-        $match: {},
+        $match: {
+          hashTags: {
+            $ne: [],
+          },
+        },
       },
       {
         $project: {
           hashTags: 1,
         },
       },
+
       {
         $unwind: {
           path: "$hashTags",
@@ -27,7 +32,7 @@ const topHashTags = async (req, res, next) => {
       },
       {
         $sort: {
-          "count": -1,
+          count: -1,
         },
       },
     ]);

@@ -96,22 +96,18 @@ function Profile({ status, userInfo }) {
             <div className={styles.fw_c}>
               <div>
                 <Link href="/">
-                  <a>
-                    <div>
-                      <span className={styles.fw_count}>{followersCount}</span>
-                      <span className={styles.fw}> Following</span>
-                    </div>
-                  </a>
+                  <div>
+                    <span className={styles.fw_count}>{followersCount}</span>
+                    <span className={styles.fw}> Following</span>
+                  </div>
                 </Link>
               </div>
               <div>
                 <Link href="/">
-                  <a>
-                    <div>
-                      <span className={styles.fw_count}>{followingCount}</span>
-                      <span className={styles.fw}> Following</span>
-                    </div>
-                  </a>
+                  <div>
+                    <span className={styles.fw_count}>{followingCount}</span>
+                    <span className={styles.fw}> Following</span>
+                  </div>
                 </Link>
               </div>
             </div>
@@ -135,8 +131,8 @@ function Profile({ status, userInfo }) {
             <span className={styles.bvn}>Notifications</span>
           </div> */}
         </div>
-        {userInfo.posts.map((post) => {
-          return <Post userInfo={userInfo} postInfo={post} key={post._id} />;
+        {userInfo.posts.map((post, index) => {
+          return <Post userInfo={userInfo} postInfo={post} key={index} />;
         })}
       </div>
     </div>

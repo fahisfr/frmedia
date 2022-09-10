@@ -14,8 +14,8 @@ const user = new db.Schema({
   bio: { type: String, default: "I am a new user" },
   link: { type: String },
   posts: [{ type: db.Schema.Types.ObjectId, ref: "posts" }],
-  isAdmin: { type: Boolean, default: false },
-  isVerified: { type: Boolean, default: false },
+  admin: { type: Boolean, default: false },
+  verified: { type: Boolean, default: false },
   refreshToken: { type: String, default: null, select: false },
   notifCount: { type: Number },
   notifications: [{

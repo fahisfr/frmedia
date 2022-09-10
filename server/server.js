@@ -41,7 +41,7 @@ app.post("/addcomment", auth, require("./controllers/addComment"));
 app.post("/reply-to-comment", auth, require("./controllers/replyToComment"));
 app.post("/edit-profile", auth, require("./controllers/editProfile"));
 app.get("/top-hash-tags", require("./controllers/getTopHashTags"));
-app.get("/explore", require("./controllers/exploer"));
+app.get("/explore", auth, require("./controllers/exploer"));
 app.get("/hashtage/:tage", require("./controllers/hashTage"));
 app.get("/notifications", auth, require("./controllers/getAllNotifications"));
 

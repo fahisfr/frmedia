@@ -74,7 +74,7 @@ const home = async (req, res, next) => {
               profilePic: "$user.profilePic",
               coverPic: "$user.coverPic",
               bio: "$user.bio",
-              isVerified: "$user.isVerified",
+              verified: "$user.verified",
             },
             likesCount: {
               $size: "$post.likes",

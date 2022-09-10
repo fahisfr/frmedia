@@ -7,16 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../features/posts";
 import ErrorMessage from "../components/ErrorMessage";
 
-import {
-  addReply,
-  setComments,
-  addComment,
-  setReplies,
-  likePost,
-  likeReply,
-  likeComment,
-} from "../features/posts";
-
 function Home({}) {
   const {
     homeLoading: loading,
@@ -26,10 +16,13 @@ function Home({}) {
   } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (!homeFetched && !loading) {
+      dispatch(fetchPosts());
+    }
+  }, []);
 
-  if (!homeFetched) {
-    dispatch(fetchPosts());
-  }
+
 
   return (
     <>
@@ -43,20 +36,7 @@ function Home({}) {
           {posts
             .filter((post) => post.page === "home")
             .map(({ userInfo, ...post }, index) => {
-              return (
-                <Post
-                  postInfo={post}
-                  userInfo={userInfo}
-                  addReply={addReply}
-                  setComments={setComments}
-                  addComment={addComment}
-                  setReplies={setReplies}
-                  likePost={likePost}
-                  likeReply={likeReply}
-                  likeComment={likeComment}
-                  key={post._id}
-                />
-              );
+              return <Post postInfo={post} userInfo={userInfo} key={index} />;
             })}
         </>
       )}

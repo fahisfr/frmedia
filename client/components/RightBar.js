@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/rightBar.module.css";
 import axios from "../axios";
-import jushLoading from "./JustLoading";
 import Link from "next/link";
+import JustLoading from "./JustLoading";
 function RightBar() {
   const [topHashTags, setTopHashTags] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     try {
       const getTags = async () => {
@@ -16,6 +17,8 @@ function RightBar() {
       getTags();
     } catch (err) {
       alert(err);
+    } finally {
+      setLoading(false);
     }
   }, []);
   return (
@@ -26,10 +29,12 @@ function RightBar() {
             <h3>Trading Tags</h3>
           </div>
           <div className={styles.tg_bottom}>
-            {topHashTags.map((tage) => {
-              return (
-                <Link href={`/hashtage/${tage._id}`}>
-                  
+            {loading ? (
+              <JustLoading />
+            ) : (
+              topHashTags.map((tage,index) => {
+                return (
+                  <Link href={`/hashtage/${tage._id}`} key={index}>
                     <div className={styles.post}>
                       <div className={styles.postLeft}>
                         <span className={styles.tcond}>
@@ -46,10 +51,10 @@ function RightBar() {
                         </div>
                       </div>
                     </div>
-                  
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

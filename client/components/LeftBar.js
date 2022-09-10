@@ -11,8 +11,8 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 function Sidebar() {
-  const { isAuth, userInfo } = useSelector((state) => state.user);
-  const { userName } = userInfo;
+  const { userInfo } = useSelector((state) => state.user);
+  const { userName, notifCount } = userInfo;
   const { asPath } = useRouter();
   const id = asPath.slice(1);
 
@@ -29,7 +29,7 @@ function Sidebar() {
             </a>
           </Link>
 
-          <Link className={styles.link} href={`${userName}`}>
+          <Link className={styles.link} href={`${userName??"/profile"}`}>
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${id === userName && styles.blue}`}
@@ -60,6 +60,11 @@ function Sidebar() {
               >
                 <IoMdNotificationsOutline className={styles.icon} />
                 <span className={styles.text}>Notifications</span>
+                {notifCount > 0 && (
+                  <div className={styles.notif_count}>
+                    <span className={styles.count}>{notifCount}</span>
+                  </div>
+                )}
               </div>
             </a>
           </Link>

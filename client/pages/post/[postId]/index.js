@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Posts from "../../../../components/Post";
-import AddPost from "../../../../components/AddPCR";
-import Comment from "../../../../components/Comment";
-import JustLoading from "../../../../components/JustLoading";
-import MainLayout from "../../../../layouts/Main";
+import Posts from "../../../components/Post";
+import AddPost from "../../../components/AddPCR";
+import Comment from "../../../components/Comment";
+import JustLoading from "../../../components/JustLoading";
+import MainLayout from "../../../layouts/Main";
 import { useDispatch, useSelector } from "react-redux";
-import { setComments, addPost, addComment } from "../../../../features/posts";
-import axios from "../../../../axios";
+import { setComments, addPost, addComment } from "../../../features/posts";
+import axios from "../../../axios";
 import { useRouter } from "next/router";
 
-import ErrorMessage from "../../../../components/ErrorMessage";
+import ErrorMessage from "../../../components/ErrorMessage";
 function Post({postId}) {
   const router = useRouter();
   // const {

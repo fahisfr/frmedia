@@ -58,7 +58,7 @@ const getUserInfo = async (req, res, next) => {
           profilePic: { $first: "$profilePic" },
           coverPic: { $first: "$coverPic" },
           bio: { $first: "$bio" },
-          isVerified: { $first: "$isVerified" },
+          verified: { $first: "$verified" },
           posts: { $push: { $arrayElemAt: ["$posts", 0] } },
           followersCount: { $first: { $size: "$followers" } },
           followingCount: { $first: { $size: "$following" } },
@@ -67,7 +67,7 @@ const getUserInfo = async (req, res, next) => {
       },
     ]);
 
-    console.log(user[0]);
+
 
     if (user.length > 0) {
       res.json({ status: "ok", userInfo: user[0] });

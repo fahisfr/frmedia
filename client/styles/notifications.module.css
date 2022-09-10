@@ -110,3 +110,23 @@
 .blue {
     color: var(--default_blue);
 }
+
+
+.empty_notif {
+    display: flex;
+    padding-top: 1rem;
+    flex-direction: column;
+    align-items: center;
+    row-gap: .5rem;
+}
+
+.icon {
+    font-size: 2.3rem;
+    color:var(--gray_400) ;
+}
+
+.empty_text {
+    font-size: 18px;
+    font-weight: 600;
+    color:var(--gray_400) ; 
+}

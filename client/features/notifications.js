@@ -29,7 +29,7 @@ const notificationsSlice = createSlice({
               break;
             case "liked":
               res.message = " Liked you post";
-              res.link = res.postId;
+              res.link = `/post/${res.postId}`;
               break;
             case "following":
               res.message = "Started following you";

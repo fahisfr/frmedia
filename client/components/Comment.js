@@ -11,8 +11,8 @@ import { useDispatch } from "react-redux";
 import { setReplies, likeComment } from "../features/posts";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
-import Text from "./Text";
 import ErrorMessage from "./ErrorMessage";
+import filterText from "../helper/filterText";
 
 function Comment({ comment, postId }) {
   console.log(postId);
@@ -116,9 +116,7 @@ function Comment({ comment, postId }) {
             {text && (
               <Link href={`/${userName}/post/${_id}`}>
                 <a style={{ color: "black" }}>
-                  <div className={styles.message}>
-                    <Text text={text} />
-                  </div>
+                  <div className={styles.message}>{filterText(text)}</div>
                 </a>
               </Link>
             )}

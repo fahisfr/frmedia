@@ -21,7 +21,7 @@ const userSlice = createSlice({
     homeFetched: false,
 
     exploreLoading: false,
-    exploreError:false,
+    exploreError: false,
     exploreFetched: false,
 
     fetchedHashTags: {},
@@ -157,7 +157,7 @@ const userSlice = createSlice({
     },
 
     [fetchPosts.pending]: (state, action) => {
-      state.loading = true;
+      state.homeLoading = true;
     },
 
     [fetchPosts.rejected]: (state, action) => {
@@ -165,11 +165,7 @@ const userSlice = createSlice({
       state.error = "opps somthing went wrong";
     },
 
-
-
     [fetchExplore.fulfilled]: (state, { payload }) => {
-
- 
       if (payload.status === "ok") {
         state.posts.push(...payload.posts);
       } else if (payload.status === "error") {
@@ -177,14 +173,13 @@ const userSlice = createSlice({
       }
       state.exploreLoading = false;
       state.exploreFetched = true;
-
     },
     [fetchExplore.pending]: (state, action) => {
       state.exploreLoading = true;
     },
     [fetchExplore.rejected]: (state, action) => {
       state.exploreLoading = false;
-      state.exploreError ="opps somthing went wrong";
+      state.exploreError = "opps somthing went wrong";
     },
   },
 });

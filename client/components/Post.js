@@ -9,12 +9,12 @@ import { FcLike } from "react-icons/fc";
 import axios, { baseURL } from "../axios";
 import { useDispatch } from "react-redux";
 import Comment from "../components/Comment";
-import { addComment, setComments, likePost } from "../features/posts";
+import { setComments, likePost } from "../features/posts";
 import JustLoading from "./JustLoading";
 import getDate from "../helper/getDate";
 import AddPCR from "./AddPCR";
-import Text from "./Text";
 import ErrorMessage from "./ErrorMessage";
+import filterText from "../helper/filterText";
 
 function Post({ postInfo, userInfo, vpost }) {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function Post({ postInfo, userInfo, vpost }) {
     postAt,
     comments,
   } = postInfo;
-  const { userName, profilePic } = userInfo;
+  const { userName, profilePic, verified } = userInfo;
 
   const [showComments, setShowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -57,11 +57,11 @@ function Post({ postInfo, userInfo, vpost }) {
   };
 
   const likeHandler = async () => {
+    dispatch(likePost({ postId: _id }));
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
       postId: _id,
     });
-
-    if (data.status === "ok") {
+    if (data.status === "error") {
       dispatch(likePost({ postId: _id }));
     }
   };
@@ -87,9 +87,12 @@ function Post({ postInfo, userInfo, vpost }) {
                     <div className={styles.group_left}>
                       <span className={styles.name}>{userName}</span>
                     </div>
-                    <div className={styles.group_right}>
-                      <MdVerified size={19} color="007aed" />
-                    </div>
+
+                    {verified && (
+                      <div className={styles.group_right}>
+                        <MdVerified size={19} color="007aed" />
+                      </div>
+                    )}
                   </div>
                   <div className={styles.group}>
                     <span className={styles.date}>{getDate(postAt)}</span>
@@ -110,12 +113,8 @@ function Post({ postInfo, userInfo, vpost }) {
 
           <div className={styles.body}>
             {text && (
-              <Link href={`/${userName}/post/${_id}`}>
-                <a style={{ color: "black" }}>
-                  <div className={styles.message}>
-                    <Text text={text} />
-                  </div>
-                </a>
+              <Link href={`/post/${_id}`}>
+                <div className={styles.message}>{filterText(text)}</div>
               </Link>
             )}
 
@@ -123,12 +122,10 @@ function Post({ postInfo, userInfo, vpost }) {
               <div className={styles.postFilePreivew}>
                 {file && file.type === "image" ? (
                   <Link href="/dev/post/123/fv ">
-                    <a>
-                      <img
-                        className={styles.image}
-                        src={`http://localhost:4000/image/${file.name}`}
-                      />
-                    </a>
+                    <img
+                      className={styles.image}
+                      src={`http://localhost:4000/image/${file.name}`}
+                    />
                   </Link>
                 ) : file?.type === "video" ? (
                   <video

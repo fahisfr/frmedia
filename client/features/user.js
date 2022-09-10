@@ -11,12 +11,13 @@ const userSlice = createSlice({
   initialState: {
     userInfo: {
       userName: null,
-      bio: null,
-      link: null,
-      profilePic: null,
-      avatarPic: null,
-      followingCount: null,
-      followersCount: null,
+      bio: "",
+      link: "",
+      profilePic: "",
+      avatarPic: "",
+      followingCount: 0,
+      followersCount: 0,
+      notifCount: 0,
     },
     isAuth: false,
     loading: false,
@@ -24,10 +25,11 @@ const userSlice = createSlice({
   },
   reducers: {
     updateUserInfo: (state, action) => {
-      state.userInfo={ ...state.userInfo, ...action.payload.userInfo}
-     
+      state.userInfo = { ...state.userInfo, ...action.payload.userInfo };
     },
-    setPosts: (state, action) => state.posts.push(action.payload),
+    notifCount: ({ userInfo }, action) => {
+      userInfo.notifCount = 0;
+    },
   },
   extraReducers: {
     [fetchUser.fulfilled]: (state, { payload }) => {
@@ -41,6 +43,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateUserInfo } = userSlice.actions;
+export const { updateUserInfo, notifCount } = userSlice.actions;
 
 export default userSlice.reducer;

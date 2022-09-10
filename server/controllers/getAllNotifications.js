@@ -8,10 +8,11 @@ const notifications = async (req, res, next) => {
       { $match: { _id: objectId(id) } },
       {
         $project: {
-          notifications: 1,
+          notifications: { $reverseArray: "$notifications" },
           notifCount: 1,
         },
       },
+
       {
         $unwind: {
           path: "$notifications",
@@ -36,12 +37,18 @@ const notifications = async (req, res, next) => {
       {
         $group: {
           _id: null,
+          notifCount: { $first: "$notifCount" },
           notifications: { $push: "$notifications" },
         },
       },
     ]);
     if (dbResult.length > 0) {
       res.json({ status: "ok", notifications: dbResult[0].notifications });
+
+      if (dbResult[0].notifCount > 0) {
+        await dbUser.updateOne({ _id: id }, { $set: { notifCount: 0 } });
+      }
+      return;
     }
   } catch (err) {
     next(err);

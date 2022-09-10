@@ -14,9 +14,11 @@ function explore() {
     posts,
   } = useSelector((state) => state.posts);
 
-  if (!exploreFetched && !error) {
-    dispatch(fetchExplore());
-  }
+  useEffect(() => {
+    if (!exploreFetched && !error) {
+      dispatch(fetchExplore());
+    }
+  }, []);
 
   return (
     <div className="center">
@@ -27,8 +29,8 @@ function explore() {
       ) : (
         posts
           .filter((post) => post.page === "explore")
-          .map(({ userInfo, ...post }) => {
-            return <Post postInfo={post} userInfo={userInfo} />;
+          .map(({ userInfo, ...post }, index) => {
+            return <Post postInfo={post} userInfo={userInfo} key={index} />;
           })
       )}
     </div>

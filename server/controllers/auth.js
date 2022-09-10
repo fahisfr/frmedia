@@ -1,9 +1,8 @@
 const dbUser = require("../dbSchemas/user");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const auth = async (req, res, next) => {
   try {
-
     const userInfo = await dbUser.aggregate([
       {
         $match: {
@@ -17,25 +16,26 @@ const auth = async (req, res, next) => {
         },
       },
       {
-        $project:{
-          _id:1,
-          userName:1,
-          email:1,
-          bio:1,
-          profilePic:1,
-          avatarPic:1,
-          link:1,
-          followersCount:1,
-          followingCount:1,
-
-        }
-      }
+        $project: {
+          _id: 1,
+          userName: 1,
+          email: 1,
+          bio: 1,
+          profilePic: 1,
+          avatarPic: 1,
+          link: 1,
+          followersCount: 1,
+          followingCount: 1,
+          notifCount: 1,
+        },
+      },
     ]);
+
 
     if (userInfo) {
       res.json({
         status: "ok",
-        userInfo:userInfo[0],
+        userInfo: userInfo[0],
       });
       return;
     }
@@ -48,4 +48,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports=auth
+module.exports = auth;

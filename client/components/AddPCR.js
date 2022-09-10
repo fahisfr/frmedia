@@ -35,7 +35,7 @@ function AddPCR({ For, postId, commentId }) {
           btnText: "Comment",
           apiPath: "/addcomment",
           updateState: (comment) => {
-            console.log(comment)
+            console.log(comment);
             dispatch(addComment({ comment, postId }));
           },
         };
@@ -45,7 +45,7 @@ function AddPCR({ For, postId, commentId }) {
           btnText: "Post",
           apiPath: "/addpost",
           updateState: (post) => {
-            console.log(post)
+            console.log(post);
             dispatch(addPost(post));
           },
         };
@@ -123,7 +123,7 @@ function AddPCR({ For, postId, commentId }) {
   };
 
   const onEmojiClick = (event, emojiObject) => {
-    setText(`${Text}${emojiObject.emoji}`);
+    setText(`${text}${emojiObject.emoji}`);
   };
 
   const cancelNow = (e) => {

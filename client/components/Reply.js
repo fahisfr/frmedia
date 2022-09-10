@@ -9,6 +9,7 @@ import { likeReply } from "../features/posts";
 import AddPCR from "./AddPCR";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
+import filterText from "../helper/filterText";
 
 function Reply({ replyInfo, postId, commentId }) {
   const dispatch = useDispatch();
@@ -73,7 +74,9 @@ function Reply({ replyInfo, postId, commentId }) {
           {text && (
             <Link href={`/${userName}/post/${_id}`}>
               <a style={{ color: "black" }}>
-                <div className={styles.message}>{text}</div>
+                <div className={styles.message}>{
+                  filterText()
+                }</div>
               </a>
             </Link>
           )}
@@ -123,11 +126,10 @@ function Reply({ replyInfo, postId, commentId }) {
           </div>
         </footer>
         <div>
-           {addReplyTrigger && (
-          <AddPCR For="reply" postId={postId} commentId={commentId} />
-        )}
+          {addReplyTrigger && (
+            <AddPCR For="reply" postId={postId} commentId={commentId} />
+          )}
         </div>
-       
       </div>
     </div>
   );

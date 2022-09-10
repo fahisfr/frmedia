@@ -52,8 +52,8 @@ function Tage() {
       ) : (
         posts
           .filter((post) => post.tage === hashTage)
-          .map(({ userInfo, ...post }) => {
-            return <Post postInfo={post} userInfo={userInfo} />;
+          .map(({ userInfo, ...post }, index) => {
+            return <Post postInfo={post} userInfo={userInfo} key={index} />;
           })
       )}
     </div>

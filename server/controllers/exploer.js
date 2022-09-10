@@ -1,6 +1,7 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
 const explore = async (req, res, next) => {
+  const { id } = req.user;
   try {
     const posts = await dbPost.aggregate([
       {
@@ -30,7 +31,7 @@ const explore = async (req, res, next) => {
             profilePic: "$userInfo.profilePic",
             coverPic: "$userInfo.coverPic",
             bio: "$userInfo.bio",
-            isVerified: "$userInfo.isVerified",
+            verified: "$userInfo.verified",
           },
           likesCount: {
             $size: "$likes",
@@ -39,7 +40,11 @@ const explore = async (req, res, next) => {
             $size: "$comments",
           },
           liked: {
-            $in: [objectId("62ff6f5c4cfc303b76427cb6"), "$likes"],
+            $cond: [
+              { $eq: [id, true] },
+              false,
+              { $in: [objectId(id), "$likes"] },
+            ],
           },
           _id: 1,
           text: 1,

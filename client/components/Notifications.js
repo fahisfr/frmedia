@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/notifications.module.css";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
@@ -9,6 +9,7 @@ import { fetchNotifications } from "../features/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { baseURL } from "../axios";
 import { useRouter } from "next/router";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 function Notification() {
   const { asPath } = useRouter();
@@ -18,9 +19,12 @@ function Notification() {
     (state) => state.notifications
   );
 
-  if (!fetched) {
-    dispatch(fetchNotifications());
-  }
+  useEffect(() => {
+    if (!fetched && !loading) {
+      dispatch(fetchNotifications());
+    }
+  }, []);
+
   const path = asPath.split("/")[2];
 
   const getNotifications = () => {
@@ -36,13 +40,12 @@ function Notification() {
     }
   };
   const notif = getNotifications();
+
   return (
     <div className={styles.con}>
       <div className={styles.top}>
         <Link href="/notifications">
-          <a>
-            <h4 id={styles.top_aln}> Notifications</h4>
-          </a>
+          <h4 id={styles.top_aln}> Notifications</h4>
         </Link>
       </div>
       <nav className={styles.nav}>
@@ -74,15 +77,11 @@ function Notification() {
         </div>
         <div className={styles.nv_group}>
           <Link href="/notifications/liked">
-            <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "liked" && styles.blue
-                }`}
-              >
-                Liked
-              </span>
-            </a>
+            <span
+              className={`${styles.nv_text} ${path === "liked" && styles.blue}`}
+            >
+              Liked
+            </span>
           </Link>
         </div>
       </nav>
@@ -91,33 +90,34 @@ function Notification() {
           <ErrorMessage error={error} />
         ) : loading ? (
           <JustLoading />
+        ) : notif.length < 1 ? (
+          <div className={styles.empty_notif}>
+            <IoMdNotificationsOutline className={styles.icon} />
+            <sapn className={styles.empty_text}>No Notification yet</sapn>
+          </div>
         ) : (
-          notif.map((notif) => {
+          notif.map((notif, index) => {
             return (
-              <Link href={notif.link}>
-                <a>
-                  <div className={styles.notification}>
-                    <div className={styles.n_left}>
-                      <div className={styles.profile}>
-                        <img
-                          className={styles.profile_img}
-                          src={`${baseURL}/p/${notif.userInfo.profilePic}`}
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.n_right}>
-                      <div>
-                        <span className={styles.date}>
-                          {getDate(notif.date)}
-                        </span>
-                      </div>
-                      <span className={styles.name}>fahis</span>
-                      <span
-                        className={styles.message}
-                      >{` ${notif.message}`}</span>
+              <Link href={notif.link} key={index}>
+                <div className={styles.notification}>
+                  <div className={styles.n_left}>
+                    <div className={styles.profile}>
+                      <img
+                        className={styles.profile_img}
+                        src={`${baseURL}/p/${notif.userInfo.profilePic}`}
+                      />
                     </div>
                   </div>
-                </a>
+                  <div className={styles.n_right}>
+                    <div>
+                      <span className={styles.date}>{getDate(notif.date)}</span>
+                    </div>
+                    <span className={styles.name}>fahis</span>
+                    <span
+                      className={styles.message}
+                    >{` ${notif.message}`}</span>
+                  </div>
+                </div>
               </Link>
             );
           })
