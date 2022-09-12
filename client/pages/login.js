@@ -4,22 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "../axios";
 
-export const getServerSideProps = async ({ req }) => {
-  const token = req.cookies.auth_token;
 
-  if (token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
 
 function Login({}) {
   const router = useRouter();

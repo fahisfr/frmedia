@@ -44,6 +44,9 @@ app.get("/top-hash-tags", require("./controllers/getTopHashTags"));
 app.get("/explore", auth, require("./controllers/exploer"));
 app.get("/hashtage/:tage", require("./controllers/hashTage"));
 app.get("/notifications", auth, require("./controllers/getAllNotifications"));
+app.get("/search/:text", require("./controllers/search"));
+
+
 
 app.use(errorHandler);
 

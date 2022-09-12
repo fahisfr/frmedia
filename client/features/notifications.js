@@ -21,23 +21,23 @@ const notificationsSlice = createSlice({
   extraReducers: {
     [fetchNotifications.fulfilled]: (state, { payload }) => {
       if (payload.status === "ok") {
-        state.notifications = payload.notifications.map((res) => {
-          switch (res.type) {
+        state.notifications = payload.notifications.map((item) => {
+          switch (item.type) {
             case "mention":
-              res.message = "Was mentioned in a post";
-              res.link = res.postId;
+              item.message = "Was mentioned in a post";
+              item.link = item.postId;
               break;
             case "liked":
-              res.message = " Liked you post";
-              res.link = `/post/${res.postId}`;
+              item.message = " Liked you post";
+              item.link = `/post/${item.postId}`;
               break;
             case "following":
-              res.message = "Started following you";
-              res.link = res.userId;
+              item.message = "Started following you";
+              item.link = item.userName;
             default:
-              res.message = "";
+              item.message = "";
           }
-          return res;
+          return item;
         });
         state.fetched = true;
         state.loading = false;

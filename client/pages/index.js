@@ -23,7 +23,7 @@ function Home({}) {
   }, []);
 
 
-
+  console.log(process.env.ok)
   return (
     <>
       <AddPost For="post" />

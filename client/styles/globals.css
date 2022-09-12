@@ -103,8 +103,7 @@ a {
 @keyframes just-loading {
   0% {
     transform: rotate(0deg);
-
-    border-radius: 50%;
+    
   }
 
   100% {
