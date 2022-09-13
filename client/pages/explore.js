@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import Post from "../components/Post";
 import MainLayout from "../layouts/Main";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchExplore } from "../features/posts";
+import { fetchExplore } from "../features/explore";
 import JustLoading from "../components/JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
 function explore() {
   const dispatch = useDispatch();
-  const {
-    exploreLoading: loading,
-    exploreError: error,
-    exploreFetched,
-    posts,
-  } = useSelector((state) => state.posts);
+  const { loading, error, fetched, posts } = useSelector(
+    (state) => state.explore
+  );
 
   useEffect(() => {
-    if (!exploreFetched && !error) {
+    if (!fetched && !error) {
       dispatch(fetchExplore());
     }
   }, []);
@@ -27,11 +24,16 @@ function explore() {
       ) : loading ? (
         <JustLoading />
       ) : (
-        posts
-          .filter((post) => post.page === "explore")
-          .map(({ userInfo, ...post }, index) => {
-            return <Post postInfo={post} userInfo={userInfo} key={index} />;
-          })
+        posts.map(({ userInfo, ...post }, index) => {
+          return (
+            <Post
+              postInfo={post}
+              userInfo={userInfo}
+              page="explore"
+              key={index}
+            />
+          );
+        })
       )}
     </div>
   );

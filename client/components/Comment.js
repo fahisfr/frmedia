@@ -8,19 +8,19 @@ import Reply from "./Reply";
 import AddPCR from "./AddPCR";
 import JustLoading from "./JustLoading";
 import { useDispatch } from "react-redux";
-import { setReplies, likeComment } from "../features/posts";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
 import ErrorMessage from "./ErrorMessage";
 import filterText from "../helper/filterText";
+import getPostAcitons from "../features/actions/post";
 
-function Comment({ comment, postId }) {
-  console.log(postId);
+function Comment({ comment, postId, page }) {
   const dispatch = useDispatch();
   const [addReply, setAddReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [failedFetchReplies, setFailedFetchReplies] = useState(false);
 
+  const { setReplies, likeComment } = getPostAcitons(page);
   const {
     _id,
     text,
@@ -173,8 +173,9 @@ function Comment({ comment, postId }) {
       </div>
 
       <div className={styles.replies}>
-        {addReply && <AddPCR commentId={_id} postId={postId} For="reply" />}
-
+        {addReply && (
+          <AddPCR commentId={_id} postId={postId} For="reply" page={page} />
+        )}
         {failedFetchReplies ? (
           <ErrorMessage error={failedFetchReplies} />
         ) : (
@@ -188,6 +189,7 @@ function Comment({ comment, postId }) {
                       key={index}
                       postId={postId}
                       commentId={_id}
+                      page={page}
                     />
                   );
                 })

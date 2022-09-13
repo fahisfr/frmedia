@@ -8,12 +8,9 @@ import { fetchPosts } from "../features/posts";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Home({}) {
-  const {
-    homeLoading: loading,
-    homeError: error,
-    homeFetched,
-    posts,
-  } = useSelector((state) => state.posts);
+  const { loading, error, homeFetched, posts } = useSelector(
+    (state) => state.posts
+  );
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -22,22 +19,25 @@ function Home({}) {
     }
   }, []);
 
-
-  console.log(process.env.ok)
   return (
     <>
-      <AddPost For="post" />
+      <AddPost For="post" page="home" />
       {error ? (
         <ErrorMessage error={error} />
       ) : loading ? (
         <JustLoading />
       ) : (
         <>
-          {posts
-            .filter((post) => post.page === "home")
-            .map(({ userInfo, ...post }, index) => {
-              return <Post postInfo={post} userInfo={userInfo} key={index} />;
-            })}
+          {posts.map(({ userInfo, ...post }, index) => {
+            return (
+              <Post
+                postInfo={post}
+                userInfo={userInfo}
+                key={index}
+                page="home"
+              />
+            );
+          })}
         </>
       )}
     </>

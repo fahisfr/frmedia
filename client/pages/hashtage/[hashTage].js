@@ -3,7 +3,7 @@ import axios from "../../axios";
 import Post from "../../components/Post";
 import MainLayout from "../../layouts/Main";
 import { useRouter } from "next/router";
-import { addTagedPosts } from "../../features/posts";
+import { actions } from "../../features/hashTags";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../components/ErrorMessage";
 import JustLoading from "../../components/JustLoading";
@@ -17,7 +17,7 @@ function Tage() {
     query: { hashTage },
   } = useRouter();
 
-  const { posts, fetchedHashTags } = useSelector((state) => state.posts);
+  const { posts, fetchedHashTags } = useSelector((state) => state.hashTags);
 
   useEffect(() => {
     try {
@@ -25,38 +25,45 @@ function Tage() {
       const getPost = async () => {
         const { data } = await axios.get(`/hashtage/${hashTage}`);
         if (data.status === "ok") {
-          dispatch(addTagedPosts({ hashTage, posts: data.posts }));
+          dispatch(actions.addTagedPosts({ hashTage, posts: data.posts }));
         } else {
           setError(data.error);
         }
       };
 
-      if (!fetchedHashTags[hashTage]) {
+      if (!fetchedHashTags.find((tage) => tage === hashTage)) {
+        console.log(fetchedHashTags.find((tage) => tage === hashTage));
         getPost();
       }
     } catch (err) {
-      setError("oops somthin went wor:(");
+      console.log(err);
+      setError("oops somthin went wrong:(");
     }
   }, [isReady, hashTage]);
 
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
   if (loading) {
-    return <loading />;
+    return <JustLoading />;
   }
 
   return (
-    <div className="center">
-      {error ? (
-        <ErrorMessage error={error} />
-      ) : loading ? (
-        <JustLoading />
-      ) : (
-        posts
-          .filter((post) => post.tage === hashTage)
-          .map(({ userInfo, ...post }, index) => {
-            return <Post postInfo={post} userInfo={userInfo} key={index} />;
-          })
-      )}
-    </div>
+    <>
+      {posts
+        .filter((post) => post.tage === hashTage)
+        .map(({ userInfo, ...post }, index) => {
+          return (
+            <Post
+              postInfo={post}
+              userInfo={userInfo}
+              page="hashTage"
+              key={index}
+            />
+          );
+        })}
+    </>
   );
 }
 Tage.PageLayout = MainLayout;

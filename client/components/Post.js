@@ -9,14 +9,16 @@ import { FcLike } from "react-icons/fc";
 import axios, { baseURL } from "../axios";
 import { useDispatch } from "react-redux";
 import Comment from "../components/Comment";
-import { setComments, likePost } from "../features/posts";
+
 import JustLoading from "./JustLoading";
 import getDate from "../helper/getDate";
 import AddPCR from "./AddPCR";
 import ErrorMessage from "./ErrorMessage";
 import filterText from "../helper/filterText";
+import getPostAcitons from "../features/actions/post";
 
-function Post({ postInfo, userInfo, vpost }) {
+function Post({ postInfo, userInfo, vpost, page }) {
+  
   const dispatch = useDispatch();
   const {
     _id,
@@ -29,6 +31,7 @@ function Post({ postInfo, userInfo, vpost }) {
     comments,
   } = postInfo;
   const { userName, profilePic, verified } = userInfo;
+  const { likePost, setComments } = getPostAcitons(page);
 
   const [showComments, setShowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -43,6 +46,7 @@ function Post({ postInfo, userInfo, vpost }) {
         return;
       } else {
         const { data } = await axios.get(`/post/comments/${_id}`);
+        console.log(data);
         if (data.status === "ok") {
           dispatch(setComments({ comments: data.comments, postId: _id }));
         } else {
@@ -130,10 +134,12 @@ function Post({ postInfo, userInfo, vpost }) {
                 ) : file?.type === "video" ? (
                   <video
                     controls
-                    src="/testvideo.mp4"
-                    className={`http://localhost:4000/video/${file.name}`}
+                    src={`http://localhost:4000/video/${file.name}`}
+                    className={styles.video}
                   ></video>
-                ) : null}
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
@@ -188,7 +194,7 @@ function Post({ postInfo, userInfo, vpost }) {
         </div>
       </article>
       <div className={styles.comments}>
-        {addComment && <AddPCR postId={_id} For="comment" />}
+        {addComment && <AddPCR postId={_id} For="comment" page={page} />}
         {showComments ? (
           failedToFetchComments ? (
             <ErrorMessage error={failedToFetchComments} />
@@ -196,7 +202,7 @@ function Post({ postInfo, userInfo, vpost }) {
             <JustLoading />
           ) : (
             comments?.map((comment) => {
-              return <Comment comment={comment} postId={_id} />;
+              return <Comment comment={comment} postId={_id} page={page} />;
             })
           )
         ) : null}

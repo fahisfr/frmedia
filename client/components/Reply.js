@@ -10,12 +10,14 @@ import AddPCR from "./AddPCR";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
 import filterText from "../helper/filterText";
+import getPostAcitons from "../features/actions/post";
 
-function Reply({ replyInfo, postId, commentId }) {
+function Reply({ replyInfo, postId, commentId, page }) {
   const dispatch = useDispatch();
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
   const { _id, text, replyAt, likesCount, liked, file } = replyInfo;
   const { userName, profilePic } = replyInfo.userInfo;
+  const { likeReply } = getPostAcitons(page);
 
   const likeHandler = async (e) => {
     try {
@@ -74,9 +76,7 @@ function Reply({ replyInfo, postId, commentId }) {
           {text && (
             <Link href={`/${userName}/post/${_id}`}>
               <a style={{ color: "black" }}>
-                <div className={styles.message}>{
-                  filterText()
-                }</div>
+                <div className={styles.message}>{filterText()}</div>
               </a>
             </Link>
           )}

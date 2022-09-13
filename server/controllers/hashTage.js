@@ -36,7 +36,6 @@ const hashTags = async (req, res, next) => {
           postAt: 1,
           likesCount: { $size: "$likes" },
           comments: { $size: "$comments" },
-          page: "tage",
           tage: params.tage,
           userInfo: {
             userName: 1,
@@ -44,7 +43,6 @@ const hashTags = async (req, res, next) => {
             coverPic: 1,
             isVerified: 1,
           },
-
           liked: {
             $cond: [
               { $ifNull: [id, true] },

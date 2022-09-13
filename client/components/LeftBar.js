@@ -29,16 +29,14 @@ function Sidebar() {
             </a>
           </Link>
 
-          <Link className={styles.link} href={`${userName??"/profile"}`}>
-            <a className={styles.a}>
-              <div
-                className={`${styles.group} ${id === userName && styles.blue}`}
-              >
-                <CgProfile className={styles.icon} />
-                <span className={styles.text}>Profile</span>
-              </div>
-            </a>
-          </Link>
+          <a className={styles.a}>
+            <div
+              className={`${styles.group} ${id === userName && styles.blue}`}
+            >
+              <CgProfile className={styles.icon} />
+              <span className={styles.text}>Profile</span>
+            </div>
+          </a>
 
           <Link className={styles.link} href="/explore">
             <a className={styles.a}>
@@ -60,11 +58,7 @@ function Sidebar() {
               >
                 <IoMdNotificationsOutline className={styles.icon} />
                 <span className={styles.text}>Notifications</span>
-                {notifCount > 0 && (
-                  <div className={styles.notif_count}>
-                    <span className={styles.count}>{notifCount}</span>
-                  </div>
-                )}
+            
               </div>
             </a>
           </Link>

@@ -6,12 +6,13 @@ import daynamic from "next/dynamic";
 import axios, { baseURL } from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import SidePopMessage from "./SidePopMessage";
-import { addPost, addComment, addReply } from "../features/posts";
+
+import getPostAcitons from "../features/actions/post";
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPCR({ For, postId, commentId }) {
+function AddPCR({ For, postId, commentId, page }) {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const fileRef = useRef(null);
@@ -26,6 +27,7 @@ function AddPCR({ For, postId, commentId }) {
     error: false,
     message: "",
   });
+  const { addComment, addReply } = getPostAcitons(page);
 
   const PRC = () => {
     switch (For) {
@@ -35,7 +37,6 @@ function AddPCR({ For, postId, commentId }) {
           btnText: "Comment",
           apiPath: "/addcomment",
           updateState: (comment) => {
-            console.log(comment);
             dispatch(addComment({ comment, postId }));
           },
         };
@@ -45,7 +46,6 @@ function AddPCR({ For, postId, commentId }) {
           btnText: "Post",
           apiPath: "/addpost",
           updateState: (post) => {
-            console.log(post);
             dispatch(addPost(post));
           },
         };
@@ -93,7 +93,6 @@ function AddPCR({ For, postId, commentId }) {
         setPopupInfo({ trigger: true, error: true, message: data.error });
       }
     } catch (err) {
-      console.log(err);
       setPopupInfo({
         trigger: true,
         error: true,
