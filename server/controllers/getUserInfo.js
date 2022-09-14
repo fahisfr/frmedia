@@ -51,6 +51,9 @@ const getUserInfo = async (req, res, next) => {
         },
       },
       {
+        $unset: ["posts.comments"],
+      },
+      {
         $group: {
           _id: "$_id",
           userName: { $first: "$userName" },
@@ -66,11 +69,9 @@ const getUserInfo = async (req, res, next) => {
         },
       },
     ]);
-
-
-
     if (user.length > 0) {
-      res.json({ status: "ok", userInfo: user[0] });
+      console.log(user[0]);
+      res.json({ status: "ok", profile: user[0] });
       return;
     }
     res.json({ status: "error", error: "User not found" });

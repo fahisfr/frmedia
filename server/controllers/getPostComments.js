@@ -50,11 +50,7 @@ const getComments = async (req, res, next) => {
               isVerified: 1,
             },
             liked: {
-              $cond: [
-                { $ifNull: [id, true] },
-                { $in: [objectId(id), "$comments.likes"] },
-                false,
-              ],
+              ifNull: [{ $in: [objectId(id), "$comments.likes"] }, false],
             },
             likesCount: { $size: "$comments.likes" },
             repliesCount: { $size: "$comments.replies" },

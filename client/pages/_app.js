@@ -10,9 +10,7 @@ import posts from "../features/posts";
 import notifications from "../features/notifications";
 import explore from "../features/explore";
 import hashTags from "../features/hashTags";
-
-
-
+import profiles from "../features/profiles";
 
 const store = configureStore({
   reducer: {
@@ -21,6 +19,7 @@ const store = configureStore({
     notifications,
     explore,
     hashTags,
+    profiles
   },
 });
 store.dispatch(fetchUser());

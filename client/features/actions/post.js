@@ -1,8 +1,9 @@
 import { actions as exploerPostActions } from "../explore";
 import { actions as homePostActions } from "../posts";
 import { actions as hashTagePostActions } from "../hashTags";
-
+import { actions as profilePostActions } from "../profiles";
 const getPostAcitons = (page) => {
+  console.log(page);
   switch (page) {
     case "home":
       return homePostActions;
@@ -10,7 +11,11 @@ const getPostAcitons = (page) => {
       return exploerPostActions;
     case "hashTage":
       return hashTagePostActions;
-  
+    case "profile":
+      return profilePostActions;
+
+    default:
+      throw Error("page not found");
   }
 };
 

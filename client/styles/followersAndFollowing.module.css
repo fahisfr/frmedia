@@ -1,0 +1,113 @@
+.con {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    backdrop-filter: blur(1px);
+
+}
+
+.content {
+    width: 30rem;
+    height: 25rem;
+    background-color: var(--default_theme);
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.top {
+    padding: .8rem;
+    text-align: center;
+    border-bottom: 1px solid var(--gray_200);
+    background-color: var(--gray_100);
+    border-radius: 10px;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.ff {
+    padding: 6px;
+    display: flex;
+    padding:  .7rem 0;
+    align-items: center;
+    border-bottom: 1px solid var(--gray_200);
+}
+
+.group {
+    text-align: center;
+    flex-basis: 100%;
+    border-left: 1px solid var(--gray_200);
+
+}
+
+.ff_text {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'PT Serif', serif;
+    color: var(--gray_600);
+}
+
+.body {
+    width: 100%;
+    height: 20rem;
+}
+.users{
+    padding-top: 6px;
+}
+
+.user {
+    display: flex;
+    padding: 3px 10px;
+    border-bottom: 1px solid var(--gray_00);
+    column-gap: 5px;
+}
+
+.profile {
+    width: 45px;
+    height: 45px;
+    display: flex;
+
+}
+
+.profile_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.userInfo {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    column-gap: 6px;
+}
+
+.user_name {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'PT Serif', serif;
+    cursor: pointer;
+}
+
+.f {
+    padding: 6px;
+}
+
+.btn {
+    width: 4.8rem;
+    height: 1.8rem;
+    border: none;
+    background-color: var(--default_blue);
+    border-radius: 20px;
+    color: #ffffff;
+    font-weight: 600;
+}

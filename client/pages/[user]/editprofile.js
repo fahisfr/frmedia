@@ -1,20 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
-import styles from "../styles/editProfile.module.css";
+import styles from "../../styles/editProfile.module.css";
 import { MdAddAPhoto } from "react-icons/md";
-import axios from "../axios";
+import axios, { baseURL } from "../../axios";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserInfo } from "../features/user";
+import { updateUserInfo } from "../../features/user";
+import ProfileLayout from "../../layouts/Profile";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
-function EditProfile({ trigger, setTrigger, info }) {
+function EditProfile() {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const { userName, bio, link } = useSelector((state) => state.user.userInfo);
+  const { userName, bio, link, profilePic, coverPic
+  } = useSelector(
+    (state) => state.user.userInfo
+  );
+
+  console.log(useSelector((state) => state.user.userInfo));
 
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
 
-  const [profile, setProfile] = useState(null);
-  const [coverPic, setcoverPic] = useState(null);
+  const [newCoverPic, setNewCoverPic] = useState(null);
+  const [newProfilePic, setNewProfilePic] = useState(null);
 
   const [profilePreview, setProfilePreview] = useState(null);
   const [coverPicPreview, setCoverPicPreview] = useState(null);
@@ -30,11 +39,10 @@ function EditProfile({ trigger, setTrigger, info }) {
       console.log(e.target.name);
       if (e.target.name === "profile") {
         setProfilePreview(reader.result);
-        setProfile(file);
+        setNewProfilePic(file);
       } else if (e.target.name === "coverPic") {
-        console.log("yes is cover pic");
         setCoverPicPreview(reader.result);
-        setcoverPic(file);
+        setNewCoverPic(file);
       }
     };
     reader.readAsDataURL(file);
@@ -46,8 +54,8 @@ function EditProfile({ trigger, setTrigger, info }) {
       const formData = new FormData();
       editedBio && formData.append("bio", editedBio);
       editedLink && formData.append("link", editedLink);
-      profile && formData.append("profilePic", profile);
-      coverPic && formData.append("coverPic", coverPic);
+      profile && formData.append("profilePic", newProfilePic);
+      coverPic && formData.append("coverPic", newCoverPic);
 
       const { data } = await axios.post("/edit-profile", formData);
 
@@ -57,21 +65,27 @@ function EditProfile({ trigger, setTrigger, info }) {
     } catch (error) {}
   };
 
-  const closePage = (e) => e.target === e.currentTarget && setTrigger(false);
+  const closePage = (e) => {
+    if (e.target === e.currentTarget) {
+      router.push(`/${userName}`);
+    }
+  };
 
-  return trigger ? (
+  return (
     <div className={styles.edit_profile} onClick={closePage}>
       <div className={styles.container}>
         <header className={styles.header}>
           <h3>EditProfile</h3>
-          <div onClick={() => setTrigger(false)} className={styles.close}></div>
+          <Link href={`/${userName}`}>
+            <div className={styles.close}></div>
+          </Link>
         </header>
 
         <div className={styles.body}>
           <div className={styles.avatar}>
             <img
               className={styles.avatar_img}
-              src={coverPicPreview ?? faker.image.image()}
+              src={newCoverPic ?? `${baseURL}/c/${coverPic}`}
               onClick={() => avatarRef.current.click()}
             />
             <MdAddAPhoto className={styles.md_add_icon} />
@@ -89,7 +103,7 @@ function EditProfile({ trigger, setTrigger, info }) {
             <div className={styles.profile}>
               <img
                 className={styles.profile_img}
-                src={profilePreview ?? faker.image.avatar()}
+                src={newProfilePic ?? `${baseURL}/p/${profilePic}`}
                 onClick={() => profileRef.current.click()}
               />
               <MdAddAPhoto className={styles.md_add_icon} />
@@ -146,7 +160,9 @@ function EditProfile({ trigger, setTrigger, info }) {
         </footer>
       </div>
     </div>
-  ) : null;
+  );
 }
+
+EditProfile.PageLayout = ProfileLayout;
 
 export default EditProfile;

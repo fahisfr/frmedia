@@ -14,21 +14,39 @@ const userSlice = createSlice({
       bio: "",
       link: "",
       profilePic: "",
-      avatarPic: "",
+      coverPic: "",
       followingCount: 0,
       followersCount: 0,
       notifCount: 0,
+      following: [],
+      followers: [],
     },
+    ffFetched: false,
     isAuth: false,
     loading: false,
     error: false,
   },
   reducers: {
     updateUserInfo: (state, action) => {
-      state.userInfo = { ...state.userInfo, ...action.payload.userInfo };
+      state.userInfo = {
+        ...state.userInfo,
+        ...action.payload.userInfo,
+       
+      };
     },
     notifCount: ({ userInfo }, action) => {
       userInfo.notifCount = 0;
+    },
+    addFF: ({ userInfo, ffFetched }, { payload }) => {
+      try {
+        console.log("fahis main load");
+        console.log(payload);
+        userInfo.followers = payload.followers;
+        userInfo.following = payload.following;
+        ffFetched = true;
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
   extraReducers: {
@@ -43,6 +61,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateUserInfo, notifCount } = userSlice.actions;
+export const { updateUserInfo, notifCount, addFF } = userSlice.actions;
 
 export default userSlice.reducer;
