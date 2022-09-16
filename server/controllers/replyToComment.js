@@ -4,10 +4,10 @@ const getPcrInfo = require("../helper/getPcrInfo");
 const reply = async (req, res, next) => {
   try {
     const { text, postId, commentId } = req.body;
-    const { id } = req.user;
+    const { publicID } = req.user;
     const file = req.files?.file;
 
-    const postInfo = getPcrInfo(text,file);
+    const postInfo = getPcrInfo(text, file);
     const addReplay = await dbPost.updateOne(
       {
         _id: postId,
@@ -15,7 +15,7 @@ const reply = async (req, res, next) => {
       {
         $push: {
           "comments.$[index].replies": {
-            userId: id,
+            userId: publicID,
             ...postInfo,
           },
         },
@@ -35,7 +35,6 @@ const reply = async (req, res, next) => {
     }
     res.json({ status: "error", error: "err" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

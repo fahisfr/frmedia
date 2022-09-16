@@ -23,7 +23,7 @@ const notifications = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "notifications.userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "notifications.userInfo",
         },
       },
@@ -42,6 +42,7 @@ const notifications = async (req, res, next) => {
         },
       },
     ]);
+    console.log(dbResult[0]);
     if (dbResult.length > 0) {
       res.json({ status: "ok", notifications: dbResult[0].notifications });
 

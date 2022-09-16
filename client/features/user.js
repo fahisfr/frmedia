@@ -28,11 +28,7 @@ const userSlice = createSlice({
   },
   reducers: {
     updateUserInfo: (state, action) => {
-      state.userInfo = {
-        ...state.userInfo,
-        ...action.payload.userInfo,
-       
-      };
+      state.userInfo = { ...state.userInfo, ...action.payload.userInfo };
     },
     notifCount: ({ userInfo }, action) => {
       userInfo.notifCount = 0;
@@ -52,7 +48,7 @@ const userSlice = createSlice({
   extraReducers: {
     [fetchUser.fulfilled]: (state, { payload }) => {
       if (payload.status === "ok") {
-        state.userInfo = payload.userInfo;
+        state.userInfo = { ...state.userInfo, ...payload.userInfo };
         state.isAuth = true;
       }
     },

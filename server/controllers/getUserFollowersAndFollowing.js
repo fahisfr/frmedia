@@ -1,12 +1,14 @@
 const dbUser = require("../dbSchemas/user");
+const objectId = require("mongoose").Types.ObjectId;
+const { idIn } = require("../helper/dbHelper");
 
 const getFollowersAndFollowing = async (req, res, next) => {
   try {
-    const dbResutl = await dbUser.aggregate([
+    const { userName } = req.params;
+    const id = req.user?.id;
+    const dbResult = await dbUser.aggregate([
       {
-        $match: {
-          _id: objectId("62ff6f5c4cfc303b76427cb6"),
-        },
+        $match: { userName },
       },
       {
         $project: {
@@ -23,9 +25,40 @@ const getFollowersAndFollowing = async (req, res, next) => {
       {
         $lookup: {
           localField: "following",
-          foreignField: "_id",
+          foreignField: "publicID",
           from: "users",
           as: "following",
+        },
+      },
+      {
+        $set: {
+          following: {
+            $cond: [
+              { $ne: ["following", []] },
+              {
+                $arrayElemAt: ["$following", 0],
+              },
+              [],
+            ],
+          },
+        },
+      },
+      {
+        $project: {
+          followers: 1,
+          following: {
+            userName: 1,
+            profilePic: 1,
+            coverPic: 1,
+            verifed: 1,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          followers: { $first: "$followers" },
+          following: { $push: "$following" },
         },
       },
       {
@@ -37,19 +70,72 @@ const getFollowersAndFollowing = async (req, res, next) => {
       {
         $lookup: {
           localField: "followers",
-          foreignField: "_id",
+          foreignField: "publicID",
           from: "users",
           as: "followers",
         },
       },
+      {
+        $set: {
+          followers: {
+            $cond: [
+              { $eq: ["$followers", []] },
+              [],
+              {
+                $arrayElemAt: ["$followers", 0],
+              },
+            ],
+          },
+        },
+      },
+      {
+        $project: {
+          following: 1,
+          followers: {
+            userName: 1,
+            profilePic: 1,
+            coverPic: 1,
+            verifed: 1,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          following: { $first: "$following" },
+          followers: { $push: "$followers" },
+        },
+      },
+      {
+        $set: {
+          followers: {
+            $cond: [
+              {
+                $eq: ["$followers", [[]]],
+              },
+              [],
+              "$followers",
+            ],
+          },
+          following: {
+            $cond: [
+              {
+                $eq: ["$following", [[]]],
+              },
+              [],
+              "$following",
+            ],
+          },
+        },
+      },
     ]);
-
-    if (dbResutl.length > 0) {
-      return res.json({ status: "ok", info: dbResutl[0] });
+    if (dbResult.length > 0) {
+      return res.json({ status: "ok", info: dbResult[0] });
     }
 
     res.json({ status: "error", error: "not found " });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

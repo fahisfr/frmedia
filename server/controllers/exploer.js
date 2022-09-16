@@ -1,7 +1,8 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
+const { idIn } = require("../helper/dbHelper");
 const explore = async (req, res, next) => {
-  const { id } = req.user;
+  const { publicID } = req.user;
   try {
     const posts = await dbPost.aggregate([
       {
@@ -11,7 +12,7 @@ const explore = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "userInfo",
         },
       },
@@ -26,7 +27,7 @@ const explore = async (req, res, next) => {
       {
         $project: {
           userInfo: {
-            _id: "$userInfo._id",
+            publicID: "$userInfo.publicID",
             userName: "$userInfo.userName",
             profilePic: "$userInfo.profilePic",
             coverPic: "$userInfo.coverPic",
@@ -39,13 +40,7 @@ const explore = async (req, res, next) => {
           commentsCount: {
             $size: "$comments",
           },
-          liked: {
-            $cond: [
-              { $eq: [id, true] },
-              false,
-              { $in: [objectId(id), "$likes"] },
-            ],
-          },
+          liked: idIn(publicID, "$likes"),
           _id: 1,
           text: 1,
           file: 1,

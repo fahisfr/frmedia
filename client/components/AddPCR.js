@@ -27,7 +27,7 @@ function AddPCR({ For, postId, commentId, page }) {
     error: false,
     message: "",
   });
-  const { addComment, addReply } = getPostAcitons(page);
+  const { addPost, addComment, addReply } = getPostAcitons(page);
 
   const PRC = () => {
     switch (For) {
@@ -46,7 +46,7 @@ function AddPCR({ For, postId, commentId, page }) {
           btnText: "Post",
           apiPath: "/addpost",
           updateState: (post) => {
-            dispatch(addPost(post));
+            dispatch(addPost({ post }));
           },
         };
       case "reply":
@@ -96,7 +96,7 @@ function AddPCR({ For, postId, commentId, page }) {
       setPopupInfo({
         trigger: true,
         error: true,
-        message: "oops something went wrong on your browser:(",
+        message: err,
       });
     } finally {
       setTimeout(() => {

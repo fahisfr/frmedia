@@ -2,7 +2,7 @@ const dbPost = require("../dbSchemas/post");
 
 const like = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const { publicID } = req.user;
     const { postId, commentId } = req.body;
 
     const liked = await dbPost.updateOne(
@@ -11,7 +11,7 @@ const like = async (req, res, next) => {
       },
       {
         $addToSet: {
-          "comments.$[index].likes": id,
+          "comments.$[index].likes": publicID,
         },
       },
       {
@@ -37,7 +37,7 @@ const unLike = async (req, res, next) => {
   try {
     const {
       body: { commentId, postId },
-      user: { id },
+      user: { publicID },
     } = req;
 
     const liked = await dbPost.updateOne(
@@ -46,7 +46,7 @@ const unLike = async (req, res, next) => {
       },
       {
         $pull: {
-          "comments.$[index].likes": id,
+          "comments.$[index].likes": publicID,
         },
       },
       {

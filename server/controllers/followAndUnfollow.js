@@ -5,7 +5,7 @@ const objectId = require("mongoose").Types.ObjectId;
 const follow = async (req, res, next) => {
   try {
     const {
-      user: { id },
+      user: { id, publicID },
       body: { id: followId },
     } = req;
 
@@ -13,9 +13,9 @@ const follow = async (req, res, next) => {
     bulk
       .find({ _id: objectId(id) })
       .updateOne({ $addToSet: { following: objectId(followId) } });
-    bulk.find({ _id: objectId(followId) }).updateOne({
-      $addToSet: { followers: objectId(id) },
-      $addToSet: { notifications: { type: "following", userId: id } },
+    bulk.find({ publicID: objectId(followId) }).updateOne({
+      $addToSet: { followers: objectId(publicID) },
+      $addToSet: { notifications: { type: "following", userId: publicID } },
     });
 
     bulk.execute((err, result) => {
@@ -33,7 +33,7 @@ const follow = async (req, res, next) => {
 const unFollow = async (req, res, next) => {
   try {
     const {
-      user: { id },
+      user: { id, publicID },
       body: { id: unFollowId },
     } = req;
 
@@ -42,8 +42,8 @@ const unFollow = async (req, res, next) => {
       .find({ _id: objectId(id) })
       .updateOne({ $pull: { following: objectId(unFollowId) } });
     bulk
-      .find({ _id: objectId(unFollowId) })
-      .updateOne({ $pull: { followers: objectId(id) } });
+      .find({ publicID: objectId(unFollowId) })
+      .updateOne({ $pull: { followers: objectId(publicID) } });
 
     bulk.execute((err, result) => {
       if (result.nModified) {

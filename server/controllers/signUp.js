@@ -9,8 +9,12 @@ const singUp = async (req, res, next) => {
     dbUser
       .create({ userName, email, password, refreshToken })
       .then((user) => {
-        const accessToken =Jwt.sign({id:user._id},"secret",{expiresIn:"3d"})
-        res.json({status:"ok",token:accessToken})
+        const accessToken = Jwt.sign(
+          { id: user._id, publicID: user.publicID },
+          "secret",
+          { expiresIn: "3d" }
+        );
+        res.json({ status: "ok", token: accessToken });
       })
       .catch(({ code, message }) => {
         if (code === 11000) {
@@ -27,7 +31,6 @@ const singUp = async (req, res, next) => {
         }
       });
   } catch (error) {
-    
     next(error);
   }
 };

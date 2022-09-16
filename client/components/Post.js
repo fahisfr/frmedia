@@ -18,7 +18,6 @@ import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 
 function Post({ postInfo, userInfo, vpost, page }) {
-  
   const dispatch = useDispatch();
   const {
     _id,
@@ -48,12 +47,15 @@ function Post({ postInfo, userInfo, vpost, page }) {
         const { data } = await axios.get(`/post/comments/${_id}`);
         console.log(data);
         if (data.status === "ok") {
-          dispatch(setComments({ comments: data.comments, postId: _id }));
+          dispatch(
+            setComments({ comments: data.comments, postId: _id, userName })
+          );
         } else {
           setFailedToFetchComments(data.error);
         }
       }
     } catch (error) {
+      console.log(error)
       setFailedToFetchComments("Failed to fetch comments");
     } finally {
       setCommentsFetching(false);
@@ -61,7 +63,8 @@ function Post({ postInfo, userInfo, vpost, page }) {
   };
 
   const likeHandler = async () => {
-    dispatch(likePost({ postId: _id }));
+    //userName arg for profile page
+    dispatch(likePost({ postId: _id, userName }));
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
       postId: _id,
     });
@@ -89,7 +92,9 @@ function Post({ postInfo, userInfo, vpost, page }) {
                 <div className={styles.ud}>
                   <div className={styles.group}>
                     <div className={styles.group_left}>
-                      <span className={styles.name}>{userName}</span>
+                      <Link href={`/${userName}`}>
+                        <span className={styles.name}>{userName}</span>
+                      </Link>
                     </div>
 
                     {verified && (

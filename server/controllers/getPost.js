@@ -4,7 +4,7 @@ const objectId = require("mongoose").Types.ObjectId;
 const getPost = async (req, res, next) => {
   try {
     const { postId } = req.params;
-    const { id } = req.user;
+    const { publicID } = req.user;
 
     if (!objectId.isValid(postId)) {
       res.json({ status: "error", error: "post not found" });
@@ -27,7 +27,7 @@ const getPost = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "userInfo",
         },
       },
@@ -48,7 +48,7 @@ const getPost = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "comments.userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "comments.userInfo",
         },
       },
@@ -59,7 +59,7 @@ const getPost = async (req, res, next) => {
       },
       {
         $project: {
-          _id: 1,
+          publicID: 1,
           text: 1,
           file: 1,
           postAt: 1,

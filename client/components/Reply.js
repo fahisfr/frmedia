@@ -76,7 +76,7 @@ function Reply({ replyInfo, postId, commentId, page }) {
           {text && (
             <Link href={`/${userName}/post/${_id}`}>
               <a style={{ color: "black" }}>
-                <div className={styles.message}>{filterText()}</div>
+                <div className={styles.message}>{filterText(text)}</div>
               </a>
             </Link>
           )}

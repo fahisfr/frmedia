@@ -1,10 +1,11 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
+const { idIn } = require("../helper/dbHelper");
 
 const getReplies = async (req, res, next) => {
   try {
     const { postId, commentId } = req.params;
-    const { id } = req.user;
+    const { publicID } = req.user;
     const result = await dbPost.aggregate([
       {
         $match: {
@@ -33,13 +34,7 @@ const getReplies = async (req, res, next) => {
           comments: {
             replies: {
               likesCount: { $size: "$comments.replies.likes" },
-              liked: {
-                $cond: [
-                  { $ifNull: [id, true] },
-                  { $in: [objectId(id), "$comments.replies.likes"] },
-                  false,
-                ],
-              },
+              liked:idIn( publicID,"$comments.replies.likes")
             },
           },
         },
@@ -48,7 +43,7 @@ const getReplies = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "comments.replies.userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "comments.replies.userInfo",
         },
       },

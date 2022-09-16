@@ -1,11 +1,12 @@
 const objectId = require("mongoose").Types.ObjectId;
 const dbPost = require("../dbSchemas/post");
+const { idIn } = require("../helper/dbHelper");
 
 const getComments = async (req, res, next) => {
   try {
     const { postId } = req.params;
-    const { id } = req.user;
-
+    const { publicID } = req.user;
+    console.log("yes");
     const getComments = await dbPost.aggregate([
       {
         $match: {
@@ -27,7 +28,7 @@ const getComments = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "comments.userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "comments.userInfo",
         },
       },
@@ -49,9 +50,7 @@ const getComments = async (req, res, next) => {
               coverPic: 1,
               isVerified: 1,
             },
-            liked: {
-              ifNull: [{ $in: [objectId(id), "$comments.likes"] }, false],
-            },
+            liked: idIn(publicID, "$comments.likes"),
             likesCount: { $size: "$comments.likes" },
             repliesCount: { $size: "$comments.replies" },
           },
@@ -64,6 +63,8 @@ const getComments = async (req, res, next) => {
         },
       },
     ]);
+
+    console.log(getComments);
 
     if (getComments.length > 0) {
       return res.json({ status: "ok", comments: getComments[0].comments });

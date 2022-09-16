@@ -17,7 +17,7 @@ const auth = async (req, res, next) => {
       },
       {
         $project: {
-          _id: 1,
+          publicID: 1,
           userName: 1,
           email: 1,
           bio: 1,
@@ -30,7 +30,6 @@ const auth = async (req, res, next) => {
         },
       },
     ]);
-
 
     if (userInfo) {
       res.json({

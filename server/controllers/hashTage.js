@@ -1,5 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
+const { idIn } = require("../helper/dbHelper");
 
 const hashTags = async (req, res, next) => {
   try {
@@ -16,7 +17,7 @@ const hashTags = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "userId",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "userInfo",
         },
       },
@@ -43,13 +44,7 @@ const hashTags = async (req, res, next) => {
             coverPic: 1,
             isVerified: 1,
           },
-          liked: {
-            $cond: [
-              { $ifNull: [id, true] },
-              { $in: [objectId(id), "$comments.likes"] },
-              false,
-            ],
-          },
+          liked: idIn(id, "$likes"),
         },
       },
     ]);

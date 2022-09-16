@@ -1,9 +1,10 @@
 const dbUser = require("../dbSchemas/user");
+const { idIn } = require("../helper/dbHelper");
 const objectId = require("mongoose").Types.ObjectId;
 
 const getUserInfo = async (req, res, next) => {
   try {
-    const id = req.user?.id;
+    const publicID = req.user?.publicID;
     const { userName } = req.params;
 
     const user = await dbUser.aggregate([
@@ -14,13 +15,7 @@ const getUserInfo = async (req, res, next) => {
       },
       {
         $addFields: {
-          _following: {
-            $cond: [
-              { $ifNull: [id, false] },
-              false,
-              { $in: [objectId(id), "$followers"] },
-            ],
-          },
+          _following: idIn(publicID, "$followers"),
         },
       },
       {
@@ -38,21 +33,20 @@ const getUserInfo = async (req, res, next) => {
         },
       },
       {
-        $addFields: {
+        $set: {
           "posts.commentsCount": {
             $size: "$posts.comments",
           },
           "posts.likesCount": {
             $size: "$posts.likes",
           },
-          "posts.liked": {
-            $in: [objectId(id), "$posts.likes"],
-          },
+          "posts.liked": idIn(publicID, "$posts.likes"),
         },
       },
       {
         $unset: ["posts.comments"],
       },
+    
       {
         $group: {
           _id: "$_id",
@@ -69,8 +63,8 @@ const getUserInfo = async (req, res, next) => {
         },
       },
     ]);
+    
     if (user.length > 0) {
-      console.log(user[0]);
       res.json({ status: "ok", profile: user[0] });
       return;
     }

@@ -5,8 +5,10 @@ const objectId = require("mongoose").Types.ObjectId;
 
 const addPost = async (req, res, next) => {
   try {
-    const { text } = req.body;
-    const { id } = req.user;
+    const {
+      user: { publicID, id },
+      body: { text },
+    } = req;
     const file = req.files?.file;
 
     const getTagsAndMentions = (text) => {
@@ -31,7 +33,7 @@ const addPost = async (req, res, next) => {
     const { hashTags, mentions } = getTagsAndMentions(text);
 
     const newPost = await dbPost.create({
-      userId: id,
+      userId: publicID,
       ...postInfo,
       hashTags,
     });
@@ -47,7 +49,7 @@ const addPost = async (req, res, next) => {
           $push: {
             notifications: {
               type: "mention",
-              userId: objectId(id),
+              userId: objectId(publicID),
               postId: newPost._id,
             },
           },
@@ -62,10 +64,10 @@ const addPost = async (req, res, next) => {
         { _id: id },
         { $push: { posts: newPost._id } }
       );
-      console.log(v);
+
       const info = {
         _id: newPost._id,
-        userId: id,
+        userId: publicID,
         text: newPost.text,
         flie: newPost.file,
         postAt: newPost.postAt,

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/notifications.module.css";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
@@ -13,15 +13,19 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 
 function Notification() {
   const { asPath } = useRouter();
-
+  const [Error, setError] = useState(false);
   const dispatch = useDispatch();
   const { notifications, fetched, loading, error } = useSelector(
     (state) => state.notifications
   );
 
   useEffect(() => {
-    if (!fetched && !loading) {
-      dispatch(fetchNotifications());
+    try {
+      if (!fetched && !loading) {
+        dispatch(fetchNotifications());
+      }
+    } catch (error) {
+      setError("opps somthin went wrong");
     }
   }, []);
 
@@ -40,6 +44,10 @@ function Notification() {
     }
   };
   const notif = getNotifications();
+
+  if (Error) {
+    return <ErrorMessage error={Error} />;
+  }
 
   return (
     <div className={styles.con}>

@@ -1,10 +1,10 @@
 const dbUser = require("../dbSchemas/user");
-const getPost = require("./getPost");
 const objectId = require("mongoose").Types.ObjectId;
+const { idIn } = require("../helper/dbHelper");
 
 const home = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const { id, publicID } = req.user;
     const getPosts = await dbUser.aggregate([
       {
         $match: {
@@ -14,7 +14,7 @@ const home = async (req, res, next) => {
       {
         $set: {
           following: {
-            $concatArrays: ["$following", [objectId(id)]],
+            $concatArrays: ["$following", [objectId(publicID)]],
           },
         },
       },
@@ -28,7 +28,7 @@ const home = async (req, res, next) => {
         $lookup: {
           from: "users",
           localField: "following",
-          foreignField: "_id",
+          foreignField: "publicID",
           as: "user",
         },
       },
@@ -69,22 +69,16 @@ const home = async (req, res, next) => {
         $project: {
           post: {
             userInfo: {
-              _id: "$user._id",
+              publicID: "$user.publicID",
               userName: "$user.userName",
               profilePic: "$user.profilePic",
               coverPic: "$user.coverPic",
               bio: "$user.bio",
               verified: "$user.verified",
             },
-            likesCount: {
-              $size: "$post.likes",
-            },
-            commentsCount: {
-              $size: "$post.comments",
-            },
-            liked: {
-              $in: [objectId(id), "$post.likes"],
-            },
+            likesCount: { $size: "$post.likes" },
+            commentsCount: { $size: "$post.comments" },
+            liked: idIn(publicID, "$post.likes"),
             _id: 1,
             text: 1,
             file: 1,
@@ -101,9 +95,11 @@ const home = async (req, res, next) => {
         },
       },
     ]);
+
     if (getPosts.length > 0) {
       return res.json({ status: "ok", posts: getPosts[0].posts });
     }
+    res.status(400).json({ status: "error", error: "not found" });
   } catch (err) {
     next(err);
   }

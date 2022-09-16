@@ -16,17 +16,20 @@ function Profile() {
     isReady,
     query: { user },
   } = useRouter();
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
-  const { profiles, posts } = useSelector((state) => state.profiles);
-  const userInfo = profiles.find((profile) => profile.userName === user);
+  const profile = useSelector((state) => state.profiles).find(
+    (profile) => profile.userName === user
+  );
 
   useEffect(() => {
     if (!isReady) return;
-    const getProfileInfo = async () => {
+    const getProfile = async () => {
       try {
+        if (profile) return;
         const { data } = await axios.get(`user/${user}`);
         if (data.status === "ok") {
           dispatch(actions.addProfile(data.profile));
@@ -39,8 +42,22 @@ function Profile() {
         setLoading(false);
       }
     };
-    getProfileInfo();
+    getProfile();
   }, [isReady, user]);
+
+  const followHandler = async () => {
+    try {
+      const id = profile._id;
+      dispatch(actions.follow({ id }));
+      const { data } = axios.post("/user/follow", { id });
+      if (!data.status === "ok") {
+        dispatch(actions.follow({ id }));
+      }
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  };
 
   if (error) {
     return <ErrorMessage error={error} />;
@@ -56,7 +73,7 @@ function Profile() {
         <div className={styles.cover_photo}>
           <img
             className={styles.cover_img}
-            src={`${baseURL}/c/${userInfo.coverPic}`}
+            src={`${baseURL}/c/${profile.coverPic}`}
             alt=""
           />
         </div>
@@ -67,7 +84,7 @@ function Profile() {
               <div className={styles.profile}>
                 <img
                   className={styles.profile_img}
-                  src={`${baseURL}/p/${userInfo.profilePic}`}
+                  src={`${baseURL}/p/${profile.profilePic}`}
                 />
               </div>
             </div>
@@ -76,9 +93,9 @@ function Profile() {
           <div className={styles.info_right}>
             <div className={styles.info_nf}>
               <div className={styles.nf_l}>
-                <h2 className={styles.name}>{userInfo.userName}</h2>
-                {user === userInfo.userName && (
-                  <Link href={`${userInfo.userName}/editprofile`}>
+                <h2 className={styles.name}>{profile.userName}</h2>
+                {user === profile.userName && (
+                  <Link href={`${profile.userName}/editprofile`}>
                     <div className={styles.edit}>
                       <FiEdit className={styles.edit_icon} />
                       <div className={styles.edit_icon_m}>
@@ -89,14 +106,17 @@ function Profile() {
                 )}
               </div>
               <div>
-                {userInfo._following ? (
-                  <button className={`${styles.btn} ${styles.unfollow}`}>
-                    userInfo.unfollow
+                {profile._following ? (
+                  <button
+                    className={`${styles.btn} ${styles.unfollow}`}
+                    onClick={followHandler}
+                  >
+                    profile.unfollow
                   </button>
                 ) : (
                   <button
                     className={`${styles.btn} ${styles.follow}`}
-                    onClick={userInfo.followHandler}
+                    onClick={followHandler}
                   >
                     Follow
                   </button>
@@ -105,20 +125,20 @@ function Profile() {
             </div>
             <div className={styles.fw_c}>
               <div>
-                <Link href={`${userInfo.userName}/following`}>
+                <Link href={`${profile.userName}/following`}>
                   <div>
                     <span className={styles.fw_count}>
-                      {userInfo.followersCount}
+                      {profile.followersCount}
                     </span>
                     <span className={styles.fw}> Following</span>
                   </div>
                 </Link>
               </div>
               <div>
-                <Link href={`${userInfo.userName}/followers`}>
+                <Link href={`${profile.userName}/followers`}>
                   <div>
                     <span className={styles.fw_count}>
-                      {userInfo.followingCount}
+                      {profile.followingCount}
                     </span>
                     <span className={styles.fw}> Followers</span>
                   </div>
@@ -126,11 +146,11 @@ function Profile() {
               </div>
             </div>
             <div className={styles.bio}>
-              <span className={styles.bio_text}>{userInfo.bio}</span>
+              <span className={styles.bio_text}>{profile.bio}</span>
               <div>
                 <span>
                   <a target={"_blank"} href="/">
-                    {faker.internet.url()}
+                    {profile.link}
                   </a>
                 </span>
               </div>
@@ -145,18 +165,16 @@ function Profile() {
             <span className={styles.bvn}>Notifications</span>
           </div>
         </div>
-        {posts
-          .filter((post) => post.userName == user)
-          .map((post, index) => {
-            return (
-              <Post
-                userInfo={userInfo}
-                postInfo={post}
-                key={index}
-                page="profile"
-              />
-            );
-          })}
+        {profile.posts.map((post, index) => {
+          return (
+            <Post
+              userInfo={profile}
+              postInfo={post}
+              key={index}
+              page="profile"
+            />
+          );
+        })}
       </div>
     </div>
   );

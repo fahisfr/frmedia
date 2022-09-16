@@ -43,7 +43,12 @@ function Comment({ comment, postId, page }) {
 
         if (data.status === "ok") {
           dispatch(
-            setReplies({ replies: data.replies, postId, commentId: _id })
+            setReplies({
+              replies: data.replies,
+              postId,
+              commentId: _id,
+              userName,
+            })
           );
         } else {
           setFailedFetchReplies(data.error);
@@ -65,7 +70,7 @@ function Comment({ comment, postId, page }) {
       );
 
       if (data.status === "ok") {
-        dispatch(likeComment({ postId, commentId: _id }));
+        dispatch(likeComment({ postId, commentId: _id, userName }));
       }
     } catch (error) {}
   };

@@ -9,8 +9,8 @@ import axios from "../axios";
 function Login({}) {
   const router = useRouter();
 
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  const [id, setId] = useState("fahis");
+  const [password, setPassword] = useState("fahis");
   const [loginError, setLoginError] = useState(null);
   const [loading, setLoading] = useState(false);
 

@@ -2,7 +2,7 @@ export default {
   addPost: (state, { payload }) => {
     try {
       payload.page = "home";
-      state.posts.unshift(payload);
+      state.posts.unshift(payload.post);
     } catch (err) {
       conosle.log(err);
     }

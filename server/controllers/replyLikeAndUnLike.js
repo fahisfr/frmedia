@@ -4,7 +4,7 @@ const like = async (req, res, next) => {
   try {
     const {
       body: { commentId, replyId, postId },
-      user: { id },
+      user: { id, publicID },
     } = req;
 
     const liked = await dbPost.updateOne(
@@ -13,7 +13,7 @@ const like = async (req, res, next) => {
       },
       {
         $addToSet: {
-          "comments.$[commentInd].replies.$[replyInd].likes": id,
+          "comments.$[commentInd].replies.$[replyInd].likes": publicID,
         },
       },
       {
@@ -42,7 +42,7 @@ const unLike = async (req, res, next) => {
   try {
     const {
       body: { commentId, replyId, postId },
-      user: { id },
+      user: { publicID },
     } = req;
 
     const unLiked = await dbPost.updateOne(
@@ -51,7 +51,7 @@ const unLike = async (req, res, next) => {
       },
       {
         $pull: {
-          "comments.$[commentInd].replies.$[replyInd].likes": id,
+          "comments.$[commentInd].replies.$[replyInd].likes": publicID,
         },
       },
       {
@@ -66,7 +66,6 @@ const unLike = async (req, res, next) => {
       }
     );
 
-    console.log(unLiked);
 
     if (unLiked.modifiedCount > 0) {
       res.json({ status: "ok" });

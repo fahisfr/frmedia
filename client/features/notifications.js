@@ -20,25 +20,32 @@ const notificationsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchNotifications.fulfilled]: (state, { payload }) => {
-      if (payload.status === "ok") {
-        state.notifications = payload.notifications.map((item) => {
-          switch (item.type) {
-            case "mention":
-              item.message = "Was mentioned in a post";
-              item.link = item.postId;
-              break;
-            case "liked":
-              item.message = " Liked you post";
-              item.link = `/post/${item.postId}`;
-              break;
-            case "following":
-              item.message = "Started following you";
-              item.link = item.userName;
-            default:
-              item.message = "";
-          }
-          return item;
-        });
+      try {
+        if (payload.status === "ok") {
+          state.notifications = payload.notifications?.map((item) => {
+            switch (item.type) {
+              case "mention":
+                item.message = "Was mentioned in a post";
+                item.link = item.postId;
+                break;
+              case "liked":
+                item.message = " Liked you post";
+                item.link = `/post/${item.postId}`;
+                break;
+              case "following":
+                item.message = "Started following you";
+                item.link = item.userName;
+              default:
+                item.message = "";
+            }
+            return item;
+          });
+        } else {
+          state.error = payload.error;
+        }
+      } catch (error) {
+        state.error = "opps somthin went wrong";
+      } finally {
         state.fetched = true;
         state.loading = false;
       }

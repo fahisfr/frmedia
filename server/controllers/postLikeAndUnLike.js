@@ -4,12 +4,12 @@ const dbUser = require("../dbSchemas/user");
 const like = async (req, res, next) => {
   try {
     const {
-      user: { id },
+      user: { publicID },
       body: { postId },
     } = req;
 
     const postLiked = await dbPost
-      .findOneAndUpdate({ _id: postId }, { $addToSet: { likes: id } })
+      .findOneAndUpdate({ _id: postId }, { $addToSet: { likes: publicID } })
       .select("userId");
 
     if (postLiked) {
@@ -19,14 +19,13 @@ const like = async (req, res, next) => {
           $push: {
             notifications: {
               type: "liked",
-              userId: id,
+              userId: publicID,
               postId,
             },
           },
           $inc: { notifCount: 1 },
         }
       );
-      console.log(ress);
 
       res.json({ status: "ok" });
       return;
@@ -40,7 +39,7 @@ const like = async (req, res, next) => {
 const unLike = async (req, res, next) => {
   try {
     const {
-      user: { id },
+      user: { publicID },
       body: { postId },
     } = req;
     const PostUnLiked = await dbPost.updateOne(
@@ -49,7 +48,7 @@ const unLike = async (req, res, next) => {
       },
       {
         $pull: {
-          likes: id,
+          likes: publicID,
         },
       }
     );
