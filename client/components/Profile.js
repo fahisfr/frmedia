@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/profile.module.css";
-import { faker } from "@faker-js/faker";
 import { FiEdit } from "react-icons/fi";
 import Link from "next/link";
 import Post from "./Post";
@@ -20,19 +19,21 @@ function Profile() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { follow, addProfile } = actions;
 
-  const profile = useSelector((state) => state.profiles).find(
+  const profile = useSelector((state) => state.profiles.profiles).find(
     (profile) => profile.userName === user
   );
 
   useEffect(() => {
     if (!isReady) return;
+    dispatch(actions.setUserName(user));
     const getProfile = async () => {
       try {
         if (profile) return;
         const { data } = await axios.get(`user/${user}`);
         if (data.status === "ok") {
-          dispatch(actions.addProfile(data.profile));
+          dispatch(addProfile(data.profile));
         } else {
           setError(data.error);
         }
@@ -47,15 +48,20 @@ function Profile() {
 
   const followHandler = async () => {
     try {
-      const id = profile._id;
-      dispatch(actions.follow({ id }));
-      const { data } = axios.post("/user/follow", { id });
-      if (!data.status === "ok") {
-        dispatch(actions.follow({ id }));
+      dispatch(follow());
+
+      dispatch(actions.follow());
+      const { data } = await axios.post(
+        `/user/${profile.isFollowing ? "unfollow" : "follow"}`,
+        {
+          id: profile.publicID,
+        }
+      );
+      if (data.status === "ok") {
+        dispatch(follow());
       }
     } catch (err) {
       console.log(err);
-      alert(err);
     }
   };
 
@@ -106,21 +112,9 @@ function Profile() {
                 )}
               </div>
               <div>
-                {profile._following ? (
-                  <button
-                    className={`${styles.btn} ${styles.unfollow}`}
-                    onClick={followHandler}
-                  >
-                    profile.unfollow
-                  </button>
-                ) : (
-                  <button
-                    className={`${styles.btn} ${styles.follow}`}
-                    onClick={followHandler}
-                  >
-                    Follow
-                  </button>
-                )}
+                <button className={`${styles.btn}`} onClick={followHandler}>
+                  {profile.isFollowing ? "following" : "follow"}
+                </button>
               </div>
             </div>
             <div className={styles.fw_c}>
@@ -130,7 +124,7 @@ function Profile() {
                     <span className={styles.fw_count}>
                       {profile.followersCount}
                     </span>
-                    <span className={styles.fw}> Following</span>
+                    <span className={styles.fw}>Following</span>
                   </div>
                 </Link>
               </div>
@@ -160,9 +154,6 @@ function Profile() {
         <div className={styles.bottom}>
           <div className={styles.bv_group}>
             <sapn className={styles.bvn}>Posts</sapn>
-          </div>
-          <div className={styles.bv_group}>
-            <span className={styles.bvn}>Notifications</span>
           </div>
         </div>
         {profile.posts.map((post, index) => {

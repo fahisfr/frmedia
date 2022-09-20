@@ -15,11 +15,11 @@ const follow = async (req, res, next) => {
       .updateOne({ $addToSet: { following: objectId(followId) } });
     bulk.find({ publicID: objectId(followId) }).updateOne({
       $addToSet: { followers: objectId(publicID) },
-      $addToSet: { notifications: { type: "following", userId: publicID } },
+      $push: { notifications: { type: "following", userId: publicID } },
     });
 
     bulk.execute((err, result) => {
-      if (result.nModified) {
+      if (result.nModified > 0) {
         res.json({ status: "ok" });
         return;
       }
@@ -46,7 +46,7 @@ const unFollow = async (req, res, next) => {
       .updateOne({ $pull: { followers: objectId(publicID) } });
 
     bulk.execute((err, result) => {
-      if (result.nModified) {
+      if (result.nModified > 0) {
         res.json({ status: "ok" });
         return;
       }

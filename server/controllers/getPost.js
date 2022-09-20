@@ -15,28 +15,7 @@ const getPost = async (req, res, next) => {
           _id: objectId(postId),
         },
       },
-      {
-        $addFields: {
-          commentsCount: {
-            $size: "$comments",
-          },
-        },
-      },
 
-      {
-        $lookup: {
-          from: "users",
-          localField: "userId",
-          foreignField: "publicID",
-          as: "userInfo",
-        },
-      },
-
-      {
-        $set: {
-          userInfo: { $arrayElemAt: ["$userInfo", 0] },
-        },
-      },
       {
         $unwind: {
           path: "$comments",
@@ -52,20 +31,31 @@ const getPost = async (req, res, next) => {
           as: "comments.userInfo",
         },
       },
+
       {
         $set: {
           "comments.userInfo": { $arrayElemAt: ["$comments.userInfo", 0] },
         },
       },
+
       {
         $project: {
-          publicID: 1,
+          _id: 1,
+
+          postAt: 1,
+          likesCount: { $size: "$likes" },
+          postAt: 1,
+          userId: 1,
           text: 1,
           file: 1,
           postAt: 1,
-          likes: 1,
-          commentsCount: 1,
-          postAt: 1,
+          comments: {
+            _id: 1,
+            userId: 1,
+            text: 1,
+            file: 1,
+            commentAt: 1,
+          },
           userInfo: {
             userName: 1,
             profilePic: 1,
@@ -74,8 +64,19 @@ const getPost = async (req, res, next) => {
           },
         },
       },
+      {
+        $group: {
+          _id: null,
+          userId: { $first: "$userId" },
+          text: { $first: "$text" },
+          file: { $first: "$file" },
+          postAt: { $first: "$postAt" },
+          userInfo: { $first: "$userInfo" },
+          comments: { $push: "$comments" },
+        },
+      },
     ]);
-
+    console.log(post)
     if (post.length > 0) {
       res.json({ status: "ok", post: post[0] });
 

@@ -5,28 +5,25 @@ import Comment from "../../../components/Comment";
 import JustLoading from "../../../components/JustLoading";
 import MainLayout from "../../../layouts/Main";
 import { useDispatch, useSelector } from "react-redux";
-import { setComments, addPost, addComment } from "../../../features/posts";
+import { actions } from "../../../features/home";
 import axios from "../../../axios";
 import { useRouter } from "next/router";
 
 import ErrorMessage from "../../../components/ErrorMessage";
-function Post({postId}) {
+function Post() {
   const router = useRouter();
-  // const {
-  //   query: { postId },
-  // } = router;
+  const { setComments, addPost } = actions;
+  const {
+    query: { postId },
+  } = router;
   const dispatch = useDispatch();
 
   const [failedFetchPost, setFailedFetchPost] = useState(false);
   const [failedFetchComments, setFailedFetchComments] = useState(false);
+  const [loadign, setLoading] = useState(true);
 
-  const [error, setError] = useState({
-    failedFetchPost: false,
-    failedFetchComments: false,
-  });
-
-  const posts = useSelector((state) => state.posts.posts);
-  
+  const posts = useSelector((state) => state.home.posts);
+  console.log(posts);
   const post = posts.find((post) => post._id === postId);
 
   useEffect(() => {
@@ -36,8 +33,8 @@ function Post({postId}) {
           const { data } = await axios.get(`/post/${postId}`);
 
           if (data.status === "ok") {
-            console.log(data)
-            dispatch(addPost(data.post));
+            dispatch(addPost({ post: data.post }));
+            setLoading(false);
           } else {
             setFailedFetchPost(data.error);
           }
@@ -50,40 +47,34 @@ function Post({postId}) {
           }
         }
       } catch (err) {
-        console.log(err);
         setFailedFetchPost("failed To fetch Post");
-      }
+      } 
     };
     getPost();
-  },[]);
+  }, []);
+
+  if (loadign) {
+    <JustLoading />;
+  }
+
+  if (failedFetchPost) {
+    return <ErrorMessage error={failedFetchPost} />;
+  }
 
   return (
     <>
-      {failedFetchPost ? (
-        <ErrorMessage error={failedFetchPost} />
-      ) : !post ? (
-        <JustLoading />
+      <Posts postInfo={post} userInfo={post.userInfo} vpost page="home" />
+      {/* <AddPost For="post" postId={postId} page="home" /> */}
+      {failedFetchComments ? (
+        <ErrorMessage error={failedFetchComments} />
+      ) : post.comments ? (
+        post?.comments?.map((comment) => {
+          return (
+            <Comment key={comment._id} comment={comment} postId={postId} />
+          );
+        })
       ) : (
-        <>
-          <Posts postInfo={post} userInfo={post.userInfo} vpost />
-          <AddPost For="comment" postId={postId} />
-          {failedFetchComments ? (
-            <ErrorMessage error={failedFetchComments} />
-          ) : post.comments ? (
-            post?.comments?.map((comment) => {
-              return (
-                <Comment
-                  key={comment._id}
-                  comment={comment}
-                  postId={postId}
-                  For="comment"
-                />
-              );
-            })
-          ) : (
-            <JustLoading />
-          )}
-        </>
+        <JustLoading />
       )}
     </>
   );

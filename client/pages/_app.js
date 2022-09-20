@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import user from "../features/user";
-import posts from "../features/posts";
+import home from "../features/home";
 import notifications from "../features/notifications";
 import explore from "../features/explore";
 import hashTags from "../features/hashTags";
@@ -15,11 +15,11 @@ import profiles from "../features/profiles";
 const store = configureStore({
   reducer: {
     user,
-    posts,
+    home,
     notifications,
     explore,
     hashTags,
-    profiles
+    profiles,
   },
 });
 store.dispatch(fetchUser());

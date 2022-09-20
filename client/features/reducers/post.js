@@ -28,15 +28,16 @@ export default {
   },
   addComment: ({ posts }, { payload }) => {
     try {
-      for (let post of posts) {
-        if (post._id === payload.postId) {
-          if (post.commets) {
-            post.comments.unshift(payload.comment);
-            break;
+      for (let { _id, comments } of posts) {
+        if (_id === payload.postId) {
+   
+          if (comments) {
+            comments.unshift(payload.comment);
+          } else {
+            comments = [payload.comment];
           }
-          post.comments = [payload.comment];
-          break;
         }
+        break;
       }
     } catch (error) {
       console.log(error);

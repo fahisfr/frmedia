@@ -5,7 +5,7 @@ import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
 import { FcLike } from "react-icons/fc";
 import { useDispatch } from "react-redux";
-import { likeReply } from "../features/posts";
+import { likeReply } from "../features/home";
 import AddPCR from "./AddPCR";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";

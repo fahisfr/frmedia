@@ -15,7 +15,7 @@ const getUserInfo = async (req, res, next) => {
       },
       {
         $addFields: {
-          _following: idIn(publicID, "$followers"),
+          isFollowing: idIn(publicID, "$followers"),
         },
       },
       {
@@ -34,6 +34,13 @@ const getUserInfo = async (req, res, next) => {
       },
       {
         $set: {
+          posts: {
+            $arrayElemAt: ["$posts", 0],
+          },
+        },
+      },
+      {
+        $addFields: {
           "posts.commentsCount": {
             $size: "$posts.comments",
           },
@@ -46,24 +53,25 @@ const getUserInfo = async (req, res, next) => {
       {
         $unset: ["posts.comments"],
       },
-    
+
       {
         $group: {
           _id: "$_id",
+          publicID: { $first: "$publicID" },
           userName: { $first: "$userName" },
           email: { $first: "$email" },
           profilePic: { $first: "$profilePic" },
           coverPic: { $first: "$coverPic" },
           bio: { $first: "$bio" },
           verified: { $first: "$verified" },
-          posts: { $push: { $arrayElemAt: ["$posts", 0] } },
+          posts: { $push: "$posts" },
           followersCount: { $first: { $size: "$followers" } },
           followingCount: { $first: { $size: "$following" } },
-          _following: { $first: "$_following" },
+          isFollowing: { $first: "$isFollowing" },
         },
       },
     ]);
-    
+
     if (user.length > 0) {
       res.json({ status: "ok", profile: user[0] });
       return;

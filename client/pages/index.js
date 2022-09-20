@@ -4,12 +4,12 @@ import Post from "../components/Post";
 import MainLayout from "../layouts/Main";
 import JustLoading from "../components/JustLoading";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../features/posts";
+import { fetchPosts } from "../features/home";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Home({}) {
   const { loading, error, homeFetched, posts } = useSelector(
-    (state) => state.posts
+    (state) => state.home
   );
 
   const dispatch = useDispatch();

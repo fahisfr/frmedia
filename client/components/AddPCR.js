@@ -30,6 +30,7 @@ function AddPCR({ For, postId, commentId, page }) {
   const { addPost, addComment, addReply } = getPostAcitons(page);
 
   const PRC = () => {
+ 
     switch (For) {
       case "comment":
         return {

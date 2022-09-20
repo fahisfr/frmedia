@@ -26,6 +26,8 @@ const addComment = async (req, res, next) => {
       }
     );
 
+    console.log(newComment.comments.pop());
+
     if (newComment) {
       file &&
         file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);

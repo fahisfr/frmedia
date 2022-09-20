@@ -70,7 +70,9 @@ function Comment({ comment, postId, page }) {
       );
 
       if (data.status === "ok") {
-        dispatch(likeComment({ postId, commentId: _id, userName }));
+        dispatch(
+          likeComment({ postId, commentId: _id, userName, replyAt: date.now })
+        );
       }
     } catch (error) {}
   };

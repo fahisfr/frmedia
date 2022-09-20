@@ -18,8 +18,8 @@ const userSlice = createSlice({
     posts: [],
 
     loading: false,
-    homeError: false,
-    homeFetched: false,
+    error: false,
+    fetched: false,
 
     exploreLoading: false,
     exploreError: false,
@@ -35,12 +35,12 @@ const userSlice = createSlice({
       } else if (payload.status === "error") {
         state.homeError = payload.error;
       }
-      state.homeLoading = false;
-      state.homeFetched = true;
+      state.loading = false;
+      state.fetched = true;
     },
 
     [fetchPosts.pending]: (state, action) => {
-      state.homeLoading = true;
+      state.loading = true;
     },
 
     [fetchPosts.rejected]: (state, action) => {

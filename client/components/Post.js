@@ -55,7 +55,7 @@ function Post({ postInfo, userInfo, vpost, page }) {
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setFailedToFetchComments("Failed to fetch comments");
     } finally {
       setCommentsFetching(false);
@@ -63,8 +63,7 @@ function Post({ postInfo, userInfo, vpost, page }) {
   };
 
   const likeHandler = async () => {
-    //userName arg for profile page
-    dispatch(likePost({ postId: _id, userName }));
+    dispatch(likePost({ postId: _id }));
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
       postId: _id,
     });
@@ -123,7 +122,9 @@ function Post({ postInfo, userInfo, vpost, page }) {
           <div className={styles.body}>
             {text && (
               <Link href={`/post/${_id}`}>
-                <div className={styles.message}>{filterText(text)}</div>
+                <a>
+                  <div className={styles.message}>{filterText(text)}</div>
+                </a>
               </Link>
             )}
 
