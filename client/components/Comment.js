@@ -14,13 +14,13 @@ import ErrorMessage from "./ErrorMessage";
 import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 
-function Comment({ comment, postId, page }) {
+function Comment({ comment, postId, sliceName }) {
   const dispatch = useDispatch();
   const [addReply, setAddReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [failedFetchReplies, setFailedFetchReplies] = useState(false);
 
-  const { setReplies, likeComment } = getPostAcitons(page);
+  const { setReplies, likeComment } = getPostAcitons(sliceName);
   const {
     _id,
     text,
@@ -61,6 +61,7 @@ function Comment({ comment, postId, page }) {
 
   const likeHandler = async (e) => {
     try {
+      
       const { data } = await axios.post(
         `/comment/${liked ? "unlike" : "like"}`,
         {
@@ -70,9 +71,7 @@ function Comment({ comment, postId, page }) {
       );
 
       if (data.status === "ok") {
-        dispatch(
-          likeComment({ postId, commentId: _id, userName, replyAt: date.now })
-        );
+        dispatch(likeComment({ postId, commentId: _id }));
       }
     } catch (error) {}
   };
@@ -181,7 +180,12 @@ function Comment({ comment, postId, page }) {
 
       <div className={styles.replies}>
         {addReply && (
-          <AddPCR commentId={_id} postId={postId} For="reply" page={page} />
+          <AddPCR
+            commentId={_id}
+            postId={postId}
+            For="reply"
+            sliceName={sliceName}
+          />
         )}
         {failedFetchReplies ? (
           <ErrorMessage error={failedFetchReplies} />
@@ -196,7 +200,7 @@ function Comment({ comment, postId, page }) {
                       key={index}
                       postId={postId}
                       commentId={_id}
-                      page={page}
+                      sliceName={sliceName}
                     />
                   );
                 })

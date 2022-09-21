@@ -71,11 +71,12 @@
     font-weight: 600;
     font-family: 'PT Serif', serif;
     cursor: pointer;
+    color: black
 }
 
 .message {
     font-size: 14px;
-
+    color: black;
 }
 
 .n_right {
@@ -120,11 +121,11 @@
 
 .icon {
     font-size: 2.3rem;
-    color:var(--gray_400) ;
+    color: var(--gray_400);
 }
 
 .empty_text {
     font-size: 18px;
     font-weight: 600;
-    color:var(--gray_400) ; 
+    color: var(--gray_400);
 }

@@ -2,9 +2,9 @@ import { actions as exploerPostActions } from "../explore";
 import { actions as homePostActions } from "../home";
 import { actions as hashTagePostActions } from "../hashTags";
 import { actions as profilePostActions } from "../profiles";
-const getPostAcitons = (page) => {
-  console.log(page)
-  switch (page) {
+const getPostAcitons = (sliceName) => {
+  console.log(sliceName);
+  switch (sliceName) {
     case "home":
       return homePostActions;
     case "explore":
@@ -15,7 +15,7 @@ const getPostAcitons = (page) => {
       return profilePostActions;
 
     default:
-      throw Error("page not found");
+      throw Error("sliceName not found");
   }
 };
 

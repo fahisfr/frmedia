@@ -85,11 +85,15 @@ function Notification() {
         </div>
         <div className={styles.nv_group}>
           <Link href="/notifications/liked">
-            <span
-              className={`${styles.nv_text} ${path === "liked" && styles.blue}`}
-            >
-              Liked
-            </span>
+            <a>
+              <span
+                className={`${styles.nv_text} ${
+                  path === "liked" && styles.blue
+                }`}
+              >
+                Liked
+              </span>
+            </a>
           </Link>
         </div>
       </nav>
@@ -106,26 +110,30 @@ function Notification() {
         ) : (
           notif.map((notif, index) => {
             return (
-              <Link href={notif.link} key={index}>
-                <div className={styles.notification}>
-                  <div className={styles.n_left}>
-                    <div className={styles.profile}>
-                      <img
-                        className={styles.profile_img}
-                        src={`${baseURL}/p/${notif.userInfo.profilePic}`}
-                      />
+              <Link href={`/${notif.link}`} key={index}>
+                <a>
+                  <div className={styles.notification}>
+                    <div className={styles.n_left}>
+                      <div className={styles.profile}>
+                        <img
+                          className={styles.profile_img}
+                          src={`${baseURL}/p/${notif.userInfo.profilePic}`}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.n_right}>
+                      <div>
+                        <span className={styles.date}>
+                          {getDate(notif.date)}
+                        </span>
+                      </div>
+                      <span className={styles.name}>fahis</span>
+                      <span
+                        className={styles.message}
+                      >{` ${notif.message}`}</span>
                     </div>
                   </div>
-                  <div className={styles.n_right}>
-                    <div>
-                      <span className={styles.date}>{getDate(notif.date)}</span>
-                    </div>
-                    <span className={styles.name}>fahis</span>
-                    <span
-                      className={styles.message}
-                    >{` ${notif.message}`}</span>
-                  </div>
-                </div>
+                </a>
               </Link>
             );
           })

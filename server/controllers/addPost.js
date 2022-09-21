@@ -60,7 +60,7 @@ const addPost = async (req, res, next) => {
         dbBulk.execute();
       }
 
-      mentions.length > 0 &&
+      mentions.length < 0 &&
         (await dbUser.updateOne(
           { _id: id },
           { $push: { posts: newPost._id } }

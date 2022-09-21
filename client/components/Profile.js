@@ -73,6 +73,7 @@ function Profile() {
     return <JustLoading />;
   }
 
+  console.log(profile);
   return (
     <div className="center">
       <div className={styles.container}>
@@ -162,7 +163,7 @@ function Profile() {
               userInfo={profile}
               postInfo={post}
               key={index}
-              page="profile"
+              sliceName="profile"
             />
           );
         })}

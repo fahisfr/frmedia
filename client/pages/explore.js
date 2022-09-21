@@ -29,7 +29,7 @@ function explore() {
             <Post
               postInfo={post}
               userInfo={userInfo}
-              page="explore"
+              sliceName="explore"
               key={index}
             />
           );

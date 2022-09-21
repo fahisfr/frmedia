@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions } from "../../../features/home";
 import axios from "../../../axios";
 import { useRouter } from "next/router";
+import AddPCR from "../../../components/AddPCR";
 
 import ErrorMessage from "../../../components/ErrorMessage";
 function Post() {
@@ -15,26 +16,27 @@ function Post() {
   const { setComments, addPost } = actions;
   const {
     query: { postId },
+    isReady,
   } = router;
   const dispatch = useDispatch();
 
   const [failedFetchPost, setFailedFetchPost] = useState(false);
   const [failedFetchComments, setFailedFetchComments] = useState(false);
-  const [loadign, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const posts = useSelector((state) => state.home.posts);
-  console.log(posts);
+
   const post = posts.find((post) => post._id === postId);
 
   useEffect(() => {
     const getPost = async () => {
+      if (!isReady) return;
       try {
         if (!post) {
           const { data } = await axios.get(`/post/${postId}`);
 
           if (data.status === "ok") {
             dispatch(addPost({ post: data.post }));
-            setLoading(false);
           } else {
             setFailedFetchPost(data.error);
           }
@@ -48,13 +50,15 @@ function Post() {
         }
       } catch (err) {
         setFailedFetchPost("failed To fetch Post");
-      } 
+      } finally {
+        setLoading(false);
+      }
     };
     getPost();
-  }, []);
+  }, [isReady]);
 
-  if (loadign) {
-    <JustLoading />;
+  if (loading) {
+    return <JustLoading />;
   }
 
   if (failedFetchPost) {
@@ -63,14 +67,19 @@ function Post() {
 
   return (
     <>
-      <Posts postInfo={post} userInfo={post.userInfo} vpost page="home" />
-      {/* <AddPost For="post" postId={postId} page="home" /> */}
+      <Posts postInfo={post} userInfo={post.userInfo} sliceName="home" />
+      <AddPCR For="comment" sliceName="home" />
       {failedFetchComments ? (
         <ErrorMessage error={failedFetchComments} />
       ) : post.comments ? (
         post?.comments?.map((comment) => {
           return (
-            <Comment key={comment._id} comment={comment} postId={postId} />
+            <Comment
+              key={comment._id}
+              comment={comment}
+              postId={postId}
+              sliceName="home"
+            />
           );
         })
       ) : (
@@ -79,14 +88,6 @@ function Post() {
     </>
   );
 }
-
-export const getServerSideProps = async ({ query }) => {
-  return {
-    props: {
-      postId: query.postId,
-    },
-  };
-};
 
 Post.PageLayout = MainLayout;
 export default Post;

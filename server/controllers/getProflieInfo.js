@@ -63,6 +63,7 @@ const getUserInfo = async (req, res, next) => {
           profilePic: { $first: "$profilePic" },
           coverPic: { $first: "$coverPic" },
           bio: { $first: "$bio" },
+          link: { $first: "$link" },
           verified: { $first: "$verified" },
           posts: { $push: "$posts" },
           followersCount: { $first: { $size: "$followers" } },

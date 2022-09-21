@@ -1,5 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
+const { idIn } = require("../helper/dbHelper");
 
 const getPost = async (req, res, next) => {
   try {
@@ -41,32 +42,33 @@ const getPost = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-
-          postAt: 1,
-          likesCount: { $size: "$likes" },
-          postAt: 1,
           userId: 1,
           text: 1,
           file: 1,
           postAt: 1,
+          liked: idIn(publicID, "$likes"),
+          likesCount: { $size: "$likes" },
           comments: {
             _id: 1,
             userId: 1,
             text: 1,
             file: 1,
             commentAt: 1,
-          },
-          userInfo: {
-            userName: 1,
-            profilePic: 1,
-            coverPic: 1,
-            isVerified: 1,
+            commentsCount: { $size: "$comments.replies" },
+            likesCount: { $size: "$comments.likes" },
+            userInfo: {
+              _id: 1,
+              userName: 1,
+              profilePic: 1,
+              coverPic: 1,
+              verified: 1,
+            },
           },
         },
       },
       {
         $group: {
-          _id: null,
+          _id: "$_id",
           userId: { $first: "$userId" },
           text: { $first: "$text" },
           file: { $first: "$file" },
@@ -75,17 +77,49 @@ const getPost = async (req, res, next) => {
           comments: { $push: "$comments" },
         },
       },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "publicID",
+          as: "userInfo",
+        },
+      },
+      {
+        $set: {
+          userInfo: {
+            $arrayElemAt: ["$userInfo", 0],
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          postAt: 1,
+          likesCount: 1,
+          postAt: 1,
+          userId: 1,
+          text: 1,
+          file: 1,
+          postAt: 1,
+          comments: 1,
+          userInfo: {
+            _id: 1,
+            userName: 1,
+            profilePic: 1,
+            coverPic: 1,
+            verified: 1,
+          },
+        },
+      },
     ]);
-    console.log(post)
+    console.log(post[0].comments[0]);
     if (post.length > 0) {
-      res.json({ status: "ok", post: post[0] });
-
-      return;
+      return res.json({ status: "ok", post: post[0] });
     }
     res.json({ status: "error", error: "Post not found" });
-  } catch (err) {
-    console.log(err);
-    next();
+  } catch (error) {
+    next(error);
   }
 };
 

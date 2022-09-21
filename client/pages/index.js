@@ -21,7 +21,7 @@ function Home({}) {
 
   return (
     <>
-      <AddPost For="post" page="home" />
+      <AddPost For="post" sliceName="home" />
       {error ? (
         <ErrorMessage error={error} />
       ) : loading ? (
@@ -34,7 +34,7 @@ function Home({}) {
                 postInfo={post}
                 userInfo={userInfo}
                 key={index}
-                page="home"
+                sliceName="home"
               />
             );
           })}

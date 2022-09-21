@@ -26,14 +26,14 @@ const notificationsSlice = createSlice({
             switch (item.type) {
               case "mention":
                 item.message = "Was mentioned in a post";
-                item.link = item.postId;
+                item.link = `/post/${item.postId}`
                 break;
               case "liked":
                 item.message = " Liked you post";
-                item.link = `/post/${item.postId}`;
+                item.link = `/post/${item.postId}`
                 break;
               case "following":
-                item.message = "Started following you";
+                item.message = "Started following you"
                 item.link = item.userName;
               default:
                 item.message = "";

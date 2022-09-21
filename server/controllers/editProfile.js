@@ -29,6 +29,8 @@ const editProfile = async (req, res, next) => {
 
     const updatedInfo = getUpdatedInfo();
 
+    console.log(updatedInfo);
+
     const updated = await dbUser.updateOne(
       {
         _id: id,
@@ -37,11 +39,11 @@ const editProfile = async (req, res, next) => {
         $set: { ...updatedInfo },
       }
     );
-    
+    console.log(updated);
     if (updated.modifiedCount > 0) {
       coverPic && coverPic.mv(`./public/c/${updatedInfo.coverPic}`);
       profilePic && profilePic.mv(`./public/p/${updatedInfo.profilePic}`);
-      res.json({ status:"ok", updatedInfo:updatedInfo });
+      res.json({ status: "ok", updatedInfo: updatedInfo });
       return;
     }
 

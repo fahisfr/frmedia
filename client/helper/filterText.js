@@ -5,13 +5,13 @@ const filterText = (text) => {
     if (word.startsWith("#")) {
       return (
         <Link href={`/hashtag/${word.slice(1)}`} key={index}>
-          <a>{word} </a>
+          <span>{word} </span>
         </Link>
       );
     } else if (word.startsWith("@")) {
       return (
-        <Link href={`/user/${word.slice(1)}`} key={index}>
-          <a>{word} </a>
+        <Link href={`/${word.slice(1)}`} key={index}>
+          <span>{word} </span>
         </Link>
       );
     } else {

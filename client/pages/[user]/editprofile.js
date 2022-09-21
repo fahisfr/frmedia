@@ -12,15 +12,14 @@ import Link from "next/link";
 function EditProfile() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { userName, bio, link, profilePic, coverPic
-  } = useSelector(
+  const { userName, bio, link, profilePic, coverPic } = useSelector(
     (state) => state.user.userInfo
   );
 
-  console.log(useSelector((state) => state.user.userInfo));
-
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
+
+  const [response, setResponse] = useState({ status: "error", error: "asdf" });
 
   const [newCoverPic, setNewCoverPic] = useState(null);
   const [newProfilePic, setNewProfilePic] = useState(null);
@@ -36,7 +35,6 @@ function EditProfile() {
     const reader = new FileReader();
 
     reader.onload = () => {
-      console.log(e.target.name);
       if (e.target.name === "profile") {
         setProfilePreview(reader.result);
         setNewProfilePic(file);
@@ -54,15 +52,20 @@ function EditProfile() {
       const formData = new FormData();
       editedBio && formData.append("bio", editedBio);
       editedLink && formData.append("link", editedLink);
-      profile && formData.append("profilePic", newProfilePic);
-      coverPic && formData.append("coverPic", newCoverPic);
+      newProfilePic && formData.append("profilePic", newProfilePic);
+      newCoverPic && formData.append("coverPic", newCoverPic);
 
       const { data } = await axios.post("/edit-profile", formData);
 
       if (data.status === "ok") {
+        setResponse({ status: data.status, error: false });
         dispatch(updateUserInfo(data.updatedInfo));
+        return;
       }
-    } catch (error) {}
+      setResponse({ status: data.status, error: data.error });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const closePage = (e) => {
@@ -154,9 +157,22 @@ function EditProfile() {
         </div>
 
         <footer className={styles.footer}>
-          <button className={styles.btn} onClick={handleSubmit}>
-            Save
-          </button>
+          <div className={styles.message}>
+            {response.status === "ok" ? (
+              <span className={styles.message_text}>Profile Updated</span>
+            ) : response.status === "error" ? (
+              <span style={{ color: "red" }} className={styles.message_text}>
+                {response.error}
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+          <div>
+            <button className={styles.btn} onClick={handleSubmit}>
+              <span className={styles.btn_text}>Save</span>
+            </button>
+          </div>
         </footer>
       </div>
     </div>

@@ -53,7 +53,7 @@ function FollowAndFollowing() {
     }
   };
   const users = getUsers();
-  
+
   return (
     <div className={styles.con} onClick={closePage}>
       <div className={styles.content}>
@@ -66,18 +66,6 @@ function FollowAndFollowing() {
           </div>
         </div>
         <div className={styles.ff}>
-          <Link href={`/${user}/followers`}>
-            <div className={styles.group}>
-              <span
-                className={styles.ff_text}
-                style={{
-                  color: pathName === "followers" ? "#007de8" : "",
-                }}
-              >
-                Followers
-              </span>
-            </div>
-          </Link>
           <Link href={`/${user}/following`}>
             <div className={styles.group}>
               <span
@@ -90,6 +78,18 @@ function FollowAndFollowing() {
               </span>
             </div>
           </Link>
+          <Link href={`/${user}/followers`}>
+            <div className={styles.group}>
+              <span
+                className={styles.ff_text}
+                style={{
+                  color: pathName === "followers" ? "#007de8" : "",
+                }}
+              >
+                Followers
+              </span>
+            </div>   
+          </Link>
         </div>
         <div className={styles.body}>
           {error ? (
@@ -100,7 +100,7 @@ function FollowAndFollowing() {
             <div className={styles.users}>
               {users.length > 0 ? (
                 users.map((user, index) => {
-                  console.log(user)
+                  console.log(user);
                   return (
                     <Link href={`/${user.userName}`}>
                       <div className={styles.user} key={index}>
@@ -125,7 +125,7 @@ function FollowAndFollowing() {
                 })
               ) : (
                 <div>
-                  <span>Username not following no one</span>
+                  <span></span>
                 </div>
               )}
             </div>

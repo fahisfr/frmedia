@@ -21,8 +21,8 @@
     border-radius: 6px;
     border-right: 10px solid var(--default_theme);
     border-left: 10px solid var(--default_theme);
-    overflow:scroll;
-    
+    overflow: scroll;
+
 
 }
 
@@ -41,7 +41,7 @@
 }
 
 .body {
-   overflow: hidden;
+    overflow: hidden;
     background-color: var(--default_theme);
 }
 
@@ -55,6 +55,17 @@
     justify-content: flex-end;
     background-color: #ffffff;
 }
+
+.message {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+.message_text{
+    font-size: .9rem;
+    color: #37af27;
+}
+
 
 .close {
     position: absolute;
@@ -91,7 +102,7 @@
     position: relative;
     height: 11rem;
     overflow: hidden;
-    
+
 }
 
 .avatar_img {
@@ -111,7 +122,7 @@
     border-radius: 50%;
     width: 7.5rem;
     height: 7.5rem;
-    
+
 }
 
 .ref_input {

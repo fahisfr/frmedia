@@ -35,8 +35,6 @@ const userSlice = createSlice({
     },
     addFF: ({ userInfo, ffFetched }, { payload }) => {
       try {
-        console.log("fahis main load");
-        console.log(payload);
         userInfo.followers = payload.followers;
         userInfo.following = payload.following;
         ffFetched = true;

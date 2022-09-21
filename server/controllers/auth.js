@@ -22,7 +22,7 @@ const auth = async (req, res, next) => {
           email: 1,
           bio: 1,
           profilePic: 1,
-          avatarPic: 1,
+          coverPic: 1,
           link: 1,
           followersCount: 1,
           followingCount: 1,

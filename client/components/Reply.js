@@ -12,12 +12,12 @@ import getDate from "../helper/getDate";
 import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 
-function Reply({ replyInfo, postId, commentId, page }) {
+function Reply({ replyInfo, postId, commentId, sliceName }) {
   const dispatch = useDispatch();
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
   const { _id, text, replyAt, likesCount, liked, file } = replyInfo;
   const { userName, profilePic } = replyInfo.userInfo;
-  const { likeReply } = getPostAcitons(page);
+  const { likeReply } = getPostAcitons(sliceName);
 
   const likeHandler = async (e) => {
     try {

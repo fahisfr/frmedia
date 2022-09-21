@@ -12,7 +12,7 @@ const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPCR({ For, postId, commentId, page }) {
+function AddPCR({ For, postId, commentId, sliceName }) {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const fileRef = useRef(null);
@@ -27,10 +27,9 @@ function AddPCR({ For, postId, commentId, page }) {
     error: false,
     message: "",
   });
-  const { addPost, addComment, addReply } = getPostAcitons(page);
+  const { addPost, addComment, addReply } = getPostAcitons(sliceName);
 
   const PRC = () => {
- 
     switch (For) {
       case "comment":
         return {
