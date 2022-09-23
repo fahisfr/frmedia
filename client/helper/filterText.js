@@ -5,7 +5,7 @@ const filterText = (text) => {
     if (word.startsWith("#")) {
       return (
         <Link href={`/hashtag/${word.slice(1)}`} key={index}>
-          <span>{word} </span>
+          <span> {word} </span>
         </Link>
       );
     } else if (word.startsWith("@")) {

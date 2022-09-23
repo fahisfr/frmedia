@@ -63,7 +63,7 @@ function Sidebar() {
             </a>
           </Link>
 
-          <Link className={styles.link} href="/settings">
+          {/* <Link className={styles.link} href="/settings">
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${
@@ -74,7 +74,7 @@ function Sidebar() {
                 <span className={styles.text}>Settings</span>
               </div>
             </a>
-          </Link>
+          </Link> */}
         </nav>
 
         {/* <div className={styles.suggestion}>

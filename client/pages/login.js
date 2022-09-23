@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "../axios";
 
-
+import { GoogleLogin } from "react-google-login";
 
 function Login({}) {
   const router = useRouter();
@@ -17,14 +17,14 @@ function Login({}) {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!id && !password ){
-        return
+      if (!id && !password) {
+        return;
       }
       setLoading(true);
       const { data } = await axios.post("/login", { id, password });
       if (data.status === "ok") {
         localStorage.setItem("auth_token", data.token);
-        router.push("/")
+        router.push("/");
       } else {
         setLoginError(data.error);
       }
@@ -34,10 +34,20 @@ function Login({}) {
       setLoading(false);
     }
   };
-
+  const responseGoogle = (res) => {
+    console.log(res);
+  };
   return (
     <div className={styles.container}>
       <div>
+        <GoogleLogin
+          clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+        />
+        ,
         <div className={styles.body}>
           <div className={styles.title}>
             <h1 className={styles.title_text}>Login</h1>

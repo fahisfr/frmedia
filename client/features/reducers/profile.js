@@ -10,6 +10,9 @@ export default {
     state.userName = payload;
   },
   addProfile: (state, { payload }) => {
+    if (payload.posts[0] === null) {
+      payload.posts = [];
+    }
     state.profiles.push(payload);
   },
   likePost: ({ userName, profiles }, { payload }) => {

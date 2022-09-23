@@ -1,11 +1,6 @@
 export default {
   addPost: (state, { payload }) => {
-    try {
-      payload.page = "home";
-      state.posts.unshift(payload.post);
-    } catch (err) {
-      conosle.log(err);
-    }
+    state.posts.unshift(payload.post);
   },
   likePost: ({ posts }, { payload }) => {
     for (let post of posts) {
@@ -30,7 +25,6 @@ export default {
     try {
       for (let { _id, comments } of posts) {
         if (_id === payload.postId) {
-   
           if (comments) {
             comments.unshift(payload.comment);
           } else {

@@ -64,8 +64,6 @@ const getComments = async (req, res, next) => {
       },
     ]);
 
-    console.log(getComments);
-
     if (getComments.length > 0) {
       return res.json({ status: "ok", comments: getComments[0].comments });
     }

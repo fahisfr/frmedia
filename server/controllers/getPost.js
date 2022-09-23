@@ -38,42 +38,21 @@ const getPost = async (req, res, next) => {
           "comments.userInfo": { $arrayElemAt: ["$comments.userInfo", 0] },
         },
       },
-
       {
-        $project: {
-          _id: 1,
-          userId: 1,
-          text: 1,
-          file: 1,
-          postAt: 1,
+        $addFields: {
           liked: idIn(publicID, "$likes"),
           likesCount: { $size: "$likes" },
-          comments: {
-            _id: 1,
-            userId: 1,
-            text: 1,
-            file: 1,
-            commentAt: 1,
-            commentsCount: { $size: "$comments.replies" },
-            likesCount: { $size: "$comments.likes" },
-            userInfo: {
-              _id: 1,
-              userName: 1,
-              profilePic: 1,
-              coverPic: 1,
-              verified: 1,
-            },
-          },
         },
       },
       {
         $group: {
           _id: "$_id",
           userId: { $first: "$userId" },
+          liked: { $first: "$liked" },
+          likesCount: { $first: "$likesCount" },
           text: { $first: "$text" },
           file: { $first: "$file" },
           postAt: { $first: "$postAt" },
-          userInfo: { $first: "$userInfo" },
           comments: { $push: "$comments" },
         },
       },
@@ -95,14 +74,6 @@ const getPost = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          postAt: 1,
-          likesCount: 1,
-          postAt: 1,
-          userId: 1,
-          text: 1,
-          file: 1,
-          postAt: 1,
-          comments: 1,
           userInfo: {
             _id: 1,
             userName: 1,
@@ -110,11 +81,55 @@ const getPost = async (req, res, next) => {
             coverPic: 1,
             verified: 1,
           },
+          userId: 1,
+          text: 1,
+          file: 1,
+          postAt: 1,
+          liked: 1,
+          likesCount: 1,
+          comments: {
+            _id: 1,
+            userId: 1,
+            text: 1,
+            file: 1,
+            commentAt: 1,
+            commentsCount: {
+              $cond: [
+                { $isArray: "$comments.replies" },
+                { $size: "$comments.replies" },
+                0,
+              ],
+            },
+            likesCount: {
+              $cond: [
+                { $isArray: "$comments.likes" },
+                { $size: "$comments.likes" },
+                0,
+              ],
+            },
+            liked: {
+              $cond: [
+                { $isArray: "$comments.likes" },
+                idIn(publicID, "$comments.likes"),
+                false,
+              ],
+            },
+            userInfo: {
+              _id: 1,
+              userName: 1,
+              profilePic: 1,
+              coverPic: 1,
+              verified: 1,
+            },
+          },
         },
       },
     ]);
-    console.log(post[0].comments[0]);
+    console.log(post);
     if (post.length > 0) {
+      if (!post[0].comments[0]._id) {
+        post[0].comments = [];
+      }
       return res.json({ status: "ok", post: post[0] });
     }
     res.json({ status: "error", error: "Post not found" });

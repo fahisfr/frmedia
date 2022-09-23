@@ -3,29 +3,15 @@ import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "../axios";
-
-// export const getServerSideProps = async ({req}) => {
-
-//     const token = req.cookies.auth_token;
-
-//     if (token){
-//       return{
-//         redirect:{
-//           destination:"/",
-//           permanent:false,
-
-//         }
-//       }
-//     }
-//     return{
-//       props:{}
-//     }
-
-// }
-
+import { useGoogleLogin } from "react-google-login";
 function index() {
   const router = useRouter();
-
+  const onSuccess = (res) => {
+    console.log(res);
+  };
+  const { signIn, loaded } = useGoogleLogin({
+    onSuccess,
+  });
   const [userName, setUserName] = useState("fahis");
   const [email, setEmail] = useState("fahis@gmail.com");
   const [password, setPassword] = useState("fahis");
@@ -62,19 +48,22 @@ function index() {
     setLoading(false);
   };
 
-  const onSubmit = async (e) => { 
-    console.log("hello")
+  const onSubmit = async (e) => {
+    console.log("hello");
     e.preventDefault();
     try {
-      
-      const { data } = await axios.post("/signup", { userName,email, password });
-      
-      if (data.status ==="ok"){
-        localStorage.setItem("auth_token",data.token)
-        router.push("/")
-      } 
+      const { data } = await axios.post("/signup", {
+        userName,
+        email,
+        password,
+      });
+
+      if (data.status === "ok") {
+        localStorage.setItem("auth_token", data.token);
+        router.push("/");
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -105,8 +94,7 @@ function index() {
       }
     }
   };
-
-  
+ 
 
   return (
     <div className={styles.container}>
@@ -246,6 +234,7 @@ function index() {
                   <img
                     src="/google_icon.svg"
                     className={styles.google_button_icon}
+                    onClick={() => signIn()}
                   />
                   <span className={styles.google_button_text}>
                     Continue With Google

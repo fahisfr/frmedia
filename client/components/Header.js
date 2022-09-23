@@ -18,6 +18,8 @@ function Header() {
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
 
+  console.log(profilePic);
+
   const searchHandler = async (e) => {
     try {
       const value = e.target.value;
@@ -51,13 +53,13 @@ function Header() {
       e.preventDefault();
       setShowResults(false);
       setSearchText("");
-      router.push(results[focusedIndex].userName);
+      router.push(`/${results[focusedIndex].userName}`);
     }
   };
   const handleSelection = (index) => {
     const selectedItem = results[index];
     selectedItem && router.push(selectedItem.userName);
-    setSearchText("")
+    setSearchText("");
   };
   return (
     <header className={styles.container}>
@@ -117,9 +119,10 @@ function Header() {
           <div className={styles.profile}>
             <Link href={`/${userName}`}>
               <div className={styles.profile_btn}>
+               
                 <img
                   className={styles.image}
-                  src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fa-%2FAOh14GhnJ1hWMMmWuwad79zvMGaS5el-pfgaNX8cGKF5&w=308&q=75"
+                  src={`/${baseURL}/p/${profilePic}`}
                 />
               </div>
             </Link>

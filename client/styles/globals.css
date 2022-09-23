@@ -94,16 +94,22 @@ a {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction:column;
-
+  flex-direction: column;
   align-items: center;
 }
 
+.no_comments {
+  padding-top: 10px;
+}
+.no_c_text{
+  font-size: 17px;
+  color: var(--gray_400);
+}
 
 @keyframes just-loading {
   0% {
     transform: rotate(0deg);
-    
+
   }
 
   100% {

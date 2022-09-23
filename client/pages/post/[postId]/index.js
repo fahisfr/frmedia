@@ -41,11 +41,15 @@ function Post() {
             setFailedFetchPost(data.error);
           }
         } else if (!post.comments) {
-          const { data } = await axios.get(`/post/comments/${postId}`);
-          if (data.status === "ok") {
-            dispatch(setComments({ postId, comments: data.comments }));
+          if (post.commentsCount === 0) {
+            dispatch(setComments({ postId, comments: [] }));
           } else {
-            setFailedFetchComments(data.error);
+            const { data } = await axios.get(`/post/comments/${postId}`);
+            if (data.status === "ok") {
+              dispatch(setComments({ postId, comments: data.comments }));
+            } else {
+              setFailedFetchComments(data.error);
+            }
           }
         }
       } catch (err) {
@@ -71,17 +75,23 @@ function Post() {
       <AddPCR For="comment" sliceName="home" />
       {failedFetchComments ? (
         <ErrorMessage error={failedFetchComments} />
-      ) : post.comments ? (
-        post?.comments?.map((comment) => {
-          return (
-            <Comment
-              key={comment._id}
-              comment={comment}
-              postId={postId}
-              sliceName="home"
-            />
-          );
-        })
+      ) : post?.comments ? (
+        post.comments.length > 0 ? (
+          post.comments.map((comment) => {
+            return (
+              <Comment
+                key={comment._id}
+                comment={comment}
+                postId={postId}
+                sliceName="home"
+              />
+            );
+          })
+        ) : (
+          <div className="no_comments">
+            <span className="no_c_text">No Comments</span>
+          </div>
+        )
       ) : (
         <JustLoading />
       )}

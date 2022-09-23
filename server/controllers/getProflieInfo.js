@@ -40,18 +40,27 @@ const getUserInfo = async (req, res, next) => {
         },
       },
       {
-        $addFields: {
-          "posts.commentsCount": {
-            $size: "$posts.comments",
+        $set: {
+          posts: {
+            $cond: [
+              "$posts._id",
+              {
+                _id: "$posts._id",
+                text: "$posts.text",
+                file: "$posts.file",
+                postAt: "$posts.postAt",
+                commentsCount: {
+                  $size: "$posts.comments",
+                },
+                likesCount: {
+                  $size: "$posts.likes",
+                },
+                liked: idIn(publicID, "$posts.likes"),
+              },
+              null,
+            ],
           },
-          "posts.likesCount": {
-            $size: "$posts.likes",
-          },
-          "posts.liked": idIn(publicID, "$posts.likes"),
         },
-      },
-      {
-        $unset: ["posts.comments"],
       },
 
       {
@@ -74,13 +83,11 @@ const getUserInfo = async (req, res, next) => {
     ]);
 
     if (user.length > 0) {
-      res.json({ status: "ok", profile: user[0] });
-      return;
+      return res.json({ status: "ok", profile: user[0] });
     }
     res.json({ status: "error", error: "User not found" });
-    return;
   } catch (error) {
-    console.log(error);
+    
     next(error);
   }
 };

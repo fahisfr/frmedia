@@ -19,6 +19,7 @@ function Profile() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { userName } = useSelector((state) => state.user.userInfo);
   const { follow, addProfile } = actions;
 
   const profile = useSelector((state) => state.profiles.profiles).find(
@@ -73,7 +74,6 @@ function Profile() {
     return <JustLoading />;
   }
 
-  console.log(profile);
   return (
     <div className="center">
       <div className={styles.container}>
@@ -101,7 +101,7 @@ function Profile() {
             <div className={styles.info_nf}>
               <div className={styles.nf_l}>
                 <h2 className={styles.name}>{profile.userName}</h2>
-                {user === profile.userName && (
+                {user === userName && (
                   <Link href={`${profile.userName}/editprofile`}>
                     <div className={styles.edit}>
                       <FiEdit className={styles.edit_icon} />
