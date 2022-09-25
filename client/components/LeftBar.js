@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/leftBar.module.css";
-
+import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineHome, AiOutlineFire } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
@@ -28,7 +28,8 @@ function Sidebar() {
               </div>
             </a>
           </Link>
-          <Link href={`/${userName}`}>
+          
+          <Link href={userName ? `/${userName}` : "/"}>
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${id === userName && styles.blue}`}
@@ -38,7 +39,6 @@ function Sidebar() {
               </div>
             </a>
           </Link>
-
           <Link className={styles.link} href="/explore">
             <a className={styles.a}>
               <div
@@ -49,7 +49,7 @@ function Sidebar() {
               </div>
             </a>
           </Link>
-
+      
           <Link className={styles.link} href="/notifications">
             <a className={styles.a}>
               <div
@@ -59,11 +59,15 @@ function Sidebar() {
               >
                 <IoMdNotificationsOutline className={styles.icon} />
                 <span className={styles.text}>Notifications</span>
+                {notifCount > 0 && (
+                  <div className={styles.notif_count}>
+                    <span className={styles.count}>{notifCount}</span>
+                  </div>
+                )}
               </div>
             </a>
           </Link>
-
-          {/* <Link className={styles.link} href="/settings">
+          <Link className={styles.link} href="/settings">
             <a className={styles.a}>
               <div
                 className={`${styles.group} ${
@@ -74,7 +78,7 @@ function Sidebar() {
                 <span className={styles.text}>Settings</span>
               </div>
             </a>
-          </Link> */}
+          </Link>
         </nav>
 
         {/* <div className={styles.suggestion}>

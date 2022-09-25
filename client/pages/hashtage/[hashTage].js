@@ -11,7 +11,7 @@ import JustLoading from "../../components/JustLoading";
 function Tage() {
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const {
     isReady,
     query: { hashTage },
@@ -20,8 +20,8 @@ function Tage() {
   const { posts, fetchedHashTags } = useSelector((state) => state.hashTags);
 
   useEffect(() => {
+    if (!isReady) return;
     try {
-      if (!isReady) return;
       const getPost = async () => {
         const { data } = await axios.get(`/hashtage/${hashTage}`);
         if (data.status === "ok") {
@@ -38,6 +38,8 @@ function Tage() {
     } catch (err) {
       console.log(err);
       setError("oops somthin went wrong:(");
+    } finally {
+      setLoading(false);
     }
   }, [isReady, hashTage]);
 
@@ -58,7 +60,7 @@ function Tage() {
             <Post
               postInfo={post}
               userInfo={userInfo}
-              page="hashTage"
+              sliceName="hashTage"
               key={index}
             />
           );

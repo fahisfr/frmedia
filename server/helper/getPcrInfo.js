@@ -6,7 +6,7 @@ const getFileInfo = (file) => {
   };
 };
 
-const pcrInfo = (text, file) => {
+const getPcrInfo = (text, file) => {
   if (!file) {
     return {
       text,
@@ -23,4 +23,4 @@ const pcrInfo = (text, file) => {
   }
 };
 
-module.exports = pcrInfo;
+module.exports = { getPcrInfo, getFileInfo };

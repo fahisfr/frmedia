@@ -6,7 +6,7 @@ import daynamic from "next/dynamic";
 import axios, { baseURL } from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import SidePopMessage from "./SidePopMessage";
-
+import Image from "next/image";
 import getPostAcitons from "../features/actions/post";
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,

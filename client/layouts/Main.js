@@ -1,9 +1,11 @@
-import Header from "../components/Header";
 import RightBar from "../components/RightBar";
 import LeftBar from "../components/LeftBar";
-
+import daynamic from "next/dynamic";
+import { useEffect } from "react";
+const Header = daynamic(() => import("../components/Header"), { ssr: false });
 
 function Main(page) {
+
   return (
     <div className="container">
       <Header />

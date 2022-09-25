@@ -8,6 +8,7 @@ import axios, { baseURL } from "../axios";
 import JustLoading from "../components/JustLoading";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 
 function Header() {
   const router = useRouter();
@@ -119,10 +120,9 @@ function Header() {
           <div className={styles.profile}>
             <Link href={`/${userName}`}>
               <div className={styles.profile_btn}>
-               
                 <img
                   className={styles.image}
-                  src={`/${baseURL}/p/${profilePic}`}
+                  src={`${baseURL}/p/${profilePic}`}
                 />
               </div>
             </Link>

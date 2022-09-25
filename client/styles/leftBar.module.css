@@ -11,7 +11,7 @@
 
 
 .container {
-    padding: 1rem 3rem;
+    padding: 1rem 2.5rem;
 }
 
 .nav {
@@ -45,13 +45,14 @@
     top: 0;
     left: 0;
     padding: 0 5px;
-    background-color: red;
+    background-color: var(--default_blue);
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .count {
     color: white;
+
 }
 
 .icon {
@@ -113,7 +114,6 @@
 
 .img {
 
-    width: 100%;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
@@ -153,4 +153,34 @@
 
 .blue {
     color: var(--default_blue);
+}
+
+@media only screen and (max-width: 1200px) {
+    .text {
+        display: none;
+
+    }
+
+    .left_bar {
+        flex: 0;
+        flex-basis: 6rem;
+    }
+
+    .container {
+        padding: .5rem;
+    }
+
+
+    .group {
+        position: relative;
+        padding: 1rem;
+        margin-right: 0pc;
+        column-gap: .6rem;
+        background-color: var(--gray_50);
+        border-radius: 20px;
+        margin-top: 15px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    }
+
 }

@@ -42,13 +42,11 @@ app.post("/reply-to-comment", auth, require("./controllers/replyToComment"));
 app.post("/edit-profile", auth, require("./controllers/editProfile"));
 app.get("/top-hash-tags", require("./controllers/getTopHashTags"));
 app.get("/explore", auth, require("./controllers/exploer"));
-app.get("/hashtage/:tage", require("./controllers/hashTage"));
+app.get("/hashtage/:tage", require("./controllers/getTaggedPosts"));
 app.get("/notifications", auth, require("./controllers/getAllNotifications"));
 app.get("/search/:text", require("./controllers/search"));
 
 app.use(errorHandler);
-
-
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);

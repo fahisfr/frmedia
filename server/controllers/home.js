@@ -95,7 +95,7 @@ const home = async (req, res, next) => {
         },
       },
     ]);
-    console.log(getPosts[0].posts.length);
+
     if (getPosts.length > 0) {
       return res.json({ status: "ok", posts: getPosts[0].posts });
     }

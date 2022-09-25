@@ -44,7 +44,6 @@ const hashTags = async (req, res, next) => {
             coverPic: 1,
             isVerified: 1,
           },
-          liked: idIn(id, "$likes"),
         },
       },
     ]);

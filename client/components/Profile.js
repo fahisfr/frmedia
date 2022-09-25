@@ -70,7 +70,7 @@ function Profile() {
     return <ErrorMessage error={error} />;
   }
 
-  if (loading) {
+  if (!profile || loading) {
     return <JustLoading />;
   }
 

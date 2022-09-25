@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
-const getPcrInfo = require("../helper/getPcrInfo");
+const { getPcrInfo } = require("../helper/getPcrInfo");
 const objectId = require("mongoose").Types.ObjectId;
 
 const addPost = async (req, res, next) => {
@@ -14,7 +14,6 @@ const addPost = async (req, res, next) => {
     const getTagsAndMentions = (text) => {
       const mentions = [];
       const hashTags = [];
-      console.log(text, "a");
       text.split(" ").forEach((word) => {
         if (word.startsWith("#")) {
           hashTags.push(word.slice(1));
@@ -60,11 +59,9 @@ const addPost = async (req, res, next) => {
         dbBulk.execute();
       }
 
-      mentions.length < 0 &&
-        (await dbUser.updateOne(
-          { _id: id },
-          { $push: { posts: newPost._id } }
-        ));
+      if (mentions.length === 0) {
+        await dbUser.updateOne({ _id: id }, { $push: { posts: newPost._id } });
+      }
 
       const info = {
         _id: newPost._id,

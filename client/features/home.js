@@ -16,16 +16,9 @@ const userSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
-
     loading: false,
     error: false,
     fetched: false,
-
-    exploreLoading: false,
-    exploreError: false,
-    exploreFetched: false,
-
-    fetchedHashTags: [],
   },
   reducers: postReducers,
   extraReducers: {

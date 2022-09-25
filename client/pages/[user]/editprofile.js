@@ -19,7 +19,7 @@ function EditProfile() {
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
 
-  const [response, setResponse] = useState({ status: "error", error: "asdf" });
+  const [response, setResponse] = useState({ status: false, error: "" });
 
   const [newCoverPic, setNewCoverPic] = useState(null);
   const [newProfilePic, setNewProfilePic] = useState(null);
@@ -50,11 +50,13 @@ function EditProfile() {
     e.preventDefault();
     try {
       const formData = new FormData();
+      console.log(newProfilePic);
       editedBio && formData.append("bio", editedBio);
       editedLink && formData.append("link", editedLink);
       newProfilePic && formData.append("profilePic", newProfilePic);
       newCoverPic && formData.append("coverPic", newCoverPic);
 
+      console.log("api call ", formData);
       const { data } = await axios.post("/edit-profile", formData);
 
       if (data.status === "ok") {
@@ -88,7 +90,7 @@ function EditProfile() {
           <div className={styles.avatar}>
             <img
               className={styles.avatar_img}
-              src={newCoverPic ?? `${baseURL}/c/${coverPic}`}
+              src={coverPicPreview ?? `${baseURL}/c/${coverPic}`}
               onClick={() => avatarRef.current.click()}
             />
             <MdAddAPhoto className={styles.md_add_icon} />
@@ -106,7 +108,7 @@ function EditProfile() {
             <div className={styles.profile}>
               <img
                 className={styles.profile_img}
-                src={newProfilePic ?? `${baseURL}/p/${profilePic}`}
+                src={profilePreview ?? `${baseURL}/p/${profilePic}`}
                 onClick={() => profileRef.current.click()}
               />
               <MdAddAPhoto className={styles.md_add_icon} />

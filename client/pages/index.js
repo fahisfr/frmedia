@@ -1,5 +1,5 @@
+import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
-import AddPost from "../components/AddPCR";
 import Post from "../components/Post";
 import MainLayout from "../layouts/Main";
 import JustLoading from "../components/JustLoading";
@@ -7,14 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../features/home";
 import ErrorMessage from "../components/ErrorMessage";
 
+const AddPost = dynamic(() => import("../components/AddPCR"));
+
 function Home({}) {
-  const { loading, error, homeFetched, posts } = useSelector(
+  const { loading, error, fetched, posts } = useSelector(
     (state) => state.home
   );
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!homeFetched && !loading) {
+    if (!fetched && !loading) {
       dispatch(fetchPosts());
     }
   }, []);

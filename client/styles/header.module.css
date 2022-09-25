@@ -7,6 +7,7 @@
     z-index: 5;
     box-sizing: border-box;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  
 }
 
 .content {
@@ -18,19 +19,13 @@
 
 }
 
-.title {
 
-    font-size: 2.2rem;
-    color: var(--defult_blue);
-    font-family: '';
-    cursor: pointer;
-}
 
 .search_input {
 
     width: 31rem;
     position: relative;
-    height: 2.650rem;
+    height: 2.4rem;
     display: flex;
     border-radius: .5rem;
     border: 1px solid rgba(177, 177, 177, 0.397);
@@ -65,7 +60,7 @@
     width: 100%;
     background-color: var(--default_theme);
     border-radius: .5rem;
-    
+
     border: 1px solid rgba(177, 177, 177, 0.397);
     z-index: 1;
 
@@ -193,8 +188,7 @@
 }
 
 .profile_btn {
-
-    padding: .5rem;
+    padding: 5px;
     border: none;
     background-color: var(--default_theme);
     cursor: pointer;
@@ -208,15 +202,14 @@
 
 .image {
 
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.3rem;
+    height: 2.3rem;
     border-radius: 50%;
     border: 1px solid rgb(115, 115, 250);
 }
 
 .title {
-
-    font-size: 2.2rem;
+    font-size:2.1rem;
     color: var(--default_blue);
     font-family: '';
 }
@@ -268,3 +261,5 @@
         transform: rotate(360deg);
     }
 }
+
+@media only screen and (max-width:700px) {}

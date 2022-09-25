@@ -1,39 +1,40 @@
-
-.right{
-    flex: 1 ;
+.right {
+    flex: 1;
     align-self: start;
     height: 100%;
     flex-basis: 0;
     overflow: auto;
 }
 
-.container{
+.container {
 
     max-width: 23rem;
-    padding:1rem 1rem;
-   
+    padding: 1rem 1rem;
+
 }
-.trading{
+
+.trading {
 
     border-radius: 5px;
     box-shadow: var(--default_shadow);
     background-color: var(--gray_50);
 }
 
-.top{
-    padding: 1rem 1rem .5rem ;
+.top {
+    padding: 1rem 1rem .5rem;
 }
 
-.tg_bottom{
+.tg_bottom {
     max-height: 20.5rem;
     overflow: scroll;
-  
+
 }
 
 .tg_bottom::-webkit-scrollbar {
     display: none;
 }
-.post{
+
+.post {
     padding: .7rem 1rem;
     border-radius: 10px;
     display: flex;
@@ -41,33 +42,36 @@
     cursor: pointer;
 
 }
-.post:hover{
+
+.post:hover {
     background-color: var(--gray_100);
     border-radius: 15px;
 }
-.postLeft{
+
+.postLeft {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    
+
 }
 
-.tage{
+.tage {
     font-size: 15px;
 }
 
 
-.tcond{
+.tcond {
     font-size: .7rem;
     font-family: sans-serif;
 }
-.postRight{
+
+.postRight {
     position: relative;
     gap: 3px;
 }
 
 
-.menu_icon{
+.menu_icon {
 
     width: 3px;
     height: 3px;
@@ -76,13 +80,21 @@
     border-radius: 50%;
 }
 
-.menu{
+.menu {
     position: absolute;
     right: 0;
     top: 0;
-    
+
     background-color: var(--gray_100);
-    
+
 }
 
 
+
+
+/* @media only screen and (max-width: 1230px) {
+    .right {
+        display: none;
+    }
+
+} */
