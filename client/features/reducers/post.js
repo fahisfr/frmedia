@@ -103,15 +103,10 @@ export default {
       }
     }
   },
-  addTagedPosts: ({ posts, fetchedHashTags }, { payload }) => {
-    fetchedHashTags.push(payload.hashTage);
-    const newPosts = payload.posts.map((post) => {
-      return post;
-    });
-    posts.push(...newPosts);
-  },
-  deletePost: ({ posts }, { payload }) => {
-    const postInd = posts.findIndex((post) => post._id === payload._id);
-    posts.splice(postInd, 1);
+  hidePost: ({ posts }, { payload }) => {
+    posts.splice(
+      posts.findIndex((post) => post._id === payload.id),
+      1
+    );
   },
 };

@@ -4,12 +4,12 @@ const { idIn } = require("../helper/dbHelper");
 
 const hashTags = async (req, res, next) => {
   try {
-    const { user, params } = req;
-    const id = user?.id;
+    const { tage } = req.params;
+    const publicID = req.user?.publicID;
     const posts = await dbPost.aggregate([
       {
         $match: {
-          hashTags: { $in: [params.tage] },
+          hashTags: { $in: [tage] },
         },
       },
 
@@ -32,12 +32,12 @@ const hashTags = async (req, res, next) => {
           text: 1,
           file: 1,
           postAt: 1,
-          likes: 1,
           commentsCount: 1,
           postAt: 1,
           likesCount: { $size: "$likes" },
           comments: { $size: "$comments" },
-          tage: params.tage,
+          tage: tage,
+          // liked: idIn(publicID, "$likes"),
           userInfo: {
             userName: 1,
             profilePic: 1,

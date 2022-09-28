@@ -1,0 +1,45 @@
+.con {
+    background-color: rgba(0, 0, 0, 0.329);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translateY(100%);
+    background-color: var(--default_theme);
+
+}
+
+.con:focus {
+    background-color: red;
+    display: none;
+}
+
+.body {
+    width: 10rem;
+    border-radius: 3px;
+    height: auto;
+    box-shadow: rgba(99, 99, 99, 0.568) 0px 2px 8px 0px;
+}
+
+.option {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    border-bottom: 1px solid var(--gray_200);
+}
+
+.icon {
+    font-size: 20px;
+}
+
+.option_name {
+    font-size: 13px;
+}
+
+.report {
+    color: red;
+}
+
+.option:hover {
+    background-color: var(--gray_100);
+}

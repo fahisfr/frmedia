@@ -1,13 +1,14 @@
 .container {
 
     width: 100%;
+    height: 50px;
     background-color: var(--default_theme);
     position: fixed;
     top: 0;
     z-index: 5;
     box-sizing: border-box;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  
+
 }
 
 .content {
@@ -19,6 +20,32 @@
 
 }
 
+.lt {
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+}
+
+.logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    position: relative;
+
+}
+
+.title {
+    display: flex;
+    font-size: 20px;
+    color: var(--default_blue);
+
+    font-family: "";
+    margin-bottom: 2px;
+}
+
+
+.logo_img {
+    border: 50%;
+}
 
 
 .search_input {
@@ -84,12 +111,14 @@
 
 .result_item_right {
     width: 3.250rem;
+    height: 3.250rem;
     padding: 5px;
 
 }
 
 .img {
     width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -199,25 +228,18 @@
 }
 
 
-
 .image {
 
     width: 2.3rem;
     height: 2.3rem;
     border-radius: 50%;
-    border: 1px solid rgb(115, 115, 250);
-}
+    object-fit: cover;
 
-.title {
-    font-size:2.1rem;
-    color: var(--default_blue);
-    font-family: '';
 }
 
 .profile_div {
     position: absolute;
     width: 200px;
-
     background-color: rgb(250, 250, 250);
     top: 3.5rem;
     right: 0;
@@ -226,11 +248,11 @@
 
 }
 
-/* .profile_div::after {
+.profile_div::after {
     content: "";
     border: 9px solid transparent;
     border-bottom: var(--gray_500) solid 10px;
-} */
+}
 
 .p_group {
     padding: 5px;
@@ -262,4 +284,44 @@
     }
 }
 
-@media only screen and (max-width:700px) {}
+@media  (max-width:768px) {
+    .search_input {
+        width: 20rem;
+        position: relative;
+        height: 2.4rem;
+        display: flex;
+        border-radius: .5rem;
+        border: 1px solid rgba(177, 177, 177, 0.397);
+        background-color: var(--default_theme);
+
+    }
+
+
+
+    .title {
+        font-size: 15px;
+
+    }
+}
+
+@media (max-width:500px) {
+    .search_input {
+
+        width: 16.5rem;
+        position: relative;
+        height: 2.2rem;
+        display: flex;
+        border-radius: .5rem;
+        border: 1px solid rgba(177, 177, 177, 0.397);
+        background-color: var(--default_theme);
+
+    }
+
+
+
+    .title {
+        display: none;
+        font-size: 15px;
+
+    }
+}

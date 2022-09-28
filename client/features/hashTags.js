@@ -7,7 +7,16 @@ const hashTagsSlice = createSlice({
     posts: [],
     fetchedHashTags: [],
   },
-  reducers: postReducers,
+  reducers: {
+    ...postReducers,
+    addTagedPosts: ({ posts, fetchedHashTags }, { payload }) => {
+      fetchedHashTags.push(payload.hashTage);
+      const newPosts = payload.posts.map((post) => {
+        return post;
+      });
+      posts.push(...newPosts);
+    },
+  },
 });
 
 export const actions = hashTagsSlice.actions;

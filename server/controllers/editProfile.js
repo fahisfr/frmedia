@@ -5,7 +5,7 @@ const editProfile = async (req, res, next) => {
   try {
     const coverPic = req.files?.coverPic;
     const profilePic = req.files?.profilePic;
- 
+
     const {
       body: { bio, link },
       user: { id },

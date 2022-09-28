@@ -5,7 +5,6 @@ import { useEffect } from "react";
 const Header = daynamic(() => import("../components/Header"), { ssr: false });
 
 function Main(page) {
-
   return (
     <div className="container">
       <Header />

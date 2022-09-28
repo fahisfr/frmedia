@@ -4,7 +4,6 @@
 
 .cover_photo {
     height: 200px;
-    overflow: hidden;
 }
 
 .info {
@@ -15,6 +14,8 @@
 
 .cover_img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 
 }
 
@@ -24,8 +25,8 @@
     top: -4.2rem;
     left: 1rem;
     border-radius: 50%;
-    width: 7.5rem;
-    height: 8rem;
+    width: 7rem;
+    height: 7.5rem;
     box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
 
@@ -34,7 +35,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;   
+    border-radius: 50%;
 }
 
 .info_right {
@@ -119,7 +120,7 @@
 .fw {
 
     cursor: pointer;
-    font-size: .920rem;
+    font-size: .9rem;
     border-bottom: 1px solid #e6e6e6;
     color: var(--gray_700);
 }
@@ -138,11 +139,9 @@
 
 }
 
-.follow {
-  
-}
+.follow {}
 
-.unfollow{
+.unfollow {
 
     background-color: rgba(255, 0, 0, 0.699);
 }
@@ -155,8 +154,12 @@
 
 .bio_text {
 
-    font-size: .980rem;
+    font-size: .90rem;
     line-height: 1.350rem;
+}
+
+.link {
+    font-size: .96rem;
 }
 
 .bottom {
@@ -183,3 +186,11 @@
 
 }
 
+
+
+@media (max-width:768px) {
+    .cover_photo {
+        height: 150px;
+    }
+    
+}

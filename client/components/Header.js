@@ -1,13 +1,11 @@
 import React, { useState, useRef } from "react";
 import styles from "../styles/header.module.css";
 import Link from "next/link";
-import { BsFillBellFill } from "react-icons/bs";
-import { faker } from "@faker-js/faker";
 import { MdVerified } from "react-icons/md";
 import axios, { baseURL } from "../axios";
 import JustLoading from "../components/JustLoading";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 
 function Header() {
@@ -66,7 +64,18 @@ function Header() {
     <header className={styles.container}>
       <div className={styles.content}>
         <Link className={styles.link} href="/">
-          <span className={styles.title}>FrMedia</span>
+          <div className={styles.lt}>
+            <div className={styles.logo}>
+              <Image
+                src="/frlogo.png"
+                width="100%%"
+                heigth="100%"
+                layout="fill"
+                className={styles.logo_img}
+              />
+            </div>
+            <span className={styles.title}>Midea</span>
+          </div>
         </Link>
         <div className={styles.search} tabIndex={1} onKeyDown={handleKeyDown}>
           <div className={styles.search_input}>

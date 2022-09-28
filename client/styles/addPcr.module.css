@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--default_color);
-  
+
 
 }
 
@@ -23,7 +23,8 @@
 }
 
 .profile {
-    width: 3.5rem;
+    width: 3.3rem;
+    height: 3.3rem;
 }
 
 .profileImg {

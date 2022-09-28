@@ -18,7 +18,7 @@ function explore() {
   }, []);
 
   return (
-    <div className="center">
+    <>
       {error ? (
         <ErrorMessage error={error} />
       ) : loading ? (
@@ -35,7 +35,7 @@ function explore() {
           );
         })
       )}
-    </div>
+    </>
   );
 }
 explore.PageLayout = MainLayout;

@@ -32,7 +32,7 @@ function Tage() {
       };
 
       if (!fetchedHashTags.find((tage) => tage === hashTage)) {
-        console.log(fetchedHashTags.find((tage) => tage === hashTage));
+       
         getPost();
       }
     } catch (err) {

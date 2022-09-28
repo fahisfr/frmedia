@@ -10,9 +10,7 @@ import ErrorMessage from "../components/ErrorMessage";
 const AddPost = dynamic(() => import("../components/AddPCR"));
 
 function Home({}) {
-  const { loading, error, fetched, posts } = useSelector(
-    (state) => state.home
-  );
+  const { loading, error, fetched, posts } = useSelector((state) => state.home);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,27 +19,27 @@ function Home({}) {
     }
   }, []);
 
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
+  if (loading) {
+    return <JustLoading />;
+  }
+
   return (
     <>
       <AddPost For="post" sliceName="home" />
-      {error ? (
-        <ErrorMessage error={error} />
-      ) : loading ? (
-        <JustLoading />
-      ) : (
-        <>
-          {posts.map(({ userInfo, ...post }, index) => {
-            return (
-              <Post
-                postInfo={post}
-                userInfo={userInfo}
-                key={index}
-                sliceName="home"
-              />
-            );
-          })}
-        </>
-      )}
+      {posts.map(({ userInfo, ...post }, index) => {
+        return (
+          <Post
+            postInfo={post}
+            userInfo={userInfo}
+            key={index}
+            sliceName="home"
+          />
+        );
+      })}
     </>
   );
 }

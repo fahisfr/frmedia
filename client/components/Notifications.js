@@ -44,6 +44,9 @@ function Notification() {
     }
   };
   const notif = getNotifications();
+  
+
+  
 
   if (Error) {
     return <ErrorMessage error={Error} />;

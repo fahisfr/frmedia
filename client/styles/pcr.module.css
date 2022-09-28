@@ -71,6 +71,7 @@
     flex-direction: column;
     position: relative;
     cursor: pointer;
+    border-radius: 50%;
 
 }
 

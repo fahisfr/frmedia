@@ -15,7 +15,11 @@ const filterText = (text) => {
         </Link>
       );
     } else {
-      return <span key={index}>{word} </span>;
+      return (
+        <span style={{ color: "black" }} key={index}>
+          {word}
+        </span>
+      );
     }
   });
 };

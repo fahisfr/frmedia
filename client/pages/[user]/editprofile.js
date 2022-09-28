@@ -87,9 +87,9 @@ function EditProfile() {
         </header>
 
         <div className={styles.body}>
-          <div className={styles.avatar}>
+          <div className={styles.coverPic}>
             <img
-              className={styles.avatar_img}
+              className={styles.coverPic_img}
               src={coverPicPreview ?? `${baseURL}/c/${coverPic}`}
               onClick={() => avatarRef.current.click()}
             />

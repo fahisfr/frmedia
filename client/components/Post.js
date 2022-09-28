@@ -12,6 +12,7 @@ import getDate from "../helper/getDate";
 import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 import { useRouter } from "next/router";
+import Options from "./Options";
 
 function Post({ postInfo, userInfo, sliceName }) {
   const router = useRouter();
@@ -29,7 +30,7 @@ function Post({ postInfo, userInfo, sliceName }) {
   const { userName, profilePic, verified } = userInfo;
   const { likePost } = getPostAcitons(sliceName);
   const [copiedTrigger, setCpiedTrigger] = useState(false);
-
+  const [OptionsTrigger, setOptionsTrigger] = useState(false);
   const likeHandler = async () => {
     dispatch(likePost({ postId: _id }));
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
@@ -92,7 +93,18 @@ function Post({ postInfo, userInfo, sliceName }) {
             <div></div>
           </div>
           <div className={styles.header_right}>
-            <div className={styles.menu}>
+            <div
+       
+              className={styles.menu}
+              onClick={() => setOptionsTrigger(!OptionsTrigger)}
+            >
+              <Options
+                onFouse
+                trigger={OptionsTrigger}
+                id={_id}
+                sliceName={sliceName}
+                setTrigger={setOptionsTrigger}
+              />
               <div className={styles.menu_icon}></div>
               <div className={styles.menu_icon}></div>
               <div className={styles.menu_icon}></div>

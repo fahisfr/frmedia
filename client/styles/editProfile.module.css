@@ -61,7 +61,8 @@
     display: flex;
     align-items: center;
 }
-.message_text{
+
+.message_text {
     font-size: .9rem;
     color: #37af27;
 }
@@ -97,7 +98,7 @@
     transform: rotate(-45deg);
 }
 
-.avatar {
+.coverPic {
 
     position: relative;
     height: 11rem;
@@ -105,8 +106,10 @@
 
 }
 
-.avatar_img {
+.coverPic_img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .pvi {
@@ -138,7 +141,7 @@
 }
 
 .profile_img:hover,
-.avatar_img:hover {
+.coverPic_img:hover {
     filter: brightness(0.8);
     cursor: pointer;
 }

@@ -11,7 +11,7 @@
 
 
 .container {
-    padding: 1rem 2.5rem;
+    padding: 1rem 2rem;
 }
 
 .nav {
@@ -155,7 +155,7 @@
     color: var(--default_blue);
 }
 
-@media only screen and (max-width: 1200px) {
+@media (max-width: 1200px) {
     .text {
         display: none;
 
@@ -164,6 +164,7 @@
     .left_bar {
         flex: 0;
         flex-basis: 6rem;
+        align-items: center;
     }
 
     .container {
@@ -174,6 +175,25 @@
     .group {
         position: relative;
         padding: 1rem;
+        margin-right: 0pc;
+        column-gap: .6rem;
+        background-color: var(--gray_50);
+        border-radius: 20px;
+        margin-top: 15px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    }
+
+}
+
+
+@media (max-width:768px) {
+
+
+
+    .group {
+        position: relative;
+        padding: .9rem;
         margin-right: 0pc;
         column-gap: .6rem;
         background-color: var(--gray_50);

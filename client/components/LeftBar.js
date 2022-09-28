@@ -1,12 +1,10 @@
 import React from "react";
 import styles from "../styles/leftBar.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineHome, AiOutlineFire } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
