@@ -112,9 +112,21 @@ function Profile() {
               )}
             </div>
             <div>
-              <button className={`${styles.btn}`} onClick={followHandler}>
-                {profile.isFollowing ? "following" : "follow"}
-              </button>
+              {profile.isFollowing ? (
+                <button
+                  className={`${styles.following} ${styles.btn}`}
+                  onClick={followHandler}
+                >
+                  Following
+                </button>
+              ) : (
+                <button
+                  className={`${styles.btn} ${styles.follow}`}
+                  onClick={followHandler}
+                >
+                  Follow
+                </button>
+              )}
             </div>
           </div>
           <div className={styles.fw_c}>
@@ -122,7 +134,7 @@ function Profile() {
               <Link href={`${profile.userName}/following`}>
                 <div>
                   <span className={styles.fw_count}>
-                    {profile.followersCount}
+                    {profile.followingCount}
                   </span>
                   <span className={styles.fw}>Following</span>
                 </div>
@@ -132,7 +144,7 @@ function Profile() {
               <Link href={`${profile.userName}/followers`}>
                 <div>
                   <span className={styles.fw_count}>
-                    {profile.followingCount}
+                    {profile.followersCount}
                   </span>
                   <span className={styles.fw}> Followers</span>
                 </div>

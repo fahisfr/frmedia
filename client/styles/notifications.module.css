@@ -11,7 +11,9 @@
 
 }
 
-
+.top_aln {
+    color: black;
+}
 
 .nav {
     display: flex;
@@ -64,6 +66,7 @@
     font-size: 14px;
     background-color: rgba(240, 248, 255, 0.671);
     font-family: '';
+    color: black;
 }
 
 .name {

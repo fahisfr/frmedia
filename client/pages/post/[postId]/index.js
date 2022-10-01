@@ -29,8 +29,8 @@ function Post() {
   const post = posts.find((post) => post._id === postId);
 
   useEffect(() => {
+    if (!isReady) return;
     const getPost = async () => {
-      if (!isReady) return;
       try {
         if (!post) {
           const { data } = await axios.get(`/post/${postId}`);
@@ -72,7 +72,7 @@ function Post() {
   return (
     <>
       <Posts postInfo={post} userInfo={post.userInfo} sliceName="home" />
-      <AddPCR For="comment" sliceName="home" />
+      <AddPCR For="comment" sliceName="home" postId={post._id} />
       {failedFetchComments ? (
         <ErrorMessage error={failedFetchComments} />
       ) : post?.comments ? (

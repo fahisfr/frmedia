@@ -1,6 +1,6 @@
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("../helper/dbHelper");
+const { idIn } = require("./helper");
 
 const home = async (req, res, next) => {
   try {
@@ -27,8 +27,8 @@ const home = async (req, res, next) => {
       {
         $lookup: {
           from: "users",
-          localField: "following",
-          foreignField: "publicID",
+          localField:"following",
+          foreignField:"publicID",
           as: "user",
         },
       },
@@ -68,22 +68,36 @@ const home = async (req, res, next) => {
       {
         $project: {
           post: {
-            userInfo: {
-              publicID: "$user.publicID",
-              userName: "$user.userName",
-              profilePic: "$user.profilePic",
-              coverPic: "$user.coverPic",
-              bio: "$user.bio",
-              verified: "$user.verified",
-            },
-            likesCount: { $size: "$post.likes" },
-            commentsCount: { $size: "$post.comments" },
-            liked: idIn(publicID, "$post.likes"),
-            _id: 1,
-            text: 1,
-            file: 1,
-            editAt: 1,
-            postAt: 1,
+            $cond: [
+              { $gt: ["$post", null] },
+              {
+                userInfo: {
+                  publicID: "$user.publicID",
+                  userName: "$user.userName",
+                  profilePic: "$user.profilePic",
+                  coverPic: "$user.coverPic",
+                  bio: "$user.bio",
+                  verified: "$user.verified",
+                },
+                likesCount: { $size: "$post.likes" },
+                commentsCount: { $size: "$post.comments" },
+                liked: idIn(publicID, "$post.likes"),
+                _id: "$post._id",
+                text: "$post.text",
+                file: "$post.file",
+                postAt: "$post.postAt",
+              },
+              {
+                userInfo: {
+                  publicID: "$user.publicID",
+                  userName: "$user.userName",
+                  profilePic: "$user.profilePic",
+                  coverPic: "$user.coverPic",
+                  bio: "$user.bio",
+                  verified: "$user.verified",
+                },
+              },
+            ],
           },
         },
       },
@@ -93,10 +107,8 @@ const home = async (req, res, next) => {
           posts: { $push: "$post" },
         },
       },
-      
     ]);
 
-    console.log(getPosts[0]);
 
     if (getPosts.length > 0) {
       return res.json({ status: "ok", posts: getPosts[0].posts });

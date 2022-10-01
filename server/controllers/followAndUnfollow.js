@@ -1,4 +1,3 @@
-const { Router } = require("express");
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
 

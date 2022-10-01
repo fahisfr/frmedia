@@ -3,15 +3,10 @@ import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "../axios";
-import { useGoogleLogin } from "react-google-login";
+
 function index() {
   const router = useRouter();
-  const onSuccess = (res) => {
-    console.log(res);
-  };
-  const { signIn, loaded } = useGoogleLogin({
-    onSuccess,
-  });
+
   const [userName, setUserName] = useState("fahis");
   const [email, setEmail] = useState("fahis@gmail.com");
   const [password, setPassword] = useState("fahis");
@@ -26,7 +21,7 @@ function index() {
     email: false,
   });
 
-  console.log(verifyEmailErr);
+
 
   const verifyEmailNow = async () => {
     setLoading(true);
@@ -49,7 +44,7 @@ function index() {
   };
 
   const onSubmit = async (e) => {
-    console.log("hello");
+
     e.preventDefault();
     try {
       const { data } = await axios.post("/signup", {

@@ -1,13 +1,15 @@
 const dbPost = require("../dbSchemas/post");
-const getPcrInfo = require("../helper/getPcrInfo");
+const { getPcrInfo } = require("./helper");
 
 const addComment = async (req, res, next) => {
   try {
     const {
-      user: { id, publicID },
+      user: { publicID },
       body: { text, postId },
     } = req;
     const file = req.files?.file;
+
+    console.log(req.body);
 
     const commentInfo = getPcrInfo(text, file);
 

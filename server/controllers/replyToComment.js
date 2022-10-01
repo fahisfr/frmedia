@@ -1,5 +1,5 @@
 const dbPost = require("../dbSchemas/post");
-const getPcrInfo = require("../helper/getPcrInfo");
+const { getPcrInfo } = require("./helper");
 
 const reply = async (req, res, next) => {
   try {

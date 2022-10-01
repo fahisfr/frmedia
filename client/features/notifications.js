@@ -21,11 +21,12 @@ const notificationsSlice = createSlice({
   extraReducers: {
     [fetchNotifications.fulfilled]: (state, { payload }) => {
       try {
-        console.log(payload.notifications, "yes");
         if (payload.status === "ok") {
-          if ((payload.notifications[0] = {})) {
+          if (!payload.notifications[0].type) {
+            console.log("yes one not in");
             return;
           } else {
+            console.log(payload.notifications);
             state.notifications = payload.notifications?.map((item) => {
               switch (item.type) {
                 case "mention":

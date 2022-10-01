@@ -61,7 +61,6 @@ function Comment({ comment, postId, sliceName }) {
 
   const likeHandler = async (e) => {
     try {
-      
       const { data } = await axios.post(
         `/comment/${liked ? "unlike" : "like"}`,
         {

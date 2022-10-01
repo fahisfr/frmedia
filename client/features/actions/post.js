@@ -3,7 +3,7 @@ import { actions as homePostActions } from "../home";
 import { actions as hashTagePostActions } from "../hashTags";
 import { actions as profilePostActions } from "../profiles";
 const getPostAcitons = (sliceName) => {
-  console.log(sliceName);
+  
   switch (sliceName) {
     case "home":
       return homePostActions;

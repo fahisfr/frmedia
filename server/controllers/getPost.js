@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("../helper/dbHelper");
+const { idIn } = require("./helper");
 
 const getPost = async (req, res, next) => {
   try {
@@ -125,7 +125,7 @@ const getPost = async (req, res, next) => {
         },
       },
     ]);
-    console.log(post);
+
     if (post.length > 0) {
       if (!post[0].comments[0]._id) {
         post[0].comments = [];

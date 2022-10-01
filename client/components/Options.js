@@ -18,7 +18,7 @@ function Options({ trigger, setTrigger, sliceName, id }) {
           }}
         >
           <BiHide className={styles.icon} />
-          <span className={styles.option_name}>Hide</span>
+          <span className={styles.option_name}>Hide this post</span>
         </div>
         <div className={styles.option}>
           <BiBlock className={styles.icon} />

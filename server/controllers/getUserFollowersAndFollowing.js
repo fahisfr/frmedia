@@ -1,19 +1,46 @@
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("../helper/dbHelper");
+const { idIn } = require("./helper");
+const mongoose = require("mongoose");
 
 const getFollowersAndFollowing = async (req, res, next) => {
   try {
     const { userName } = req.params;
+    const publicID = req.user?.publicID;
     const id = req.user?.id;
+
     const dbResult = await dbUser.aggregate([
       {
-        $match: { userName },
+        $match: {
+          userName,
+        },
+      },
+      {
+        $set: {
+          userId: objectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+
+      {
+        $set: {
+          userInfo: {
+            $arrayElemAt: ["$userInfo", 0],
+          },
+        },
       },
       {
         $project: {
           following: 1,
           followers: 1,
+          userFollowing: "$userInfo.following",
         },
       },
       {
@@ -24,9 +51,9 @@ const getFollowersAndFollowing = async (req, res, next) => {
       },
       {
         $lookup: {
+          from: "users",
           localField: "following",
           foreignField: "publicID",
-          from: "users",
           as: "following",
         },
       },
@@ -46,17 +73,23 @@ const getFollowersAndFollowing = async (req, res, next) => {
       {
         $project: {
           followers: 1,
+          userFollowing: 1,
           following: {
+            publicID: 1,
             userName: 1,
             profilePic: 1,
             coverPic: 1,
             verifed: 1,
+            isFollowing: {
+              $in: ["$following.publicID", "$userFollowing"],
+            },
           },
         },
       },
       {
         $group: {
           _id: null,
+          userFollowing: { $first: "$userFollowing" },
           followers: { $first: "$followers" },
           following: { $push: "$following" },
         },
@@ -69,9 +102,9 @@ const getFollowersAndFollowing = async (req, res, next) => {
       },
       {
         $lookup: {
+          from: "users",
           localField: "followers",
           foreignField: "publicID",
-          from: "users",
           as: "followers",
         },
       },
@@ -92,10 +125,14 @@ const getFollowersAndFollowing = async (req, res, next) => {
         $project: {
           following: 1,
           followers: {
+            publicID: 1,
             userName: 1,
             profilePic: 1,
             coverPic: 1,
             verifed: 1,
+            isFollowing: {
+              $in: ["$followers.publicID", "$userFollowing"],
+            },
           },
         },
       },
@@ -129,10 +166,10 @@ const getFollowersAndFollowing = async (req, res, next) => {
         },
       },
     ]);
-    if (dbResult.length > 0) {
-      return res.json({ status: "ok", info: dbResult[0] });
-    }
 
+    if (dbResult.length > 0) {
+      return res.json({ status: "ok", result: dbResult[0] });
+    }
     res.json({ status: "error", error: "not found " });
   } catch (error) {
     console.log(error);

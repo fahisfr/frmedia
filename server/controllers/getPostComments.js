@@ -1,6 +1,6 @@
 const objectId = require("mongoose").Types.ObjectId;
 const dbPost = require("../dbSchemas/post");
-const { idIn } = require("../helper/dbHelper");
+const { idIn } = require("./helper");
 
 const getComments = async (req, res, next) => {
   try {

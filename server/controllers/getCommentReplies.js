@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("../helper/dbHelper");
+const { idIn } = require("./helper");
 
 const getReplies = async (req, res, next) => {
   try {

@@ -125,26 +125,29 @@
     color: var(--gray_700);
 }
 
-.btn {
 
-    width: 5.5rem;
-    height: 2.050rem;
-    border: none;
-    border-radius: 20px;
+.btn {
+    width: 6rem;
+    height: 2rem;
+    font-size: .9rem;
+    font-weight: 600;
     cursor: pointer;
-    font-family: 'Merriweather', serif;
+    border-radius: 20px;
+}
+
+
+.follow {
+    border: none;
     background-color: var(--default_blue);
     color: #ffffff;
-    font-size: .8rem;
-
 }
 
-.follow {}
-
-.unfollow {
-
-    background-color: rgba(255, 0, 0, 0.699);
+.following {
+    border: 1px solid black;
+    background-color: #ffffff;
+    color: #000000;
 }
+
 
 .bio {
 
@@ -192,5 +195,5 @@
     .cover_photo {
         height: 150px;
     }
-    
+
 }

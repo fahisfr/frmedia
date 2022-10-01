@@ -44,9 +44,6 @@ function Notification() {
     }
   };
   const notif = getNotifications();
-  
-
-  
 
   if (Error) {
     return <ErrorMessage error={Error} />;
@@ -56,7 +53,10 @@ function Notification() {
     <div className={styles.con}>
       <div className={styles.top}>
         <Link href="/notifications">
-          <h4 id={styles.top_aln}> Notifications</h4>
+          <a>
+            <h4 id={styles.top_aln}> Notifications</h4>
+          </a>
+
         </Link>
       </div>
       <nav className={styles.nav}>

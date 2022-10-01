@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/followersAndFollowing.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios, { baseURL } from "../axios";
-import { addFF } from "../features/user";
 import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -11,55 +10,70 @@ import JustLoading from "../components/JustLoading";
 
 function FollowAndFollowing() {
   const router = useRouter();
-  const { userInfo, ffFetched } = useSelector((state) => state.user);
-  const { followers, following } = userInfo;
+  const [result, setResult] = useState({ followers: [], following: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { userName } = userInfo;
   const { asPath } = useRouter();
   const [_, user, pathName] = asPath.split("/");
 
-  const dispatch = useDispatch();
   useEffect(() => {
     try {
       const getFF = async () => {
         const { data } = await axios.get(`/user/${user}/ff`);
         if (data.status === "ok") {
-          dispatch(addFF(data.info));
+          setResult(data.result);
         }
       };
-      if (!ffFetched) {
-        getFF();
-      }
+
+      getFF();
     } catch (err) {
       setError(err);
     } finally {
       setLoading(false);
     }
   }, [user]);
+
+  const getUsers = () => {
+    if (pathName === "followers") {
+      return result.followers;
+    }
+    return result.following;
+  };
+  let users = getUsers();
+  const followHandler = async ({ publicID, isFollowing }) => {
+    try {
+      const updateFollowStatus = () => {
+        for (user of users) {
+          if (user.publicID === publicID) {
+            user.isFollowing = !user.isFollowing;
+            break;
+          }
+        }
+        setResult({ ...result, [pathName]: users });
+      };
+      updateFollowStatus();
+      const { data } = await axios.post(
+        `/user/${isFollowing ? "unfollow" : "follow"}`,
+        { id: publicID }
+      );
+      if (data.status === "error") {
+        updateFollowStatus();
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
   const closePage = (e) => {
     if (e.target === e.currentTarget) {
-      router.push(`/${userName}`);
+      router.push(`/${user}`);
     }
   };
-  const getUsers = () => {
-    switch (pathName) {
-      case "followers":
-        return followers;
-      case "following":
-        return following;
-      default:
-        throw Error("pathName Error");
-    }
-  };
-  const users = getUsers();
-
   return (
     <div className={styles.con} onClick={closePage}>
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.hn}>
-            <h3 className={styles.Username}>@{userName}</h3>
+            <h3 className={styles.Username}>@{user}</h3>
           </div>
           <div className={styles.cp}>
             <div className={styles.close} onClick={closePage}></div>
@@ -88,7 +102,7 @@ function FollowAndFollowing() {
               >
                 Followers
               </span>
-            </div>   
+            </div>
           </Link>
         </div>
         <div className={styles.body}>
@@ -102,25 +116,42 @@ function FollowAndFollowing() {
                 users.map((user, index) => {
                   console.log(user);
                   return (
-                    <Link href={`/${user.userName}`}>
-                      <div className={styles.user} key={index}>
-                        <div className={styles.profile}>
-                          <img
-                            className={styles.profile_img}
-                            src={`${baseURL}/p/${user.profilePic}`}
-                          />
-                        </div>
-                        <div className={styles.userInfo}>
-                          <sapn className={styles.user_name}>
-                            {user.userName}
-                          </sapn>
-                          <MdVerified size={19} color="007aed" />
-                        </div>
-                        <div className={styles.f}>
-                          <button className={styles.btn}>Follow</button>
-                        </div>
+                    <div className={styles.user} key={index}>
+                      <div className={styles.profile}>
+                        <img
+                          className={styles.profile_img}
+                          src={`${baseURL}/p/${user.profilePic}`}
+                        />
                       </div>
-                    </Link>
+                      <div className={styles.userInfo}>
+                        <Link href={`/${user}`}>
+                          <a>
+                            <sapn className={styles.user_name}>
+                              {user.userName}
+                            </sapn>
+                          </a>
+                        </Link>
+
+                        <MdVerified size={19} color="007aed" />
+                      </div>
+                      <div className={styles.f}>
+                        {user.isFollowing ? (
+                          <button
+                            onClick={() => followHandler(user)}
+                            className={`${styles.btn} ${styles.following}`}
+                          >
+                            Following
+                          </button>
+                        ) : (
+                          <button
+                            className={`${styles.btn} ${styles.follow}`}
+                            onClick={() => followHandler(user)}
+                          >
+                            Follow
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   );
                 })
               ) : (

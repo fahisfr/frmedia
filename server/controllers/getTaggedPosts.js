@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("../helper/dbHelper");
+const { idIn } = require("./helper");
 
 const hashTags = async (req, res, next) => {
   try {
@@ -37,7 +37,7 @@ const hashTags = async (req, res, next) => {
           likesCount: { $size: "$likes" },
           comments: { $size: "$comments" },
           tage: tage,
-          // liked: idIn(publicID, "$likes"),
+          liked: idIn(publicID, "$likes"),
           userInfo: {
             userName: 1,
             profilePic: 1,

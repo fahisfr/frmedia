@@ -1,3 +1,12 @@
+const objectId = require("mongoose").Types.ObjectId;
+const idIn = (id, array) => {
+  if (id) {
+    return {
+      $in: [objectId(id), array],
+    };
+  }
+  return false;
+};
 const getFileInfo = (file) => {
   const [type, extension] = file.mimetype.split("/");
   return {
@@ -23,4 +32,4 @@ const getPcrInfo = (text, file) => {
   }
 };
 
-module.exports = { getPcrInfo, getFileInfo };
+module.exports = { getPcrInfo, getFileInfo, idIn };

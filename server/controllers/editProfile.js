@@ -1,5 +1,5 @@
 const dbUser = require("../dbSchemas/user");
-const { getFileInfo } = require("../helper/getPcrInfo");
+const { getFileInfo } = require("./helper");
 
 const editProfile = async (req, res, next) => {
   try {

@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
-const { getPcrInfo } = require("../helper/getPcrInfo");
+const { getPcrInfo } = require("./helper");
 const objectId = require("mongoose").Types.ObjectId;
 
 const addPost = async (req, res, next) => {
@@ -50,6 +50,7 @@ const addPost = async (req, res, next) => {
               type: "mention",
               userId: objectId(publicID),
               postId: newPost._id,
+              date: new Date(),
             },
           },
           $inc: {
@@ -65,12 +66,9 @@ const addPost = async (req, res, next) => {
 
       const info = {
         _id: newPost._id,
-        userId: publicID,
-        text: newPost.text,
-        flie: newPost.file,
-        postAt: newPost.postAt,
+        ...postInfo,
         likesCount: 0,
-        CommentCount: 0,
+        commentsCount: 0,
       };
       res.json({ status: "ok", message: "Post Added Successfully", info });
       return;
