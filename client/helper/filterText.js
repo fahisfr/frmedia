@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "../styles/pcr.module.css";
 
 const filterText = (text) => {
   return text.split(" ").map((word, index) => {
@@ -16,7 +17,7 @@ const filterText = (text) => {
       );
     } else {
       return (
-        <span style={{ color: "black" }} key={index}>
+        <span  className={styles.text} key={index}>
           {word}
         </span>
       );

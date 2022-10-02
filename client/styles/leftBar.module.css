@@ -29,7 +29,7 @@
     align-items: center;
     padding: 1rem 5.8rem 1rem .5rem;
     column-gap: .6rem;
-    background-color: var(--gray_50);
+    background-color: var(--bg-primary);
     border-radius: 20px;
     margin-top: 15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -37,7 +37,7 @@
 }
 
 .group:hover {
-    background-color: var(--gray_100);
+    background-color: var(--bg-hover);
 }
 
 .notif_count {
@@ -57,12 +57,13 @@
 
 .icon {
     font-size: 1.5rem;
+    color: var(--default_blue);
 }
 
 .text {
-
     font-size: 1.070rem;
     font-weight: 300;
+    color: var(--text-primary)
 }
 
 
@@ -177,7 +178,6 @@
         padding: 1rem;
         margin-right: 0pc;
         column-gap: .6rem;
-        background-color: var(--gray_50);
         border-radius: 20px;
         margin-top: 15px;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -189,18 +189,13 @@
 
 @media (max-width:768px) {
 
-
-
     .group {
         position: relative;
         padding: .9rem;
         margin-right: 0pc;
         column-gap: .6rem;
-        background-color: var(--gray_50);
         border-radius: 20px;
         margin-top: 15px;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
     }
 
 }

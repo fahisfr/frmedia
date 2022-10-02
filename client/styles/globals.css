@@ -9,8 +9,18 @@
 
 :root {
 
+  --primary-color: #ffffff;
+  --secondary-color: black;
   --default_blue: #007aed;
-  --default_theme: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #007aed;
+  --border-primary: #e5e7eb;
+  --border-secondary: #f3f4f6;
+
+  /*------- color ----- */
+  --bg-hover: #f3f4f6;
   --gray_50: #f9fafa;
   --gray_100: #f3f4f6;
   --gray_200: #e5e7eb;
@@ -22,7 +32,21 @@
   --red_500: #ec3b3b;
   --red_600: #dc2626;
   --red_700: #b91c1c;
-  --default_shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.055) 0px 0px 0px 1px;
+  --box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.055) 0px 0px 0px 1px;
+}
+
+[data-theme='dark'] {
+  --primary-color: #15181c;
+  --secondary-color: #ffffff;
+  --bg-primary: #15181c;
+  --bg-secondary: #383838;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --bg-hover: #3838383b;
+  --border-primary: #38383863;
+  --border-secondary: #38383863;
+  --box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
 }
 
 * {
@@ -31,6 +55,7 @@
   padding: 0;
   margin: 0;
   font-family: sans-serif;
+
 }
 
 textarea {
@@ -54,7 +79,8 @@ a {
   flex-direction: column;
   overflow: auto;
   overflow-x: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-primary);
+  background-color: var(--bg-primary);
 }
 
 .main {
@@ -64,13 +90,13 @@ a {
   display: flex;
   padding-top: 50px;
 
-
 }
 
 .container {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--bg-primary);
 }
 
 

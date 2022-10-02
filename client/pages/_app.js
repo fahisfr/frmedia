@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps, session }) {
   return (
 
       <Provider store={store}>
-        {getLayout(<Component {...pageProps} />)}
+        {getLayout(<Component {...pageProps}  />)}
       </Provider>
  
   );

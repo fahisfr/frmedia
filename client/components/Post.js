@@ -80,7 +80,7 @@ function Post({ postInfo, userInfo, sliceName }) {
 
                   {verified && (
                     <div className={styles.group_right}>
-                      <MdVerified size={19} color="007aed" />
+                      <MdVerified  className={styles.verified} />
                     </div>
                   )}
                 </div>
@@ -94,7 +94,6 @@ function Post({ postInfo, userInfo, sliceName }) {
           </div>
           <div className={styles.header_right}>
             <div
-       
               className={styles.menu}
               onClick={() => setOptionsTrigger(!OptionsTrigger)}
             >

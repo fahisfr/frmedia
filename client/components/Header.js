@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 
-function Header() {
+function Header({ dark, setDark }) {
   const router = useRouter();
   const { profilePic, userName } = useSelector((state) => state.user.userInfo);
 
@@ -99,11 +99,13 @@ function Header() {
                       key={index}
                       ref={index === focusedIndex ? resultContainer : null}
                       onMouseDown={() => handleSelection(index)}
-                      style={{
-                        backgroundColor:
-                          index === focusedIndex ? "#f3f4f4" : "",
-                      }}
-                      className={styles.result_item}
+                      // style={{
+                      //   backgroundColor:
+                      //     index === focusedIndex ? "#f3f4f4" : "",
+                      // }}
+                      className={`${styles.result_item} ${
+                        index === focusedIndex && styles.item_focuse
+                      }`}
                     >
                       <div className={styles.result_item_right}>
                         <img
@@ -127,14 +129,14 @@ function Header() {
         </div>
         <div className={styles.n_p}>
           <div className={styles.profile}>
-            <Link href={`/${userName}`}>
-              <div className={styles.profile_btn}>
-                <img
-                  className={styles.image}
-                  src={`${baseURL}/p/${profilePic}`}
-                />
-              </div>
-            </Link>
+            {/* <Link href={`/${userName}`}> */}
+            <div className={styles.profile_btn} onClick={() => setDark(!dark)}>
+              <img
+                className={styles.image}
+                src={`${baseURL}/p/${profilePic}`}
+              />
+            </div>
+            {/* </Link> */}
           </div>
         </div>
       </div>

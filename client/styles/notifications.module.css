@@ -12,14 +12,14 @@
 }
 
 .top_aln {
-    color: black;
+    color: var(--text-primary);
 }
 
 .nav {
     display: flex;
     align-items: center;
     padding-top: .5rem;
-    border-bottom: 1px solid var(--gray_300);
+    border-bottom: 1px solid var(--borde-secondary);
 
 }
 
@@ -33,7 +33,7 @@
 .nv_text {
     font-size: 15px;
     font-family: 'PT Serif', serif;
-    color: var(--gray_600);
+    color: var(--secondary-color);
     padding-bottom: .5rem;
 }
 
@@ -43,7 +43,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    border: 1px solid var(--gray_100);
+    border: 1px solid var(---border-primary);
 }
 
 .profile {
@@ -64,9 +64,8 @@
 
 .date {
     font-size: 14px;
-    background-color: rgba(240, 248, 255, 0.671);
     font-family: '';
-    color: black;
+    color: var(--secondary-color);
 }
 
 .name {
@@ -74,12 +73,12 @@
     font-weight: 600;
     font-family: 'PT Serif', serif;
     cursor: pointer;
-    color: black
+    color: var(--text-primary);
 }
 
 .message {
     font-size: 14px;
-    color: black;
+    color: var(--text-primary);
 }
 
 .n_right {

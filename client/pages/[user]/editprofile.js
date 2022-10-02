@@ -80,7 +80,7 @@ function EditProfile() {
     <div className={styles.edit_profile} onClick={closePage}>
       <div className={styles.container}>
         <header className={styles.header}>
-          <h3>EditProfile</h3>
+          <h3 className={styles.ep}>EditProfile</h3>
           <Link href={`/${userName}`}>
             <div className={styles.close}></div>
           </Link>

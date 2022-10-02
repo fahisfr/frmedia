@@ -1,5 +1,6 @@
 .container {
     width: 100%;
+    color: var(--text-primary);
 }
 
 .cover_photo {
@@ -112,17 +113,15 @@
 }
 
 .fw_count {
-
     font-size: .950rem;
-    color: #000000;
+
 }
 
 .fw {
 
     cursor: pointer;
     font-size: .9rem;
-    border-bottom: 1px solid #e6e6e6;
-    color: var(--gray_700);
+    border-bottom: 1px solid var(--border-secondary);
 }
 
 
@@ -170,7 +169,7 @@
     display: flex;
     padding-top: .7rem;
     justify-content: space-evenly;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid var(--border-primary);
 }
 
 .bv_group {
@@ -185,8 +184,6 @@
 
 .bvn {
     font-size: .970rem;
-    color: var(--gray_700);
-
 }
 
 

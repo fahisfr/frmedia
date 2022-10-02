@@ -54,9 +54,8 @@ function Notification() {
       <div className={styles.top}>
         <Link href="/notifications">
           <a>
-            <h4 id={styles.top_aln}> Notifications</h4>
+            <h4 className={styles.top_aln}> Notifications</h4>
           </a>
-
         </Link>
       </div>
       <nav className={styles.nav}>
@@ -120,7 +119,7 @@ function Notification() {
                       <div className={styles.profile}>
                         <img
                           className={styles.profile_img}
-                          src={`${baseURL}/p/${notif.userInfo.profilePic}`}
+                          src={`${baseURL}/p/${notif.userInfo?.profilePic}`}
                         />
                       </div>
                     </div>

@@ -11,13 +11,15 @@
     max-width: 23rem;
     padding: 1rem 1rem;
 
+
 }
 
 .trading {
 
     border-radius: 5px;
-    box-shadow: var(--default_shadow);
-    background-color: var(--gray_50);
+    box-shadow: var(--box-shadow);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .top {
@@ -44,7 +46,7 @@
 }
 
 .post:hover {
-    background-color: var(--gray_100);
+    background-color: var(--bg-hover);
     border-radius: 15px;
 }
 
@@ -99,4 +101,3 @@
     }
 
 }
-

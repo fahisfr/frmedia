@@ -1,9 +1,10 @@
 .container {
+
     width: 100%;
-    border: 1px solid var(--gray_100);
+    border: 1px solid var(--border-secondary);
     display: flex;
     padding: 1.1rem 0 .5rem 0;
-
+    color: var(--text-primary);
 }
 
 .left {
@@ -48,19 +49,27 @@
 
 .group_right {
     margin-left: .3rem;
+
 }
 
 .name {
+
     font-size: 15px;
     font-weight: 600;
     font-family: 'PT Serif', serif;
     cursor: pointer;
+    color: var(--text-primary);
 }
 
 .date {
     font-size: 14px;
-    background-color: rgba(240, 248, 255, 0.671);
     font-family: '';
+}
+
+.verified {
+    color: var(--default_blue);
+    font-size: 19px;
+
 }
 
 .header_right {
@@ -77,12 +86,13 @@
 
 .menu {
     position: relative;
+
 }
 
 .menu_icon {
     width: 3px;
     height: 3px;
-    background-color: rgba(48, 46, 46, 0.884);
+    background-color: var(--secondary-color);
     margin: 3px 0;
     border-radius: 50%;
 }
@@ -98,9 +108,7 @@
 .text {
     line-height: 1.3rem;
     word-wrap: break-word;
-    font-size: 16px;
-    font-weight: 100;
-
+    color: var(--text-primary);
 }
 
 
@@ -119,6 +127,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+
 }
 
 .c_footer {
@@ -138,26 +147,29 @@
     background-color: none;
     border: none;
     margin-right: 1rem;
+    color: var(--secondary-color);
 }
 
 .button {
-    background-color: var(--defult_theme);
+    background-color: var(--bg-primary);
     border: none;
     display: flex;
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
     gap: 5px;
+    color: var(--secondary-color);
 }
 
 .icons {
     font-size: 18px;
-    color: rgb(53, 48, 48);
+
 }
 
 .c_icons {
     font-size: 16px;
     color: rgb(53, 48, 48);
+    color: var(--secondary-color);
 
 }
 
@@ -194,11 +206,11 @@
     background-color: rgb(0, 0, 0);
     transform: translate(-50%, -50%);
     border-radius: 5px;
-    
+
 
 }
 
 .copied_text {
-    color: rgb(255, 255, 255);
+
     font-size: 13px;
 }
