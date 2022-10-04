@@ -6,7 +6,6 @@
     top: 0;
     z-index: 6;
     display: flex;
-    justify-content: center;
     padding: 5rem 0 3rem 0;
     background-color: rgba(0, 0, 0, 0.39);
     overflow: scroll;
@@ -17,7 +16,6 @@
 .container {
     height: 36rem;
     width: 600px;
-    box-shadow: var(--default_Shadow);
     border-radius: 6px;
     border-right: 10px solid var(--default_theme);
     border-left: 10px solid var(--default_theme);
@@ -233,7 +231,7 @@
     font-size: medium;
     font-family: 'Merriweather', serif;
     border-radius: 5px;
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     border: none;
     cursor: pointer;
 }

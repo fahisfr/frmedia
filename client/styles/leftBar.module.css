@@ -45,19 +45,18 @@
     top: 0;
     left: 0;
     padding: 0 5px;
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .count {
     color: white;
-
 }
 
 .icon {
     font-size: 1.5rem;
-    color: var(--default_blue);
+    color: var(--default-blue);
 }
 
 .text {
@@ -131,7 +130,7 @@
 .verified {
 
     font-size: 1.2rem;
-    color: var(--default_blue);
+    color: var(--default-blue);
 }
 
 .btn {
@@ -140,20 +139,20 @@
     height: 1.6rem;
     border-radius: 10px;
     font-size: 12px;
-    color: var(--default_blue);
+    color: var(--default-blue);
     cursor: pointer;
     margin-right: 3px;
-    border: 1px solid var(--default_blue);
+    border: 1px solid var(--default-blue);
 }
 
 .btn:hover {
 
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     color: #ffffff;
 }
 
 .blue {
-    color: var(--default_blue);
+    color: var(--default-blue);
 }
 
 @media (max-width: 1200px) {

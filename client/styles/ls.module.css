@@ -1,10 +1,10 @@
-.container{
+.container {
 
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     overflow: scroll;
     overflow-y: auto;
     overflow-x: hidden;
@@ -12,7 +12,7 @@
 
 }
 
-.body{ 
+.body {
 
     width: 30rem;
     min-height: 28rem;
@@ -24,7 +24,7 @@
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(10px);
     box-shadow: rgba(128, 121, 121, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}   
+}
 
 .title {
 
@@ -33,7 +33,7 @@
     padding: .4rem;
     font-style: italic;
     font-family: sans-serif;
-    padding:1.2rem;
+    padding: 1.2rem;
 }
 
 .title_text {
@@ -45,10 +45,10 @@
 .form {
 
     width: 24rem;
-    
+
 }
 
-.form:invalid .form_button{
+.form:invalid .form_button {
     opacity: 0.6;
     cursor: not-allowed;
 }
@@ -58,7 +58,7 @@
     margin-bottom: 1.150rem;
 }
 
-.form_input{
+.form_input {
 
     width: 100%;
     height: 2.6rem;
@@ -68,7 +68,7 @@
     outline: none;
     background-color: none;
     border: 1px solid rgba(177, 177, 177, 0.973);
-  
+
 }
 
 .form_label {
@@ -84,36 +84,36 @@
 }
 
 .form_input:not(:placeholder-shown).form_input:not(:focus)~.form_label,
-.form_input:focus ~.form_label,
+.form_input:focus~.form_label,
 .form_label[clicked="true"] {
     top: -0.550rem;
     font-size: .780rem;
 }
 
-.form_input:invalid[focus="true"] ~ .error_message{
+.form_input:invalid[focus="true"]~.error_message {
     display: block;
 }
 
-.form_input:invalid[focus="true"]{
+.form_input:invalid[focus="true"] {
     border-color: #ff0000;
 }
 
 
-.error_message{
+.error_message {
 
     display: none;
     font-size: .8rem;
     color: rgb(228, 59, 59);
     padding-left: 6px;
     font-family: sans-serif;
-    padding-top:2px;
+    padding-top: 2px;
     transition: all 42s ease-in-out;
 }
 
 .l_error_message {
 
     font-size: .9rem;
-    font-family:sans-serif;
+    font-family: sans-serif;
     color: #ff0000;
 }
 
@@ -122,13 +122,13 @@
 }
 
 
-.form_button{
+.form_button {
 
     position: relative;
     width: 22rem;
     height: 2.650rem;
     border-radius: .5rem;
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border: 1px solid rgba(177, 177, 177, 0.397);
@@ -138,12 +138,12 @@
 
 
 
-.btn_loading .form_button_text{
+.btn_loading .form_button_text {
     display: none;
-    
+
 }
 
-.btn_loading .form_button::after{
+.btn_loading .form_button::after {
     content: "";
     position: absolute;
     top: 0;
@@ -154,14 +154,14 @@
     width: 14px;
     height: 16px;
     border: 4px solid transparent;
-    border-left-color:  #ffffff;
+    border-left-color: #ffffff;
     border-radius: 50%;
     animation: just-loading .5s linear infinite;
 }
-    
-    
 
-.form_button_text{
+
+
+.form_button_text {
 
     color: #ffffff;
     font-size: 1rem;
@@ -180,7 +180,7 @@
 }
 
 .au_bd {
-    
+
     text-align: center;
     position: relative;
     width: 80%;
@@ -258,5 +258,3 @@
     font-size: .980rem;
     padding: 1.5rem 0 1.5rem 0;
 }
-
-

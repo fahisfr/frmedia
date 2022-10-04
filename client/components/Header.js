@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "../styles/header.module.css";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
@@ -7,8 +7,10 @@ import JustLoading from "../components/JustLoading";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { BsSunFill } from "react-icons/bs";
 
-function Header({ dark, setDark }) {
+function Header({ darkMode, setDarkMode }) {
+
   const router = useRouter();
   const { profilePic, userName } = useSelector((state) => state.user.userInfo);
 
@@ -17,8 +19,8 @@ function Header({ dark, setDark }) {
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
 
-  console.log(profilePic);
-
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const resultContainer = useRef(null);
   const searchHandler = async (e) => {
     try {
       const value = e.target.value;
@@ -33,8 +35,6 @@ function Header({ dark, setDark }) {
       }
     } catch (error) {}
   };
-  const [focusedIndex, setFocusedIndex] = useState(0);
-  const resultContainer = useRef(null);
   const handleKeyDown = (e) => {
     const { key } = e;
 
@@ -63,20 +63,19 @@ function Header({ dark, setDark }) {
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <Link className={styles.link} href="/">
-          <div className={styles.lt}>
-            <div className={styles.logo}>
-              <Image
-                src="/frlogo.png"
-                width="100%%"
-                heigth="100%"
-                layout="fill"
-                className={styles.logo_img}
-              />
-            </div>
-            <span className={styles.title}>Midea</span>
+        <div className={styles.lt}>
+          <div className={styles.logo}>
+            <Image
+              src="/frlogo.png"
+              width="100%%"
+              heigth="100%"
+              layout="fill"
+              className={styles.logo_img}
+            />
           </div>
-        </Link>
+          <span className={styles.title}>Midea</span>
+        </div>
+
         <div className={styles.search} tabIndex={1} onKeyDown={handleKeyDown}>
           <div className={styles.search_input}>
             <input
@@ -128,15 +127,34 @@ function Header({ dark, setDark }) {
           </div>
         </div>
         <div className={styles.n_p}>
+          <div className={styles.theme_btn}>
+            <input
+              type="checkbox"
+              className={styles.checkbox}
+              checked={darkMode}
+            />
+            <label
+              for="checkbox"
+              className={styles.label}
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              <div className={styles.icon_moon}></div>
+              <BsSunFill className={styles.icon_sun} />
+              <div className={styles.ball}></div>
+            </label>
+          </div>
           <div className={styles.profile}>
-            {/* <Link href={`/${userName}`}> */}
-            <div className={styles.profile_btn} onClick={() => setDark(!dark)}>
-              <img
-                className={styles.image}
-                src={`${baseURL}/p/${profilePic}`}
-              />
-            </div>
-            {/* </Link> */}
+            <Link href={`/${userName}`}>
+              <div
+                className={styles.profile_btn}
+                onClick={() => setDark(!dark)}
+              >
+                <img
+                  className={styles.image}
+                  src={`${baseURL}/p/${profilePic}`}
+                />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

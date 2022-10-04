@@ -11,7 +11,7 @@
 
   --primary-color: #ffffff;
   --secondary-color: black;
-  --default_blue: #007aed;
+  --default-blue: #007aed;
   --bg-primary: #ffffff;
   --bg-secondary: #ffffff;
   --text-primary: #000000;
@@ -75,7 +75,6 @@ a {
   width: 650px;
   height: 100%;
   display: flex;
-  align-items: center;
   flex-direction: column;
   overflow: auto;
   overflow-x: hidden;

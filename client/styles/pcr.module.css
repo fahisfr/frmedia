@@ -67,7 +67,7 @@
 }
 
 .verified {
-    color: var(--default_blue);
+    color: var(--default-blue);
     font-size: 19px;
 
 }

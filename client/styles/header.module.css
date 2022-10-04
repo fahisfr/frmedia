@@ -36,7 +36,7 @@
 .title {
     display: flex;
     font-size: 20px;
-    color: var(--default_blue);
+    color: var(--default-blue);
     font-family: "";
     margin-bottom: 2px;
 }
@@ -94,7 +94,6 @@
     z-index: 1;
     color: var(--text-primary);
 
-
 }
 
 
@@ -106,7 +105,8 @@
     border: 1px solid var(--border-primary);
 }
 
-.result_item:hover , .item_focuse{
+.result_item:hover,
+.item_focuse {
     background-color: var(--bg-hover);
     cursor: pointer;
 }
@@ -145,7 +145,7 @@
 
 .verified_icon {
     font-size: 19px;
-    color: var(--default_blue);
+    color: var(--default-blue);
     margin-left: .5rem;
 }
 
@@ -175,7 +175,7 @@
     content: "";
     width: 13px;
     height: 13px;
-    border: 2px solid var(--default_blue);
+    border: 2px solid var(--default-blue);
     border-radius: 50%;
     transform: translate(-6px, -4px) rotate(315deg);
 }
@@ -186,7 +186,7 @@
     content: "";
     width: 3px;
     height: 11px;
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     transform: translate(6px, 5px) rotate(315deg);
 }
 
@@ -194,29 +194,69 @@
     position: relative;
     display: flex;
     padding: 0 1rem;
+    column-gap: 33px;
+
+
 }
 
-.notification {
-
+.theme_btn {
+    display: flex;
+    align-items: center;
     position: relative;
-    background-color: var(--theme_color);
-    border: none;
-    cursor: pointer;
 }
 
+.label {
+    background-color: #111;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    position: relative;
+    height: 20px;
+    width: 37px;
+    transform: scale(1.5);
 
+}
 
-.notification_cound {
-
-    position: absolute;
-    top: 3px;
-    right: 0;
-    width: 1rem;
-    font-size: .9rem;
-    color: #ffffff;
-    background-color: #c00;
+.ball {
+    background-color: #fff;
     border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: 16px;
+    width: 17px;
+    transform: translateX(0px);
+    transition: transform 0.2s linear;
+}
 
+.checkbox {
+    display: none;
+
+}
+
+.checkbox:checked+.label .ball {
+    transform: translateX(19px);
+}
+
+.icon_sun {
+    font-size: 15px;
+    color: yellow;
+    position: absolute;
+    left: 3px;
+}
+
+.icon_moon {
+    width: 16px;
+    height: 15px;
+    border-radius: 50%;
+    box-shadow: 7px 2px 0 0 #fff77e;
+    position: absolute;
+    top: 0px;
+    right: 8px;
+    transform: translateX(0px);
 }
 
 .profile_btn {
@@ -226,9 +266,7 @@
     cursor: pointer;
 }
 
-.profile {
-    position: relative;
-}
+
 
 
 .image {

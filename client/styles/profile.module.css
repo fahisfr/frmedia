@@ -86,7 +86,6 @@
     font-family: "Merriweather", serif;
     background-color: var(--gray_500);
     color: #ffffff;
-    box-shadow: var(--default_Shadow);
     transition: .3s ease;
 }
 
@@ -137,7 +136,7 @@
 
 .follow {
     border: none;
-    background-color: var(--default_blue);
+    background-color: var(--default-blue);
     color: #ffffff;
 }
 
@@ -178,7 +177,7 @@
 }
 
 .bv_group:nth-child(1) {
-    border-bottom: 2px solid var(--default_blue);
+    border-bottom: 2px solid var(--default-blue);
 
 }
 

@@ -37,7 +37,7 @@ const hashTags = async (req, res, next) => {
           likesCount: { $size: "$likes" },
           comments: { $size: "$comments" },
           tage: tage,
-          liked: idIn(publicID, "$likes"),
+          // liked: idIn(objectIdpublicID, "$likes"),
           userInfo: {
             userName: 1,
             profilePic: 1,
@@ -47,12 +47,12 @@ const hashTags = async (req, res, next) => {
         },
       },
     ]);
-
+    
     if (posts.length > 0) {
       res.json({ status: "ok", posts });
-
       return;
     }
+
     res.json({ status: "error", error: `Resutl not found` });
   } catch (error) {
     next(error);
