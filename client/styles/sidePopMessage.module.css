@@ -9,11 +9,11 @@
     right: 2.5rem;
     top: 1.5rem;
     display: flex;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--bg-primary);
     align-items: center;
     padding-left: 9px;
     column-gap: 5px;
-    border: 1px solid var(--gray_100);
+    border: 1px solid var(--border-primary);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     overflow: hidden;
     animation: popup 0.4s ease-in-out;
@@ -30,11 +30,11 @@
 .message_text {
     font-size: 16px;
     font-family: 'Inconsolata', monospace;
-    color: black;
+    color: var(--text-primary);
 }
 
 .err {
-    color: rgba(182, 41, 41, 0.767)
+    color: rgb(252, 0, 0)
 }
 
 .success {

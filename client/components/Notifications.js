@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/notifications.module.css";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
-import getDate from "../helper/getDate";
+import Notification from "./Notification";
 
 import { fetchNotifications } from "../features/notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { baseURL } from "../axios";
 import { useRouter } from "next/router";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
-function Notification() {
+function Notifications() {
   const { asPath } = useRouter();
   const [Error, setError] = useState(false);
   const dispatch = useDispatch();
@@ -54,7 +53,7 @@ function Notification() {
       <div className={styles.top}>
         <Link href="/notifications">
           <a>
-            <h4 className={styles.top_aln}> Notifications</h4>
+            <h1 className={styles.top_aln}> Notifications</h1>
           </a>
         </Link>
       </div>
@@ -110,34 +109,8 @@ function Notification() {
             <sapn className={styles.empty_text}>No Notification yet</sapn>
           </div>
         ) : (
-          notif.map((notif, index) => {
-            return (
-              <Link href={`/${notif.link}`} key={index}>
-                <a>
-                  <div className={styles.notification}>
-                    <div className={styles.n_left}>
-                      <div className={styles.profile}>
-                        <img
-                          className={styles.profile_img}
-                          src={`${baseURL}/p/${notif.userInfo?.profilePic}`}
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.n_right}>
-                      <div>
-                        <span className={styles.date}>
-                          {getDate(notif.date)}
-                        </span>
-                      </div>
-                      <span className={styles.name}>fahis</span>
-                      <span
-                        className={styles.message}
-                      >{` ${notif.message}`}</span>
-                    </div>
-                  </div>
-                </a>
-              </Link>
-            );
+          notif.map((notif) => {
+            return <Notification notif={notif} />;
           })
         )}
       </div>
@@ -145,4 +118,4 @@ function Notification() {
   );
 }
 
-export default Notification;
+export default Notifications;

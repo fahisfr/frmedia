@@ -25,8 +25,12 @@ const user = new db.Schema({
   notifications: [
     {
       type: { type: String },
-      postId: { type: db.Schema.Types.ObjectId },
+      //pcr full post,comment,reply
+      pcr: { type: String },
       userId: { type: db.Schema.Types.ObjectId },
+      postId: { type: db.Schema.Types.ObjectId },
+      commentId: { type: db.Schema.Types.ObjectId },
+      replyId: { type: db.Schema.Types.ObjectId },
       date: { type: Date, default: Date.now },
     },
   ],

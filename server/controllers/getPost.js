@@ -16,14 +16,19 @@ const getPost = async (req, res, next) => {
           _id: objectId(postId),
         },
       },
-
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          commentsCount: { $size: "$comments" },
+          liked: idIn(publicID, "$likes"),
+        },
+      },
       {
         $unwind: {
           path: "$comments",
           preserveNullAndEmptyArrays: true,
         },
       },
-
       {
         $lookup: {
           from: "users",
@@ -32,27 +37,51 @@ const getPost = async (req, res, next) => {
           as: "comments.userInfo",
         },
       },
-
       {
         $set: {
           "comments.userInfo": { $arrayElemAt: ["$comments.userInfo", 0] },
         },
       },
       {
-        $addFields: {
-          liked: idIn(publicID, "$likes"),
-          likesCount: { $size: "$likes" },
+        $project: {
+          _id: 1,
+          userId: 1,
+          text: 1,
+          file: 1,
+          postAt: 1,
+          liked: 1,
+          likesCount: 1,
+          commentsCount: 1,
+          comments: {
+            _id: 1,
+            userId: 1,
+            text: 1,
+            file: 1,
+            // commentsCount: { $size: "$comments.replies" },
+            // likesCount: { $size: "$comments.likes" },
+            // liked: idIn(publicID, "$comments.likes"),
+            repliesCount: { $size: "$comments.replies" },
+            commentAt: 1,
+            userInfo: {
+              publicID: 1,
+              userName: 1,
+              profilePic: 1,
+              coverPic: 1,
+              verified: 1,
+            },
+          },
         },
       },
       {
         $group: {
           _id: "$_id",
           userId: { $first: "$userId" },
-          liked: { $first: "$liked" },
-          likesCount: { $first: "$likesCount" },
           text: { $first: "$text" },
           file: { $first: "$file" },
           postAt: { $first: "$postAt" },
+          liked: { $first: "$liked" },
+          likesCount: { $first: "$likesCount" },
+          commentsCount: { $first: "$commentsCount" },
           comments: { $push: "$comments" },
         },
       },
@@ -74,53 +103,20 @@ const getPost = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          userInfo: {
-            _id: 1,
-            userName: 1,
-            profilePic: 1,
-            coverPic: 1,
-            verified: 1,
-          },
           userId: 1,
           text: 1,
           file: 1,
           postAt: 1,
           liked: 1,
           likesCount: 1,
-          comments: {
+          commentsCount: 1,
+          comments: 1,
+          userInfo: {
             _id: 1,
-            userId: 1,
-            text: 1,
-            file: 1,
-            commentAt: 1,
-            commentsCount: {
-              $cond: [
-                { $isArray: "$comments.replies" },
-                { $size: "$comments.replies" },
-                0,
-              ],
-            },
-            likesCount: {
-              $cond: [
-                { $isArray: "$comments.likes" },
-                { $size: "$comments.likes" },
-                0,
-              ],
-            },
-            liked: {
-              $cond: [
-                { $isArray: "$comments.likes" },
-                idIn(publicID, "$comments.likes"),
-                false,
-              ],
-            },
-            userInfo: {
-              _id: 1,
-              userName: 1,
-              profilePic: 1,
-              coverPic: 1,
-              verified: 1,
-            },
+            userName: 1,
+            profilePic: 1,
+            coverPic: 1,
+            verified: 1,
           },
         },
       },

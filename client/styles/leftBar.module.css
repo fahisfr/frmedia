@@ -6,9 +6,7 @@
     align-items: flex-end;
     flex-basis: 0;
     overflow: auto;
-
 }
-
 
 .container {
     padding: 1rem 2rem;
@@ -33,7 +31,6 @@
     border-radius: 20px;
     margin-top: 15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
 }
 
 .group:hover {

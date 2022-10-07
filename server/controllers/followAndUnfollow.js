@@ -14,7 +14,9 @@ const follow = async (req, res, next) => {
       .updateOne({ $addToSet: { following: objectId(followId) } });
     bulk.find({ publicID: objectId(followId) }).updateOne({
       $addToSet: { followers: objectId(publicID) },
-      $push: { notifications: { type: "following", userId: publicID } },
+      $push: {
+        notifications: { type: "following", userId: objectId(followId) },
+      },
     });
 
     bulk.execute((err, result) => {

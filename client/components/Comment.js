@@ -118,14 +118,7 @@ function Comment({ comment, postId, sliceName }) {
           </div>
 
           <div className={styles.body}>
-            {text && (
-              <Link href={`/${userName}/post/${_id}`}>
-                <a style={{ color: "black" }}>
-                  <div className={styles.message}>{filterText(text)}</div>
-                </a>
-              </Link>
-            )}
-
+            {text && <div className={styles.message}>{filterText(text)}</div>}
             <div className={styles.vi}>
               <div className={styles.postFilePreivew}>
                 {file && file.type === "image" ? (

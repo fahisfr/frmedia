@@ -134,7 +134,6 @@ function Header({ darkMode, setDarkMode }) {
               checked={darkMode}
             />
             <label
-              for="checkbox"
               className={styles.label}
               onClick={() => setDarkMode(!darkMode)}
             >

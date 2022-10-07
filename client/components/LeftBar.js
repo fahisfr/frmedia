@@ -57,11 +57,11 @@ function Sidebar() {
               >
                 <IoMdNotificationsOutline className={styles.icon} />
                 <span className={styles.text}>Notifications</span>
-                {notifCount > 0 && (
+                {/* {notifCount > 0 && (
                   <div className={styles.notif_count}>
                     <span className={styles.count}>{notifCount}</span>
                   </div>
-                )}
+                )} */}
               </div>
             </a>
           </Link>

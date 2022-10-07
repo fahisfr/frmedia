@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "../styles/pcr.module.css";
 import { MdVerified } from "react-icons/md";
 import { FiShare } from "react-icons/fi";
@@ -13,6 +13,7 @@ import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 import { useRouter } from "next/router";
 import Options from "./Options";
+import clickOutSide from "../hooks/clickOutSide";
 
 function Post({ postInfo, userInfo, sliceName }) {
   const router = useRouter();
@@ -27,10 +28,14 @@ function Post({ postInfo, userInfo, sliceName }) {
     postAt,
     comments,
   } = postInfo;
-  const { userName, profilePic, verified } = userInfo;
+  const { userName, profilePic, verified, publicID } = userInfo;
   const { likePost } = getPostAcitons(sliceName);
   const [copiedTrigger, setCpiedTrigger] = useState(false);
   const [OptionsTrigger, setOptionsTrigger] = useState(false);
+  const optionRef = useRef(null);
+  clickOutSide(optionRef, () => {
+    setOptionsTrigger(false);
+  });
   const likeHandler = async () => {
     dispatch(likePost({ postId: _id }));
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
@@ -80,7 +85,7 @@ function Post({ postInfo, userInfo, sliceName }) {
 
                   {verified && (
                     <div className={styles.group_right}>
-                      <MdVerified  className={styles.verified} />
+                      <MdVerified className={styles.verified} />
                     </div>
                   )}
                 </div>
@@ -92,15 +97,17 @@ function Post({ postInfo, userInfo, sliceName }) {
             <div></div>
             <div></div>
           </div>
-          <div className={styles.header_right}>
-            <div
-              className={styles.menu}
-              onClick={() => setOptionsTrigger(!OptionsTrigger)}
-            >
+          <div
+            className={styles.header_right}
+            onClick={() => setOptionsTrigger(!OptionsTrigger)}
+            ref={optionRef}
+          >
+            <div className={styles.menu}>
               <Options
                 onFouse
                 trigger={OptionsTrigger}
                 id={_id}
+                userId={publicID}
                 sliceName={sliceName}
                 setTrigger={setOptionsTrigger}
               />

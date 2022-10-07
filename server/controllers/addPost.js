@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
-const { getPcrInfo } = require("./helper");
+const { getPcrInfo, findTagsAndMentions } = require("./helper");
 const objectId = require("mongoose").Types.ObjectId;
 
 const addPost = async (req, res, next) => {
@@ -11,30 +11,12 @@ const addPost = async (req, res, next) => {
     } = req;
     const file = req.files?.file;
 
-    const getTagsAndMentions = (text) => {
-      const mentions = [];
-      const hashTags = [];
-      text.split(" ").forEach((word) => {
-        if (word.startsWith("#")) {
-          hashTags.push(word.slice(1));
-        } else if (word.startsWith("@")) {
-          mentions.push(word.slice(1));
-        }
-      });
+    const {mentions, ...postInfo } = await getPcrInfo(text, file);
 
-      return {
-        mentions,
-        hashTags,
-      };
-    };
-
-    const postInfo = await getPcrInfo(text, file);
-    const { hashTags, mentions } = getTagsAndMentions(text);
 
     const newPost = await dbPost.create({
       userId: publicID,
       ...postInfo,
-      hashTags,
     });
 
     if (newPost) {
@@ -44,12 +26,13 @@ const addPost = async (req, res, next) => {
         dbBulk
           .find({ _id: objectId(id) })
           .updateOne({ $push: { posts: newPost._id } });
-        dbBulk.find({ userName: { $in: [...mentions] } }).update({
+        dbBulk.find({ userName: { $in: [...mentions] } }).updateOne({
           $push: {
             notifications: {
               type: "mention",
               userId: objectId(publicID),
               postId: newPost._id,
+              pcr:"post",
               date: new Date(),
             },
           },

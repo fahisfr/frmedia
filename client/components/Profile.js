@@ -168,7 +168,7 @@ function Profile() {
           <sapn className={styles.bvn}>Posts</sapn>
         </div>
       </div>
-      {profile.posts.map((post, index) => {
+      {profile.posts?.map((post, index) => {
         return (
           <Post
             userInfo={profile}

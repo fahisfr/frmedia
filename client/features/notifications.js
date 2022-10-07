@@ -23,26 +23,9 @@ const notificationsSlice = createSlice({
       try {
         if (payload.status === "ok") {
           if (!payload.notifications[0].type) {
-            console.log("yes one not in");
             return;
           } else {
-            console.log(payload.notifications);
-            state.notifications = payload.notifications?.map((item) => {
-              switch (item.type) {
-                case "mention":
-                  item.message = "Was mentioned in a post";
-                  item.link = `/post/${item.postId}`;
-                  break;
-                case "liked":
-                  item.message = " Liked you post";
-                  item.link = `/post/${item.postId}`;
-                  break;
-                case "following":
-                  item.message = "Started following you";
-                  item.link = item.userName;
-              }
-              return item;
-            });
+            state.notifications = payload.notifications
           }
         } else {
           state.error = payload.error;

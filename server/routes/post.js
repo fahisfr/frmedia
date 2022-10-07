@@ -5,10 +5,13 @@ const auth = require("../middleware/auth");
 router.get("/:postId", require("../controllers/getPost"));
 router.get("/comments/:postId", require("../controllers/getPostComments"));
 router.get(
+  "/:postId/comment/:commentId/reply/:replyId",
+  require("../controllers/getComment")
+);
+router.get(
   "/:postId/comment/:commentId/replies",
   require("../controllers/getCommentReplies")
 );
 router.post("/like", like);
 router.post("/unlike", unLike);
-
 module.exports = router;

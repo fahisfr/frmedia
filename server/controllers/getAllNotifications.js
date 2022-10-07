@@ -35,6 +35,26 @@ const notifications = async (req, res, next) => {
         },
       },
       {
+        $project: {
+          notifCount: 1,
+          notifications: {
+            type: 1,
+            userId: 1,
+            postId: 1,
+            commentId: 1,
+            replyId:1,
+            pcr: 1,
+            userInfo: {
+              publicID: 1,
+              userName: 1,
+              profilePic: 1,
+              coverPic: 1,
+              verified: 1,
+            },
+          },
+        },
+      },
+      {
         $group: {
           _id: null,
           notifCount: { $first: "$notifCount" },
@@ -42,7 +62,7 @@ const notifications = async (req, res, next) => {
         },
       },
     ]);
-    console.log(dbResult[0]);
+
     if (dbResult.length > 0) {
       res.json({ status: "ok", notifications: dbResult[0].notifications });
 

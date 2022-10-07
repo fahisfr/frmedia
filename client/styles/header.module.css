@@ -131,16 +131,11 @@
 
 }
 
-
-
 .text {
-
     font-size: 1rem;
     font-weight: 400;
     font-family: sans-serif;
     margin-left: .5rem;
-
-
 }
 
 .verified_icon {
@@ -249,13 +244,13 @@
 }
 
 .icon_moon {
-    width: 16px;
+    width: 14px;
     height: 15px;
     border-radius: 50%;
-    box-shadow: 7px 2px 0 0 #fff77e;
+    box-shadow: 5px 2px 0 0 #fff77e;
     position: absolute;
     top: 0px;
-    right: 8px;
+    right: 7px;
     transform: translateX(0px);
 }
 

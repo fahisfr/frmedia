@@ -7,7 +7,6 @@ import { zonedTimeToUtc } from "date-fns-tz";
     zonedTimeToUtc(date, Intl.DateTimeFormat().resolvedOptions().timeZone)
   )} ago`;
   }catch(err){
-    console.log(err)
     return date
   }
 

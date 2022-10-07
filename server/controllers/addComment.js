@@ -1,4 +1,5 @@
 const dbPost = require("../dbSchemas/post");
+const dbUser = require("../dbSchemas/user");
 const { getPcrInfo } = require("./helper");
 
 const addComment = async (req, res, next) => {
@@ -9,9 +10,7 @@ const addComment = async (req, res, next) => {
     } = req;
     const file = req.files?.file;
 
-    console.log(req.body);
-
-    const commentInfo = getPcrInfo(text, file);
+    const { hashTags, mentions, ...commentInfo } = getPcrInfo(text, file);
 
     const newComment = await dbPost.findOneAndUpdate(
       { _id: postId },
@@ -28,8 +27,6 @@ const addComment = async (req, res, next) => {
       }
     );
 
-    console.log(newComment.comments.pop());
-
     if (newComment) {
       file &&
         file.mv(`./public/${commentInfo.file.type}/${commentInfo.file.name}`);
@@ -39,8 +36,30 @@ const addComment = async (req, res, next) => {
         message: "Comment Added Successfully",
         info: newComment._doc.comments.pop(),
       });
+
+      if (mentions.length > 0) {
+        const addNotif = await dbUser.updateMany(
+          {
+            userName: {
+              $in: [...mentions],
+            },
+          },
+          {
+            $push: {
+              notifications: {
+                type: "mention",
+                pcr: "comment",
+                userId: publicID,
+                postId: newComment._id,
+                commentId: newComment._doc.comments.pop()._id,
+              },
+            },
+          }
+        );
+      }
       return;
     }
+
     res.json({ status: "error", error: "Can't add comment" });
   } catch (err) {
     next(err);

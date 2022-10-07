@@ -23,9 +23,9 @@ function AddPCR({ For, postId, commentId, sliceName }) {
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
   const { userInfo } = useSelector((state) => state.user);
   const [popupInfo, setPopupInfo] = useState({
-    trigger: false,
+    trigger:false,
     error: false,
-    message: "",
+    message: "adsfa",
   });
   const { addPost, addComment, addReply } = getPostAcitons(sliceName);
 

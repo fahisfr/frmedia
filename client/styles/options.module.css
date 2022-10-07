@@ -4,7 +4,7 @@
     bottom: 0;
     right: 0;
     transform: translateY(100%);
-    background-color: var(--default_theme);
+    background-color: var(--bg-primary);
 
 }
 
@@ -36,10 +36,6 @@
     font-size: 13px;
 }
 
-.report {
-    color: red;
-}
-
 .option:hover {
-    background-color: var(--gray_100);
+    background-color: var(--bg-hover);
 }

@@ -36,15 +36,16 @@ app.use("/post", auth, require("./routes/post"));
 app.use("/comment", auth, require("./routes/comment"));
 app.use("/user", auth, require("./routes/user"));
 app.use("/verify", require("./routes/verify"));
+app.use("/notif", auth, require("./routes/notification"));
 app.post("/addpost", auth, require("./controllers/addPost"));
 app.post("/addcomment", auth, require("./controllers/addComment"));
-app.post("/reply-to-comment", auth, require("./controllers/replyToComment"));
 app.post("/edit-profile", auth, require("./controllers/editProfile"));
 app.get("/top-hash-tags", require("./controllers/getTopHashTags"));
 app.get("/explore", auth, require("./controllers/exploer"));
 app.get("/hashtage/:tage", require("./controllers/getTaggedPosts"));
 app.get("/notifications", auth, require("./controllers/getAllNotifications"));
 app.get("/search/:text", require("./controllers/search"));
+app.post("/delete-post", require("./controllers/deletePost"));
 
 app.use(errorHandler);
 
