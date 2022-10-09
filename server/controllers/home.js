@@ -27,8 +27,8 @@ const home = async (req, res, next) => {
       {
         $lookup: {
           from: "users",
-          localField:"following",
-          foreignField:"publicID",
+          localField: "following",
+          foreignField: "publicID",
           as: "user",
         },
       },
@@ -87,16 +87,7 @@ const home = async (req, res, next) => {
                 file: "$post.file",
                 postAt: "$post.postAt",
               },
-              {
-                userInfo: {
-                  publicID: "$user.publicID",
-                  userName: "$user.userName",
-                  profilePic: "$user.profilePic",
-                  coverPic: "$user.coverPic",
-                  bio: "$user.bio",
-                  verified: "$user.verified",
-                },
-              },
+              "$$REMOVE",
             ],
           },
         },
@@ -108,7 +99,6 @@ const home = async (req, res, next) => {
         },
       },
     ]);
-
 
     if (getPosts.length > 0) {
       return res.json({ status: "ok", posts: getPosts[0].posts });

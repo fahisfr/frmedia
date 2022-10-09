@@ -10,7 +10,6 @@ import Image from "next/image";
 import { BsSunFill } from "react-icons/bs";
 
 function Header({ darkMode, setDarkMode }) {
-
   const router = useRouter();
   const { profilePic, userName } = useSelector((state) => state.user.userInfo);
 
@@ -25,7 +24,7 @@ function Header({ darkMode, setDarkMode }) {
     try {
       const value = e.target.value;
       setSearchText(value);
-      if (value.length > 1) {
+      if (value.length > 0) {
         setLoading(true);
         const { data } = await axios.get(`/search/${value}`);
         if (data.status === "ok") {

@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn, projectUserInfo } = require("./helper");
+const { idIn, DB_PROJECT_USERiNFO } = require("./helper");
 
 const getComment = async (req, res, next) => {
   try {
@@ -86,7 +86,7 @@ const getComment = async (req, res, next) => {
           text: 1,
           file: 1,
           commentAt: 1,
-          userInfo: projectUserInfo(),
+          userInfo: DB_PROJECT_USERiNFO,
           liked: 1,
           likesCount: 1,
           repliesCount: 1,
@@ -98,7 +98,7 @@ const getComment = async (req, res, next) => {
             replyAt: 1,
             liked: idIn(publicID, "$replies.likes"),
             likesCount: { $size: "$replies.likes" },
-            userInfo: projectUserInfo(),
+            userInfo: DB_PROJECT_USERiNFO,
           },
         },
       },

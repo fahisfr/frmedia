@@ -1,6 +1,6 @@
 const dbUser = require("../dbSchemas/user");
 const jwt = require("jsonwebtoken");
-const { db } = require("../dbSchemas/post");
+
 
 const login = async (req, res, next) => {
   try {

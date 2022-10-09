@@ -1,12 +1,10 @@
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("./helper");
-const mongoose = require("mongoose");
+const { DB_PROJECT_USERINFO } = require("./helper");
 
 const getFollowersAndFollowing = async (req, res, next) => {
   try {
     const { userName } = req.params;
-    const publicID = req.user?.publicID;
     const id = req.user?.id;
 
     const dbResult = await dbUser.aggregate([
@@ -57,29 +55,13 @@ const getFollowersAndFollowing = async (req, res, next) => {
           as: "following",
         },
       },
-      {
-        $set: {
-          following: {
-            $cond: [
-              { $ne: ["following", []] },
-              {
-                $arrayElemAt: ["$following", 0],
-              },
-              [],
-            ],
-          },
-        },
-      },
+
       {
         $project: {
           followers: 1,
           userFollowing: 1,
           following: {
-            publicID: 1,
-            userName: 1,
-            profilePic: 1,
-            coverPic: 1,
-            verifed: 1,
+            ...DB_PROJECT_USERINFO,
             isFollowing: {
               $in: ["$following.publicID", "$userFollowing"],
             },
@@ -109,27 +91,10 @@ const getFollowersAndFollowing = async (req, res, next) => {
         },
       },
       {
-        $set: {
-          followers: {
-            $cond: [
-              { $eq: ["$followers", []] },
-              [],
-              {
-                $arrayElemAt: ["$followers", 0],
-              },
-            ],
-          },
-        },
-      },
-      {
         $project: {
           following: 1,
           followers: {
-            publicID: 1,
-            userName: 1,
-            profilePic: 1,
-            coverPic: 1,
-            verifed: 1,
+            ...DB_PROJECT_USERINFO,
             isFollowing: {
               $in: ["$followers.publicID", "$userFollowing"],
             },

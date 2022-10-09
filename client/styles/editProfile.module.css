@@ -4,8 +4,10 @@
     height: 100%;
     position: fixed;
     top: 0;
+    left: 0;
     z-index: 6;
     display: flex;
+    justify-content: center;
     padding: 5rem 0 3rem 0;
     background-color: rgba(0, 0, 0, 0.39);
     overflow: scroll;
@@ -17,8 +19,8 @@
     height: 36rem;
     width: 600px;
     border-radius: 6px;
-    border-right: 10px solid var(--default_theme);
-    border-left: 10px solid var(--default_theme);
+    /* border-right: 10px solid var(--primary-color);
+    border-left: 10px solid var(--primary-color); */
     overflow: scroll;
     background-color: #ffffff;
     color: var(--text-pirmary);
@@ -163,6 +165,7 @@
 
 .form {
     padding: 5.5rem 2rem 0rem 1.5rem;
+    
 }
 
 .group {

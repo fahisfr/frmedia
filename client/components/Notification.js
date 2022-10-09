@@ -25,7 +25,6 @@ export default function Notification({ notif }) {
       }
 
       if (pcr === "post") {
-        console.log("yesss");
         const { data } = await axios.get(`notif/post/${postId}`);
         if (data.status == "ok") {
           setResult(data.info);

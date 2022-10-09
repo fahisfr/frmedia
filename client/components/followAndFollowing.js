@@ -73,7 +73,12 @@ function FollowAndFollowing() {
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.hn}>
-            <h3 className={styles.Username}>@{user}</h3>
+            <h3
+              style={{ color: "var(--text-primary)" }}
+              className={styles.Username}
+            >
+              @{user}
+            </h3>
           </div>
           <div className={styles.cp}>
             <div className={styles.close} onClick={closePage}></div>

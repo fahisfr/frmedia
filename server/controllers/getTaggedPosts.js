@@ -1,11 +1,9 @@
 const dbPost = require("../dbSchemas/post");
-const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("./helper");
+const { DB_PROJECT_USERINFO } = require("./helper");
 
 const hashTags = async (req, res, next) => {
   try {
     const { tage } = req.params;
-    const publicID = req.user?.publicID;
     const posts = await dbPost.aggregate([
       {
         $match: {
@@ -37,17 +35,11 @@ const hashTags = async (req, res, next) => {
           likesCount: { $size: "$likes" },
           comments: { $size: "$comments" },
           tage: tage,
-          // liked: idIn(objectIdpublicID, "$likes"),
-          userInfo: {
-            userName: 1,
-            profilePic: 1,
-            coverPic: 1,
-            isVerified: 1,
-          },
+          userInfo: DB_PROJECT_USERINFO,
         },
       },
     ]);
-    
+
     if (posts.length > 0) {
       res.json({ status: "ok", posts });
       return;

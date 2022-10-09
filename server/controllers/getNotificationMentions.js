@@ -1,7 +1,7 @@
-const dbUser = require("../dbSchemas/user");
+
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { projectUserInfo, idIn } = require("./helper");
+const {  idIn } = require("./helper");
 
 const getCommentAndReply = async (req, res, next) => {
   try {
@@ -65,7 +65,7 @@ const getCommentAndReply = async (req, res, next) => {
       },
     ]);
 
-    console.log(dbResult[0]);
+   
     if (dbResult.length > 0) {
       return res.json({ status: "ok", info: dbResult[0].comments });
     }
@@ -194,11 +194,11 @@ const getPost = async (req, res, next) => {
           commentsCount: { $size: "$comments" },
           liked: idIn(publicID, "$likes"),
           postAt: 1,
-          userInfo: projectUserInfo(),
+          userInfo: projectUserInfo,
         },
       },
     ]);
-    console.log(dbResult[0]);
+
     if (dbResult.length > 0) {
       return res.json({ status: "ok", info: dbResult[0] });
     }

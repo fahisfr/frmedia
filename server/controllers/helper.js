@@ -8,28 +8,15 @@ const idIn = (id, array) => {
   return false;
 };
 
-const projectUserInfo = () => {
-  return {
-    publicID: 1,
-    userName: 1,
-    profilePic: 1,
-    coverPic: 1,
-    verified: 1,
-  };
+const DB_PROJECT_USERiNFO = {
+  publicID: 1,
+  userName: 1,
+  profilePic: 1,
+  coverPic: 1,
+  verified: 1,
 };
 
-const dbProjectPost = () => {
-  return {
-    _id: 1,
-    userId: 1,
-    text: 1,
-    file: 1,
-    postAt: 1,
-    liked: idIn(publicID, "$likes"),
-    likesCount: { $size: "$likes" },
-    commentsCount: { $size: "$comments" },
-  };
-};
+
 
 const getFileInfo = (file) => {
   const [type, extension] = file.mimetype.split("/");
@@ -79,5 +66,5 @@ module.exports = {
   getFileInfo,
   idIn,
   findTagsAndMentions,
-  projectUserInfo,
+  DB_PROJECT_USERiNFO
 };

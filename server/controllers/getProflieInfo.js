@@ -1,7 +1,6 @@
 const dbUser = require("../dbSchemas/user");
 const { idIn } = require("./helper");
 
-
 const getUserInfo = async (req, res, next) => {
   try {
     const publicID = req.user?.publicID;
@@ -40,7 +39,7 @@ const getUserInfo = async (req, res, next) => {
         },
       },
       {
-        $set: {
+        $addFields: {
           posts: {
             $cond: [
               "$posts._id",
@@ -57,7 +56,7 @@ const getUserInfo = async (req, res, next) => {
                 },
                 liked: idIn(publicID, "$posts.likes"),
               },
-              null,
+              "$$REMOVE",
             ],
           },
         },
@@ -87,7 +86,6 @@ const getUserInfo = async (req, res, next) => {
     }
     res.json({ status: "error", error: "User not found" });
   } catch (error) {
-    
     next(error);
   }
 };

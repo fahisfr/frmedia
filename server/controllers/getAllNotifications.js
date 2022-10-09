@@ -1,5 +1,6 @@
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
+const { DB_PROJECT_USERiNFO } = require("./helper");
 
 const notifications = async (req, res, next) => {
   try {
@@ -42,15 +43,9 @@ const notifications = async (req, res, next) => {
             userId: 1,
             postId: 1,
             commentId: 1,
-            replyId:1,
+            replyId: 1,
             pcr: 1,
-            userInfo: {
-              publicID: 1,
-              userName: 1,
-              profilePic: 1,
-              coverPic: 1,
-              verified: 1,
-            },
+            userInfo: DB_PROJECT_USERiNFO,
           },
         },
       },

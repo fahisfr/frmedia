@@ -67,6 +67,7 @@
 }
 
 .verified {
+    position: relative;
     color: var(--default-blue);
     font-size: 19px;
 
