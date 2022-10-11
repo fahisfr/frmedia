@@ -1,16 +1,8 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import Notifications from "../../components/Notifications";
-import MainLayout from "../../layouts/Main";
-import { notifCount } from "../../features/user";
+import NotificationLayout from "../../layouts/Notification";
 function notification() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(notifCount());
-  }, []);
   return <Notifications />;
 }
-
-notification.PageLayout = MainLayout;
-
+notification.PageLayout = NotificationLayout;
 export default notification;

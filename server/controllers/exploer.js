@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("./helper");
+const { DB_PROJECT_POST_LC } = require("./helper");
 const explore = async (req, res, next) => {
   const { publicID } = req.user;
   try {
@@ -25,28 +25,7 @@ const explore = async (req, res, next) => {
         },
       },
       {
-        $project: {
-          userInfo: {
-            publicID: "$userInfo.publicID",
-            userName: "$userInfo.userName",
-            profilePic: "$userInfo.profilePic",
-            coverPic: "$userInfo.coverPic",
-            bio: "$userInfo.bio",
-            verified: "$userInfo.verified",
-          },
-          likesCount: {
-            $size: "$likes",
-          },
-          commentsCount: {
-            $size: "$comments",
-          },
-          liked: idIn(publicID, "$likes"),
-          _id: 1,
-          text: 1,
-          file: 1,
-          postAt: 1,
-          page: "explore",
-        },
+        $project: DB_PROJECT_POST_LC(publicID),
       },
       {
         $sort: {

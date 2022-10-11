@@ -1,7 +1,8 @@
 const dbPost = require("../dbSchemas/post");
-const { DB_PROJECT_USERINFO } = require("./helper");
+const { DB_PROJECT_POST, DB_PROJECT_POST_LC } = require("./helper");
 
 const hashTags = async (req, res, next) => {
+  const publicID =req.user?.publicID
   try {
     const { tage } = req.params;
     const posts = await dbPost.aggregate([
@@ -26,16 +27,8 @@ const hashTags = async (req, res, next) => {
       },
       {
         $project: {
-          _id: 1,
-          text: 1,
-          file: 1,
-          postAt: 1,
-          commentsCount: 1,
-          postAt: 1,
-          likesCount: { $size: "$likes" },
-          comments: { $size: "$comments" },
+          ...DB_PROJECT_POST_LC(publicID),
           tage: tage,
-          userInfo: DB_PROJECT_USERINFO,
         },
       },
     ]);

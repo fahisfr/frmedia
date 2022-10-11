@@ -1,11 +1,11 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn } = require("./helper");
+const { idIn, DB_PROJECT_REPLY_LC } = require("./helper");
 
 const getReplies = async (req, res, next) => {
   try {
     const { postId, commentId } = req.params;
-    const { publicID } = req.user;
+    const publicID = req.user?.publicID;
     const result = await dbPost.aggregate([
       {
         $match: {
@@ -30,42 +30,36 @@ const getReplies = async (req, res, next) => {
         },
       },
       {
+        $replaceWith: "$comments.replies",
+      },
+      {
         $addFields: {
-          comments: {
-            replies: {
-              likesCount: { $size: "$comments.replies.likes" },
-              liked:idIn( publicID,"$comments.replies.likes")
-            },
-          },
+          likesCount: { $size: "$likes" },
+          liked: idIn(publicID, "$likes"),
         },
       },
       {
         $lookup: {
           from: "users",
-          localField: "comments.replies.userId",
+          localField: "userId",
           foreignField: "publicID",
-          as: "comments.replies.userInfo",
+          as: "userInfo",
         },
       },
       {
         $set: {
-          "comments.replies.userInfo": {
-            $arrayElemAt: ["$comments.replies.userInfo", 0],
+          userInfo: {
+            $arrayElemAt: ["$userInfo", 0],
           },
         },
       },
-      {
-        $group: {
-          _id: null,
-          replies: {
-            $push: "$comments.replies",
-          },
-        },
-      },
+      { $project: DB_PROJECT_REPLY_LC(publicID) },
     ]);
 
+    console.log(result);
+
     if (result.length > 0) {
-      res.json({ status: "ok", replies: result[0].replies });
+      res.json({ status: "ok", replies: result });
       return;
     }
     res.json({ status: "error", error: "No replies found" });

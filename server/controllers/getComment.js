@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { idIn, DB_PROJECT_USERiNFO } = require("./helper");
+const { DB_PROJECT_POST_LC, DB_PROJECT_REPLY_LC } = require("./helper");
 
 const getComment = async (req, res, next) => {
   try {
@@ -41,17 +41,10 @@ const getComment = async (req, res, next) => {
         },
       },
       {
-        $project: {
-          _id: "$comments._id",
-          text: "$comments.text",
-          file: "$comments.file",
-          commentAt: "$comments.commentAt",
-          replies: "$comments.replies",
-          userInfo: "$comments.userInfo",
-          liked: idIn(publicID, "$comments.likes"),
-          likesCount: { $size: "$comments.likes" },
-          repliesCount: { $size: "$comments.replies" },
-        },
+        $replaceWith: "$comments",
+      },
+      {
+        $project: DB_PROJECT_POST_LC(publicID),
       },
       {
         $unwind: {
@@ -81,29 +74,12 @@ const getComment = async (req, res, next) => {
       },
       {
         $project: {
-          _id: 1,
-          userId: 1,
-          text: 1,
-          file: 1,
-          commentAt: 1,
-          userInfo: DB_PROJECT_USERiNFO,
-          liked: 1,
-          likesCount: 1,
-          repliesCount: 1,
-          replies: {
-            _id: 1,
-            userId: 1,
-            text: 1,
-            file: 1,
-            replyAt: 1,
-            liked: idIn(publicID, "$replies.likes"),
-            likesCount: { $size: "$replies.likes" },
-            userInfo: DB_PROJECT_USERiNFO,
-          },
+          ...DB_PROJECT_POST_LC,
+          replies: DB_PROJECT_REPLY_LC(publicID),
         },
       },
     ]);
-
+    console.log(dbResult);
     if (dbResult.length > 0) {
       return res.json({ status: "ok", info: dbResult[0] });
     }

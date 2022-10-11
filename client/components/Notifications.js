@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/notifications.module.css";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
-import Notification from "./Notification";
+import { baseURL } from "../axios";
 
 import { fetchNotifications } from "../features/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import getDate from "../helper/getDate";
 
 function Notifications() {
-  const { asPath } = useRouter();
+  const router = useRouter();
   const [Error, setError] = useState(false);
   const dispatch = useDispatch();
   const { notifications, fetched, loading, error } = useSelector(
@@ -28,12 +29,10 @@ function Notifications() {
     }
   }, []);
 
-  const path = asPath.split("/")[2];
+  const path = router.asPath.split("/")[2];
 
   const getNotifications = () => {
     switch (path) {
-      case "mentions":
-        return notifications.filter((res) => res.type === "mention");
       case "liked":
         return notifications.filter((res) => res.type === "liked");
       case "following":
@@ -48,56 +47,16 @@ function Notifications() {
     return <ErrorMessage error={Error} />;
   }
 
+  const onClick = ({ pcr, type, userInfo, postId }) => {
+    if (type === "following") {
+      router.push(`/${userInfo?.userName}`);
+    } else if (pcr == "post") {
+      router.push(`/post/${postId}`);
+    }
+  };
+
   return (
     <div className={styles.con}>
-      <div className={styles.top}>
-        <Link href="/notifications">
-          <a>
-            <h1 className={styles.top_aln}> Notifications</h1>
-          </a>
-        </Link>
-      </div>
-      <nav className={styles.nav}>
-        <div className={styles.nv_group}>
-          <Link href="/notifications/mentions">
-            <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "mentions" && styles.blue
-                }`}
-              >
-                Mentions
-              </span>
-            </a>
-          </Link>
-        </div>
-        <div className={styles.nv_group}>
-          <Link href="/notifications/following">
-            <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "following" && styles.blue
-                }`}
-              >
-                Following
-              </span>
-            </a>
-          </Link>
-        </div>
-        <div className={styles.nv_group}>
-          <Link href="/notifications/liked">
-            <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "liked" && styles.blue
-                }`}
-              >
-                Liked
-              </span>
-            </a>
-          </Link>
-        </div>
-      </nav>
       <div className={styles.notifications}>
         {error ? (
           <ErrorMessage error={error} />
@@ -110,7 +69,35 @@ function Notifications() {
           </div>
         ) : (
           notif.map((notif) => {
-            return <Notification notif={notif} />;
+            return (
+              <div
+                key={notif._id}
+                className={styles.notification}
+                onClick={() => onClick(notif)}
+              >
+                <div className={styles.n_left}>
+                  <div className={styles.profile}>
+                    <img
+                      className={styles.profile_img}
+                      src={`${baseURL}/p/${notif.userInfo?.profilePic}`}
+                    />
+                  </div>
+                </div>
+                <div className={styles.n_right}>
+                  <div>
+                    <span className={styles.date}>{getDate(notif.date)}</span>
+                  </div>
+                  <span className={styles.name}>
+                    {notif?.userInfo?.userName}
+                  </span>
+                  <span className={styles.message}>
+                    {notif.type === "following"
+                      ? " Started following you"
+                      : ` Was mentioned in a ${notif.pcr}`}
+                  </span>
+                </div>
+              </div>
+            );
           })
         )}
       </div>

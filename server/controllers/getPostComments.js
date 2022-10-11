@@ -1,13 +1,13 @@
 const objectId = require("mongoose").Types.ObjectId;
 const dbPost = require("../dbSchemas/post");
-const { idIn, DB_PROJECT_USERiNFO } = require("./helper");
+const { idIn, DB_PROJECT_COMMENT_LC } = require("./helper");
 
 const getComments = async (req, res, next) => {
   try {
     const { postId } = req.params;
-    const { publicID } = req.user;
-    console.log("yes");
-    const getComments = await dbPost.aggregate([
+    const publicID = req.user?.publicID;
+
+    const comments = await dbPost.aggregate([
       {
         $match: {
           _id: objectId(postId),
@@ -25,42 +25,28 @@ const getComments = async (req, res, next) => {
         },
       },
       {
+        $replaceWith: "$comments",
+      },
+      {
         $lookup: {
           from: "users",
-          localField: "comments.userId",
+          localField: "userId",
           foreignField: "publicID",
-          as: "comments.userInfo",
+          as: "userInfo",
         },
       },
       {
         $set: {
-          "comments.userInfo": { $arrayElemAt: ["$comments.userInfo", 0] },
+          userInfo: { $arrayElemAt: ["$userInfo", 0] },
         },
       },
       {
-        $project: {
-          comments: {
-            _id: 1,
-            text: 1,
-            file: 1,
-            commentAt: 1,
-            userInfo: DB_PROJECT_USERiNFO,
-            liked: idIn(publicID, "$comments.likes"),
-            likesCount: { $size: "$comments.likes" },
-            repliesCount: { $size: "$comments.replies" },
-          },
-        },
-      },
-      {
-        $group: {
-          _id: "$_id",
-          comments: { $push: "$comments" },
-        },
+        $project: DB_PROJECT_COMMENT_LC(publicID),
       },
     ]);
 
-    if (getComments.length > 0) {
-      return res.json({ status: "ok", comments: getComments[0].comments });
+    if (comments.length > 0) {
+      return res.json({ status: "ok", comments });
     }
     res.json({ status: "error", error: "No comments" });
   } catch (error) {

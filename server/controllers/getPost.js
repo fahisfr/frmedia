@@ -1,6 +1,6 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { DB_PROJECT_USERiNFO, idIn } = require("./helper");
+const { DB_PROJECT_POST, idIn } = require("./helper");
 
 const getPost = async (req, res, next) => {
   try {
@@ -108,16 +108,8 @@ const getPost = async (req, res, next) => {
       },
       {
         $project: {
-          _id: 1,
-          userId: 1,
-          text: 1,
-          file: 1,
-          postAt: 1,
-          liked: 1,
-          likesCount: 1,
-          commentsCount: 1,
+          ...DB_PROJECT_POST,
           comments: 1,
-          userInfo: DB_PROJECT_USERiNFO,
         },
       },
     ]);

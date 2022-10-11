@@ -1,9 +1,9 @@
 import Notifications from "../../components/Notifications";
-import MainLayout from "../../layouts/Main";
+import NotifLayout from "../../layouts/Notification";
 function following() {
   return <Notifications />;
 }
 
-following.PageLayout = MainLayout;
+following.PageLayout = NotifLayout;
 
-export default following;
+export default following

@@ -94,8 +94,6 @@ function Post({ postInfo, userInfo, sliceName }) {
                 </div>
               </div>
             </div>
-            <div></div>
-            <div></div>
           </div>
           <div
             className={styles.header_right}

@@ -1,6 +1,6 @@
 const dbUser = require("../dbSchemas/user");
 const objectId = require("mongoose").Types.ObjectId;
-const { DB_PROJECT_USERiNFO } = require("./helper");
+const { DB_PROJECT_USERINFO } = require("./helper");
 
 const notifications = async (req, res, next) => {
   try {
@@ -45,7 +45,7 @@ const notifications = async (req, res, next) => {
             commentId: 1,
             replyId: 1,
             pcr: 1,
-            userInfo: DB_PROJECT_USERiNFO,
+            userInfo: DB_PROJECT_USERINFO,
           },
         },
       },
@@ -58,6 +58,7 @@ const notifications = async (req, res, next) => {
       },
     ]);
 
+    console.log(dbResult)
     if (dbResult.length > 0) {
       res.json({ status: "ok", notifications: dbResult[0].notifications });
 

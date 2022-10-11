@@ -9,8 +9,14 @@ import { actions } from "../../../features/home";
 import axios from "../../../axios";
 import { useRouter } from "next/router";
 import AddPCR from "../../../components/AddPCR";
-
 import ErrorMessage from "../../../components/ErrorMessage";
+const css = {
+  "font-size": "17px;",
+  color: " var(--gray_400) ",
+  width: "100%",
+  disply: "flex",
+  "align-item": "center",
+};
 function Post() {
   const router = useRouter();
   const { setComments, addPost } = actions;

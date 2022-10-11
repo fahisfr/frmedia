@@ -1,3 +1,5 @@
+
+
 const objectId = require("mongoose").Types.ObjectId;
 const idIn = (id, array) => {
   if (id) {
@@ -8,15 +10,88 @@ const idIn = (id, array) => {
   return false;
 };
 
-const DB_PROJECT_USERiNFO = {
+const DB_PROJECT_USERINFO = {
   publicID: 1,
   userName: 1,
   profilePic: 1,
   coverPic: 1,
   verified: 1,
 };
+const DB_PROJECT_POST = {
+  _id: 1,
+  text: 1,
+  file: 1,
+  postAt: 1,
+  liked: 1,
+  likesCount: 1,
+  commentsCoutn: 1,
+  userInfo: DB_PROJECT_USERINFO,
+};
 
+const DB_PROJECT_COMMENT = {
+  _id: 1,
+  text: 1,
+  file: 1,
+  postAt: 1,
+  liked: 1,
+  likesCount: 1,
+  repliesCoutn: 1,
+};
+const DB_PROJECT_REPLY = {
+  _id: 1,
+  text: 1,
+  file: 1,
+  postAt: 1,
+  liked: 1,
+  likesCount: 1,
+};
 
+const DB_PROJECT_POST_LC = (id, likes = "$likes", comments = "$comments") => {
+  const obj = {
+    _id: 1,
+    text: 1,
+    file: 1,
+    postAt: 1,
+    likesCount: { $size: likes },
+    commentsCount: { $size: comments },
+    userInfo: DB_PROJECT_USERINFO,
+  };
+  if (id) {
+    obj.liked = idIn(id, likes);
+  }
+  return obj;
+};
+
+const DB_PROJECT_COMMENT_LC = (id, likes = "$likes", replies = "$replies") => {
+  const obj = {
+    _id: 1,
+    text: 1,
+    file: 1,
+    commentAt: 1,
+    likesCount: { $size: likes },
+    repliesCoutn: { $size: replies },
+    userInfo: DB_PROJECT_USERINFO,
+  };
+  if (id) {
+    obj.liked = idIn(id, likes);
+  }
+  return obj;
+};
+
+const DB_PROJECT_REPLY_LC = (id, likes = "$likes") => {
+  const obj = {
+    _id: 1,
+    text: 1,
+    file: 1,
+    replyAt: 1,
+    likesCount: { $size: likes },
+    userInfo: DB_PROJECT_USERINFO,
+  };
+  if (id) {
+    obj.liked = idIn(id, likes);
+  }
+  return obj;
+};
 
 const getFileInfo = (file) => {
   const [type, extension] = file.mimetype.split("/");
@@ -66,5 +141,11 @@ module.exports = {
   getFileInfo,
   idIn,
   findTagsAndMentions,
-  DB_PROJECT_USERiNFO
+  DB_PROJECT_USERINFO,
+  DB_PROJECT_POST,
+  DB_PROJECT_COMMENT,
+  DB_PROJECT_REPLY,
+  DB_PROJECT_POST_LC,
+  DB_PROJECT_COMMENT_LC,
+  DB_PROJECT_REPLY_LC,
 };

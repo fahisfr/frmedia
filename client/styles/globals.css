@@ -71,6 +71,19 @@ a {
   text-decoration: none;
 }
 
+
+.pcr {
+  color: var(--default-blue);
+  font-size: 10px;
+  position: absolute;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 2px;
+  top: 4px;
+  right: 3px;
+  border: 1px solid var(--default-blue);
+}
+
 .center {
 
   width: 650px;
@@ -125,12 +138,12 @@ a {
 
 .no_comments {
   padding-top: 10px;
-}
-
-.no_c_text {
   font-size: 17px;
   color: var(--gray_400);
+  text-align: center;
 }
+
+
 
 @keyframes just-loading {
   0% {
