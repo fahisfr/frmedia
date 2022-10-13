@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Posts from "../../../components/Post";
-import AddPost from "../../../components/AddPCR";
 import Comment from "../../../components/Comment";
 import JustLoading from "../../../components/JustLoading";
 import MainLayout from "../../../layouts/Main";
@@ -10,13 +9,7 @@ import axios from "../../../axios";
 import { useRouter } from "next/router";
 import AddPCR from "../../../components/AddPCR";
 import ErrorMessage from "../../../components/ErrorMessage";
-const css = {
-  "font-size": "17px;",
-  color: " var(--gray_400) ",
-  width: "100%",
-  disply: "flex",
-  "align-item": "center",
-};
+
 function Post() {
   const router = useRouter();
   const { setComments, addPost } = actions;
@@ -29,9 +22,7 @@ function Post() {
   const [failedFetchPost, setFailedFetchPost] = useState(false);
   const [failedFetchComments, setFailedFetchComments] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const posts = useSelector((state) => state.home.posts);
-
   const post = posts.find((post) => post._id === postId);
 
   useEffect(() => {

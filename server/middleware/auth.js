@@ -1,13 +1,32 @@
 const jwt = require("jsonwebtoken");
 
-const auth = (req, res, next) => {
+const authRequied = (req, res, next) => {
   const token = req.headers.auth_token;
-  if (!token) return res.json({ status: "error", error: "unauthorized" });
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-    if (err) return res.json({ status: "error", error: "unauthorized" });
+  if (!token)
+    return res.status(403).json({ status: "error", error: "unauthorized" });
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+ 
+    if (err)
+      return res
+        .status(403)
+        .json({ status: "error", error: "token not valid" });
+
     req.user = decoded;
     next();
   });
 };
 
-module.exports = auth;
+const auth = (req, res, next) => {
+  const token = req.headers.auth_token;
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (!err) {
+      req.user = decoded;
+    }
+    next();
+  });
+};
+
+module.exports = {
+  authRequied,
+  auth,
+};

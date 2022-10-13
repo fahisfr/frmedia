@@ -18,7 +18,6 @@ function Notifications() {
   const { notifications, fetched, loading, error } = useSelector(
     (state) => state.notifications
   );
-
   useEffect(() => {
     try {
       if (!fetched && !loading) {
@@ -47,11 +46,13 @@ function Notifications() {
     return <ErrorMessage error={Error} />;
   }
 
-  const onClick = ({ pcr, type, userInfo, postId }) => {
+  const onClick = ({ pcr, type, userInfo, postId, commentId }) => {
     if (type === "following") {
       router.push(`/${userInfo?.userName}`);
     } else if (pcr == "post") {
       router.push(`/post/${postId}`);
+    } else if (pcr == "reply" || "comment") {
+      router.push(`/post/${postId}/comment/${commentId}`);
     }
   };
 

@@ -1,6 +1,10 @@
 const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
-const { DB_PROJECT_POST_LC, DB_PROJECT_REPLY_LC } = require("./helper");
+const {
+  DB_PROJECT_POST_LC,
+  DB_PROJECT_REPLY_LC,
+  DB_PROJECT_COMMENT,
+} = require("./helper");
 
 const getComment = async (req, res, next) => {
   try {

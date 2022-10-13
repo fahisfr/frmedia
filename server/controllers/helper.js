@@ -24,7 +24,7 @@ const DB_PROJECT_POST = {
   postAt: 1,
   liked: 1,
   likesCount: 1,
-  commentsCoutn: 1,
+  commentsCount: 1,
   userInfo: DB_PROJECT_USERINFO,
 };
 
@@ -69,7 +69,7 @@ const DB_PROJECT_COMMENT_LC = (id, likes = "$likes", replies = "$replies") => {
     file: 1,
     commentAt: 1,
     likesCount: { $size: likes },
-    repliesCoutn: { $size: replies },
+    repliesCount: { $size: replies },
     userInfo: DB_PROJECT_USERINFO,
   };
   if (id) {

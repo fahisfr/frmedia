@@ -131,6 +131,7 @@ function Header({ darkMode, setDarkMode }) {
               type="checkbox"
               className={styles.checkbox}
               checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
             />
             <label
               className={styles.label}
@@ -141,19 +142,18 @@ function Header({ darkMode, setDarkMode }) {
               <div className={styles.ball}></div>
             </label>
           </div>
-          <div className={styles.profile}>
-            <Link href={`/${userName}`}>
-              <div
-                className={styles.profile_btn}
-                onClick={() => setDark(!dark)}
-              >
-                <img
-                  className={styles.image}
-                  src={`${baseURL}/p/${profilePic}`}
-                />
+          <Link href={`/${userName}`}>
+            <a>
+              <div className={styles.profile}>
+                <div className={styles.profile_btn}>
+                  <img
+                    className={styles.image}
+                    src={`${baseURL}/p/${profilePic}`}
+                  />
+                </div>
               </div>
-            </Link>
-          </div>
+            </a>
+          </Link>
         </div>
       </div>
     </header>

@@ -7,15 +7,23 @@ import axios, { baseURL } from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import SidePopMessage from "./SidePopMessage";
 import Image from "next/image";
-import getPostAcitons from "../features/actions/post";
+import getPostActions from "../features/actions/post";
+import clickOutside from "../hooks/clickOutSide";
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
 
-function AddPCR({ For, postId, commentId, sliceName }) {
+//addPCR full add(P=Post,C=Comment,R=Reply)
+//For == type(post,comment,reply)
+//tagged for only addReply
+//setTrigger For Comment and Reply
+// "redux sliceName for pick right ReduxSlice(getPostAcitons)"
+
+function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const fileRef = useRef(null);
+  const emojiRef = useRef(null);
   const [file, setFile] = useState(null);
   const [emojiTrigger, setEmojiTrigger] = useState(false);
 
@@ -23,11 +31,19 @@ function AddPCR({ For, postId, commentId, sliceName }) {
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
   const { userInfo } = useSelector((state) => state.user);
   const [popupInfo, setPopupInfo] = useState({
-    trigger:false,
+    trigger: false,
     error: false,
-    message: "adsfa",
+    message: "",
   });
-  const { addPost, addComment, addReply } = getPostAcitons(sliceName);
+  useEffect(() => {
+    if (tagged) {
+      setText(tagged);
+    }
+  }, []);
+  clickOutside(emojiRef, () => {
+    setEmojiTrigger(false);
+  });
+  const { addPost, addComment, addReply } = getPostActions(sliceName);
 
   const PRC = () => {
     switch (For) {
@@ -85,7 +101,9 @@ function AddPCR({ For, postId, commentId, sliceName }) {
       if (data.status === "ok") {
         updateState({ ...data.info, userInfo, likesCount: 0 });
         setPopupInfo({ trigger: true, error: false, message: data.message });
-
+        if (setTrigger) {
+          setTrigger(false);
+        }
         setText("");
         setFilePreview({ type: "", url: "" });
         setFile(null);
@@ -128,6 +146,9 @@ function AddPCR({ For, postId, commentId, sliceName }) {
   const cancelNow = (e) => {
     setText("");
     inputRef.current.style.height = "auto";
+    if (setTrigger) {
+      setTrigger(false);
+    }
   };
 
   const TriggerEmojiPicker = () => setEmojiTrigger(!emojiTrigger);
@@ -210,7 +231,8 @@ function AddPCR({ For, postId, commentId, sliceName }) {
                 </div>
                 <div
                   className={styles.m_group}
-                  onClick={(e) => setEmojiTrigger(!emojiTrigger)}
+                  onClick={(e) => setEmojiTrigger(true)}
+                  ref={emojiRef}
                 >
                   <BsEmojiSmile size={20} color="#007aed" />
                   <div className={styles.m_pop_message}>
@@ -222,10 +244,12 @@ function AddPCR({ For, postId, commentId, sliceName }) {
                 </div>
               </div>
               <div className={styles.addPostRight_br}>
-                {text.length > 0 && (
+                {setTrigger || text.length > 0 ? (
                   <button className={styles.cancel_button} onClick={cancelNow}>
                     <span>Cancel</span>
                   </button>
+                ) : (
+                  ""
                 )}
                 <button onClick={submitNow} className={styles.addPostButton}>
                   <span className={styles.addpost_btn_text}>{btnText}</span>

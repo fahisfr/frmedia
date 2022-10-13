@@ -61,7 +61,15 @@
     color: var(--text-primary);
     font-size: 14px;
 }
-
+.icon_logout{
+    color: var(--secondary-color);
+    font-size: 1.75rem;
+    color: red;
+}
+.logout_text {
+    color: rgb(255, 0, 0);
+    font-size: 14px;
+}
 
 .themes {
     display: flex;
@@ -69,6 +77,8 @@
     column-gap: 5px;
     border: 1px solid var(--border-primary);
 }
+
+
 
 .theme {
     width: 3rem;

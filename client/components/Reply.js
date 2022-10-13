@@ -14,6 +14,7 @@ import getPostAcitons from "../features/actions/post";
 
 function Reply({ replyInfo, postId, commentId, sliceName }) {
   const dispatch = useDispatch();
+  console.log(replyInfo,'this one')
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
   const { _id, text, replyAt, likesCount, liked, file } = replyInfo;
   const { userName, profilePic } = replyInfo.userInfo;
@@ -121,7 +122,13 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
         </footer>
         <div>
           {addReplyTrigger && (
-            <AddPCR For="reply" postId={postId} commentId={commentId} />
+            <AddPCR
+              For="reply"
+              postId={postId}
+              commentId={commentId}
+              setTrigger={setAddReplyTrigger}
+              tagged={`@${replyInfo?.userInfo?.userName}`}
+            />
           )}
         </div>
       </div>

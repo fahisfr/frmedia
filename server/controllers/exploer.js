@@ -2,8 +2,8 @@ const dbPost = require("../dbSchemas/post");
 const objectId = require("mongoose").Types.ObjectId;
 const { DB_PROJECT_POST_LC } = require("./helper");
 const explore = async (req, res, next) => {
-  const { publicID } = req.user;
   try {
+    const publicID = req.user.publicID;
     const posts = await dbPost.aggregate([
       {
         $match: {},

@@ -78,18 +78,18 @@ function Sidebar() {
             </a>
           </Link>
         </nav>
-
-        {/* <div className={styles.suggestion}>
+{/* 
+        <div className={styles.suggestion}>
           <div className={styles.sug_top}>
             <h4>Suggestions for you</h4>
           </div>
           <div className={styles.sug_bottom}>
-            <div key={index} className={styles.user}>
+            <div  className={styles.user}>
               <div className={styles.profile}>
-                <img className={styles.img} src={item.img} />
+                <img className={styles.img} src="" />
               </div>
               <div className={styles.un}>
-                <span className={styles.name}>{item.name}</span>
+                <span className={styles.name}>{""}</span>
                 <MdVerified className={styles.verified} />
               </div>
               <div>

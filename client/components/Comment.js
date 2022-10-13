@@ -19,7 +19,6 @@ function Comment({ comment, postId, sliceName }) {
   const [addReply, setAddReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [failedFetchReplies, setFailedFetchReplies] = useState(false);
-
   const { setReplies, likeComment } = getPostAcitons(sliceName);
   const {
     _id,
@@ -177,6 +176,7 @@ function Comment({ comment, postId, sliceName }) {
             postId={postId}
             For="reply"
             sliceName={sliceName}
+            setTrigger={setAddReply}
           />
         )}
         {failedFetchReplies ? (

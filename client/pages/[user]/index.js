@@ -1,7 +1,4 @@
-
 import ProfileLayout from "../../layouts/Profile";
-
-
 function Profile() {
   return <></>;
 }

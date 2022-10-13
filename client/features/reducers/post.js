@@ -67,20 +67,29 @@ export default {
     }
   },
   addReply: ({ posts }, { payload }) => {
-    for (let post of posts) {
-      if (post._id === payload.postId) {
-        for (comment of post.comments) {
-          if (comment._id === payload.commentId) {
-            if (comment.replies) {
-              comment.replies.unshift(payload.reply);
+    try {
+      for (let post of posts) {
+        if (post._id === payload.postId) {
+          for (let comment of post.comments) {
+            if (comment._id === payload.commentId) {
+              if (comment.repliesCount) {
+                comment.repliesCount = comment?.repliesCount + 1;
+              } else {
+                comment.repliesCount = 1;
+              }
+              if (comment.replies) {
+                comment.replies.unshift(payload.reply);
+                break;
+              }
+              comment.replies = [payload.reply];
               break;
             }
-            comment.replies = [paylod.reply];
-            break;
           }
+          break;
         }
-        break;
       }
+    } catch (error) {
+      console.log(error);
     }
   },
   likeReply: ({ posts }, { payload }) => {

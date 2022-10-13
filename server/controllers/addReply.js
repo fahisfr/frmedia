@@ -63,7 +63,11 @@ const addReply = async (req, res, next) => {
     }
 
     if (newReply) {
-      res.json({ status: "ok", info:reply, message: "Reply added successfully" });
+      res.json({
+        status: "ok",
+        info: reply,
+        message: "Reply added successfully",
+      });
       return;
     }
     res.json({ status: "error", error: "err" });

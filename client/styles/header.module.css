@@ -1,7 +1,7 @@
 .container {
 
     width: 100%;
-    height: 50px;
+    height: 53px;
     background-color: var(--bg-primary);
     position: fixed;
     top: 0;
@@ -55,7 +55,7 @@
     display: flex;
     border-radius: .5rem;
     border: 1px solid rgba(177, 177, 177, 0.397);
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
 
 }
 
@@ -68,8 +68,7 @@
     font-size: .950rem;
     border-radius: .5rem;
     color: var(--text-primary);
-    background-color: var(--bg-secondary);
-
+    background-color: var(--bg-primary);
 
 }
 

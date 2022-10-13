@@ -1,23 +1,23 @@
-const db = require("mongoose");
-const objectId = require("mongoose").Schema.Types.ObjectId;
+const mongoose = require("mongoose");
+const objectId = mongoose.Schema.Types.ObjectId;
 
-const user = new db.Schema({
+const user = new mongoose.Schema({
   publicID: {
-    type: db.Schema.Types.ObjectId,
-    default: db.Schema.Types.ObjectId,
+    type: objectId,
+    default: objectId,
   },
   userName: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, select: false },
   CreaetAt: { type: Date, default: Date.now },
-  posts: [{ type: db.Schema.Types.ObjectId }],
-  followers: [{ type: db.Schema.Types.ObjectId }],
-  following: [{ type: db.Schema.Types.ObjectId }],
+  posts: [{ type: objectId }],
+  followers: [{ type: objectId }],
+  following: [{ type: objectId }],
   profilePic: { type: String, default: "default_profile.jpg" },
   coverPic: { type: String, default: "jxz3f3xij.jpeg" },
   bio: { type: String, default: "I am a new user" },
-  link: { type: String },
-  posts: [{ type: db.Schema.Types.ObjectId }],
+  link: String,
+  posts: [{ type: objectId }],
   admin: { type: Boolean, default: false },
   verified: { type: Boolean, default: false },
   refreshToken: { type: String, default: null, select: false },
@@ -27,15 +27,15 @@ const user = new db.Schema({
       type: { type: String },
       //pcr full post,comment,reply
       pcr: { type: String },
-      userId: { type: db.Schema.Types.ObjectId },
-      postId: { type: db.Schema.Types.ObjectId },
-      commentId: { type: db.Schema.Types.ObjectId },
-      replyId: { type: db.Schema.Types.ObjectId },
+      userId: { type: objectId },
+      postId: { type: objectId },
+      commentId: { type: objectId },
+      replyId: { type: objectId },
       date: { type: Date, default: Date.now },
     },
   ],
 });
 
-const Users = db.model("users", user);
+const Users = mongoose.model("users", user);
 
 module.exports = Users;

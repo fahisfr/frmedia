@@ -1,14 +1,15 @@
-const { number } = require("joi");
+
 const mongoose = require("mongoose");
+const objectId = mongoose.Schema.Types.ObjectId
 
 const postSchema = {
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: objectId ,
     ref: "users",
     required: true,
   },
   text: { type: String },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+  likes: [{ type: objectId , ref: "users" }],
   file: {
     type: {
       type: String,

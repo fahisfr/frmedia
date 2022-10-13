@@ -1,12 +1,11 @@
 const dbUser = require("../dbSchemas/user");
 const jwt = require("jsonwebtoken");
 
-
 const login = async (req, res, next) => {
   try {
     const { id, password } = req.body;
     const isEmail = id.includes("@");
-
+ 
     const user = await dbUser.findOne(
       {
         [isEmail ? "email" : "userName"]: id,
@@ -19,15 +18,14 @@ const login = async (req, res, next) => {
     );
 
     if (user) {
-      
       const info = { id: user._id, publicID: user.publicID };
       console.log(info);
-      const refreshToken = jwt.sign(info, process.env.TOKEN_SECRET, {
-        expiresIn: "69d",
+      const refreshToken = jwt.sign(info, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: "40d",
       });
 
-      const accessToken = jwt.sign(info, process.env.TOKEN_SECRET, {
-        expiresIn: "11d",
+      const accessToken = jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30m",
       });
 
       dbUser.updateOne({ _id: user._id }, { set: { refreshToken } });

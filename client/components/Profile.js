@@ -101,7 +101,7 @@ function Profile() {
             <div className={styles.nf_l}>
               <h2 className={styles.name}>{profile.userName}</h2>
               {user === userName && (
-                <Link href={`${profile.userName}/editprofile`}>
+                <Link href="/setting/editprofile">
                   <div className={styles.edit}>
                     <FiEdit className={styles.edit_icon} />
                     <div className={styles.edit_icon_m}>

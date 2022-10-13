@@ -44,6 +44,7 @@ const notifications = async (req, res, next) => {
             postId: 1,
             commentId: 1,
             replyId: 1,
+            date: 1,
             pcr: 1,
             userInfo: DB_PROJECT_USERINFO,
           },
@@ -58,7 +59,6 @@ const notifications = async (req, res, next) => {
       },
     ]);
 
-    console.log(dbResult)
     if (dbResult.length > 0) {
       res.json({ status: "ok", notifications: dbResult[0].notifications });
 
