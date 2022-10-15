@@ -7,8 +7,10 @@ import axios, { baseURL } from "../axios";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from "../features/profiles";
+import Image from "next/image";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "./ErrorMessage";
+
 
 function Profile() {
   const {
@@ -66,6 +68,8 @@ function Profile() {
     }
   };
 
+  const isUserProfile = user === userName;
+
   if (error) {
     return <ErrorMessage error={error} />;
   }
@@ -76,10 +80,12 @@ function Profile() {
 
   return (
     <div className={styles.container}>
+     
       <div className={styles.cover_photo}>
-        <img
-          className={styles.cover_img}
+        <Image
           src={`${baseURL}/c/${profile.coverPic}`}
+          layout="fill"
+          objectFit="cover"
           alt=""
         />
       </div>
@@ -88,8 +94,11 @@ function Profile() {
         <div>
           <div className={styles.info_left}>
             <div className={styles.profile}>
-              <img
-                className={styles.profile_img}
+              <Image
+                layout="fill"
+                objectFit="cover"
+                className="img_border_radius"
+                alt=""
                 src={`${baseURL}/p/${profile.profilePic}`}
               />
             </div>
@@ -100,8 +109,8 @@ function Profile() {
           <div className={styles.info_nf}>
             <div className={styles.nf_l}>
               <h2 className={styles.name}>{profile.userName}</h2>
-              {user === userName && (
-                <Link href="/setting/editprofile">
+              {isUserProfile && (
+                <Link href="/settings/editprofile">
                   <div className={styles.edit}>
                     <FiEdit className={styles.edit_icon} />
                     <div className={styles.edit_icon_m}>
@@ -111,23 +120,25 @@ function Profile() {
                 </Link>
               )}
             </div>
-            <div>
-              {profile.isFollowing ? (
-                <button
-                  className={`${styles.following} ${styles.btn}`}
-                  onClick={followHandler}
-                >
-                  Following
-                </button>
-              ) : (
-                <button
-                  className={`${styles.btn} ${styles.follow}`}
-                  onClick={followHandler}
-                >
-                  Follow
-                </button>
-              )}
-            </div>
+            {!isUserProfile && (
+              <div>
+                {profile.isFollowing ? (
+                  <button
+                    className={`${styles.following} ${styles.btn}`}
+                    onClick={followHandler}
+                  >
+                    Following
+                  </button>
+                ) : (
+                  <button
+                    className={`${styles.btn} ${styles.follow}`}
+                    onClick={followHandler}
+                  >
+                    Follow
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div className={styles.fw_c}>
             <div>
@@ -155,7 +166,7 @@ function Profile() {
             <span className={styles.bio_text}>{profile.bio}</span>
             <div>
               <span className={styles.link}>
-                <a target={"_blank"} href={profile.link}>
+                <a target={"_blank"} rel="noreferrer" href={profile.link}>
                   {profile.link}
                 </a>
               </span>

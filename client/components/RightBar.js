@@ -16,7 +16,7 @@ function RightBar() {
       };
       getTags();
     } catch (err) {
-      alert(err);
+      
     } finally {
       setLoading(false);
     }

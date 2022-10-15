@@ -3,8 +3,8 @@ import styles from "../styles/ls.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "../axios";
-
-function index() {
+import Image from "next/image"
+function Index() {
   const router = useRouter();
 
   const [userName, setUserName] = useState("fahis");
@@ -20,8 +20,6 @@ function index() {
     userName: false,
     email: false,
   });
-
-
 
   const verifyEmailNow = async () => {
     setLoading(true);
@@ -44,7 +42,6 @@ function index() {
   };
 
   const onSubmit = async (e) => {
-
     e.preventDefault();
     try {
       const { data } = await axios.post("/signup", {
@@ -89,7 +86,6 @@ function index() {
       }
     }
   };
- 
 
   return (
     <div className={styles.container}>
@@ -226,10 +222,12 @@ function index() {
 
               <div className={styles.au_group}>
                 <button className={styles.google_button}>
-                  <img
+                  <Image
                     src="/google_icon.svg"
-                    className={styles.google_button_icon}
-                    onClick={() => signIn()}
+                    width="30%"
+                    height="80%"
+                    alt=""
+                    className="img_border_radius"
                   />
                   <span className={styles.google_button_text}>
                     Continue With Google
@@ -250,4 +248,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

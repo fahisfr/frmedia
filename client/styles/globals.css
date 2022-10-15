@@ -55,6 +55,7 @@
   padding: 0;
   margin: 0;
   font-family: sans-serif;
+ 
 
 
 }
@@ -112,6 +113,10 @@ a {
   background-color: var(--bg-primary);
 }
 
+
+.img_border_radius {
+  border-radius: 50%;
+}
 
 ::-webkit-scrollbar {
   width: 4px;

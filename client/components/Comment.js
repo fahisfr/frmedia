@@ -13,6 +13,8 @@ import getDate from "../helper/getDate";
 import ErrorMessage from "./ErrorMessage";
 import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
+import Image from "next/image";
+import FilterText from "./FilterText";
 
 function Comment({ comment, postId, sliceName }) {
   const dispatch = useDispatch();
@@ -79,9 +81,11 @@ function Comment({ comment, postId, sliceName }) {
       <div className={styles.container}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <img
-              className={styles.profile_img}
+            <Image
               src={`${baseURL}/p/${profilePic}`}
+              layout="fill"
+              objectFit="cover"
+              className="img_border_radius"
               alt=""
             />
           </div>
@@ -104,8 +108,6 @@ function Comment({ comment, postId, sliceName }) {
                   </div>
                 </div>
               </div>
-              <div></div>
-              <div></div>
             </div>
             <div className={styles.header_right}>
               <div className={styles.menu}>
@@ -117,7 +119,7 @@ function Comment({ comment, postId, sliceName }) {
           </div>
 
           <div className={styles.body}>
-            {text && <div className={styles.message}>{filterText(text)}</div>}
+            {text && <FilterText text={text} />}
             <div className={styles.vi}>
               <div className={styles.postFilePreivew}>
                 {file && file.type === "image" ? (

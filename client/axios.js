@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-export const baseURL = "http://localhost:4000";
+
+export const baseURL = process.env.API_BASE_URL ?? "http://localhost:4000";
 
 const instance = axios.create({
   baseURL,
@@ -33,7 +33,7 @@ instance.interceptors.response.use(
       }
 
       localStorage.removeItem("auth_token");
-      
+
       return Promise.reject(error);
     }
   }

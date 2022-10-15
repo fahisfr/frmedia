@@ -240,7 +240,6 @@ const getMentions = async (req, res, next) => {
     ]);
 
     if (dbResult.length > 0) {
-      console.log("yes");
       return res.json({ status: "ok", mentions: dbResult[0].mentions });
     }
     res.json({ status: "ok", mentions: [] });

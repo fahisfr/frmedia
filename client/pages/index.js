@@ -17,7 +17,7 @@ function Home({}) {
     if (!fetched && !loading) {
       dispatch(fetchPosts());
     }
-  }, []);
+  }, [dispatch]);
 
   if (error) {
     return <ErrorMessage error={error} />;

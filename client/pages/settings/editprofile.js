@@ -7,7 +7,8 @@ import { updateUserInfo } from "../../features/user";
 import ProfileLayout from "../../layouts/Main";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import Image from "next/image";
+import SidePopUpMessage from "../../components/SidePopUpMessage";
 
 function EditProfile() {
   const router = useRouter();
@@ -29,6 +30,11 @@ function EditProfile() {
 
   const [editedBio, setBio] = useState(null);
   const [editedLink, setLink] = useState(null);
+  const [popUpInfo, setPopUpInfo] = useState({
+    trigger: false,
+    error: false,
+    message: "",
+  });
 
   const fileInputOnChange = (e) => {
     const file = e.target.files[0];
@@ -60,23 +66,26 @@ function EditProfile() {
 
       if (data.status === "ok") {
         setResponse({ status: data.status, error: false });
+        setPopUpInfo({
+          trigger: true,
+          error: false,
+          message: "profile updatedd",
+        });
         dispatch(updateUserInfo(data.updatedInfo));
         return;
       }
+      setPopUpInfo({ trigger: true, error: true, message: data.error });
       setResponse({ status: data.status, error: data.error });
     } catch (error) {
-      alert(error);
-    }
-  };
-
-  const closePage = (e) => {
-    if (e.target === e.currentTarget) {
-      router.push(`/${userName}`);
+      setPopUpInfo({ trigger: true, error: true, message: error });
     }
   };
 
   return (
     <div className={styles.container}>
+      {popUpInfo.trigger && (
+        <SidePopUpMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
+      )}
       <header className={styles.header}>
         <h3 className={styles.ep}>EditProfile</h3>
         <Link href={`/${userName}`}>
@@ -86,9 +95,11 @@ function EditProfile() {
 
       <div className={styles.body}>
         <div className={styles.coverPic}>
-          <img
-            className={styles.coverPic_img}
+          <Image
             src={coverPicPreview ?? `${baseURL}/c/${coverPic}`}
+            layout="fill"
+            objectFit="cover"
+            alt=""
             onClick={() => avatarRef.current.click()}
           />
           <MdAddAPhoto className={styles.md_add_icon} />
@@ -104,8 +115,11 @@ function EditProfile() {
         </div>
         <div className={styles.pvi}>
           <div className={styles.profile}>
-            <img
-              className={styles.profile_img}
+            <Image
+              layout="fill"
+              objectFit="cover"
+              className="img_border_radius"
+              alt=""
               src={profilePreview ?? `${baseURL}/p/${profilePic}`}
               onClick={() => profileRef.current.click()}
             />
@@ -157,17 +171,6 @@ function EditProfile() {
       </div>
 
       <footer className={styles.footer}>
-        <div className={styles.message}>
-          {response.status === "ok" ? (
-            <span className={styles.message_text}>Profile Updated</span>
-          ) : response.status === "error" ? (
-            <span style={{ color: "red" }} className={styles.message_text}>
-              {response.error}
-            </span>
-          ) : (
-            ""
-          )}
-        </div>
         <div>
           <button className={styles.btn} onClick={handleSubmit}>
             <span className={styles.btn_text}>Save</span>

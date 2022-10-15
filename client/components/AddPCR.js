@@ -5,7 +5,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import daynamic from "next/dynamic";
 import axios, { baseURL } from "../axios";
 import { useSelector, useDispatch } from "react-redux";
-import SidePopMessage from "./SidePopMessage";
+import SidePopMessage from "./SidePopUpMessage";
 import Image from "next/image";
 import getPostActions from "../features/actions/post";
 import clickOutside from "../hooks/clickOutSide";
@@ -21,16 +21,17 @@ const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
 
 function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
   const dispatch = useDispatch();
+
   const inputRef = useRef(null);
   const fileRef = useRef(null);
   const emojiRef = useRef(null);
+
   const [file, setFile] = useState(null);
   const [emojiTrigger, setEmojiTrigger] = useState(false);
-
   const [text, setText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
   const { userInfo } = useSelector((state) => state.user);
-  const [popupInfo, setPopupInfo] = useState({
+  const [popUpInfo, setPopUpInfo] = useState({
     trigger: false,
     error: false,
     message: "",
@@ -39,7 +40,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
     if (tagged) {
       setText(tagged);
     }
-  }, []);
+  }, [tagged]);
   clickOutside(emojiRef, () => {
     setEmojiTrigger(false);
   });
@@ -100,7 +101,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
 
       if (data.status === "ok") {
         updateState({ ...data.info, userInfo, likesCount: 0 });
-        setPopupInfo({ trigger: true, error: false, message: data.message });
+        setPopUpInfo({ trigger: true, error: false, message: data.message });
         if (setTrigger) {
           setTrigger(false);
         }
@@ -108,18 +109,14 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
         setFilePreview({ type: "", url: "" });
         setFile(null);
       } else {
-        setPopupInfo({ trigger: true, error: true, message: data.error });
+        setPopUpInfo({ trigger: true, error: true, message: data.error });
       }
     } catch (err) {
-      setPopupInfo({
+      setPopUpInfo({
         trigger: true,
         error: true,
         message: err,
       });
-    } finally {
-      setTimeout(() => {
-        setPopupInfo({ trigger: false, error: false, message: "" });
-      }, 5000);
     }
   };
 
@@ -151,18 +148,22 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
     }
   };
 
-  const TriggerEmojiPicker = () => setEmojiTrigger(!emojiTrigger);
-
+  const myLoader = () => `${baseURL}/p/${userInfo?.profilePic}`;
   return (
     <div className={styles.addpost}>
-      <SidePopMessage popupInfo={popupInfo} />
+      {popUpInfo.trigger && (
+        <SidePopMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
+      )}
 
       <div className={styles.add_pc_content}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <img
-              className={styles.profileImg}
+            <Image
               src={`${baseURL}/p/${userInfo?.profilePic}`}
+              layout="fill"
+              objectFit="cover"
+              className="img_border_radius"
+              alt=""
             />
           </div>
         </div>

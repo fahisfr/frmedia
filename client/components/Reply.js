@@ -5,16 +5,16 @@ import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
 import { FcLike } from "react-icons/fc";
 import { useDispatch } from "react-redux";
-import { likeReply } from "../features/home";
 import AddPCR from "./AddPCR";
 import axios, { baseURL } from "../axios";
-import getDate from "../helper/getDate";
 import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
+import Image from "next/image";
+import FilterText from "./FilterText";
 
 function Reply({ replyInfo, postId, commentId, sliceName }) {
   const dispatch = useDispatch();
-  console.log(replyInfo,'this one')
+  console.log(replyInfo, "this one");
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
   const { _id, text, replyAt, likesCount, liked, file } = replyInfo;
   const { userName, profilePic } = replyInfo.userInfo;
@@ -36,10 +36,12 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
     <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.profile}>
-          <img
-            className={styles.profile_img}
+          <Image
             src={`${baseURL}/p/${profilePic}`}
             alt=""
+            layout="fill"
+            objectFit="cover"
+            className="img_border_radius"
           />
         </div>
       </div>
@@ -57,12 +59,10 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
                   </div>
                 </div>
                 <div className={styles.group}>
-                  <span className={styles.date}>{getDate(replyAt)}</span>
+                  <span className={styles.date}>{}</span>
                 </div>
               </div>
             </div>
-            <div></div>
-            <div></div>
           </div>
           <div className={styles.header_right}>
             <div className={styles.menu}>
@@ -74,8 +74,7 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
         </div>
 
         <div className={styles.body}>
-          {text && <div className={styles.message}>{filterText(text)}</div>}
-
+          {text && <FilterText text={text} />}
           <div className={styles.vi}>
             <div className={styles.postFilePreivew}>
               {file && file.type === "image" ? (

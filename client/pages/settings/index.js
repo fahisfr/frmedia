@@ -7,11 +7,11 @@ import { TbLogout } from "react-icons/tb";
 import Link from "next/link";
 import axios from "../../axios";
 import { useRouter } from "next/router";
-import SidePopMessage from "../../components/SidePopMessage";
+import SidePopMessage from "../../components/SidePopUpMessage";
 
-function index() {
+function Index() {
   const router = useRouter();
-  const [popupInfo, setPopupInfo] = useState({
+  const [popUpInfo, setPopUpInfo] = useState({
     trigger: false,
     error: false,
     message: "",
@@ -24,10 +24,10 @@ function index() {
         localStorage.removeItem("auth_token");
         router.push("/login");
       } else {
-        setPopupInfo({ trigger: true, error: true, message: data.error });
+        setPopUpInfo({ trigger: true, error: true, message: data.error });
       }
     } catch (error) {
-      setPopupInfo({
+      setPopUpInfo({
         trigger: true,
         error: true,
         message: "oops somthing went wronge",
@@ -36,7 +36,10 @@ function index() {
   };
   return (
     <div>
-      <SidePopMessage popupInfo={popupInfo} />
+      {popUpInfo.trigger && (
+        <SidePopMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
+      )}
+
       <div className={styles.top}>
         <Link href="/settings">
           <div className={styles.back_icon}></div>
@@ -71,5 +74,5 @@ function index() {
   );
 }
 
-index.PageLayout = MainLayout;
-export default index;
+Index.PageLayout = MainLayout;
+export default Index;

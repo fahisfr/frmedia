@@ -9,11 +9,12 @@ import { FcLike } from "react-icons/fc";
 import axios, { baseURL } from "../axios";
 import { useDispatch } from "react-redux";
 import getDate from "../helper/getDate";
-import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 import { useRouter } from "next/router";
 import Options from "./Options";
 import clickOutSide from "../hooks/clickOutSide";
+import Image from "next/image";
+import FilterText from "./FilterText";
 
 function Post({ postInfo, userInfo, sliceName }) {
   const router = useRouter();
@@ -64,9 +65,11 @@ function Post({ postInfo, userInfo, sliceName }) {
 
       <div className={styles.left}>
         <div className={styles.profile}>
-          <img
-            className={styles.profile_img}
+          <Image
             src={`${baseURL}/p/${profilePic}`}
+            layout="fill"
+            objectFit="cover"
+            className="img_border_radius"
             alt=""
           />
         </div>
@@ -120,7 +123,7 @@ function Post({ postInfo, userInfo, sliceName }) {
           {text && (
             <Link href={`/post/${_id}`}>
               <a>
-                <div className={styles.message}>{filterText(text)}</div>
+                <FilterText text={text} />
               </a>
             </Link>
           )}
@@ -131,13 +134,13 @@ function Post({ postInfo, userInfo, sliceName }) {
                 <Link href="/dev/post/123/fv ">
                   <img
                     className={styles.image}
-                    src={`http://localhost:4000/image/${file.name}`}
+                    src={`${baseURL}/image/${file.name}`}
                   />
                 </Link>
               ) : file?.type === "video" ? (
                 <video
                   controls
-                  src={`http://localhost:4000/video/${file.name}`}
+                  src={`${baseURL}/video/${file.name}`}
                   className={styles.video}
                 ></video>
               ) : (

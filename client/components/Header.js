@@ -56,7 +56,7 @@ function Header({ darkMode, setDarkMode }) {
   };
   const handleSelection = (index) => {
     const selectedItem = results[index];
-    selectedItem && router.push(selectedItem.userName);
+    selectedItem && router.push(`/${selectedItem.userName}`);
     setSearchText("");
   };
   return (
@@ -66,9 +66,8 @@ function Header({ darkMode, setDarkMode }) {
           <div className={styles.logo}>
             <Image
               src="/frlogo.png"
-              width="100%%"
-              heigth="100%"
               layout="fill"
+              alt=""
               className={styles.logo_img}
             />
           </div>
@@ -97,10 +96,6 @@ function Header({ darkMode, setDarkMode }) {
                       key={index}
                       ref={index === focusedIndex ? resultContainer : null}
                       onMouseDown={() => handleSelection(index)}
-                      // style={{
-                      //   backgroundColor:
-                      //     index === focusedIndex ? "#f3f4f4" : "",
-                      // }}
                       className={`${styles.result_item} ${
                         index === focusedIndex && styles.item_focuse
                       }`}
@@ -145,12 +140,13 @@ function Header({ darkMode, setDarkMode }) {
           <Link href={`/${userName}`}>
             <a>
               <div className={styles.profile}>
-                <div className={styles.profile_btn}>
-                  <img
-                    className={styles.image}
-                    src={`${baseURL}/p/${profilePic}`}
-                  />
-                </div>
+                <Image
+                  src={`${baseURL}/p/${profilePic}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="img_border_radius"
+                  alt=""
+                />
               </div>
             </a>
           </Link>

@@ -32,16 +32,14 @@ function Tage() {
       };
 
       if (!fetchedHashTags.find((tage) => tage === hashTage)) {
-       
         getPost();
       }
     } catch (err) {
-      console.log(err);
       setError("oops somthin went wrong:(");
     } finally {
       setLoading(false);
     }
-  }, [isReady, hashTage]);
+  }, [isReady, hashTage, dispatch]);
 
   if (error) {
     return <ErrorMessage error={error} />;

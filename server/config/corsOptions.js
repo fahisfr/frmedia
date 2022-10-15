@@ -1,8 +1,6 @@
-
 const corsOptions = {
-  origin:["http://localhost:3000", "http://localhost:4001"],
-  credentials:true
-}
-
+  origin: ["http://localhost:3000", process.env.DOMAIN_NAME],
+  credentials: true,
+};
 
 module.exports = corsOptions;

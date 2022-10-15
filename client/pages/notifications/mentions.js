@@ -6,8 +6,9 @@ import Comment from "../../components/Comment";
 import Reply from "../../components/Reply";
 import JustLoading from "../../components/JustLoading";
 import ErrorMessage from "../../components/ErrorMessage";
-
-function mentions() {
+import styles from "../../styles/notifications.module.css"
+import { IoMdNotificationsOutline } from "react-icons/io";
+function Mentions() {
   const [mentions, setMentions] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -44,32 +45,39 @@ function mentions() {
 
   return (
     <>
-      {mentions?.map((mention) => {
-        return (
-          <div style={{ position: "relative" }}>
-            <span className="pcr">
-              {mention.pcr.charAt(0).toUpperCase() + mention.pcr.slice(1)}
-            </span>
-            {mention.pcr == "post" ? (
-              <Post
-                userInfo={mention.postInfo.userInfo}
-                postInfo={mention.postInfo}
-                sliceName="home"
-              />
-            ) : mention.pcr == "comment" ? (
-              <Comment comment={mention.commentInfo} sliceName="home" />
-            ) : mention.pcr == "reply" ? (
-              <Reply replyInfo={mention.replyInfo} sliceName="home" />
-            ) : (
-              ""
-            )}
-          </div>
-        );
-      })}
+      {mentions.length > 0 ? (
+        mentions?.map((mention, index) => {
+          return (
+            <div key={index} style={{ position: "relative" }}>
+              <span className="pcr">
+                {mention.pcr.charAt(0).toUpperCase() + mention.pcr.slice(1)}
+              </span>
+              {mention.pcr == "post" ? (
+                <Post
+                  userInfo={mention.postInfo.userInfo}
+                  postInfo={mention.postInfo}
+                  sliceName="home"
+                />
+              ) : mention.pcr == "comment" ? (
+                <Comment comment={mention.commentInfo} sliceName="home" />
+              ) : mention.pcr == "reply" ? (
+                <Reply replyInfo={mention.replyInfo} sliceName="home" />
+              ) : (
+                ""
+              )}
+            </div>
+          );
+        })
+      ) : (
+        <div className={styles.empty_notif}>
+          <IoMdNotificationsOutline className={styles.icon} />
+          <sapn className={styles.empty_text}>No Mentions yet</sapn>
+        </div>
+      )}
     </>
   );
 }
 
-mentions.PageLayout = NotifLayout;
+Mentions.PageLayout = NotifLayout;
 
-export default mentions;
+export default Mentions;

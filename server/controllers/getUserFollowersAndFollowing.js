@@ -55,7 +55,13 @@ const getFollowersAndFollowing = async (req, res, next) => {
           as: "following",
         },
       },
-
+      {
+        $set: {
+          following: {
+            $arrayElemAt: ["$following", 0],
+          },
+        },
+      },
       {
         $project: {
           followers: 1,
@@ -88,6 +94,13 @@ const getFollowersAndFollowing = async (req, res, next) => {
           localField: "followers",
           foreignField: "publicID",
           as: "followers",
+        },
+      },
+      {
+        $set: {
+          followers: {
+            $arrayElemAt: ["$followers", 0],
+          },
         },
       },
       {
@@ -131,6 +144,7 @@ const getFollowersAndFollowing = async (req, res, next) => {
         },
       },
     ]);
+    
 
     if (dbResult.length > 0) {
       return res.json({ status: "ok", result: dbResult[0] });

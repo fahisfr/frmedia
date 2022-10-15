@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "../axios";
-
+import Image from "next/image";
 function Login({}) {
   const router = useRouter();
 
@@ -32,9 +32,7 @@ function Login({}) {
       setLoading(false);
     }
   };
-  const responseGoogle = (res) => {
-    console.log(res);
-  };
+
   return (
     <div className={styles.container}>
       <div>
@@ -98,9 +96,11 @@ function Login({}) {
 
               <div className={styles.au_group}>
                 <button className={styles.google_button}>
-                  <img
+                  <Image
                     src="/google_icon.svg"
-                    className={styles.google_button_icon}
+                    width="30%"
+                    height="80%"
+                    alt=""
                   />
                   <span className={styles.google_button_text}>
                     Continue With Google
@@ -108,7 +108,7 @@ function Login({}) {
                 </button>
                 <div className={styles.body_bottom}>
                   <span>
-                    Don't have an accound? <Link href="/singup">Sign Up</Link>
+                    Don1t have an accound? <Link href="/singup">Sign Up</Link>
                   </span>
                 </div>
               </div>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchExplore } from "../features/explore";
 import JustLoading from "../components/JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
-function explore() {
+function Explore() {
   const dispatch = useDispatch();
   const { loading, error, fetched, posts } = useSelector(
     (state) => state.explore
@@ -15,7 +15,7 @@ function explore() {
     if (!fetched && !error) {
       dispatch(fetchExplore());
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -38,5 +38,5 @@ function explore() {
     </>
   );
 }
-explore.PageLayout = MainLayout;
-export default explore;
+Explore.PageLayout = MainLayout;
+export default Explore;

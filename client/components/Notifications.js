@@ -4,12 +4,12 @@ import styles from "../styles/notifications.module.css";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "../components/ErrorMessage";
 import { baseURL } from "../axios";
-
 import { fetchNotifications } from "../features/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import getDate from "../helper/getDate";
+import Image from "next/image";
 
 function Notifications() {
   const router = useRouter();
@@ -69,18 +69,21 @@ function Notifications() {
             <sapn className={styles.empty_text}>No Notification yet</sapn>
           </div>
         ) : (
-          notif.map((notif) => {
+          notif.map((notif, index) => {
             return (
               <div
-                key={notif._id}
+                key={index}
                 className={styles.notification}
                 onClick={() => onClick(notif)}
               >
                 <div className={styles.n_left}>
                   <div className={styles.profile}>
-                    <img
-                      className={styles.profile_img}
+                    <Image
                       src={`${baseURL}/p/${notif.userInfo?.profilePic}`}
+                      layout="fill"
+                      objectFit="cover"
+                      className="img_border_radius"
+                      alt=""
                     />
                   </div>
                 </div>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/followersAndFollowing.module.css";
-import { useSelector } from "react-redux";
 import axios, { baseURL } from "../axios";
 import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ErrorMessage from "../components/ErrorMessage";
 import JustLoading from "../components/JustLoading";
+import Image from "next/image";
 
 function FollowAndFollowing() {
   const router = useRouter();
@@ -119,13 +119,15 @@ function FollowAndFollowing() {
             <div className={styles.users}>
               {users.length > 0 ? (
                 users.map((user, index) => {
-                  console.log(user);
                   return (
                     <div className={styles.user} key={index}>
                       <div className={styles.profile}>
-                        <img
-                          className={styles.profile_img}
+                        <Image
                           src={`${baseURL}/p/${user.profilePic}`}
+                          layout="fill"
+                          objectFit="cover"
+                          alt=""
+                          className="img_border_radius"
                         />
                       </div>
                       <div className={styles.userInfo}>
