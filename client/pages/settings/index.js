@@ -8,6 +8,7 @@ import Link from "next/link";
 import axios from "../../axios";
 import { useRouter } from "next/router";
 import SidePopMessage from "../../components/SidePopUpMessage";
+import Confirmation from "../../components/Confirmation";
 
 function Index() {
   const router = useRouter();
@@ -16,6 +17,7 @@ function Index() {
     error: false,
     message: "",
   });
+  const [logoutConfTrigger, setLogoutConfTrigger] = useState(false);
 
   const logoutNow = async () => {
     try {
@@ -39,7 +41,14 @@ function Index() {
       {popUpInfo.trigger && (
         <SidePopMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
       )}
-
+      <Confirmation
+        trigger={logoutConfTrigger}
+        setTrigger={setLogoutConfTrigger}
+        message=" Are you sure you want to logout"
+        onSuccess={logoutNow}
+        btnText="Logout"
+        btnColorRed={true}
+      />
       <div className={styles.top}>
         <Link href="/settings">
           <div className={styles.back_icon}></div>
@@ -65,7 +74,10 @@ function Index() {
             </div>
           </a>
         </Link>
-        <div className={styles.group} onClick={logoutNow}>
+        <div
+          className={styles.group}
+          onClick={() => setLogoutConfTrigger(true)}
+        >
           <TbLogout className={styles.icon_logout} />
           <span className={styles.logout_text}> Logout</span>
         </div>

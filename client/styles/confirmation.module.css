@@ -1,0 +1,70 @@
+.con {
+
+    position: fixed;
+    z-index: 12;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.39);
+    backdrop-filter: blur(1px);
+
+}
+
+.body {
+    border-radius: 15px;
+    width: 25rem;
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--box-shadow);
+    padding: 30px 20px;
+
+}
+
+.top {
+    flex-grow: 1;
+    text-align: center;
+    padding: 2rem;
+}
+
+.message {
+    font-style: italic;
+    font-size: large;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+
+    width: 5.5rem;
+    height: 2.8rem;
+    border: none;
+    color: var(--text-primary);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-primary);
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.btn:active{
+    transform: scale(0.98);
+}
+
+.red {
+    background-color: rgb(230, 45, 45);
+}
+
+.btn_cancel {
+    background-color: var(--bg-primary);
+}

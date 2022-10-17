@@ -3,7 +3,6 @@ import React from "react";
 import styles from "../styles/notifications.module.css";
 import MainLoayout from "./Main";
 import { useRouter } from "next/router";
-import { IoMdNotificationsOutline } from "react-icons/io";
 
 function Notifications( page ) {
   const { asPath } = useRouter();

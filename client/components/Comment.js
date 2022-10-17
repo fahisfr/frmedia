@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 import axios, { baseURL } from "../axios";
 import getDate from "../helper/getDate";
 import ErrorMessage from "./ErrorMessage";
-import filterText from "../helper/filterText";
 import getPostAcitons from "../features/actions/post";
 import Image from "next/image";
 import FilterText from "./FilterText";
@@ -56,12 +55,13 @@ function Comment({ comment, postId, sliceName }) {
         }
       }
     } catch (error) {
-      console.log(error);
+      setFailedFetchReplies("oops somthin went wronge");
     }
   };
 
   const likeHandler = async (e) => {
     try {
+      dispatch(likeComment({ postId, commentId: _id }));
       const { data } = await axios.post(
         `/comment/${liked ? "unlike" : "like"}`,
         {
@@ -69,16 +69,12 @@ function Comment({ comment, postId, sliceName }) {
           commentId: _id,
         }
       );
-
-      if (data.status === "ok") {
-        dispatch(likeComment({ postId, commentId: _id }));
-      }
     } catch (error) {}
   };
 
   return (
-    <>
-      <div className={styles.container}>
+    <div className={`${styles.con_border}`}>
+      <div className={`${styles.container}  `}>
         <div className={styles.left}>
           <div className={styles.profile}>
             <Image
@@ -145,9 +141,14 @@ function Comment({ comment, postId, sliceName }) {
             <div className={styles.c_footer_group} onClick={likeHandler}>
               <button className={styles.button}>
                 {liked ? (
-                  <FcLike className={styles.c_icons} />
+                  <svg class={styles.cr_liked} viewBox="0 0 32 29.6">
+                    <path
+                      d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                     c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
+                    />
+                  </svg>
                 ) : (
-                  <BsHeart className={`${styles.c_icons} ${styles.liked}`} />
+                  <BsHeart className={`${styles.cr_icon} `} />
                 )}
                 <span>{likesCount}</span>
               </button>
@@ -157,14 +158,14 @@ function Comment({ comment, postId, sliceName }) {
                 className={styles.button}
                 onClick={() => setAddReply(!addReply)}
               >
-                <BsChat className={styles.c_icons} />
+                <BsChat className={styles.cr_icon} />
               </button>
             </div>
           </footer>
           {repliesCount > 0 && (
             <div className={styles.show_replies} onClick={getReplies}>
               <span className={styles.show_replies_text}>
-                {showReplies ? "Hide replies" : `Show ${repliesCount} replies`}
+                {showReplies ? "Hide replies" : `Show ${repliesCount} reply`}
               </span>
             </div>
           )}
@@ -205,7 +206,7 @@ function Comment({ comment, postId, sliceName }) {
           )
         )}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -31,6 +31,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
   const [text, setText] = useState("");
   const [filePreview, setFilePreview] = useState({ type: "", url: "" });
   const { userInfo } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const [popUpInfo, setPopUpInfo] = useState({
     trigger: false,
     error: false,
@@ -85,6 +86,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
   const submitNow = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
 
       const formData = new FormData();
       formData.append("file", file);
@@ -117,6 +119,8 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
         error: true,
         message: err,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -244,16 +248,21 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
                   </div>
                 </div>
               </div>
-              <div className={styles.addPostRight_br}>
-                {setTrigger || text.length > 0 ? (
+              <div
+                className={` ${styles.addPostRight_br}  ${
+                  loading && styles.btn_loading
+                }`}
+              >
+                {(setTrigger || text.length > 0) && !loading ? (
                   <button className={styles.cancel_button} onClick={cancelNow}>
                     <span>Cancel</span>
                   </button>
-                ) : (
-                  ""
-                )}
-                <button onClick={submitNow} className={styles.addPostButton}>
-                  <span className={styles.addpost_btn_text}>{btnText}</span>
+                ) : null}
+                <button
+                  onClick={submitNow}
+                  className={`${styles.add_post_btn}`}
+                >
+                  <span className={styles.btn_text}>{btnText}</span>
                 </button>
               </div>
             </div>

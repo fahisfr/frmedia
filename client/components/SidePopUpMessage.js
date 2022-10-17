@@ -3,7 +3,7 @@ import styles from "../styles/sidePopMessage.module.css";
 import { BiSad } from "react-icons/bi";
 import { BsCheckCircleFill } from "react-icons/bs";
 
-function sidePopMessage({ popUpInfo, setTrigger }) {
+function sidePopMessage({  popUpInfo, setTrigger }) {
   const { error, message } = popUpInfo;
   useEffect(() => {
     setTimeout(() => {

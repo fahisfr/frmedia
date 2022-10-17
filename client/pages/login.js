@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "../axios";
 import Image from "next/image";
+import SidePopUpMessage from "../components/SidePopUpMessage";
 function Login({}) {
   const router = useRouter();
 
@@ -11,6 +12,11 @@ function Login({}) {
   const [password, setPassword] = useState("fahis");
   const [loginError, setLoginError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [popUpInfo, setPopUpInfo] = useState({
+    trigger: false,
+    error: false,
+    message: "",
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -27,14 +33,17 @@ function Login({}) {
         setLoginError(data.error);
       }
     } catch (error) {
-      alert(error.message);
-    } finally {
       setLoading(false);
+      setPopUpInfo({ trigger: true, error: true, message: error });
     }
   };
 
   return (
     <div className={styles.container}>
+      {popUpInfo.trigger && (
+        <SidePopUpMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
+      )}
+
       <div>
         <div className={styles.body}>
           <div className={styles.title}>
@@ -108,7 +117,7 @@ function Login({}) {
                 </button>
                 <div className={styles.body_bottom}>
                   <span>
-                    Don1t have an accound? <Link href="/singup">Sign Up</Link>
+                    Don't have an accound? <Link href="/singup">Sign Up</Link>
                   </span>
                 </div>
               </div>

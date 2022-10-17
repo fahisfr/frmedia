@@ -42,9 +42,6 @@ function Post({ postInfo, userInfo, sliceName }) {
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
       postId: _id,
     });
-    if (data.status === "error") {
-      dispatch(likePost({ postId: _id }));
-    }
   };
 
   const linkCpied = () => {
@@ -56,7 +53,7 @@ function Post({ postInfo, userInfo, sliceName }) {
   };
 
   return (
-    <article className={styles.container}>
+    <article className={`${styles.container} ${styles.con_border}`}>
       {copiedTrigger && (
         <div className={styles.copied_pop}>
           <span className={styles.copied_text}>Link Copied To Clipboard</span>
@@ -153,9 +150,14 @@ function Post({ postInfo, userInfo, sliceName }) {
           <div className={styles.footer_group}>
             <button className={styles.button} onClick={likeHandler}>
               {liked ? (
-                <FcLike className={styles.icons} />
+                <svg class={styles.liked} viewBox="0 0 32 29.6">
+                  <path
+                    d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
+                  />
+                </svg>
               ) : (
-                <BsHeart className={`${styles.icons} ${styles.liked}`} />
+                <BsHeart className={`${styles.icon} `} />
               )}
 
               <span>{likesCount}</span>
@@ -169,20 +171,20 @@ function Post({ postInfo, userInfo, sliceName }) {
                 router.push(`/post/${_id}`);
               }}
             >
-              <BsChat className={styles.icons} />
+              <BsChat className={styles.icon} />
               <span>{commentsCount}</span>
             </button>
           </div>
 
           <div className={styles.footer_group}>
             <button className={styles.button}>
-              <AiOutlineRetweet size={19} className={styles.icons} />
+              <AiOutlineRetweet size={21} className={styles.icons} />
             </button>
           </div>
 
           <div className={styles.footer_group}>
             <button className={styles.button} onClick={linkCpied}>
-              <FiShare className={styles.icons} />
+              <FiShare className={styles.icon} />
             </button>
           </div>
         </footer>

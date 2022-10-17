@@ -16,7 +16,6 @@ function RightBar() {
       };
       getTags();
     } catch (err) {
-      
     } finally {
       setLoading(false);
     }
@@ -32,18 +31,18 @@ function RightBar() {
             {loading ? (
               <JustLoading />
             ) : (
-              topHashTags.map((tage,index) => {
+              topHashTags.map((tage, index) => {
                 return (
                   <Link href={`/hashtage/${tage._id}`} key={index}>
-                    <div className={styles.post}>
-                      <div className={styles.postLeft}>
+                    <div className={styles.tagge}>
+                      <div className={styles.taggeLeft}>
                         <span className={styles.tcond}>
                           {tage.count} Post Tagged
                         </span>
-                        <h1 className={styles.tage}>#{tage._id}</h1>
+                        <span className={styles.tagge_name}>#{tage._id}</span>
                       </div>
 
-                      <div className={styles.postRight}>
+                      <div className={styles.taggeRight}>
                         <div>
                           <div className={styles.menu_icon}></div>
                           <div className={styles.menu_icon}></div>

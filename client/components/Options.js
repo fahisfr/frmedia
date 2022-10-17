@@ -1,13 +1,14 @@
 import styles from "../styles/options.module.css";
 import getPostAcitons from "../features/actions/post";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiHide, BiBlock } from "react-icons/bi";
 import axios from "../axios";
 
 function Options({ trigger, setTrigger, sliceName, id, userId }) {
   const dispatch = useDispatch();
   const { hidePost } = getPostAcitons(sliceName);
-
+  const publicID = useSelector((state) => state.user?.userInfo?.publicID);
+  
   const deletePost = async () => {
     try {
       const { data } = await axios.post("delete-post", { postId: id, userId });

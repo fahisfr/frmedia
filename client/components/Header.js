@@ -8,8 +8,9 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { BsSunFill } from "react-icons/bs";
+import useTheme from "../hooks/useTheme";
 
-function Header({ darkMode, setDarkMode }) {
+function Header({ theme, setTheme }) {
   const router = useRouter();
   const { profilePic, userName } = useSelector((state) => state.user.userInfo);
 
@@ -125,13 +126,10 @@ function Header({ darkMode, setDarkMode }) {
             <input
               type="checkbox"
               className={styles.checkbox}
-              checked={darkMode}
-              onChange={() => setDarkMode(!darkMode)}
+              checked={theme == "dark"}
+              onChange={() => setTheme}
             />
-            <label
-              className={styles.label}
-              onClick={() => setDarkMode(!darkMode)}
-            >
+            <label className={styles.label} onClick={setTheme}>
               <div className={styles.icon_moon}></div>
               <BsSunFill className={styles.icon_sun} />
               <div className={styles.ball}></div>

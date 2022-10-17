@@ -69,7 +69,7 @@ function EditProfile() {
         setPopUpInfo({
           trigger: true,
           error: false,
-          message: "profile updatedd",
+          message: "Profile updatedd",
         });
         dispatch(updateUserInfo(data.updatedInfo));
         return;
@@ -86,12 +86,14 @@ function EditProfile() {
       {popUpInfo.trigger && (
         <SidePopUpMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
       )}
-      <header className={styles.header}>
-        <h3 className={styles.ep}>EditProfile</h3>
-        <Link href={`/${userName}`}>
-          <div className={styles.close}></div>
+      <div className={styles.top}>
+        <Link href="/settings">
+          <div className={styles.back_icon}></div>
         </Link>
-      </header>
+        <div>
+          <span className={styles.title}>Edit Profile</span>
+        </div>
+      </div>
 
       <div className={styles.body}>
         <div className={styles.coverPic}>
@@ -170,13 +172,13 @@ function EditProfile() {
         </form>
       </div>
 
-      <footer className={styles.footer}>
+      <div className={styles.footer}>
         <div>
           <button className={styles.btn} onClick={handleSubmit}>
             <span className={styles.btn_text}>Save</span>
           </button>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }

@@ -174,8 +174,8 @@
     gap: .5rem;
 }
 
-.addPostButton {
-
+.add_post_btn {
+    position: relative;
     width: 5.5rem;
     height: 2.3rem;
     border: none;
@@ -197,15 +197,34 @@
     cursor: pointer;
 }
 
-
-
-
-.addpost_btn_text {
+.btn_text {
     font-size: 0.9rem;
     font-weight: 500;
     color: #ffffff;
 
+}
 
+
+.btn_loading .btn_text {
+    display: none;
+
+}
+
+.btn_loading .add_post_btn::after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    border: 3px solid transparent;
+    border-left-color: #ffffff;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: var(--just-loading) .3s linear infinite;
 }
 
 #emoji {

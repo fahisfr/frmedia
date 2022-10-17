@@ -32,7 +32,6 @@
     text-align: center;
     padding: .4rem;
     font-style: italic;
-    font-family: sans-serif;
     padding: 1.2rem;
 }
 
@@ -151,12 +150,13 @@
     bottom: 0;
     right: 0;
     margin: auto;
-    width: 14px;
+    width: 16px;
     height: 16px;
     border: 4px solid transparent;
     border-left-color: #ffffff;
+    border-top-color: #ffffff;
     border-radius: 50%;
-    animation: just-loading .5s linear infinite;
+    animation: just-loading .4s linear infinite;
 }
 
 
@@ -259,4 +259,15 @@
     font-family: sans-serif;
     font-size: .980rem;
     padding: 1.5rem 0 1.5rem 0;
+}
+
+@keyframes just-loading {
+    0% {
+        transform: rotate(0deg);
+
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

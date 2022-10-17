@@ -1,10 +1,13 @@
 .container {
     width: 100%;
-    border: 1px solid var(--border-secondary);
     display: flex;
     padding: 1.1rem 0 .5rem 0;
     color: var(--text-primary);
 
+}
+
+.con_border {
+    border: 1px solid var(--border-secondary);
 }
 
 .left {
@@ -97,7 +100,7 @@
 .message {
     font-size: 15px;
     word-break: break-all;
-    line-height: 1.3rem; 
+    line-height: 1.3rem;
 }
 
 .text {
@@ -153,20 +156,26 @@
     color: var(--secondary-color);
 }
 
-.icons {
-    font-size: 18px;
-
-}
-
-.c_icons {
+.icon {
     font-size: 16px;
-    color: rgb(53, 48, 48);
-    color: var(--secondary-color);
-
 }
 
-.icons:active {
-    color: rgb(44, 205, 216);
+.liked {
+    width: 16px;
+    fill: red;
+}
+
+.cr_icon {
+    font-size: 15px;
+}
+
+.cr_liked {
+    width: 15px;
+    fill: red;
+}
+
+.cr_icon:active,
+.icon:active {
     transform: scale(0.9);
 }
 

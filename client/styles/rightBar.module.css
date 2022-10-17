@@ -36,28 +36,26 @@
     display: none;
 }
 
-.post {
+.tagge {
     padding: .7rem 1rem;
-    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     cursor: pointer;
 
 }
 
-.post:hover {
+.tagge:hover {
     background-color: var(--bg-hover);
-    border-radius: 15px;
 }
 
-.postLeft {
+.taggeLeft {
     display: flex;
     flex-direction: column;
     gap: 3px;
 
 }
 
-.tage {
+.tagge_name {
     font-size: 15px;
 }
 
@@ -67,7 +65,7 @@
     font-family: sans-serif;
 }
 
-.postRight {
+.taggeRight {
     position: relative;
     gap: 3px;
     flex-shrink: 0;
