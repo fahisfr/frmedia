@@ -3,12 +3,15 @@ const dbPost = require("../dbSchemas/post");
 
 const deletePost = async (req, res, next) => {
   try {
-    //for development purposes
-    const { postId, userId } = req.body;
-    console.log(postId, userId);
+    const {
+      user: { id, publicID },
+      body: { postId },
+    } = req;
 
-    const deletePostFromUser = await dbUser.updateOne(
-      { publicID: userId },
+   
+
+    const deletePostIdFromUser = await dbUser.updateOne(
+      { _id: id },
       {
         $pull: {
           posts: {
@@ -17,8 +20,11 @@ const deletePost = async (req, res, next) => {
         },
       }
     );
-    const postDeleted = await dbPost.deleteOne({ _id: postId });
-    if (deletePostFromUser && postDeleted) {
+    const deletePost = await dbPost.deleteOne({
+      _id: postId,
+      userId: publicID,
+    });
+    if (deletePostIdFromUser && deletePost) {
       return res.json({ status: "ok" });
     }
     res.json({ status: "error" });

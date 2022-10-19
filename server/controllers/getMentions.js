@@ -99,12 +99,12 @@ const getMentions = async (req, res, next) => {
               $project: db.DB_PROJECT_REPLY_LC(publicID),
             },
           ],
-          as: "reply.replyInfo",
+          as: "reply.info",
         },
       },
       {
         $set: {
-          "reply.replyInfo": { $arrayElemAt: ["$reply.replyInfo", 0] },
+          "reply.info": { $arrayElemAt: ["$reply.info", 0] },
         },
       },
       {
@@ -207,13 +207,13 @@ const getMentions = async (req, res, next) => {
               $project: db.DB_PROJECT_POST_LC(publicID),
             },
           ],
-          as: "post.postInfo",
+          as: "post.info",
         },
       },
       {
         $set: {
-          "post.postInfo": {
-            $arrayElemAt: ["$post.postInfo", 0],
+          "post.info": {
+            $arrayElemAt: ["$post.info", 0],
           },
         },
       },
@@ -228,16 +228,18 @@ const getMentions = async (req, res, next) => {
       {
         $project: {
           mentions: {
-            $concatArrays: ["$post", "$comment", "$reply"],
+            $filter: {
+              input: { $concatArrays: ["$post", "$comment", "$reply"] },
+              cond: {
+                $gt: ["$$this.info", null],
+              },
+            },
           },
         },
       },
-      {
-        $sort: {
-          "mentions.date": -1,
-        },
-      },
     ]);
+
+    console.log(dbResult);
 
     if (dbResult.length > 0) {
       return res.json({ status: "ok", mentions: dbResult[0].mentions });

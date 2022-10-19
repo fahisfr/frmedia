@@ -29,6 +29,7 @@ app.use(fileUpload());
 
 app.post("/login", apiValidation("login"), require("./controllers/login"));
 app.post("/signup", require("./controllers/signUp"));
+app.post("/nextauth", require("./controllers/nextAuth"));
 app.use("/verify", require("./routes/verify"));
 app.get("/top-hash-tags", require("./controllers/getTopHashTags"));
 app.get("/search/:text", require("./controllers/search"));
@@ -40,13 +41,12 @@ app.get("/hashtage/:tage", auth, require("./controllers/getTaggedPosts"));
 app.use("/user", require("./routes/user"));
 app.use("/account", require("./routes/account"));
 
-
-app.use("/comment",authRequied, require("./routes/comment"));
-app.use("/home",authRequied, require("./controllers/home"));
-app.use("/notifications",authRequied, require("./routes/notification"));
-app.post("/addpost",authRequied, require("./controllers/addPost"));
-app.post("/addcomment",authRequied, require("./controllers/addComment"));
-app.post("/delete-post",authRequied, require("./controllers/deletePost"));
+app.use("/comment", authRequied, require("./routes/comment"));
+app.use("/home", authRequied, require("./controllers/home"));
+app.use("/notifications", authRequied, require("./routes/notification"));
+app.post("/addpost", authRequied, require("./controllers/addPost"));
+app.post("/addcomment", authRequied, require("./controllers/addComment"));
+app.post("/delete-post", authRequied, require("./controllers/deletePost"));
 
 app.use(errorHandler);
 

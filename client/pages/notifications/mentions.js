@@ -6,7 +6,7 @@ import Comment from "../../components/Comment";
 import Reply from "../../components/Reply";
 import JustLoading from "../../components/JustLoading";
 import ErrorMessage from "../../components/ErrorMessage";
-import styles from "../../styles/notifications.module.css"
+import styles from "../../styles/notifications.module.css";
 import { IoMdNotificationsOutline } from "react-icons/io";
 function Mentions() {
   const [mentions, setMentions] = useState([]);
@@ -54,14 +54,14 @@ function Mentions() {
               </span>
               {mention.pcr == "post" ? (
                 <Post
-                  userInfo={mention.postInfo.userInfo}
-                  postInfo={mention.postInfo}
+                  userInfo={mention?.info?.userInfo}
+                  postInfo={mention.info}
                   sliceName="home"
                 />
               ) : mention.pcr == "comment" ? (
-                <Comment comment={mention.commentInfo} sliceName="home" />
+                <Comment comment={mention.info} sliceName="home" />
               ) : mention.pcr == "reply" ? (
-                <Reply replyInfo={mention.replyInfo} sliceName="home" />
+                <Reply replyInfo={mention.info} sliceName="home" />
               ) : (
                 ""
               )}

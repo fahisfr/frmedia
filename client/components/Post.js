@@ -32,7 +32,7 @@ function Post({ postInfo, userInfo, sliceName }) {
   const { userName, profilePic, verified, publicID } = userInfo;
   const { likePost } = getPostAcitons(sliceName);
   const [copiedTrigger, setCpiedTrigger] = useState(false);
-  const [OptionsTrigger, setOptionsTrigger] = useState(false);
+  const [optionsTrigger, setOptionsTrigger] = useState(false);
   const optionRef = useRef(null);
   clickOutSide(optionRef, () => {
     setOptionsTrigger(false);
@@ -97,13 +97,17 @@ function Post({ postInfo, userInfo, sliceName }) {
           </div>
           <div
             className={styles.header_right}
-            onClick={() => setOptionsTrigger(!OptionsTrigger)}
+            onClick={(e) => {
+              if (e.target === e.currentTarget){
+                setOptionsTrigger(!optionsTrigger);
+              }
+            }}
             ref={optionRef}
           >
             <div className={styles.menu}>
               <Options
                 onFouse
-                trigger={OptionsTrigger}
+                trigger={optionsTrigger}
                 id={_id}
                 userId={publicID}
                 sliceName={sliceName}
@@ -150,7 +154,7 @@ function Post({ postInfo, userInfo, sliceName }) {
           <div className={styles.footer_group}>
             <button className={styles.button} onClick={likeHandler}>
               {liked ? (
-                <svg class={styles.liked} viewBox="0 0 32 29.6">
+                <svg className={styles.liked} viewBox="0 0 32 29.6">
                   <path
                     d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
                 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"

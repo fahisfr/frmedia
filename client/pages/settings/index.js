@@ -45,12 +45,12 @@ function Index() {
         trigger={logoutConfTrigger}
         setTrigger={setLogoutConfTrigger}
         message=" Are you sure you want to logout"
-        onSuccess={logoutNow}
         btnText="Logout"
         btnColorRed={true}
+        confirmed={logoutNow}
       />
       <div className={styles.top}>
-        <Link href="/settings">
+        <Link href="/">
           <div className={styles.back_icon}></div>
         </Link>
         <div>

@@ -17,16 +17,10 @@ function theme() {
         </div>
       </div>
       <div className={styles.themes}>
-        <div
-          className={`${styles.theme} ${styles.light}`}
-          onClick={() => setTheme()}
-        >
+        <div className={`${styles.theme} ${styles.light}`}>
           {theme == "light" && <div className={styles.selected}></div>}
         </div>
-        <div
-          className={`${styles.theme} ${styles.dark}`}
-          onClick={() => setTheme()}
-        >
+        <div className={`${styles.theme} ${styles.dark}`}>
           {theme == "dark" && <div className={styles.selected}></div>}
         </div>
       </div>

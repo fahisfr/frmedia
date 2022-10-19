@@ -4,7 +4,7 @@ function useTheme() {
   const [theme, setTheme] = useState("dark");
 
   const changeTheme = () => {
-    const newTheme = theme == "dark" ? "ligth" : "dark";
+    const newTheme = theme == "dark" ? "light" : "dark";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };

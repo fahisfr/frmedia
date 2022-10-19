@@ -1,6 +1,61 @@
-
-
 const objectId = require("mongoose").Types.ObjectId;
+const jwt = require("jsonwebtoken");
+
+const getFileInfo = (file) => {
+  const [type, extension] = file.mimetype.split("/");
+  return {
+    type,
+    name: `${Math.random().toString(36).substr(2, 9)}.${extension}`,
+  };
+};
+const findTagsAndMentions = (text) => {
+  const mentions = [];
+  const hashTags = [];
+  text.split(" ").forEach((word) => {
+    if (word.startsWith("#")) {
+      hashTags.push(word.slice(1));
+    } else if (word.startsWith("@")) {
+      mentions.push(word.slice(1));
+    }
+  });
+
+  return {
+    mentions,
+    hashTags,
+  };
+};
+
+const getPcrInfo = (text, file) => {
+  if (!file) {
+    return {
+      text,
+      ...findTagsAndMentions(text),
+    };
+  } else if (!text) {
+    return {
+      file: getFileInfo(file),
+    };
+  } else {
+    return {
+      text,
+      file: getFileInfo(file),
+      ...findTagsAndMentions(text),
+    };
+  }
+};
+
+const createJwtTokens = (info) => {
+  const refreshToken = jwt.sign(info, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "40d",
+  });
+
+  const accessToken = jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "30m",
+  });
+
+  return { refreshToken, accessToken };
+};
+
 const idIn = (id, array) => {
   if (id) {
     return {
@@ -93,54 +148,13 @@ const DB_PROJECT_REPLY_LC = (id, likes = "$likes") => {
   return obj;
 };
 
-const getFileInfo = (file) => {
-  const [type, extension] = file.mimetype.split("/");
-  return {
-    type,
-    name: `${Math.random().toString(36).substr(2, 9)}.${extension}`,
-  };
-};
-const findTagsAndMentions = (text) => {
-  const mentions = [];
-  const hashTags = [];
-  text.split(" ").forEach((word) => {
-    if (word.startsWith("#")) {
-      hashTags.push(word.slice(1));
-    } else if (word.startsWith("@")) {
-      mentions.push(word.slice(1));
-    }
-  });
-
-  return {
-    mentions,
-    hashTags,
-  };
-};
-
-const getPcrInfo = (text, file) => {
-  if (!file) {
-    return {
-      text,
-      ...findTagsAndMentions(text),
-    };
-  } else if (!text) {
-    return {
-      file: getFileInfo(file),
-    };
-  } else {
-    return {
-      text,
-      file: getFileInfo(file),
-      ...findTagsAndMentions(text),
-    };
-  }
-};
-
 module.exports = {
   getPcrInfo,
   getFileInfo,
   idIn,
   findTagsAndMentions,
+  createJwtTokens,
+
   DB_PROJECT_USERINFO,
   DB_PROJECT_POST,
   DB_PROJECT_COMMENT,

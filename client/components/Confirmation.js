@@ -16,7 +16,10 @@ function Confirmation(props) {
             Cancel
           </button>
           <button
-            onClick={props.onSuccess}
+            onClick={() => {
+              props.confirmed();
+              props.setTrigger(false);
+            }}
             className={`${props.btnColorRed && styles.red} ${styles.btn}`}
           >
             {props.btnText ?? "continue"}

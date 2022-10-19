@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "../axios";
 import Image from "next/image";
-import SidePopUpMessage from "../components/SidePopUpMessage";
+import { signIn } from "next-auth/react";
+
 function Login({}) {
   const router = useRouter();
 
@@ -12,15 +13,10 @@ function Login({}) {
   const [password, setPassword] = useState("fahis");
   const [loginError, setLoginError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [popUpInfo, setPopUpInfo] = useState({
-    trigger: false,
-    error: false,
-    message: "",
-  });
 
   const onSubmit = async (e) => {
-    e.preventDefault();
     try {
+      e.preventDefault();
       if (!id && !password) {
         return;
       }
@@ -39,11 +35,7 @@ function Login({}) {
   };
 
   return (
-    <div className={styles.container}>
-      {popUpInfo.trigger && (
-        <SidePopUpMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
-      )}
-
+    <div className={styles.bg_img}>
       <div>
         <div className={styles.body}>
           <div className={styles.title}>
@@ -55,9 +47,9 @@ function Login({}) {
           </div>
 
           <form className={styles.form}>
-            <div className={styles.form_group}>
+            <div className={styles.group}>
               <input
-                className={styles.form_input}
+                className={styles.input}
                 type="text"
                 placeholder=" "
                 value={id}
@@ -65,34 +57,30 @@ function Login({}) {
                 required
               />
 
-              <label className={styles.form_label}>
-                Email address / User name
-              </label>
+              <label className={styles.label}>Email address / User name</label>
             </div>
 
-            <div className={styles.form_group}>
+            <div className={styles.group}>
               <input
-                className={styles.form_input}
+                className={styles.input}
                 type="password"
                 placeholder=" "
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <label className={styles.form_label}>Password</label>
+              <label className={styles.label}>Password</label>
             </div>
 
             <div
-              className={`${styles.form_bottom} ${
-                loading && styles.btn_loading
-              }`}
+              className={`${styles.bottom} ${loading && styles.btn_loading}`}
             >
               <button
-                className={styles.form_button}
+                className={styles.button}
                 type="submit"
                 onClick={onSubmit}
               >
-                <span className={styles.form_button_text}>Login</span>
+                <span className={styles.button_text}>Login</span>
               </button>
             </div>
           </form>
@@ -104,7 +92,12 @@ function Login({}) {
               </div>
 
               <div className={styles.au_group}>
-                <button className={styles.google_button}>
+                <button
+                  className={styles.google_button}
+                  onClick={async () => {
+                    signIn("google");
+                  }}
+                >
                   <Image
                     src="/google_icon.svg"
                     width="30%"
@@ -117,7 +110,8 @@ function Login({}) {
                 </button>
                 <div className={styles.body_bottom}>
                   <span>
-                    Don't have an accound? <Link href="/singup">Sign Up</Link>
+                    Don't have an accound?
+                    <Link href="/register"> Create One </Link>
                   </span>
                 </div>
               </div>

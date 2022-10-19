@@ -6,7 +6,7 @@ const {
 } = require("../controllers/verifyNameAndEmail");
 
 router.get("/user-name/:userName",verifyUserName);
-router.get("/email/:emali",verifyEmail)
+router.get("/email/:email",verifyEmail)
 
 
 module.exports = router;
