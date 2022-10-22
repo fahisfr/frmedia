@@ -1,6 +1,12 @@
 import axios from "axios";
 
-export const baseURL = process.env.API_BASE_URL
+export const baseURL = process.env.API_BASE_URL;
+
+export const getFileUrl = (fileName, fileType) =>
+  `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_BUCKET_REGION}.amazonaws.com/${fileType}/${fileName}`;
+
+export const getProfileUrl = (imageName = "default_image.jpg") =>
+  imageName.startsWith("http") ? imageName : getFileUrl(imageName, "profile");
 
 const instance = axios.create({
   baseURL,

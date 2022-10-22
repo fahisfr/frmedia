@@ -1,16 +1,20 @@
 const objectId = require("mongoose").Types.ObjectId;
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const getFileInfo = (file) => {
   const [type, extension] = file.mimetype.split("/");
+  const fileName = `${crypto.randomBytes(12).toString("hex")}.${extension}`;
   return {
     type,
-    name: `${Math.random().toString(36).substr(2, 9)}.${extension}`,
+    name: fileName,
+    url: `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_BUCKET_REGION}.amazonaws.com/${type}/${fileName}`,
   };
 };
 const findTagsAndMentions = (text) => {
   const mentions = [];
   const hashTags = [];
+
   text.split(" ").forEach((word) => {
     if (word.startsWith("#")) {
       hashTags.push(word.slice(1));

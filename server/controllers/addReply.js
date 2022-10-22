@@ -1,14 +1,19 @@
 const dbPost = require("../dbSchemas/post");
 const dbUser = require("../dbSchemas/user");
 const { getPcrInfo } = require("./helper");
+const { uploadFile } = require("../config/awsS3");
 
 const addReply = async (req, res, next) => {
   try {
     const { text, postId, commentId } = req.body;
     const { publicID } = req.user;
-    const file = req.files?.file;
+    const file = req.file;
 
-    const { mentions, hashTags, ...postInfo } = getPcrInfo(text, file);
+    const replyInfo = getPcrInfo(text, file);
+    const { mentions, file: fileInfo } = replyInfo;
+    if (file) {
+      await uploadFile(file.buffer, fileInfo.name, fileInfo.type);
+    }
     const newReply = await dbPost.findOneAndUpdate(
       {
         _id: postId,
@@ -17,7 +22,7 @@ const addReply = async (req, res, next) => {
         $push: {
           "comments.$[index].replies": {
             userId: publicID,
-            ...postInfo,
+            ...replyInfo,
           },
         },
       },
@@ -31,6 +36,8 @@ const addReply = async (req, res, next) => {
       }
     );
 
+    if (!newReply) return res.json({ status: "error", error: "err" });
+
     let reply;
 
     for (let comment of newReply.comments) {
@@ -39,9 +46,9 @@ const addReply = async (req, res, next) => {
         break;
       }
     }
-
-    if (mentions.length > 0) {
-      const addNotif = await dbUser.updateMany(
+    res.json({ status: "ok", info: reply, message: "Reply added successfully" });
+    if (mentions?.length > 0) {
+      await dbUser.updateMany(
         {
           userName: {
             $in: [...mentions],
@@ -61,16 +68,6 @@ const addReply = async (req, res, next) => {
         }
       );
     }
-
-    if (newReply) {
-      res.json({
-        status: "ok",
-        info: reply,
-        message: "Reply added successfully",
-      });
-      return;
-    }
-    res.json({ status: "error", error: "err" });
   } catch (error) {
     next(error);
   }

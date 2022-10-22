@@ -22,6 +22,7 @@ const userSlice = createSlice({
       followers: [],
     },
     ffFetched: false,
+    fetched: false,
     isAuth: false,
     loading: false,
     error: false,
@@ -49,9 +50,17 @@ const userSlice = createSlice({
         state.userInfo = { ...state.userInfo, ...payload.userInfo };
         state.isAuth = true;
       }
+      state.loading = false;
+      state.fetched = true;
     },
-    [fetchUser.pending]: (state, action) => {},
-    [fetchUser.rejected]: (state, action) => {},
+    [fetchUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [fetchUser.rejected]: (state, action) => {
+      state.fetched = true;
+      state.error = true;
+      state.loading = false;
+    },
   },
 });
 

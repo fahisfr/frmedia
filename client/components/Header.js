@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { BsSunFill } from "react-icons/bs";
-import useTheme from "../hooks/useTheme";
 
 function Header({ theme, setTheme }) {
   const router = useRouter();
@@ -65,12 +64,7 @@ function Header({ theme, setTheme }) {
       <div className={styles.content}>
         <div className={styles.lt}>
           <div className={styles.logo}>
-            <Image
-              src="/frlogo.png"
-              layout="fill"
-              alt=""
-              className={styles.logo_img}
-            />
+            <Image src="/frlogo.png" layout="fill" alt="" className={styles.logo_img} />
           </div>
           <span className={styles.title}>Midea</span>
         </div>
@@ -102,17 +96,19 @@ function Header({ theme, setTheme }) {
                       }`}
                     >
                       <div className={styles.result_item_right}>
-                        <img
-                          className={styles.img}
-                          alt=""
-                          src={`${baseURL}/p/${item.profilePic}`}
-                        />
+                        <div className={styles.img}>
+                          <Image
+                            alt=""
+                            src={`${item.profilePic}`}
+                            className="img_border_radius "
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                        </div>
                       </div>
                       <div className={styles.result_item_left}>
                         <span className={styles.text}>{item.userName}</span>
-                        {item.verified && (
-                          <MdVerified className={styles.verified_icon} />
-                        )}
+                        {item.verified && <MdVerified className={styles.verified_icon} />}
                       </div>
                     </div>
                   );
@@ -139,7 +135,7 @@ function Header({ theme, setTheme }) {
             <a>
               <div className={styles.profile}>
                 <Image
-                  src={`${baseURL}/p/${profilePic}`}
+                  src={profilePic}
                   layout="fill"
                   objectFit="cover"
                   className="img_border_radius"

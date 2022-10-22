@@ -9,6 +9,7 @@ import SidePopMessage from "./SidePopUpMessage";
 import Image from "next/image";
 import getPostActions from "../features/actions/post";
 import clickOutside from "../hooks/clickOutSide";
+
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
 });
@@ -91,7 +92,6 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("text", text);
-
       if (For === "comment" || "reply") {
         formData.append("postId", postId);
       }
@@ -152,18 +152,15 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
     }
   };
 
-  const myLoader = () => `${baseURL}/p/${userInfo?.profilePic}`;
   return (
     <div className={styles.addpost}>
-      {popUpInfo.trigger && (
-        <SidePopMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
-      )}
+      {popUpInfo.trigger && <SidePopMessage info={popUpInfo} setTrigger={setPopUpInfo} />}
 
       <div className={styles.add_pc_content}>
         <div className={styles.left}>
           <div className={styles.profile}>
             <Image
-              src={`${baseURL}/p/${userInfo?.profilePic}`}
+              src={userInfo?.profilePic}
               layout="fill"
               objectFit="cover"
               className="img_border_radius"
@@ -190,41 +187,22 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
             <div className={styles.pc_file_preivew}>
               {filePreview.type === "image" ? (
                 <div>
-                  <img
-                    className={styles.file_image}
-                    src={filePreview.url}
-                    accept="image/*"
-                  />
-                  <div
-                    className={styles.removeIcon}
-                    onClick={(e) => setFilePreview("")}
-                  ></div>
+                  <img className={styles.file_image} src={filePreview.url} accept="image/*" />
+                  <div className={styles.removeIcon} onClick={(e) => setFilePreview("")}></div>
                 </div>
               ) : filePreview.type === "video" ? (
                 <div>
-                  <video
-                    controls
-                    src={filePreview.url}
-                    className={styles.video}
-                  ></video>
-                  <div
-                    className={styles.removeIcon}
-                    onClick={(e) => setFilePreview("")}
-                  ></div>
+                  <video controls src={filePreview.url} className={styles.video}></video>
+                  <div className={styles.removeIcon} onClick={(e) => setFilePreview("")}></div>
                 </div>
               ) : null}
             </div>
             <div className={styles.right_bottom}>
               <div className={styles.pc_m}>
-                <div
-                  className={styles.m_group}
-                  onClick={(e) => fileRef.current.click()}
-                >
+                <div className={styles.m_group} onClick={(e) => fileRef.current.click()}>
                   <AiOutlineFileImage size={20} color="#007aed" />
                   <div className={styles.m_pop_message}>
-                    <span className={styles.m_message_text}>
-                      Photo&nbsp;/&nbsp;Video
-                    </span>
+                    <span className={styles.m_message_text}>Photo&nbsp;/&nbsp;Video</span>
                   </div>
                   <input
                     style={{ display: "none" }}
@@ -248,11 +226,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
                   </div>
                 </div>
               </div>
-              <div
-                className={` ${styles.addPostRight_br}  ${
-                  loading && styles.btn_loading
-                }`}
-              >
+              <div className={` ${styles.addPostRight_br}  ${loading && styles.btn_loading}`}>
                 {(setTrigger || text.length > 0) && !loading ? (
                   <button className={styles.cancel_button} onClick={cancelNow}>
                     <span>Cancel</span>
@@ -261,6 +235,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
                 <button
                   onClick={submitNow}
                   className={`${styles.add_post_btn}`}
+                  disabled={loading}
                 >
                   <span className={styles.btn_text}>{btnText}</span>
                 </button>

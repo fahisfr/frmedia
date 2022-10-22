@@ -5,7 +5,6 @@ import { FiShare } from "react-icons/fi";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
 import { AiOutlineRetweet } from "react-icons/ai";
-import { FcLike } from "react-icons/fc";
 import axios, { baseURL } from "../axios";
 import { useDispatch } from "react-redux";
 import getDate from "../helper/getDate";
@@ -19,16 +18,7 @@ import FilterText from "./FilterText";
 function Post({ postInfo, userInfo, sliceName }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const {
-    _id,
-    text,
-    file,
-    likesCount,
-    commentsCount,
-    liked,
-    postAt,
-    comments,
-  } = postInfo;
+  const { _id, text, file, likesCount, commentsCount, liked, postAt, comments } = postInfo;
   const { userName, profilePic, verified, publicID } = userInfo;
   const { likePost } = getPostAcitons(sliceName);
   const [copiedTrigger, setCpiedTrigger] = useState(false);
@@ -37,6 +27,7 @@ function Post({ postInfo, userInfo, sliceName }) {
   clickOutSide(optionRef, () => {
     setOptionsTrigger(false);
   });
+
   const likeHandler = async () => {
     dispatch(likePost({ postId: _id }));
     const { data } = await axios.post(`/post/${liked ? "unlike" : "like"}`, {
@@ -63,10 +54,10 @@ function Post({ postInfo, userInfo, sliceName }) {
       <div className={styles.left}>
         <div className={styles.profile}>
           <Image
-            src={`${baseURL}/p/${profilePic}`}
             layout="fill"
             objectFit="cover"
             className="img_border_radius"
+            src={profilePic}
             alt=""
           />
         </div>
@@ -98,7 +89,7 @@ function Post({ postInfo, userInfo, sliceName }) {
           <div
             className={styles.header_right}
             onClick={(e) => {
-              if (e.target === e.currentTarget){
+              if (e.target === e.currentTarget) {
                 setOptionsTrigger(!optionsTrigger);
               }
             }}
@@ -132,18 +123,11 @@ function Post({ postInfo, userInfo, sliceName }) {
           <div className={styles.vi}>
             <div className={styles.postFilePreivew}>
               {file && file.type === "image" ? (
-                <Link href="/dev/post/123/fv ">
-                  <img
-                    className={styles.image}
-                    src={`${baseURL}/image/${file.name}`}
-                  />
+                <Link href={`/post/${_id}`}>
+                  <img className={styles.image} src={file.url} />
                 </Link>
               ) : file?.type === "video" ? (
-                <video
-                  controls
-                  src={`${baseURL}/video/${file.name}`}
-                  className={styles.video}
-                ></video>
+                <video controls className={styles.video} src={file.url}></video>
               ) : (
                 ""
               )}

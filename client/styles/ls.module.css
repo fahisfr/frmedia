@@ -102,7 +102,7 @@
     position: absolute;
     top: .9rem;
     left: .4rem;
-    font-size: .92rem;
+    font-size: .820rem;
     background-color: #ffffff;
     font-family: "Convergence", sans-serif;
     cursor: text;
@@ -113,7 +113,7 @@
 .input:focus~.label,
 .label[clicked="true"] {
     top: -0.550rem;
-    font-size: .9rem;
+    font-size: .780rem;
 }
 
 .input:invalid[focus="true"]~.invalid {
@@ -295,7 +295,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    font-size: 1.130rem;
+    font-size: .980rem;
     padding: 1.5rem 0 1.5rem 0;
 }
 

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { MdVerified } from "react-icons/md";
 import { BsChat, BsHeart } from "react-icons/bs";
 import Link from "next/link";
-import { FcLike } from "react-icons/fc";
 import Reply from "./Reply";
 import AddPCR from "./AddPCR";
 import JustLoading from "./JustLoading";
@@ -21,25 +20,14 @@ function Comment({ comment, postId, sliceName }) {
   const [showReplies, setShowReplies] = useState(false);
   const [failedFetchReplies, setFailedFetchReplies] = useState(false);
   const { setReplies, likeComment } = getPostAcitons(sliceName);
-  const {
-    _id,
-    text,
-    file,
-    likesCount,
-    repliesCount,
-    commentAt,
-    liked,
-    replies,
-  } = comment;
+  const { _id, text, file, likesCount, repliesCount, commentAt, liked, replies } = comment;
   const { userName, profilePic } = comment.userInfo;
 
   const getReplies = async () => {
     try {
       setShowReplies(!showReplies);
       if (!replies) {
-        const { data } = await axios.get(
-          `/post/${postId}/comment/${_id}/replies`
-        );
+        const { data } = await axios.get(`/post/${postId}/comment/${_id}/replies`);
 
         if (data.status === "ok") {
           dispatch(
@@ -62,13 +50,10 @@ function Comment({ comment, postId, sliceName }) {
   const likeHandler = async (e) => {
     try {
       dispatch(likeComment({ postId, commentId: _id }));
-      const { data } = await axios.post(
-        `/comment/${liked ? "unlike" : "like"}`,
-        {
-          postId,
-          commentId: _id,
-        }
-      );
+      const { data } = await axios.post(`/comment/${liked ? "unlike" : "like"}`, {
+        postId,
+        commentId: _id,
+      });
     } catch (error) {}
   };
 
@@ -78,7 +63,7 @@ function Comment({ comment, postId, sliceName }) {
         <div className={styles.left}>
           <div className={styles.profile}>
             <Image
-              src={`${baseURL}/p/${profilePic}`}
+              src={profilePic}
               layout="fill"
               objectFit="cover"
               className="img_border_radius"
@@ -121,18 +106,11 @@ function Comment({ comment, postId, sliceName }) {
                 {file && file.type === "image" ? (
                   <Link href="/dev/post/123/fv ">
                     <a>
-                      <img
-                        className={styles.image}
-                        src={`http://localhost:4000/image/${file.name}`}
-                      />
+                      <img className={styles.image} src={file.url} />
                     </a>
                   </Link>
                 ) : file?.type === "video" ? (
-                  <video
-                    controls
-                    src="/testvideo.mp4"
-                    className={`http://localhost:4000/video/${file.name}`}
-                  ></video>
+                  <video controls src={file.url} className={styles.video}></video>
                 ) : null}
               </div>
             </div>
@@ -154,10 +132,7 @@ function Comment({ comment, postId, sliceName }) {
               </button>
             </div>
             <div className={styles.c_footer_group}>
-              <button
-                className={styles.button}
-                onClick={() => setAddReply(!addReply)}
-              >
+              <button className={styles.button} onClick={() => setAddReply(!addReply)}>
                 <BsChat className={styles.cr_icon} />
               </button>
             </div>

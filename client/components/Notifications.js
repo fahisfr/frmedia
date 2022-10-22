@@ -71,15 +71,11 @@ function Notifications() {
         ) : (
           notif.map((notif, index) => {
             return (
-              <div
-                key={index}
-                className={styles.notification}
-                onClick={() => onClick(notif)}
-              >
+              <div key={index} className={styles.notification} onClick={() => onClick(notif)}>
                 <div className={styles.n_left}>
                   <div className={styles.profile}>
                     <Image
-                      src={`${baseURL}/p/${notif.userInfo?.profilePic}`}
+                      src={notif.userInfo?.profilePic}
                       layout="fill"
                       objectFit="cover"
                       className="img_border_radius"
@@ -91,9 +87,7 @@ function Notifications() {
                   <div>
                     <span className={styles.date}>{getDate(notif.date)}</span>
                   </div>
-                  <span className={styles.name}>
-                    {notif?.userInfo?.userName}
-                  </span>
+                  <span className={styles.name}>{notif?.userInfo?.userName}</span>
                   <span className={styles.message}>
                     {notif.type === "following"
                       ? " Started following you"

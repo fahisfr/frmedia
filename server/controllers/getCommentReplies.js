@@ -56,7 +56,6 @@ const getReplies = async (req, res, next) => {
       { $project: DB_PROJECT_REPLY_LC(publicID) },
     ]);
 
-    console.log(result);
 
     if (result.length > 0) {
       res.json({ status: "ok", replies: result });

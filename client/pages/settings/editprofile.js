@@ -1,26 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../styles/editProfile.module.css";
 import { MdAddAPhoto } from "react-icons/md";
-import axios, { baseURL } from "../../axios";
+import axios from "../../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserInfo } from "../../features/user";
 import ProfileLayout from "../../layouts/Main";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import SidePopUpMessage from "../../components/SidePopUpMessage";
+import { fetchUser } from "../../features/user";
+import JustLoading from "../../components/JustLoading";
 
 function EditProfile() {
-  const router = useRouter();
   const dispatch = useDispatch();
-  const { userName, bio, link, profilePic, coverPic } = useSelector(
-    (state) => state.user.userInfo
-  );
+  const { userInfo, fetched, loading } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (!fetched) {
+      dispatch(fetchUser);
+    }
+  });
+  const { userName, bio, link, profilePic, coverPic } = userInfo;
 
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
-
-  const [response, setResponse] = useState({ status: false, error: "" });
 
   const [newCoverPic, setNewCoverPic] = useState(null);
   const [newProfilePic, setNewProfilePic] = useState(null);
@@ -56,14 +58,13 @@ function EditProfile() {
     e.preventDefault();
     try {
       const formData = new FormData();
-      console.log(newProfilePic);
+
       editedBio && formData.append("bio", editedBio);
       editedLink && formData.append("link", editedLink);
       newProfilePic && formData.append("profilePic", newProfilePic);
       newCoverPic && formData.append("coverPic", newCoverPic);
 
       const { data } = await axios.post("/account/edit-profile", formData);
-
       if (data.status === "ok") {
         setResponse({ status: data.status, error: false });
         setPopUpInfo({
@@ -81,11 +82,13 @@ function EditProfile() {
     }
   };
 
+  if (loading) {
+    return <JustLoading />;
+  }
+
   return (
     <div className={styles.container}>
-      {popUpInfo.trigger && (
-        <SidePopUpMessage popUpInfo={popUpInfo} setTrigger={setPopUpInfo} />
-      )}
+      {popUpInfo.trigger && <SidePopUpMessage info={popUpInfo} setTrigger={setPopUpInfo} />}
       <div className={styles.top}>
         <Link href="/settings">
           <div className={styles.back_icon}></div>
@@ -98,7 +101,7 @@ function EditProfile() {
       <div className={styles.body}>
         <div className={styles.coverPic}>
           <Image
-            src={coverPicPreview ?? `${baseURL}/c/${coverPic}`}
+            src={coverPicPreview ?? coverPic}
             layout="fill"
             objectFit="cover"
             alt=""
@@ -122,7 +125,7 @@ function EditProfile() {
               objectFit="cover"
               className="img_border_radius"
               alt=""
-              src={profilePreview ?? `${baseURL}/p/${profilePic}`}
+              src={profilePreview ?? profilePic}
               onClick={() => profileRef.current.click()}
             />
             <MdAddAPhoto className={styles.md_add_icon} />
@@ -139,12 +142,7 @@ function EditProfile() {
         </div>
         <form className={styles.form}>
           <div className={styles.group}>
-            <input
-              className={styles.input}
-              value={userName}
-              type="text"
-              disabled
-            />
+            <input className={styles.input} value={userName} type="text" disabled />
 
             <label className={styles.label}>User Name</label>
           </div>

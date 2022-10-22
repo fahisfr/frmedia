@@ -126,7 +126,7 @@ const getFollowersAndFollowing = async (req, res, next) => {
           followers: {
             $cond: [
               {
-                $eq: ["$followers", [[]]],
+                $eq: ["$followers", [{ isFollowing: false }]],
               },
               [],
               "$followers",
@@ -135,7 +135,7 @@ const getFollowersAndFollowing = async (req, res, next) => {
           following: {
             $cond: [
               {
-                $eq: ["$following", [[]]],
+                $eq: ["$following", [{ isFollowing: false }]],
               },
               [],
               "$following",
@@ -144,9 +144,9 @@ const getFollowersAndFollowing = async (req, res, next) => {
         },
       },
     ]);
-    
 
     if (dbResult.length > 0) {
+ 
       return res.json({ status: "ok", result: dbResult[0] });
     }
     res.json({ status: "error", error: "not found " });

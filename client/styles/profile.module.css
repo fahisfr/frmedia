@@ -14,9 +14,7 @@
 }
 
 
-
 .profile {
-
     position: absolute;
     top: -4.2rem;
     left: 1rem;
@@ -53,13 +51,12 @@
 
     padding-right: 10px;
     position: relative;
+    cursor: pointer;
 }
 
 .edit_icon {
-
     font-size: 1.2rem;
     color: #007ce8;
-    cursor: pointer;
 }
 
 .edit_icon_m {
@@ -102,16 +99,13 @@
 
 .fw_count {
     font-size: .950rem;
-
 }
 
 .fw {
-
     cursor: pointer;
     font-size: .9rem;
     border-bottom: 1px solid var(--border-secondary);
 }
-
 
 .btn {
     width: 6rem;
@@ -135,15 +129,12 @@
     color: #000000;
 }
 
-
 .bio {
-
     padding-right: 1rem;
     padding-top: .7rem;
 }
 
 .bio_text {
-
     font-size: .90rem;
     line-height: 1.350rem;
 }
@@ -153,7 +144,6 @@
 }
 
 .bottom {
-
     display: flex;
     padding-top: .7rem;
     justify-content: space-evenly;

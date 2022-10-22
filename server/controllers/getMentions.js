@@ -1,14 +1,15 @@
 const dbUser = require("../dbSchemas/user");
+const objectId = require("mongoose").Types.ObjectId;
 const db = require("./helper");
 
 const getMentions = async (req, res, next) => {
   try {
-    const publicID = req.user?.publicID;
+    const { publicID, id } = req.user;
 
     const dbResult = await dbUser.aggregate([
       {
         $match: {
-          userName: "fahis",
+          _id: objectId(id),
         },
       },
       {

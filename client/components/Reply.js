@@ -10,6 +10,7 @@ import getPostAcitons from "../features/actions/post";
 import Image from "next/image";
 import FilterText from "./FilterText";
 import getDate from "../helper/getDate";
+
 function Reply({ replyInfo, postId, commentId, sliceName }) {
   const dispatch = useDispatch();
   console.log(replyInfo, "this one");
@@ -21,10 +22,11 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
   const likeHandler = async (e) => {
     try {
       dispatch(likeReply({ replyId: _id, postId, commentId }));
-      const { data } = await axios.post(
-        `/comment/reply/${liked ? "unlike" : "like"}`,
-        { postId, commentId, replyId: _id }
-      );
+      const { data } = await axios.post(`/comment/reply/${liked ? "unlike" : "like"}`, {
+        postId,
+        commentId,
+        replyId: _id,
+      });
     } catch (error) {}
   };
 
@@ -33,7 +35,7 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
       <div className={styles.left}>
         <div className={styles.profile}>
           <Image
-            src={`${baseURL}/p/${profilePic}`}
+            src={profilePic}
             alt=""
             layout="fill"
             objectFit="cover"
@@ -76,17 +78,14 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
               {file && file.type === "image" ? (
                 <Link href="/dev/post/123/fv ">
                   <a>
-                    <img
-                      className={styles.image}
-                      src={`http://localhost:4000/image/${file.name}`}
-                    />
+                    <img className={styles.image} src={file.url} />
                   </a>
                 </Link>
               ) : file?.type === "video" ? (
                 <video
                   controls
-                  src="/testvideo.mp4"
-                  className={`http://localhost:4000/video/${file.name}`}
+                  src={file.url}
+                  className={styles.video}
                 ></video>
               ) : null}
             </div>

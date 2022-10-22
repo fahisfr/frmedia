@@ -5,7 +5,11 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: [process.env.IMAGES_DOMAIN_NAME, "localhost"],
+    domains: [
+      "localhost",
+      "fr-media.s3.ap-south-1.amazonaws.com",
+      "lh3.googleusercontent.com",
+    ],
   },
   env: {
     API_BASE_URL: process.env.API_BASE_URL,

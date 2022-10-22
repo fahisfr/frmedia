@@ -1,5 +1,4 @@
 .container {
-
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -7,14 +6,12 @@
 
 
 .center {
-
     flex-shrink: 0;
     width: 650px;
     height: 100%; 
     padding: .5rem;
     display: flex;
     align-items: center;
-
     flex-direction: column;
     overflow: scroll;
     overflow-x: hidden;

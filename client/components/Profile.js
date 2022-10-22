@@ -11,7 +11,6 @@ import Image from "next/image";
 import JustLoading from "./JustLoading";
 import ErrorMessage from "./ErrorMessage";
 
-
 function Profile() {
   const {
     isReady,
@@ -78,16 +77,11 @@ function Profile() {
     return <JustLoading />;
   }
 
+  const { profilePic } = profile;
   return (
     <div className={styles.container}>
-     
       <div className={styles.cover_photo}>
-        <Image
-          src={`${baseURL}/c/${profile.coverPic}`}
-          layout="fill"
-          objectFit="cover"
-          alt=""
-        />
+        <Image src={profile.coverPic} layout="fill" objectFit="cover" alt="" />
       </div>
 
       <div className={styles.info}>
@@ -99,7 +93,7 @@ function Profile() {
                 objectFit="cover"
                 className="img_border_radius"
                 alt=""
-                src={`${baseURL}/p/${profile.profilePic}`}
+                src={profilePic}
               />
             </div>
           </div>
@@ -130,10 +124,7 @@ function Profile() {
                     Following
                   </button>
                 ) : (
-                  <button
-                    className={`${styles.btn} ${styles.follow}`}
-                    onClick={followHandler}
-                  >
+                  <button className={`${styles.btn} ${styles.follow}`} onClick={followHandler}>
                     Follow
                   </button>
                 )}
@@ -144,9 +135,7 @@ function Profile() {
             <div>
               <Link href={`${profile.userName}/following`}>
                 <div>
-                  <span className={styles.fw_count}>
-                    {profile.followingCount}
-                  </span>
+                  <span className={styles.fw_count}>{profile.followingCount}</span>
                   <span className={styles.fw}>Following</span>
                 </div>
               </Link>
@@ -154,9 +143,7 @@ function Profile() {
             <div>
               <Link href={`${profile.userName}/followers`}>
                 <div>
-                  <span className={styles.fw_count}>
-                    {profile.followersCount}
-                  </span>
+                  <span className={styles.fw_count}>{profile.followersCount}</span>
                   <span className={styles.fw}> Followers</span>
                 </div>
               </Link>
@@ -180,14 +167,7 @@ function Profile() {
         </div>
       </div>
       {profile.posts?.map((post, index) => {
-        return (
-          <Post
-            userInfo={profile}
-            postInfo={post}
-            key={index}
-            sliceName="profile"
-          />
-        );
+        return <Post userInfo={profile} postInfo={post} key={index} sliceName="profile" />;
       })}
     </div>
   );

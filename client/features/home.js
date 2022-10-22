@@ -16,7 +16,7 @@ const userSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
-    loading: false,
+    loading: true,
     error: false,
     fetched: false,
   },
@@ -26,14 +26,14 @@ const userSlice = createSlice({
       if (payload.status === "ok") {
         state.posts.push(...payload.posts);
       } else if (payload.status === "error") {
-        state.homeError = payload.error;
+        state.error = payload.error;
       }
+
       state.loading = false;
       state.fetched = true;
     },
 
     [fetchPosts.pending]: (state, action) => {
-      state.loading = true;
     },
 
     [fetchPosts.rejected]: (state, action) => {

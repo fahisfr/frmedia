@@ -12,8 +12,6 @@ import explore from "../features/explore";
 import hashTags from "../features/hashTags";
 import profiles from "../features/profiles";
 
-import { SessionProvider } from "next-auth/react";
-
 const store = configureStore({
   reducer: {
     user,
@@ -28,13 +26,7 @@ store.dispatch(fetchUser());
 function MyApp({ session, Component, pageProps }) {
   const getLayout = Component.PageLayout || ((page) => page);
 
-  return (
-    <SessionProvider session={session}>
-      <Provider store={store}>
-        {getLayout(<Component {...pageProps} />)}
-      </Provider>
-    </SessionProvider>
-  );
+  return <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>;
 }
 
 export default MyApp;

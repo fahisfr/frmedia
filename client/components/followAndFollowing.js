@@ -8,6 +8,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import JustLoading from "../components/JustLoading";
 import Image from "next/image";
 
+
 function FollowAndFollowing() {
   const router = useRouter();
   const [result, setResult] = useState({ followers: [], following: [] });
@@ -15,16 +16,20 @@ function FollowAndFollowing() {
   const [error, setError] = useState(null);
   const { asPath } = useRouter();
   const [_, user, pathName] = asPath.split("/");
-
+  console.log(result);
   useEffect(() => {
     try {
       const getFF = async () => {
         const { data } = await axios.get(`/user/${user}/ff`);
         if (data.status === "ok") {
-          setResult(data.result);
+          setResult({
+            followers: data.result.followers,
+            following: data.result.following,
+          });
+        } else {
+          setError(data.error);
         }
       };
-
       getFF();
     } catch (err) {
       setError(err);
@@ -52,10 +57,9 @@ function FollowAndFollowing() {
         setResult({ ...result, [pathName]: users });
       };
       updateFollowStatus();
-      const { data } = await axios.post(
-        `/user/${isFollowing ? "unfollow" : "follow"}`,
-        { id: publicID }
-      );
+      const { data } = await axios.post(`/user/${isFollowing ? "unfollow" : "follow"}`, {
+        id: publicID,
+      });
       if (data.status === "error") {
         updateFollowStatus();
       }
@@ -68,15 +72,13 @@ function FollowAndFollowing() {
       router.push(`/${user}`);
     }
   };
+
   return (
     <div className={styles.con} onClick={closePage}>
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.hn}>
-            <h3
-              style={{ color: "var(--text-primary)" }}
-              className={styles.Username}
-            >
+            <h3 style={{ color: "var(--text-primary)" }} className={styles.Username}>
               @{user}
             </h3>
           </div>
@@ -117,13 +119,13 @@ function FollowAndFollowing() {
             <JustLoading />
           ) : (
             <div className={styles.users}>
-              {users.length > 0 ? (
+              {users?.length > 0 ? (
                 users.map((user, index) => {
                   return (
                     <div className={styles.user} key={index}>
                       <div className={styles.profile}>
                         <Image
-                          src={`${baseURL}/p/${user.profilePic}`}
+                          src={user.profilePic}
                           layout="fill"
                           objectFit="cover"
                           alt=""
@@ -133,9 +135,7 @@ function FollowAndFollowing() {
                       <div className={styles.userInfo}>
                         <Link href={`/${user}`}>
                           <a>
-                            <sapn className={styles.user_name}>
-                              {user.userName}
-                            </sapn>
+                            <sapn className={styles.user_name}>{user.userName}</sapn>
                           </a>
                         </Link>
 

@@ -19,7 +19,6 @@ const login = async (req, res, next) => {
 
     if (user) {
       const info = { id: user._id, publicID: user.publicID };
-      console.log(info);
       const refreshToken = jwt.sign(info, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: "40d",
       });

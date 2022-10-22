@@ -42,7 +42,7 @@ function Login({}) {
             <h1 className={styles.title_text}>Login</h1>
 
             {loginError && (
-              <span className={styles.l_error_message}>{loginError}</span>
+              <span className={`${styles.l_error_message} ${styles.red}`}>{loginError}</span>
             )}
           </div>
 
@@ -72,14 +72,8 @@ function Login({}) {
               <label className={styles.label}>Password</label>
             </div>
 
-            <div
-              className={`${styles.bottom} ${loading && styles.btn_loading}`}
-            >
-              <button
-                className={styles.button}
-                type="submit"
-                onClick={onSubmit}
-              >
+            <div className={`${styles.bottom} ${loading && styles.btn_loading}`}>
+              <button className={styles.button} type="submit" onClick={onSubmit}>
                 <span className={styles.button_text}>Login</span>
               </button>
             </div>
@@ -98,15 +92,8 @@ function Login({}) {
                     signIn("google");
                   }}
                 >
-                  <Image
-                    src="/google_icon.svg"
-                    width="30%"
-                    height="80%"
-                    alt=""
-                  />
-                  <span className={styles.google_button_text}>
-                    Continue With Google
-                  </span>
+                  <Image src="/google_icon.svg" width="30%" height="80%" alt="" />
+                  <span className={styles.google_button_text}>Continue With Google</span>
                 </button>
                 <div className={styles.body_bottom}>
                   <span>

@@ -6,12 +6,13 @@ const registerWithGoogle = (req, res, next) => {
   try {
     const { token, userName } = req.body;
 
-    jwt.verify(token, "jwt", async (err, decoded) => {
+    jwt.verify(token, process.env.NEXT_AUTH_TOKEN_SECRET, async (err, decoded) => {
       if (err) return res.json({ status: "error", error: "url not valid" });
-      const { name, email, provider } = decoded;
+      const { name, email, provider, picture } = decoded;
+
       const user = await dbUser.findOne({ email });
       if (user) {
-        if (user.signWith === "google") {
+        if (user.signInWith === "google") {
           const { accessToken, refreshToken } = createJwtTokens({
             id: user._id,
             publicID: user.publicID,
@@ -41,6 +42,7 @@ const registerWithGoogle = (req, res, next) => {
         userName,
         email,
         signWith: provider,
+        profilePic: picture,
       });
       if (!newUser) {
         return res.json({
