@@ -1,35 +1,29 @@
 const dbUser = require("../dbSchemas/user");
-const Jwt = require("jsonwebtoken");
-
+const { createJwtTokens } = require("./helper");
 const singUp = async (req, res, next) => {
   try {
     const { userName, email, password } = req.body;
-    const refreshToken = Jwt.sign({ userName }, "secret", { expiresIn: "17d" });
 
-    dbUser
-      .create({ userName, email, password, refreshToken })
-      .then((user) => {
-        const accessToken = Jwt.sign(
-          { id: user._id, publicID: user.publicID },
-          "secret",
-          { expiresIn: "3d" }
-        );
-        res.json({ status: "ok", token: accessToken });
-      })
-      .catch(({ code, message }) => {
-        if (code === 11000) {
-          if (message.includes("userName")) {
-            res.json({
-              success: "error",
-              error: "Username already registered",
-            });
-          } else if (message.includes("email")) {
-            res.json({ status: "ok", error: "Email already registered" });
-          }
-        } else {
-          throw new Error(message);
-        }
+    const findUserNameOrEmail = dbUser.findOne({ userName, email });
+
+    if (findUserNameOrEmail) {
+      res.json({ status: "error", error: "UserName or Email already registerd" });
+    }
+
+    const newUser = await dbUser.create({ userName, email, password, refreshToken });
+
+    if (newUser) {
+      const { accessToken, refreshToken } = createJwtTokens({
+        id: newUser,
+        publicID: newUser.publicID,
+        userName,
       });
+      res.json({ status: "ok", token: accessToken });
+
+      dbUser.updateOne({ _id: newUser._id }, { refreshToken });
+      return;
+    }
+    res.json({ status: "error", error: "faild to create account" });
   } catch (error) {
     next(error);
   }

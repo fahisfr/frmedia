@@ -87,8 +87,8 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
   const submitNow = async (e) => {
     try {
       e.preventDefault();
+      if (!text.length > 0) return;
       setLoading(true);
-
       const formData = new FormData();
       formData.append("file", file);
       formData.append("text", text);
@@ -164,7 +164,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
               layout="fill"
               objectFit="cover"
               className="img_border_radius"
-              alt=""
+              alt=" "
             />
           </div>
         </div>

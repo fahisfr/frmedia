@@ -2,12 +2,6 @@ import axios from "axios";
 
 export const baseURL = process.env.API_BASE_URL;
 
-export const getFileUrl = (fileName, fileType) =>
-  `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_BUCKET_REGION}.amazonaws.com/${fileType}/${fileName}`;
-
-export const getProfileUrl = (imageName = "default_image.jpg") =>
-  imageName.startsWith("http") ? imageName : getFileUrl(imageName, "profile");
-
 const instance = axios.create({
   baseURL,
   withCredentials: true,
@@ -19,7 +13,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("auth_token");
-    accessToken && (config.headers.auth_token = `${accessToken}`);
+    if (accessToken) {
+      config.headers["x-access-token"] = `${accessToken}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)

@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: flex-end;
     overflow: auto;
+
 }
 
 .container {
@@ -86,36 +87,30 @@
 }
 
 .sug_text {
-
     font-size: 1rem;
     font-weight: 400;
     color: var(--gray_700);
 }
 
 .user {
-
     display: flex;
     padding-top: 6px;
     align-items: center;
-
 }
 
 .profile {
-
     width: 3rem;
     height: 3rem;
     padding: 5px 6px;
 }
 
 .img {
-
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
 }
 
 .un {
-
     flex-grow: 1;
     display: flex;
     align-items: center;
@@ -123,13 +118,11 @@
 }
 
 .verified {
-
     font-size: 1.2rem;
     color: var(--default-blue);
 }
 
 .btn {
-
     width: 3.5rem;
     height: 1.6rem;
     border-radius: 10px;
@@ -141,7 +134,6 @@
 }
 
 .btn:hover {
-
     background-color: var(--default-blue);
     color: #ffffff;
 }
@@ -150,10 +142,33 @@
     color: var(--default-blue);
 }
 
+
+.ml_container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    z-index: 23;
+    display: flex;
+
+}
+
+.ml_con {
+    width: 45%;
+    height: 100%;
+    background-color: var(--bg-primary)
+}
+
+.close {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.253);
+    cursor: pointer;
+}
+
+
 @media (max-width: 1200px) {
     .text {
         display: none;
-
     }
 
     .left_bar {
@@ -166,7 +181,6 @@
         padding: .5rem;
     }
 
-
     .group {
         position: relative;
         padding: 1rem;
@@ -175,21 +189,39 @@
         border-radius: 20px;
         margin-top: 15px;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
     }
 
 }
 
 
-@media (max-width:768px) {
+@media (max-width:700px) {
 
-    .group {
-        position: relative;
-        padding: .9rem;
-        margin-right: 0pc;
-        column-gap: .6rem;
-        border-radius: 20px;
-        margin-top: 15px;
+    .left_bar {
+        display: none;
     }
+
+    .nav {
+        padding-top: 1.5rem;
+    }
+
+    .ml_group {
+        display: flex;
+        align-items: center;
+        padding: 1.3rem;
+        column-gap: 6px;
+        border-bottom: 1px solid var(--border-primary);
+    }
+
+    .icon {
+        font-size: 1.2rem;
+        color: var(--default-blue);
+    }
+
+    .text {
+        font-size: 13px;
+        color: var(--text-primary);
+        display: block;
+    }
+
 
 }

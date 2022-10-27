@@ -5,7 +5,7 @@ const login = async (req, res, next) => {
   try {
     const { id, password } = req.body;
     const isEmail = id.includes("@");
- 
+
     const user = await dbUser.findOne(
       {
         [isEmail ? "email" : "userName"]: id,
@@ -33,7 +33,6 @@ const login = async (req, res, next) => {
         httpOnly: true,
         secure: false,
         maxAge: 1000 * 60 * 60 * 24 * 30,
-        sameSite: "strict",
       });
 
       res.json({ status: "ok", token: accessToken });

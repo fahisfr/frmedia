@@ -10,21 +10,7 @@ import Head from "next/head";
 
 const AddPost = dynamic(() => import("../components/AddPCR"));
 
-export async function getServerSideProps(context) {
-  const token = context.req.cookies.auth_token;
 
-  if (token) {
-    return {
-      props: {},
-    };
-  }
-  return {
-    redirect: {
-      permanent: false,
-      destination: "/login",
-    },
-  };
-}
 
 function Home({}) {
   const { loading, error, fetched, posts } = useSelector((state) => state.home);
@@ -61,3 +47,20 @@ function Home({}) {
 
 Home.PageLayout = MainLayout;
 export default Home;
+
+
+export async function getServerSideProps({req}) {
+  const token = req.cookies.auth_token;
+
+  if (token) {
+    return {
+      props: {},
+    };
+  }
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/login",
+    },
+  };
+}

@@ -23,7 +23,7 @@ const store = configureStore({
   },
 });
 store.dispatch(fetchUser());
-function MyApp({ session, Component, pageProps }) {
+function MyApp({  Component, pageProps }) {
   const getLayout = Component.PageLayout || ((page) => page);
 
   return <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>;

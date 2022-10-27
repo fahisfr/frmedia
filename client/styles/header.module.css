@@ -10,12 +10,14 @@
 }
 
 .content {
-
     padding: 5px 0;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
 
+.guide {
+    display: none;
 }
 
 .lt {
@@ -39,26 +41,21 @@
     margin-bottom: 2px;
 }
 
-
 .logo_img {
     border: 50%;
 }
 
-
 .search_input {
-
     width: 31rem;
     position: relative;
     height: 2.4rem;
     display: flex;
-    border-radius: .5rem;
+    border-radius: .50rem;
     border: 1px solid rgba(177, 177, 177, 0.397);
     background-color: var(--bg-primary);
-
 }
 
 .input {
-
     flex-grow: 1;
     padding: 0 1rem;
     border: none;
@@ -67,7 +64,6 @@
     border-radius: .5rem;
     color: var(--text-primary);
     background-color: var(--bg-primary);
-
 }
 
 .input_ref {
@@ -78,24 +74,35 @@
     display: block;
 }
 
-.result {
+.search_icon {
+    width: 2rem;
+    display: flex;
+    align-items: center;
+}
 
+.icon {
+    position: relative;
+    width: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.result {
     position: absolute;
     top: 2.650rem;
     left: 0;
     width: 100%;
     background-color: var(--bg-primary);
     border-radius: .5rem;
-
-    /* border: 1px solid red; */
     z-index: 1;
     color: var(--text-primary);
-
 }
 
 
 .result_item {
-
     display: flex;
     flex-direction: row;
     padding: .120rem .5rem;
@@ -116,13 +123,11 @@
     width: 2.5rem;
     height: 2.5rem;
     position: relative;
-
 }
 
 .result_item_left {
     display: flex;
     align-items: center;
-
 }
 
 .text {
@@ -138,28 +143,7 @@
     margin-left: .5rem;
 }
 
-
-.search_icon {
-    width: 2rem;
-    display: flex;
-    align-items: center;
-}
-
-.icon {
-
-    position: relative;
-    width: 2rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-
-}
-
 .icon::after {
-
     position: absolute;
     content: "";
     width: 13px;
@@ -170,7 +154,6 @@
 }
 
 .icon::before {
-
     position: absolute;
     content: "";
     width: 3px;
@@ -184,8 +167,6 @@
     display: flex;
     padding: 0 1rem;
     column-gap: 33px;
-
-
 }
 
 .theme_btn {
@@ -206,7 +187,6 @@
     height: 20px;
     width: 37px;
     transform: scale(1.5);
-
 }
 
 .ball {
@@ -249,7 +229,6 @@
 }
 
 .profile {
-
     border: none;
     background-color: var(--theme_color);
     cursor: pointer;
@@ -258,14 +237,9 @@
     position: relative;
 }
 
-
-
-
 .image {
-
     border-radius: 50%;
     object-fit: cover;
-
 }
 
 .profile_div {
@@ -276,7 +250,6 @@
     right: 0;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 0 5px;
-
 }
 
 .profile_div::after {
@@ -313,46 +286,84 @@
     100% {
         transform: rotate(360deg);
     }
+
+
 }
 
 @media (max-width:768px) {
     .search_input {
         width: 20rem;
-        position: relative;
-        height: 2.4rem;
-        display: flex;
-        border-radius: .5rem;
-        border: 1px solid rgba(177, 177, 177, 0.397);
-        background-color: var(--theme_color);
-
+        height: 2.3rem;
     }
 
-
-
-    .title {
-        font-size: 15px;
-
+    .input {
+        font-size: 13px;
+        padding: 0 6px;
     }
-}
-
-@media (max-width:500px) {
-    .search_input {
-
-        width: 16.5rem;
-        position: relative;
-        height: 2.2rem;
-        display: flex;
-        border-radius: .5rem;
-        border: 1px solid rgba(177, 177, 177, 0.397);
-        background-color: var(--theme_color);
-
-    }
-
-
 
     .title {
         display: none;
-        font-size: 15px;
-
     }
+
+    .profile {
+        width: 30px;
+        height: 30px;
+    }
+
+
+
+}
+
+
+@media (max-width:700px) {
+
+    .guide {
+        display: block;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .icon_guide {
+        opacity: .7;
+        font-size: 30px;
+        color: var(--text-primary);
+    }
+
+    .theme_btn {
+        display: none;
+    }
+
+
+    .img {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .text {
+        font-size: 13px;
+        margin-left: 5px;
+    }
+
+    .verified_icon {
+        font-size: 16px;
+        margin-left: 5px;
+    }
+}
+
+@media (max-width:480px) {
+    .search_input {
+        width: 16rem;
+    }
+
+
+    .icoin_guide {
+        opacity: 1;
+    }
+
+    .logo {
+        display: none;
+    }
+
+
+
 }

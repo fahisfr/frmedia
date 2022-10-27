@@ -24,6 +24,8 @@ function EditProfile() {
   const profileRef = useRef(null);
   const avatarRef = useRef(null);
 
+  const [btnLoading, setBtnLoading] = useState(false);
+
   const [newCoverPic, setNewCoverPic] = useState(null);
   const [newProfilePic, setNewProfilePic] = useState(null);
 
@@ -55,10 +57,10 @@ function EditProfile() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
+      e.preventDefault();
+      setBtnLoading(true);
       const formData = new FormData();
-
       editedBio && formData.append("bio", editedBio);
       editedLink && formData.append("link", editedLink);
       newProfilePic && formData.append("profilePic", newProfilePic);
@@ -66,7 +68,6 @@ function EditProfile() {
 
       const { data } = await axios.post("/account/edit-profile", formData);
       if (data.status === "ok") {
-        setResponse({ status: data.status, error: false });
         setPopUpInfo({
           trigger: true,
           error: false,
@@ -76,9 +77,11 @@ function EditProfile() {
         return;
       }
       setPopUpInfo({ trigger: true, error: true, message: data.error });
-      setResponse({ status: data.status, error: data.error });
     } catch (error) {
+      console.log(error);
       setPopUpInfo({ trigger: true, error: true, message: error });
+    } finally {
+      setBtnLoading(false);
     }
   };
 
@@ -170,12 +173,10 @@ function EditProfile() {
         </form>
       </div>
 
-      <div className={styles.footer}>
-        <div>
-          <button className={styles.btn} onClick={handleSubmit}>
-            <span className={styles.btn_text}>Save</span>
-          </button>
-        </div>
+      <div className={`${styles.footer} ${btnLoading && styles.btn_loading}`}>
+        <button className={`${styles.btn} `} onClick={handleSubmit} disabled={btnLoading}>
+          <span className={styles.btn_text}>Save</span>
+        </button>
       </div>
     </div>
   );

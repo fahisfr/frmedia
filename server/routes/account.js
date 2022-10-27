@@ -2,7 +2,7 @@ const { authRequied } = require("../middleware/auth");
 const router = require("express").Router();
 const upload = require("../config/multer");
 
-router.get("/refreshtoken", require("../controllers/reAuth"));
+router.get("/refreshtoken", require("../controllers/refreshToken"));
 router.delete("/logout", authRequied, require("../controllers/logout"));
 router.get("/", authRequied, require("../controllers/auth"));
 router.post(

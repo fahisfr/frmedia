@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { BsSunFill } from "react-icons/bs";
-
-function Header({ theme, setTheme }) {
+import { FiAlignLeft, FiArchive, FiX } from "react-icons/fi";
+function Header({ theme, setTheme, setLeftBar }) {
   const router = useRouter();
   const { profilePic, userName } = useSelector((state) => state.user.userInfo);
 
@@ -62,6 +62,9 @@ function Header({ theme, setTheme }) {
   return (
     <header className={styles.container}>
       <div className={styles.content}>
+        <div className={styles.guide} onClick={() => setLeftBar()}>
+          <FiAlignLeft className={styles.icon_guide} />
+        </div>
         <div className={styles.lt}>
           <div className={styles.logo}>
             <Image src="/frlogo.png" layout="fill" alt="" className={styles.logo_img} />

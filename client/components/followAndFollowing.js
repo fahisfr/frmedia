@@ -16,7 +16,7 @@ function FollowAndFollowing() {
   const [error, setError] = useState(null);
   const { asPath } = useRouter();
   const [_, user, pathName] = asPath.split("/");
-  console.log(result);
+
   useEffect(() => {
     try {
       const getFF = async () => {

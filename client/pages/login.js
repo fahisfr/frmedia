@@ -30,13 +30,13 @@ function Login({}) {
       }
     } catch (error) {
       setLoading(false);
-      setPopUpInfo({ trigger: true, error: true, message: error });
+      setLoginError(data.error);
     }
   };
 
   return (
     <div className={styles.bg_img}>
-      <div>
+      
         <div className={styles.body}>
           <div className={styles.title}>
             <h1 className={styles.title_text}>Login</h1>
@@ -73,7 +73,12 @@ function Login({}) {
             </div>
 
             <div className={`${styles.bottom} ${loading && styles.btn_loading}`}>
-              <button className={styles.button} type="submit" onClick={onSubmit}>
+              <button
+                className={styles.button}
+                type="submit"
+                onClick={onSubmit}
+                disabled={loading}
+              >
                 <span className={styles.button_text}>Login</span>
               </button>
             </div>
@@ -105,7 +110,7 @@ function Login({}) {
             </div>
           </div>
         </div>
-      </div>
+      
     </div>
   );
 }
