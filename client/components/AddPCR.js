@@ -9,6 +9,7 @@ import SidePopMessage from "./SidePopUpMessage";
 import Image from "next/image";
 import getPostActions from "../features/actions/post";
 import clickOutside from "../hooks/clickOutSide";
+import profile from "../features/reducers/profile";
 
 const EmojiPicker = daynamic(() => import("emoji-picker-react"), {
   ssr: false,
@@ -87,7 +88,7 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
   const submitNow = async (e) => {
     try {
       e.preventDefault();
-      if (!text.length > 0) return;
+      if (!text.length > 0 && !file) return;
       setLoading(true);
       const formData = new FormData();
       formData.append("file", file);
@@ -159,13 +160,17 @@ function AddPCR({ For, postId, commentId, sliceName, tagged, setTrigger }) {
       <div className={styles.add_pc_content}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <Image
-              src={userInfo?.profilePic}
-              layout="fill"
-              objectFit="cover"
-              className="img_border_radius"
-              alt=" "
-            />
+            {userInfo?.profilePic ? (
+              <Image
+                src={userInfo?.profilePic}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+                alt=" "
+              />
+            ) : (
+              <div className={`${styles.profile} skeleton rounded-full`}></div>
+            )}
           </div>
         </div>
 

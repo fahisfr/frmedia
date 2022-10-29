@@ -4,13 +4,13 @@ const singUp = async (req, res, next) => {
   try {
     const { userName, email, password } = req.body;
 
-    const findUserNameOrEmail = dbUser.findOne({ userName, email });
+    const findUserNameOrEmail = await dbUser.findOne({ userName, email });
 
     if (findUserNameOrEmail) {
       res.json({ status: "error", error: "UserName or Email already registerd" });
     }
 
-    const newUser = await dbUser.create({ userName, email, password, refreshToken });
+    const newUser = await dbUser.create({ userName, email, password });
 
     if (newUser) {
       const { accessToken, refreshToken } = createJwtTokens({
@@ -18,6 +18,12 @@ const singUp = async (req, res, next) => {
         publicID: newUser.publicID,
         userName,
       });
+
+      res.cookie("auth_token", refreshToken, {
+        domain: process.env.DOMAIN_NAME,
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+      });
+
       res.json({ status: "ok", token: accessToken });
 
       dbUser.updateOne({ _id: newUser._id }, { refreshToken });

@@ -259,6 +259,7 @@
 @media (max-width:481px) {
     
     .bg_img {
+        padding-top: 1rem;
         padding-left: 1rem;
         padding-right: 1rem;
     }

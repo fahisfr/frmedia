@@ -2,15 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "../styles/header.module.css";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import axios, { baseURL } from "../axios";
+import axios from "../axios";
 import JustLoading from "../components/JustLoading";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import { BsSunFill } from "react-icons/bs";
-import { FiAlignLeft, FiArchive, FiX } from "react-icons/fi";
+import { FiAlignLeft } from "react-icons/fi";
+import { fetchUser } from "../features/user";
 function Header({ theme, setTheme, setLeftBar }) {
   const router = useRouter();
+  const dispath = useDispatch();
   const { profilePic, userName } = useSelector((state) => state.user.userInfo);
 
   const [showResults, setShowResults] = useState(false);
@@ -20,6 +22,10 @@ function Header({ theme, setTheme, setLeftBar }) {
 
   const [focusedIndex, setFocusedIndex] = useState(0);
   const resultContainer = useRef(null);
+
+  useEffect(() => {
+    dispath(fetchUser());
+  }, []);
   const searchHandler = async (e) => {
     try {
       const value = e.target.value;
@@ -66,9 +72,12 @@ function Header({ theme, setTheme, setLeftBar }) {
           <FiAlignLeft className={styles.icon_guide} />
         </div>
         <div className={styles.lt}>
-          <div className={styles.logo}>
-            <Image src="/frlogo.png" layout="fill" alt="" className={styles.logo_img} />
-          </div>
+          <Link href="/">
+            <div className={styles.logo}>
+              <Image src="/frlogo.png" layout="fill" alt="" className={styles.logo_img} />
+            </div>
+          </Link>
+
           <span className={styles.title}>Midea</span>
         </div>
 
@@ -100,13 +109,17 @@ function Header({ theme, setTheme, setLeftBar }) {
                     >
                       <div className={styles.result_item_right}>
                         <div className={styles.img}>
-                          <Image
-                            alt=""
-                            src={`${item.profilePic}`}
-                            className="img_border_radius "
-                            layout="fill"
-                            objectFit="cover"
-                          />
+                          {item?.profilePic ? (
+                            <Image
+                              alt=""
+                              src={`${item.profilePic}`}
+                              className="rounded-full"
+                              layout="fill"
+                              objectFit="cover"
+                            />
+                          ) : (
+                            <div className={`${styles.profile} skeleton rounded-full`}></div>
+                          )}
                         </div>
                       </div>
                       <div className={styles.result_item_left}>
@@ -137,13 +150,17 @@ function Header({ theme, setTheme, setLeftBar }) {
           <Link href={`/${userName}`}>
             <a>
               <div className={styles.profile}>
-                <Image
-                  src={profilePic}
-                  layout="fill"
-                  objectFit="cover"
-                  className="img_border_radius"
-                  alt=""
-                />
+                {profilePic ? (
+                  <Image
+                    src={profilePic}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-full"
+                    alt=""
+                  />
+                ) : (
+                  <div className={`${styles.profile} skeleton rounded-full`}></div>
+                )}
               </div>
             </a>
           </Link>

@@ -8,11 +8,11 @@ const registerWithGoogle = (req, res, next) => {
 
     jwt.verify(token, process.env.NEXT_AUTH_TOKEN_SECRET, async (err, decoded) => {
       if (err) return res.json({ status: "error", error: "url not valid" });
-      const { name, email, provider, picture } = decoded;
+      const { name, email, picture } = jwt.decode(decoded.token);
 
       const user = await dbUser.findOne({ email });
       if (user) {
-        if (user.signInWith === "google") {
+        if (user.registerWith === "google") {
           const { accessToken, refreshToken } = createJwtTokens({
             id: user._id,
             publicID: user.publicID,
@@ -41,7 +41,7 @@ const registerWithGoogle = (req, res, next) => {
       const newUser = await dbUser.create({
         userName,
         email,
-        signWith: provider,
+        registerWith: "google",
         profilePic: picture,
       });
       if (!newUser) {
@@ -57,11 +57,10 @@ const registerWithGoogle = (req, res, next) => {
       });
 
       res.cookie("auth_token", refreshToken, {
-        httpOnly: true,
-        secure: false,
+        domain: process.env.DOMAIN_NAME,
         maxAge: 1000 * 60 * 60 * 24 * 30,
-        sameSite: "strict",
       });
+
       res.json({ status: "ok", token: accessToken });
     });
   } catch (error) {

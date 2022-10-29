@@ -66,7 +66,7 @@ function Comment({ comment, postId, sliceName }) {
               src={profilePic}
               layout="fill"
               objectFit="cover"
-              className="img_border_radius"
+              className="rounded-full"
               alt=""
             />
           </div>

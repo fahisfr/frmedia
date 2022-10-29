@@ -13,7 +13,7 @@ const user = new mongoose.Schema({
   posts: [{ type: objectId }],
   followers: [{ type: objectId }],
   following: [{ type: objectId }],
-  signInWith: String,
+  registerWith: { type: String },
   profilePic: {
     type: String,
     default: "https://fr-media.s3.ap-south-1.amazonaws.com/profiles/default_image.jpg",

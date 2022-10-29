@@ -1,21 +1,16 @@
 .addpost {
-
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--bg-primary);
-
-
 }
 
 .add_pc_content {
-
     width: 100%;
     display: flex;
     padding: .5rem 0rem;
     border-radius: 7px;
-
 }
 
 .left {
@@ -25,8 +20,8 @@
 .profile {
     width: 47px;
     height: 47px;
+    border-radius: 50%;
     position: relative;
-
 }
 
 .right {
@@ -43,7 +38,6 @@
 }
 
 .input {
-
     width: 100%;
     font-size: 1.1rem;
     border: none;
@@ -55,7 +49,6 @@
     overflow: hidden;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-
 }
 
 .pc_file_preivew {
@@ -68,9 +61,7 @@
     border-radius: 5px;
 }
 
-
 .removeIcon {
-
     margin-top: .5rem;
     margin-right: .5rem;
     position: absolute;
@@ -92,7 +83,6 @@
 
 .removeIcon::after,
 .removeIcon::before {
-
     content: "";
     position: absolute;
     width: 2px;
@@ -109,20 +99,17 @@
 }
 
 .right_bottom {
-
     padding-top: .7rem;
     display: flex;
     justify-content: space-between;
 }
 
 .pc_m {
-
     display: flex;
     padding: .5rem;
 }
 
 .m_group {
-
     display: flex;
     position: relative;
     align-items: center;
@@ -134,11 +121,9 @@
 
 .m_group:hover .m_pop_message {
     visibility: visible;
-
 }
 
 .m_pop_message {
-
     position: absolute;
     visibility: hidden;
     top: 1.7rem;
@@ -149,7 +134,6 @@
 }
 
 .m_pop_message::after {
-
     content: "";
     position: absolute;
     bottom: 100%;

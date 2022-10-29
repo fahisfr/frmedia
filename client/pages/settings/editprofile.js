@@ -103,13 +103,18 @@ function EditProfile() {
 
       <div className={styles.body}>
         <div className={styles.coverPic}>
-          <Image
-            src={coverPicPreview ?? coverPic}
-            layout="fill"
-            objectFit="cover"
-            alt=""
-            onClick={() => avatarRef.current.click()}
-          />
+          {coverPic ? (
+            <Image
+              src={coverPicPreview ?? coverPic}
+              layout="fill"
+              objectFit="cover"
+              alt=""
+              onClick={() => avatarRef.current.click()}
+            />
+          ) : (
+            <div className={`${styles.coverPic} skeleton`}></div>
+          )}
+
           <MdAddAPhoto className={styles.md_add_icon} />
 
           <input
@@ -123,14 +128,19 @@ function EditProfile() {
         </div>
         <div className={styles.pvi}>
           <div className={styles.profile}>
-            <Image
-              layout="fill"
-              objectFit="cover"
-              className="img_border_radius"
-              alt=""
-              src={profilePreview ?? profilePic}
-              onClick={() => profileRef.current.click()}
-            />
+            {profilePic ? (
+              <Image
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+                alt=""
+                src={profilePreview ?? profilePic}
+                onClick={() => profileRef.current.click()}
+              />
+            ) : (
+              <div className={`${styles.profile} skeleton rounded-full`}></div>
+            )}
+
             <MdAddAPhoto className={styles.md_add_icon} />
 
             <input

@@ -3,9 +3,13 @@ import MainLayout from "../../layouts/Main";
 import styles from "../../styles/settings.module.css";
 import Link from "next/link";
 import useTheme from "../../hooks/useTheme";
-
+import Router from "next/router";
 function theme() {
   const [theme, setTheme] = useTheme();
+  const onChange = () => {
+    setTheme();
+    Router.reload(window.location.pathname);
+  };
   return (
     <div>
       <div className={styles.top}>
@@ -17,10 +21,10 @@ function theme() {
         </div>
       </div>
       <div className={styles.themes}>
-        <div className={`${styles.theme} ${styles.light}`}>
+        <div className={`${styles.theme} ${styles.light}`} onClick={onChange}>
           {theme == "light" && <div className={styles.selected}></div>}
         </div>
-        <div className={`${styles.theme} ${styles.dark}`}>
+        <div className={`${styles.theme} ${styles.dark}`} onClick={onChange}>
           {theme == "dark" && <div className={styles.selected}></div>}
         </div>
       </div>

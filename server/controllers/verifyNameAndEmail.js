@@ -11,12 +11,9 @@ const response = (available, message) => {
 const verifyUserName = async (req, res, next) => {
   try {
     const { userName } = req.params;
-  
-
     const user = await dbUser.findOne({ userName });
   
     if (user) {
-      console.log("yes")
       return res.json(response(false, " Username already registered "));
     }
     res.json(response(true, "User name is available"));

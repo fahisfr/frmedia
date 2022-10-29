@@ -54,7 +54,7 @@
   padding: 0;
   margin: 0;
   font-family: sans-serif;
- 
+  
 }
 
 textarea {
@@ -69,6 +69,26 @@ a {
 
 button:disabled {
   cursor: wait;
+}
+
+.skeleton{
+
+  background-color: #e5e5e6;
+  background: linear-gradient(120deg,
+      #e5e5e5 30%,
+      #ffffff 38%,
+      #ffffff 40%,
+      #e5e5e5 48%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: load 1.3s infinite;
+}
+
+
+@keyframes load {
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 .main_layout {
@@ -124,7 +144,7 @@ button:disabled {
   text-align: center;
 }
 
-.img_border_radius {
+.rounded-full {
   border-radius: 50%;
 }
 

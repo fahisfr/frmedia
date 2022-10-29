@@ -56,7 +56,7 @@ function Post({ postInfo, userInfo, sliceName }) {
           <Image
             layout="fill"
             objectFit="cover"
-            className="img_border_radius"
+            className="rounded-full"
             src={profilePic}
             alt=""
           />
@@ -121,7 +121,7 @@ function Post({ postInfo, userInfo, sliceName }) {
           )}
 
           <div className={styles.vi}>
-            <div className={styles.postFilePreivew}>
+            <div >
               {file && file.type === "image" ? (
                 <Link href={`/post/${_id}`}>
                   <img className={styles.image} src={file.url} />

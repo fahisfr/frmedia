@@ -8,15 +8,11 @@
 }
 
 .container {
-
     max-width: 23rem;
     padding: 1rem 1rem;
-
-
 }
 
 .trading {
-
     border-radius: 5px;
     box-shadow: var(--box-shadow);
     background-color: var(--bg-primary);
@@ -30,7 +26,6 @@
 .tg_bottom {
     max-height: 20.5rem;
     overflow: scroll;
-
 }
 
 .tg_bottom::-webkit-scrollbar {

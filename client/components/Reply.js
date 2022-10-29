@@ -13,7 +13,7 @@ import getDate from "../helper/getDate";
 
 function Reply({ replyInfo, postId, commentId, sliceName }) {
   const dispatch = useDispatch();
-  console.log(replyInfo, "this one");
+
   const [addReplyTrigger, setAddReplyTrigger] = useState(false);
   const { _id, text, replyAt, likesCount, liked, file } = replyInfo;
   const { userName, profilePic } = replyInfo.userInfo;
@@ -39,7 +39,7 @@ function Reply({ replyInfo, postId, commentId, sliceName }) {
             alt=""
             layout="fill"
             objectFit="cover"
-            className="img_border_radius"
+            className="rounded-full"
           />
         </div>
       </div>

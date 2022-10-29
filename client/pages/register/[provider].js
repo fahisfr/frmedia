@@ -100,55 +100,51 @@ function provider() {
 
   return (
     <div className={styles.bg_img}>
-      <div className={styles.con}>
-        <div className={styles.l_body} loading={loading.toString()}>
-          {sidePopUpMess.trigger && (
-            <SidePopUpMessage info={sidePopUpMess} setTrigger={setSidePopUpMess} />
-          )}
-          <div className={styles.title}>
-            <span className={styles.title.text}>Set a username</span>
-          </div>
-
-          <form className={styles.from} onSubmit={onSubmit}>
-            <div className={styles.group}>
-              <input
-                className={`${styles.input} ${
-                  userNameStatus.available
-                    ? styles.border_green
-                    : userNameStatus.taken
-                    ? styles.border_red
-                    : ""
-                }`}
-                type="text"
-                placeholder=""
-                pattern="[a-zA-Z0-9]{4,20}"
-                value={userName}
-                onBlur={onBlur}
-                focus={`${inputFoucs}`}
-                onChange={onChange}
-                required
-              />
-              <label className={styles.label}>UserName</label>
-
-              {userNameStatus.available ? (
-                <span className={styles.message}>{`"${userName}" UserName is availbel`}</span>
-              ) : userNameStatus.taken ? (
-                <span className={`${styles.message} ${styles.red}`}>
-                  UserName alredy toekn
-                </span>
-              ) : (
-                <small className={`${styles.invalid} ${styles.message} ${styles.red}`}>
-                  Username should be 3-13 characters
-                </small>
-              )}
-            </div>
-            <div className={`${styles.bottom} ${btnLoading && styles.btn_loading}`}>
-              <button className={styles.button} type="submit" disabled={btnLoading}>
-                <span className={styles.button_text}>Submit</span>
-              </button>
-            </div>
-          </form>
+      <div className={styles.body} loading={loading.toString()}>
+        {sidePopUpMess.trigger && (
+          <SidePopUpMessage info={sidePopUpMess} setTrigger={setSidePopUpMess} />
+        )}
+        <div className={styles.title}>
+          <span className={styles.title.text}>Set a username</span>
         </div>
+
+        <form className={styles.from} onSubmit={onSubmit}>
+          <div className={styles.group}>
+            <input
+              className={`${styles.input} ${
+                userNameStatus.available
+                  ? styles.border_green
+                  : userNameStatus.taken
+                  ? styles.border_red
+                  : ""
+              }`}
+              type="text"
+              placeholder=""
+              pattern="[a-zA-Z0-9]{4,20}"
+              value={userName}
+              onBlur={onBlur}
+              focus={`${inputFoucs}`}
+              onChange={onChange}
+              required
+            />
+            <label className={styles.label}>UserName</label>
+
+            {userNameStatus.available ? (
+              <span className={styles.message}>{`"${userName}" UserName is availbel`}</span>
+            ) : userNameStatus.taken ? (
+              <span className={`${styles.message} ${styles.red}`}>UserName alredy toekn</span>
+            ) : (
+              <small className={`${styles.invalid} ${styles.message} ${styles.red}`}>
+                Username should be 3-13 characters
+              </small>
+            )}
+          </div>
+          <div className={`${styles.bottom} ${btnLoading && styles.btn_loading}`}>
+            <button className={styles.button} type="submit" disabled={btnLoading}>
+              <span className={styles.button_text}>Submit</span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

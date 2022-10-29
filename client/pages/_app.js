@@ -22,7 +22,7 @@ const store = configureStore({
     profiles,
   },
 });
-store.dispatch(fetchUser());
+
 function MyApp({  Component, pageProps }) {
   const getLayout = Component.PageLayout || ((page) => page);
 

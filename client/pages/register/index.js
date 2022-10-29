@@ -16,15 +16,15 @@ function Index() {
   };
 
   const statusInitialState = {
-    taken: false,
+    problem: false,
     available: false,
   };
   const statusAavailable = {
-    taken: false,
+    problem: false,
     available: true,
   };
   const statusTaken = {
-    taken: true,
+    problem: true,
     available: false,
   };
 
@@ -52,14 +52,13 @@ function Index() {
     try {
       setLoading(true);
       const { data } = await axios.get(`/verify/email/${email}`);
-      const { status, available, error } = data;
-      if (status == "error") {
-        triggerErrorMessage(error);
+      if (data.status == "error") {
+        triggerErrorMessage(data.error);
       }
-      if (available) {
+      if (data.available) {
         setEmailStatus(statusAavailable);
       } else {
-        setEmailStatus(statusTaken);
+        setEmailStatus({ available: false, problem: data.message });
       }
     } catch (error) {
       triggerErrorMessage(error);
@@ -78,7 +77,7 @@ function Index() {
       if (data.available) {
         setUserNameStatus(statusAavailable);
       } else {
-        setUserNameStatus(statusTaken);
+        setUserNameStatus({ available: false, problem: data.message });
       }
     } catch (err) {
     } finally {
@@ -87,8 +86,9 @@ function Index() {
   };
 
   const onSubmit = async (e) => {
-    e.preventDefault();
     try {
+      e.preventDefault();
+      setLoading(true);
       const { data } = await axios.post("/signup", {
         userName,
         email,
@@ -98,9 +98,11 @@ function Index() {
       if (data.status === "ok") {
         localStorage.setItem("auth_token", data.token);
         router.push("/");
+      } else {
+        triggerErrorMessage(data.error);
       }
     } catch (error) {
-      console.log(error);
+      triggerErrorMessage(error);
     } finally {
       setLoading(false);
     }
@@ -135,7 +137,7 @@ function Index() {
               className={`${styles.input} ${
                 userNameStatus.available
                   ? styles.border_green
-                  : userNameStatus.taken
+                  : userNameStatus.problem
                   ? styles.border_red
                   : ""
               }`}
@@ -146,7 +148,7 @@ function Index() {
               value={userName}
               onChange={(e) => {
                 setUserName(e.target.value);
-                if (userNameStatus.available || userNameStatus.taken) {
+                if (userNameStatus.available || userNameStatus.problem) {
                   setUserNameStatus(statusInitialState);
                 }
               }}
@@ -163,9 +165,11 @@ function Index() {
               User Name
             </label>
             {userNameStatus.available ? (
-              <span className={styles.message}>{`"${userName}" UserName is availbel`}</span>
-            ) : userNameStatus.taken ? (
-              <span className={`${styles.message} ${styles.red}`}>UserName alredy toekn</span>
+              <span className={styles.message}>{`"${userName}" UserName is available `}</span>
+            ) : userNameStatus.problem ? (
+              <span className={`${styles.message} ${styles.red}`}>
+                {userNameStatus.problem}
+              </span>
             ) : (
               <sapn className={`${styles.invalid}`}>Username should be 3-13 characters</sapn>
             )}
@@ -176,7 +180,7 @@ function Index() {
               className={`${styles.input} ${
                 emailStatus.available
                   ? styles.border_green
-                  : emailStatus.taken
+                  : emailStatus.problem
                   ? styles.border_red
                   : ""
               }`}
@@ -187,7 +191,7 @@ function Index() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if (emailStatus.available || emailStatus.taken) {
+                if (emailStatus.available || emailStatus.problem) {
                   setEmailStatus(statusInitialState);
                 }
               }}
@@ -205,10 +209,8 @@ function Index() {
             </label>
             {emailStatus.available ? (
               <span className={styles.message}>Email is availbel</span>
-            ) : emailStatus.taken ? (
-              <span className={`${styles.message} ${styles.red}`}>
-                Email Already registered
-              </span>
+            ) : emailStatus.problem ? (
+              <span className={`${styles.message} ${styles.red}`}>{emailStatus.problem}</span>
             ) : (
               <small className={`${styles.invalid}`}>Please enter a valid email</small>
             )}
@@ -262,8 +264,13 @@ function Index() {
             <span className={`${styles.invalid}`}>Password not match</span>
           </div>
 
-          <div className={`${styles.bottom} ${loading ? styles.btn_loading : null}`}>
-            <button className={styles.button} onClick={onSubmit}>
+          <div className={`${styles.bottom} ${loading && styles.btn_loading}`}>
+            <button
+              className={styles.button}
+              type="submit"
+              onClick={onSubmit}
+              disabled={loading}
+            >
               <span className={styles.button_text}>Sign Up</span>
             </button>
           </div>
@@ -276,7 +283,12 @@ function Index() {
             </div>
 
             <div className={styles.au_group}>
-              <button className={styles.google_button}>
+              <button
+                className={styles.google_button}
+                onClick={async () => {
+                  signIn("google");
+                }}
+              >
                 <Image
                   src="/google_icon.svg"
                   width="30%"

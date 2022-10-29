@@ -4,9 +4,8 @@ import styles from "../styles/notifications.module.css";
 import MainLoayout from "./Main";
 import { useRouter } from "next/router";
 
-function Notifications( page ) {
+function Notifications(page) {
   const { asPath } = useRouter();
-
   const path = asPath.split("/")[2];
 
   return MainLoayout(
@@ -22,11 +21,7 @@ function Notifications( page ) {
         <div className={styles.nv_group}>
           <Link href="/notifications/mentions">
             <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "mentions" && styles.blue
-                }`}
-              >
+              <span className={`${styles.nv_text} ${path === "mentions" && styles.blue}`}>
                 Mentions
               </span>
             </a>
@@ -35,11 +30,7 @@ function Notifications( page ) {
         <div className={styles.nv_group}>
           <Link href="/notifications/following">
             <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "following" && styles.blue
-                }`}
-              >
+              <span className={`${styles.nv_text} ${path === "following" && styles.blue}`}>
                 Following
               </span>
             </a>
@@ -48,11 +39,7 @@ function Notifications( page ) {
         <div className={styles.nv_group}>
           <Link href="/notifications/liked">
             <a>
-              <span
-                className={`${styles.nv_text} ${
-                  path === "liked" && styles.blue
-                }`}
-              >
+              <span className={`${styles.nv_text} ${path === "liked" && styles.blue}`}>
                 Liked
               </span>
             </a>

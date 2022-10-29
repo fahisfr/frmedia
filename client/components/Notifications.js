@@ -78,7 +78,7 @@ function Notifications() {
                       src={notif.userInfo?.profilePic}
                       layout="fill"
                       objectFit="cover"
-                      className="img_border_radius"
+                      className="rounded-full"
                       alt=""
                     />
                   </div>

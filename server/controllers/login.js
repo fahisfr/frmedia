@@ -24,15 +24,14 @@ const login = async (req, res, next) => {
       });
 
       const accessToken = jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "30m",
+        expiresIn: "10s",
       });
 
       dbUser.updateOne({ _id: user._id }, { set: { refreshToken } });
 
       res.cookie("auth_token", refreshToken, {
-        httpOnly: true,
-        secure: false,
         maxAge: 1000 * 60 * 60 * 24 * 30,
+        domain:process.env.DOMAIN_NAME,
       });
 
       res.json({ status: "ok", token: accessToken });
